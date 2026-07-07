@@ -1,0 +1,86 @@
+/* Custom fonts and scrollbars */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+body, html {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Ambient background glow for admin dashboard */
+.fi-layout {
+    background: radial-gradient(circle at 10% 20%, rgba(46, 125, 50, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(27, 94, 32, 0.02) 0%, transparent 40%),
+                #f8fafc !important;
+}
+
+/* Header Navbar & Sidebar premium glassmorphism styling */
+.fi-topbar {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(46, 125, 50, 0.08) !important;
+}
+
+.fi-sidebar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    border-right: 1px solid rgba(46, 125, 50, 0.08) !important;
+}
+
+/* Active sidebar item styling matching EcoFarm green theme */
+.fi-sidebar-item-button-active {
+    background-color: rgba(46, 125, 50, 0.08) !important;
+    border-left: 4px solid #2e7d32 !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+.fi-sidebar-item-button-active span,
+.fi-sidebar-item-button-active svg {
+    color: #1b5e20 !important;
+    font-weight: 600 !important;
+}
+
+/* Make Filament stats cards, tables, and sections look like elegant cards */
+.fi-wi-stats-overview-stat-card,
+.fi-ta-ctn,
+.fi-section {
+    background: #ffffff !important;
+    border: 1px solid rgba(46, 125, 50, 0.06) !important;
+    box-shadow: 0 4px 20px -2px rgba(46, 125, 50, 0.04), 0 2px 8px -1px rgba(0, 0, 0, 0.02) !important;
+    border-radius: 16px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Stats card hover effects */
+.fi-wi-stats-overview-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -4px rgba(46, 125, 50, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.02) !important;
+    border-color: rgba(46, 125, 50, 0.15) !important;
+}
+
+/* Tables headers styled elegantly */
+.fi-ta-header-cell {
+    background-color: rgba(46, 125, 50, 0.03) !important;
+    color: #1b5e20 !important;
+    font-weight: 700 !important;
+}
+
+/* Elegant green accents for primary action buttons */
+.fi-btn-color-primary,
+.fi-ac-btn-action,
+.fi-input-wrapper-focus,
+button[type="submit"] {
+    border-radius: 10px !important;
+}
+
+/* Form controls styling */
+.fi-fo-text-input,
+.fi-fo-select,
+.fi-fo-textarea,
+.fi-input {
+    border-radius: 10px !important;
+}
+
+/* Elegant round badges */
+.fi-badge {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
