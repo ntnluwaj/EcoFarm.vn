@@ -300,29 +300,80 @@
         overflow: hidden;
         display: flex;
         align-items: center;
-        background: #ffffff; /* Nền trắng sang trọng bên trái */
+        background-color: #ffffff;
+        /* Subtle green dot-grid pattern for a modern tech-farming look */
+        background-image: radial-gradient(rgba(46, 125, 50, 0.08) 1.5px, transparent 1.5px);
+        background-size: 24px 24px;
     }
+    /* Floating Bio-Orbs in the background behind the image */
+    .carousel-item-container::before {
+        content: '';
+        position: absolute;
+        top: 5%;
+        right: 8%;
+        width: 340px;
+        height: 340px;
+        background: radial-gradient(circle, rgba(76, 175, 80, 0.28) 0%, rgba(76, 175, 80, 0) 70%);
+        filter: blur(40px);
+        z-index: 0;
+        animation: orbFloatOne 12s infinite alternate ease-in-out;
+        pointer-events: none;
+    }
+    .carousel-item-container::after {
+        content: '';
+        position: absolute;
+        bottom: -5%;
+        right: 20%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(139, 195, 74, 0.22) 0%, rgba(139, 195, 74, 0) 70%);
+        filter: blur(35px);
+        z-index: 0;
+        animation: orbFloatTwo 10s infinite alternate-reverse ease-in-out;
+        pointer-events: none;
+    }
+    @keyframes orbFloatOne {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(30px, -20px) scale(1.15); }
+    }
+    @keyframes orbFloatTwo {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(-20px, 30px) scale(0.9); }
+    }
+
+    /* Morphing Organic Leaf-Shaped Image Card */
     .carousel-item-bg {
         position: absolute;
-        right: 4%;
-        top: 6%;
-        width: 46%;
-        height: 88%;
-        border-radius: 24px;
+        right: 6%;
+        top: 10%;
+        width: 42%;
+        height: 80%;
+        z-index: 1;
+        box-shadow: 0 30px 65px rgba(27, 94, 32, 0.22);
         background-size: cover;
         background-position: center;
-        z-index: 1;
-        box-shadow: 0 20px 45px rgba(27, 94, 32, 0.15);
-        transition: transform 0.6s ease-in-out;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        animation: morphLeaf 15s infinite ease-in-out;
     }
-    /* Gently floats the image card to create a premium depth effect */
-    .carousel-item.active .carousel-item-bg {
-        animation: cardFloat 6s ease-in-out infinite alternate;
+    @keyframes morphLeaf {
+        0% {
+            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+            transform: scale(1) rotate(0deg);
+        }
+        33% {
+            border-radius: 50% 50% 70% 30% / 55% 45% 55% 45%;
+            transform: scale(1.03) rotate(1deg);
+        }
+        66% {
+            border-radius: 70% 30% 50% 50% / 45% 65% 35% 55%;
+            transform: scale(0.97) rotate(-1deg);
+        }
+        100% {
+            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+            transform: scale(1) rotate(0deg);
+        }
     }
-    @keyframes cardFloat {
-        0% { transform: translateY(0) scale(1); }
-        100% { transform: translateY(-8px) scale(1.02); }
-    }
+
     /* Hide the overlay to keep the right image 100% vibrant and clear */
     .carousel-overlay {
         display: none;
@@ -356,12 +407,15 @@
         display: inline-block;
     }
 
-    /* Premium Title */
+    /* Premium Gradient Title */
     .carousel-title {
-        color: #1b5e20 !important;
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #4caf50 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-weight: 850 !important;
         line-height: 1.25;
-        font-size: 2.2rem !important;
+        font-size: 2.20rem !important;
+        display: inline-block;
     }
     
     /* Staggered Animations for content inside active slide */
@@ -448,6 +502,8 @@
         .carousel-item-bg {
             width: 48%;
             right: 2%;
+            top: 15%;
+            height: 70%;
         }
         .carousel-content-card {
             max-width: 48%;
@@ -465,6 +521,10 @@
         .carousel-item-container {
             height: 380px;
             padding: 20px;
+            background-image: none; /* Hide grid on mobile to keep clean */
+        }
+        .carousel-item-container::before, .carousel-item-container::after {
+            display: none; /* Hide background orbs on mobile */
         }
         .carousel-item-bg {
             position: absolute;
@@ -476,6 +536,7 @@
             opacity: 0.15;
             z-index: 0;
             box-shadow: none;
+            animation: none; /* Disable morphing on mobile for performance */
         }
         .carousel-content-card {
             max-width: 90%;
@@ -486,6 +547,10 @@
         }
         .carousel-title {
             font-size: 1.6rem !important;
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            color: #1b5e20 !important;
         }
         .carousel-indicators {
             margin-left: 5% !important;
