@@ -295,7 +295,7 @@
 
     /* Premium Carousel Layout & Glassmorphism Styling */
     .carousel-item-container {
-        height: 500px;
+        height: 480px;
         position: relative;
         overflow: hidden;
         display: flex;
@@ -318,31 +318,55 @@
         animation: kenburns 20s ease-out forwards;
     }
     @keyframes kenburns {
-        0% { transform: scale(1.03); }
-        100% { transform: scale(1.15); }
+        0% { transform: scale(1.02); }
+        100% { transform: scale(1.12); }
     }
+    /* Smooth left-fade overlay blending into the body background #f8f9fa */
     .carousel-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
+        background: linear-gradient(90deg, rgba(248, 249, 250, 0.95) 0%, rgba(248, 249, 250, 0.7) 35%, rgba(248, 249, 250, 0.25) 70%, rgba(248, 249, 250, 0) 100%);
         z-index: 1;
     }
+    /* Premium Glowing Glassmorphic Card */
     .carousel-content-card {
         z-index: 2;
         position: relative;
-        background: rgba(255, 255, 255, 0.88);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-left: 6px solid #2e7d32;
-        padding: 45px 50px;
-        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-left: 8px solid #2e7d32;
+        padding: 40px 45px;
+        border-radius: 24px;
         max-width: 580px;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 30px 60px rgba(27, 94, 32, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
         margin-left: 8%;
+    }
+    
+    /* Modern Pill Badge Glow */
+    .carousel-badge {
+        background: rgba(46, 125, 50, 0.1) !important;
+        color: #2e7d32 !important;
+        border: 1px solid rgba(46, 125, 50, 0.25) !important;
+        border-radius: 50px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        padding: 6px 16px !important;
+        letter-spacing: 1px !important;
+        display: inline-block;
+    }
+
+    /* Premium Gradient Title */
+    .carousel-title {
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #388e3c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 850 !important;
+        line-height: 1.3;
     }
     
     /* Staggered Animations for content inside active slide */
@@ -368,38 +392,45 @@
     /* Pulse Glowing Button (Green Glow) */
     .carousel-btn {
         animation: buttonGlow 2.5s infinite;
+        border-radius: 12px !important;
     }
     @keyframes buttonGlow {
-        0% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0.4); }
+        0% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0.45); }
         70% { box-shadow: 0 0 0 12px rgba(46, 125, 80, 0); }
         100% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0); }
     }
 
+    /* Premium Pill-shaped Indicators */
     .carousel-indicators [data-bs-target] {
-        width: 25px;
-        height: 4px;
-        border-radius: 2px;
-        background-color: rgba(46, 125, 50, 0.3);
+        width: 20px;
+        height: 5px;
+        border-radius: 30px;
+        background-color: rgba(46, 125, 50, 0.25);
         border: none;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .carousel-indicators .active {
-        width: 45px;
+        width: 40px;
         background-color: #2e7d32 !important;
+        box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
     }
+
+    /* Glassmorphic Rounded Navigation Arrows */
     .carousel-control-prev, .carousel-control-next {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-radius: 50%;
-        margin: 0 15px;
+        margin: 0 20px;
         opacity: 0;
-        transition: all 0.25s ease;
-        border: 1px solid rgba(46, 125, 50, 0.15);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(46, 125, 50, 0.1);
+        color: #1b5e20 !important;
+        box-shadow: 0 8px 24px rgba(27, 94, 32, 0.08);
     }
     #heroCarousel:hover .carousel-control-prev, 
     #heroCarousel:hover .carousel-control-next {
@@ -409,7 +440,8 @@
         background: #2e7d32;
         border-color: #2e7d32;
         color: white !important;
-        transform: translateY(-50%) scale(1.05);
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
     }
 </style>
 @endsection
