@@ -123,9 +123,9 @@
 
     <div class="header">
         <h1 class="logo-title">ECOFARM VIETNAM</h1>
-        <p style="margin: 0; font-size: 11px;">Địa chỉ bến bãi: KCN Trà Nóc, Quận Bình Thủy, TP. Cần Thơ</p>
+        <p style="margin: 0; font-size: 11px;">Địa chỉ kho: KCN Trà Nóc, Quận Bình Thủy, TP. Cần Thơ</p>
         <p style="margin: 3px 0 0 0; font-size: 11px;">Hotline: 1900 888 999 - Email: contact@ecofarm.vn</p>
-        <h2 class="doc-title">PHIẾU XUẤT KHO & BỐC XẾP VẬT TƯ</h2>
+        <h2 class="doc-title">PHIẾU XUẤT KHO & GIAO HÀNG VẬT TƯ</h2>
         <div class="barcode">|||| | | ||| |||| | |</div>
         <p style="margin: 0; font-size: 11px;">Mã vận đơn: DH{{ str_pad($order->id, 8, '0', STR_PAD_LEFT) }} | Ngày lập: {{ date('d/m/Y H:i') }}</p>
     </div>
@@ -148,7 +148,7 @@
             <h4 style="margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 4px; text-transform: uppercase;">Thông tin giao nhận</h4>
             <p>Khách hàng: <strong>{{ $order->customer_name }}</strong></p>
             <p>Điện thoại: <strong>{{ $order->customer_phone }}</strong></p>
-            <p>Địa chỉ bến: {{ $cleanAddress }}</p>
+            <p>Địa chỉ giao hàng: {{ $cleanAddress }}</p>
         </div>
         <div class="info-col">
             <h4 style="margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 4px; text-transform: uppercase;">Chi tiết chứng từ</h4>
@@ -205,7 +205,7 @@
         </div>
         <div class="signature-box">
             <strong>Nhân Viên Đóng Gói</strong>
-            <p style="font-size: 10px; font-style: italic; margin-top: 2px;">(Ký, xác nhận bốc xếp)</p>
+            <p style="font-size: 10px; font-style: italic; margin-top: 2px;">(Ký, xác nhận đóng gói)</p>
             <div class="signature-space"></div>
         </div>
         <div class="signature-box">

@@ -74,12 +74,12 @@
                                 <input type="text" class="form-control rounded-3" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
                             </div>
 
-                            <!-- Địa chỉ bến mặc định -->
+                            <!-- Địa chỉ giao hàng mặc định -->
                             <div class="col-md-12">
-                                <label for="address" class="form-label fw-semibold text-dark" style="font-size: 13px;">Địa chỉ bến mặc định</label>
-                                <textarea class="form-control rounded-3" id="address" name="address" rows="2" placeholder="Ví dụ: Bến đò 13, KCN Trà Nóc, Bình Thủy, Cần Thơ">{{ old('address', $user->address) }}</textarea>
+                                <label for="address" class="form-label fw-semibold text-dark" style="font-size: 13px;">Địa chỉ giao hàng mặc định</label>
+                                <textarea class="form-control rounded-3" id="address" name="address" rows="2" placeholder="Ví dụ: 123 Đường 3/2, Xuân Khánh, Ninh Kiều, Cần Thơ">{{ old('address', $user->address) }}</textarea>
                                 <div class="form-text text-success text-xs mt-1">
-                                    <i class="fa-solid fa-circle-info me-1"></i>Địa chỉ bến này sẽ được tự động điền vào hóa đơn khi bà con đặt mua hàng để tiết kiệm thời gian!
+                                    <i class="fa-solid fa-circle-info me-1"></i>Địa chỉ này sẽ được tự động điền vào hóa đơn khi bạn đặt mua hàng để tiết kiệm thời gian!
                                 </div>
                             </div>
 

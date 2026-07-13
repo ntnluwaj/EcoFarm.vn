@@ -130,6 +130,9 @@
                         <a href="{{ route('products.index') }}" class="btn btn-outline-success btn-lg w-100 fw-bold rounded-3 d-flex align-items-center justify-content-center gap-2" style="height: 48px; font-size: 14px;">
                             <i class="fa-solid fa-arrow-left"></i> TIẾP TỤC CHỌN VẬT TƯ
                         </a>
+                        <button type="button" class="btn btn-warning btn-lg w-100 fw-bold rounded-3 d-flex align-items-center justify-content-center gap-2 text-white" style="height: 48px; font-size: 14px; background-color: #ff9800; border: none; color: #ffffff !important;" data-bs-toggle="modal" data-bs-target="#adviceModal" data-message="Tôi cần tư vấn giỏ hàng gồm {{ count($cartItems) }} sản phẩm vật tư trước khi xác nhận đặt mua.">
+                            <i class="fa-solid fa-user-doctor"></i> NHỜ KỸ SƯ GỌI TƯ VẤN
+                        </button>
                     </div>
                 </div>
             </div>

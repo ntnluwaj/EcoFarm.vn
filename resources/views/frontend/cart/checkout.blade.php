@@ -49,14 +49,14 @@
 
                     <div class="mb-4 position-relative">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-location-dot me-1 text-success"></i>Địa chỉ bến nhận hàng / Nhà vườn *</label>
+                            <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-location-dot me-1 text-success"></i>Địa chỉ giao nhận hàng *</label>
                             @if(auth()->check() && auth()->user()->address)
                                 <button type="button" class="btn btn-outline-success btn-xs py-0.5 px-2 rounded-pill fw-semibold border-success" style="font-size: 11px; background: transparent;" onclick="useSavedAddress()">
                                     <i class="fa-house-user fa-solid me-1"></i>Dùng địa chỉ đã lưu
                                 </button>
                             @endif
                         </div>
-                        <textarea name="address" id="address-input" class="form-control rounded-3 border-light-subtle text-sm p-2.5" rows="3" placeholder="Ghi rõ số nhà, đường, xã/phường, quận/huyện, tỉnh thành... (Ưu tiên kho bãi vùng Cần Thơ)" required style="font-size: 13px; resize: none;" autocomplete="off">{{ old('address', auth()->check() ? auth()->user()->address : '') }}</textarea>
+                        <textarea name="address" id="address-input" class="form-control rounded-3 border-light-subtle text-sm p-2.5" rows="3" placeholder="Ghi rõ số nhà, tên đường, xã/phường, quận/huyện, tỉnh thành..." required style="font-size: 13px; resize: none;" autocomplete="off">{{ old('address', auth()->check() ? auth()->user()->address : '') }}</textarea>
                         
                         <!-- Dropdown gợi ý địa chỉ -->
                         <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 100%; left: 0;"></div>

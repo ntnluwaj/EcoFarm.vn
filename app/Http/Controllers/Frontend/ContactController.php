@@ -83,4 +83,81 @@ class ContactController extends Controller
 
         return redirect()->back()->with('success', 'Gửi thông tin liên hệ thành công! Kỹ sư nông học sẽ phản hồi lại cho bà con sớm nhất.');
     }
+
+    /**
+     * Nhận yêu cầu gọi điện tư vấn trực tiếp từ nhà nông trước khi đặt hàng (Simulation)
+     */
+    public function storeCallRequest(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:100',
+                'phone' => 'required|string|max:15',
+                'subject' => 'required|string|max:200',
+                'message' => 'required|string|max:2000',
+            ]);
+
+            $contact = Contact::create([
+                'user_id' => Auth::id(),
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => Auth::user()->email ?? null,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'status' => 'pending',
+            ]);
+
+            // Gửi thông báo đến trang quản trị Filament Admin
+            try {
+                $admins = \App\Models\User::where('role', 'admin')->get();
+                \Filament\Notifications\Notification::make()
+                    ->title('Yêu cầu gọi điện tư vấn nông học!')
+                    ->body("Nông dân {$request->name} yêu cầu tổng đài ảo kết nối cuộc gọi gấp qua SĐT: {$request->phone}")
+                    ->icon('heroicon-o-phone')
+                    ->color('warning')
+                    ->sendToDatabase($admins);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Lỗi thông báo gọi điện Filament: " . $e->getMessage());
+            }
+
+            // Gửi cảnh báo Telegram hỏa tốc
+            try {
+                $telegramMessage = "📞 *YÊU CẦU GỌI ĐIỆN TƯ VẤN KHẨN CẤP*\n";
+                $telegramMessage .= "───────────────────────\n";
+                $telegramMessage .= "👤 *Họ tên:* {$request->name}\n";
+                $telegramMessage .= "📞 *Điện thoại:* `{$request->phone}`\n";
+                $telegramMessage .= "📝 *Chủ đề:* _{$request->subject}_\n";
+                $telegramMessage .= "💬 *Chi tiết cần tư vấn:* {$request->message}\n";
+                $telegramMessage .= "───────────────────────";
+
+                $botToken = env('TELEGRAM_BOT_TOKEN');
+                $chatId = env('TELEGRAM_CHAT_ID');
+                if ($botToken && $chatId) {
+                    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
+                    $client = new \GuzzleHttp\Client();
+                    $client->post($url, [
+                        'json' => [
+                            'chat_id' => $chatId,
+                            'text' => $telegramMessage,
+                            'parse_mode' => 'Markdown',
+                        ]
+                    ]);
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Lỗi gửi Telegram gọi tư vấn: " . $e->getMessage());
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Yêu cầu của bạn đã được ghi nhận. Tổng đài ảo đang bắt đầu cuộc gọi...',
+                'phone' => $request->phone
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi gửi yêu cầu gọi điện: ' . $e->getMessage()
+            ], 400);
+        }
+    }
 }

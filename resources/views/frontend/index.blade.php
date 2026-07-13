@@ -134,7 +134,7 @@
                             @endphp
                             
                             @if($loop->iteration <= 2)
-                                <span class="position-absolute top-2 end-2 badge text-white text-xs px-2.5 py-1 rounded-pill" style="font-size: 9px; background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%) !important; border: 1px solid rgba(255,255,255,0.3); z-index: 10;">
+                                <span class="position-absolute badge text-white text-xs px-2.5 py-1 rounded-pill" style="top: 8px; right: 8px; font-size: 9px; background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%) !important; border: 1px solid rgba(255,255,255,0.3); z-index: 10;">
                                     <i class="fa-solid fa-fire me-1 text-warning"></i>Bán chạy
                                 </span>
                             @endif
@@ -144,7 +144,6 @@
                             @else
                                 <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 60px;"></i>
                             @endif
-                            <span class="position-absolute top-2 start-2 badge bg-dark text-white text-xs px-2 py-1 rounded-2" style="z-index: 10;">ĐVT: {{ $prod->unit }}</span>
                         </div>
 
                         <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">

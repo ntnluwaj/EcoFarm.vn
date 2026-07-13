@@ -38,18 +38,8 @@
                         <i class="fa-solid fa-location-dot fs-5"></i>
                     </div>
                     <div>
-                        <strong class="d-block text-dark" style="font-size: 14px;">Bến bãi bốc xếp</strong>
-                        <span class="text-muted" style="font-size: 13.5px;">KCN Trà Nóc, Quận Bình Thủy, TP. Cần Thơ</span>
-                    </div>
-                </div>
-
-                <div class="d-flex gap-3 mb-4">
-                    <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; min-width: 44px;">
-                        <i class="fa-solid fa-clock fs-5"></i>
-                    </div>
-                    <div>
-                        <strong class="d-block text-dark" style="font-size: 14px;">Giờ mở bến làm việc</strong>
-                        <span class="text-muted" style="font-size: 13.5px;">Tất cả các ngày: 7:00 - 21:00</span>
+                        <strong class="d-block text-dark" style="font-size: 14px;">Địa chỉ</strong>
+                        <span class="text-muted" style="font-size: 13.5px;">Phường Cái Khế, TP. Cần Thơ</span>
                     </div>
                 </div>
             </div>

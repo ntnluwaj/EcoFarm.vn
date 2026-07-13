@@ -80,7 +80,6 @@
                                     @else
                                         <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 55px;"></i>
                                     @endif
-                                    <span class="position-absolute top-2 start-2 badge bg-dark text-white text-xs px-2 py-1 rounded-2" style="font-size: 10px;">ĐVT: {{ $prod->unit }}</span>
                                 </div>
 
                                 <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">

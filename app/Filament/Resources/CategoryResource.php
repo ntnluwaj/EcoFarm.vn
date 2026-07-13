@@ -50,6 +50,7 @@ class CategoryResource extends Resource
                 FileUpload::make('image_url')
                     ->image()
                     ->directory('uploads/categories')
+                    ->disk('public')
                     ->label('Hình ảnh đại diện danh mục'),
             ]);
     }
@@ -59,6 +60,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('image_url')
+                    ->disk('public')
                     ->label('Ảnh đại diện'),
                 TextColumn::make('name')
                     ->searchable()

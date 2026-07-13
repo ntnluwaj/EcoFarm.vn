@@ -69,6 +69,7 @@ class PostResource extends Resource
                         FileUpload::make('thumbnail')
                             ->image()
                             ->directory('posts')
+                            ->disk('public')
                             ->label('Ảnh đại diện bài viết'),
 
                         DateTimePicker::make('published_at')
@@ -83,6 +84,7 @@ class PostResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('thumbnail')
+                    ->disk('public')
                     ->square()
                     ->label('Ảnh'),
 

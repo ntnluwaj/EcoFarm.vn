@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 // 🌟 [HỆ THỐNG]: ĐƯỜNG DẪN ĐĂNG NHẬP CHÍNH THỨC
 // Chuyển hướng /login về form đăng nhập gốc của Filament
 Route::redirect('/login', '/admin/login')->name('login');
+Route::get('/register', [\App\Http\Controllers\Frontend\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [\App\Http\Controllers\Frontend\RegisterController::class, 'register']);
 
 // 🌟 1. PHÂN HỆ TRANG CHỦ (PRD mục 7.1)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -61,6 +63,11 @@ Route::middleware(['admin.role'])->group(function () {
     // Trang xem báo cáo tổng hợp nội bộ bãi kho của Admin
     Route::get('/admin/bao-cao-doanh-thu', [\App\Http\Controllers\Backend\ReportController::class, 'index'])->name('admin.reports');
     Route::get('/admin/orders/{id}/print', [\App\Http\Controllers\Frontend\CartController::class, 'printOrder'])->name('admin.orders.print');
+
+    // 🌟 PHÂN HỆ GIẢ LẬP SANDBOX (KIỂM THỬ TỰ ĐỘNG HÓA LOCAL - CHỈ ADMIN TRUY CẬP)
+    Route::get('/sandbox/debug', [\App\Http\Controllers\Frontend\SandboxController::class, 'index'])->name('sandbox.index');
+    Route::post('/sandbox/pay-simulate', [\App\Http\Controllers\Frontend\SandboxController::class, 'paySimulate'])->name('sandbox.paySimulate');
+    Route::post('/sandbox/ship-simulate', [\App\Http\Controllers\Frontend\SandboxController::class, 'shipSimulate'])->name('sandbox.shipSimulate');
 });
 
 
@@ -81,3 +88,10 @@ Route::middleware(['auth'])->group(function () {
 // 🌟 8. PHÂN HỆ CẨM NĂNG KỸ THUẬT CANH TÁC & LỊCH MÙA VỤ (PRD mục 7.1)
 Route::get('/cam-nang', [\App\Http\Controllers\Frontend\PostController::class, 'index'])->name('posts.index');
 Route::get('/cam-nang/{slug}', [\App\Http\Controllers\Frontend\PostController::class, 'show'])->name('posts.show');
+
+// 🌟 9. TỰ ĐỘNG HÓA WEBHOOKS (DÒNG TIỀN & VẬN CHUYỂN)
+Route::post('/api/payment/sepay-webhook', [\App\Http\Controllers\Api\PaymentWebhookController::class, 'sepayWebhook']);
+Route::post('/api/shipping/ghn-webhook', [\App\Http\Controllers\Api\ShippingWebhookController::class, 'ghnWebhook']);
+
+// 🌟 11. ĐƯỜNG DẪN YÊU CẦU GỌI ĐIỆN TƯ VẤN (AJAX CALL SIMULATOR)
+Route::post('/lien-he/yeu-cau-goi-dien', [\App\Http\Controllers\Frontend\ContactController::class, 'storeCallRequest'])->name('contact.storeCallRequest');

@@ -135,6 +135,13 @@
                                 </button>
                             </div>
                         @endif
+
+                        <!-- Nút Nhờ Kỹ Sư Tư Vấn -->
+                        <div class="col-12 mt-3">
+                            <button type="button" class="btn btn-warning btn-lg w-100 fw-bold d-flex align-items-center justify-content-center gap-2 fs-6 text-white" style="height: 48px; background-color: #ff9800; border: none; color: #ffffff !important;" data-bs-toggle="modal" data-bs-target="#adviceModal" data-message="Tôi cần tư vấn gấp về sản phẩm '{{ $product->name }}' trước khi đặt mua. Xin cảm ơn!">
+                                <i class="fa-solid fa-user-doctor"></i> Nhờ Kỹ sư tư vấn trước khi mua
+                            </button>
+                        </div>
                     </div>
 
                     <div class="mt-2 text-xs" id="stock-label">

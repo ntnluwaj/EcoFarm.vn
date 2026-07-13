@@ -54,6 +54,7 @@ class BannerResource extends Resource
                             ->required()
                             ->image()
                             ->directory('banners')
+                            ->disk('public')
                             ->label('Hình ảnh Banner Slide (Khuyến nghị: 1200x400px)'),
                     ])->columnSpan(2),
 
@@ -77,6 +78,7 @@ class BannerResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('image_path')
+                    ->disk('public')
                     ->height(60)
                     ->width(120)
                     ->label('Ảnh Banner'),

@@ -25,6 +25,49 @@
         .hover-logo:hover {
             transform: scale(1.05);
         }
+        
+        /* 🌟 RESPONSIVE NAVBAR: Tránh rớt dòng trên màn hình trung bình và lớn */
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-nav .nav-link {
+                padding-right: 0.65rem !important;
+                padding-left: 0.65rem !important;
+                font-size: 13.5px !important;
+            }
+            .search-input-custom {
+                max-width: 155px !important;
+                font-size: 13px !important;
+            }
+            .nav-btn-custom {
+                padding: 6px 12px !important;
+                font-size: 12.5px !important;
+            }
+        }
+
+        /* 🌟 HIỆU ỨNG HOVER & GIỮ ACTIVE CHO NAV LINK */
+        .navbar-nav .nav-link {
+            position: relative;
+            color: #333333 !important;
+            transition: color 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #2e7d32 !important;
+        }
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 2px;
+            left: 50%;
+            background-color: #2e7d32;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 70%;
+        }
     </style>
 </head>
 <body>
@@ -42,25 +85,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="{{ route('home') }}">Trang chủ</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="{{ route('about') }}">Giới thiệu</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="{{ route('products.index') }}">Sản phẩm vật tư</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Sản phẩm vật tư</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="{{ route('posts.index') }}">Cẩm nang nông nghiệp</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="{{ route('posts.index') }}">Cẩm nang nông nghiệp</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
                     </li>
-
                 </ul>
                 
-                <form class="d-flex me-3" action="{{ route('products.index') }}" method="GET">
-                    <input class="form-control me-2" type="search" name="search" placeholder="Tìm phân bón, thuốc trừ sâu..." aria-label="Search">
+                <form class="d-flex me-2" action="{{ route('products.index') }}" method="GET">
+                    <input class="form-control me-2 search-input-custom" type="search" name="search" placeholder="Tìm kiếm vật tư..." aria-label="Search">
                     <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
@@ -164,12 +206,6 @@
                         <div class="dropdown d-inline-block">
                             <button class="btn btn-success dropdown-toggle fw-bold rounded-3 text-xs d-inline-flex align-items-center gap-1" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
                                 <i class="fa-solid fa-circle-user"></i> {{ auth()->user()->name }}
-                                
-                                @if(auth()->user()->role === 'admin')
-                                    <span class="badge bg-danger text-white" style="font-size: 10px; padding: 3px 6px;">Quản trị viên</span>
-                                @else
-                                    <span class="badge bg-secondary text-white" style="font-size: 10px; padding: 3px 6px;">Nhà vườn</span>
-                                @endif
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">
@@ -211,9 +247,14 @@
                             </ul>
                         </div>
                     @else
-                        <a href="/login" class="btn btn-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 text-xs" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
-                            <i class="fa-solid fa-user"></i> Đăng nhập
-                        </a>
+                        <div class="d-flex gap-1.5">
+                            <a href="/login" class="btn btn-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
+                                <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="border: 2px solid #2e7d32; color: #2e7d32; padding: 8px 16px; background: transparent;">
+                                <i class="fa-solid fa-user-plus"></i> Đăng ký
+                            </a>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -256,6 +297,9 @@
                         <li><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none small">Danh mục vật tư</a></li>
                         <li><a href="{{ route('posts.index') }}" class="text-white-50 text-decoration-none small">Bài viết kỹ thuật canh tác</a></li>
                         <li><a href="{{ route('contact.index') }}" class="text-white-50 text-decoration-none small">Liên hệ tư vấn</a></li>
+                        @if(auth()->check() && auth()->user()->role === 'admin')
+                            <li class="pt-2"><a href="{{ route('sandbox.index') }}" class="text-warning text-decoration-none small fw-bold"><i class="fa-solid fa-flask me-1"></i>Trang Giả lập Webhook (Sandbox)</a></li>
+                        @endif
                     </ul>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -472,6 +516,218 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Modal Nhờ Kỹ Sư Gọi Tư Vấn -->
+  <div class="modal fade" id="adviceModal" tabindex="-1" aria-labelledby="adviceModalLabel" aria-hidden="true" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+              <div class="modal-header bg-success text-white py-3 px-4">
+                  <h5 class="modal-title fw-bold" id="adviceModalLabel"><i class="fa-solid fa-user-doctor me-2"></i>Nhờ Kỹ Sư Gọi Điện Tư Vấn</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-4" id="adviceModalBody">
+                  <form id="adviceForm">
+                      @csrf
+                      <input type="hidden" name="subject" id="adviceSubject" value="Yêu cầu gọi điện tư vấn vật tư trước khi đặt">
+                      
+                      <!-- Họ tên -->
+                      <div class="mb-3">
+                          <label for="adviceName" class="form-label fw-semibold text-dark small">Họ tên của bà con <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control rounded-3" id="adviceName" name="name" placeholder="Nhập họ tên" value="{{ auth()->check() ? auth()->user()->name : '' }}" required>
+                      </div>
+                      
+                      <!-- Số điện thoại -->
+                      <div class="mb-3">
+                          <label for="advicePhone" class="form-label fw-semibold text-dark small">Số điện thoại liên hệ <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control rounded-3" id="advicePhone" name="phone" placeholder="Nhập số điện thoại nhận cuộc gọi" value="{{ auth()->check() ? auth()->user()->phone : '' }}" required>
+                      </div>
+                      
+                      <!-- Chi tiết yêu cầu -->
+                      <div class="mb-3">
+                          <label for="adviceMessage" class="form-label fw-semibold text-dark small">Chi tiết cần tư vấn <span class="text-danger">*</span></label>
+                          <textarea class="form-control rounded-3" id="adviceMessage" name="message" rows="3" placeholder="Nhập sản phẩm hoặc loại cây cần tư vấn liều lượng bón tưới..." required>Tôi cần kỹ sư gọi điện tư vấn thêm thông tin trước khi đặt mua vật tư này.</textarea>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-success w-100 fw-bold rounded-3 py-2.5 mt-2" style="background-color: #2e7d32; border: none;">
+                          <i class="fa-solid fa-phone-volume me-2"></i>Xác nhận - Gọi cho tôi ngay
+                      </button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Overlay Giả lập Cuộc gọi Gọi Điện -->
+  <div id="callingOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif;">
+      <div class="text-center text-white p-4 rounded-4" style="max-width: 400px; width: 90%;">
+          <!-- Ringing Icon Animation -->
+          <div class="mb-4 position-relative d-inline-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
+              <div class="position-absolute bg-success rounded-circle border border-success opacity-25" style="width: 100%; height: 100%; animation: pulse-ring 1.5s infinite;"></div>
+              <div class="position-absolute bg-success rounded-circle border border-success opacity-50" style="width: 80%; height: 80%; animation: pulse-ring 1.5s infinite 0.5s;"></div>
+              <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow-lg" style="width: 70px; height: 70px; z-index: 2;">
+                  <i class="fa-solid fa-phone-volume fa-2xl" id="callingIcon"></i>
+              </div>
+          </div>
+
+          <h4 class="fw-bold mb-2" id="callingStatus">Đang kết nối cuộc gọi...</h4>
+          <p class="text-white-50 small mb-4" id="callingSub">Đang kết nối tổng đài ảo...</p>
+
+          <div class="card bg-dark border-secondary p-3 rounded-3 text-start mb-4">
+              <div class="small text-white-50"><i class="fa-regular fa-user me-2"></i>Người nhận: <strong class="text-white" id="callingNameSpan">Nguyễn Văn A</strong></div>
+              <div class="small text-white-50 mt-1.5"><i class="fa-solid fa-mobile-screen-button me-2"></i>Số điện thoại: <strong class="text-white" id="callingPhoneSpan">0987654321</strong></div>
+          </div>
+
+          <!-- Progress status text list -->
+          <div id="callingProgressLogs" class="text-white-50 small mb-4 text-center font-monospace" style="min-height: 24px; font-size: 12px;"></div>
+
+          <button type="button" class="btn btn-danger btn-lg rounded-pill px-4 fw-semibold text-xs" id="hangupBtn" style="font-size: 13px;">
+              <i class="fa-solid fa-phone-slash me-2"></i>Gác máy (Hủy cuộc gọi)
+          </button>
+      </div>
+  </div>
+
+  <style>
+      @keyframes pulse-ring {
+          0% { transform: scale(1); opacity: 0.8; }
+          100% { transform: scale(1.6); opacity: 0; }
+      }
+      .mt-1.5 { margin-top: 0.375rem; }
+  </style>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Bắt sự kiện truyền data từ các nút bấm
+          const adviceModal = document.getElementById('adviceModal');
+          if (adviceModal) {
+              adviceModal.addEventListener('show.bs.modal', function(event) {
+                  const button = event.relatedTarget;
+                  const message = button.getAttribute('data-message');
+                  if (message) {
+                      const messageInput = document.getElementById('adviceMessage');
+                      if (messageInput) {
+                          messageInput.value = message;
+                      }
+                  }
+              });
+          }
+
+          // Xử lý gửi form tư vấn gọi điện qua AJAX
+          const adviceForm = document.getElementById('adviceForm');
+          const callingOverlay = document.getElementById('callingOverlay');
+          const callingStatus = document.getElementById('callingStatus');
+          const callingSub = document.getElementById('callingSub');
+          const callingNameSpan = document.getElementById('callingNameSpan');
+          const callingPhoneSpan = document.getElementById('callingPhoneSpan');
+          const callingProgressLogs = document.getElementById('callingProgressLogs');
+          const hangupBtn = document.getElementById('hangupBtn');
+          let callTimer1, callTimer2, callTimer3;
+
+          if (adviceForm) {
+              adviceForm.addEventListener('submit', function(e) {
+                  e.preventDefault();
+
+                  const name = document.getElementById('adviceName').value;
+                  const phone = document.getElementById('advicePhone').value;
+                  const subject = document.getElementById('adviceSubject').value;
+                  const message = document.getElementById('adviceMessage').value;
+
+                  // 1. Đóng modal điền thông tin
+                  const modalInst = bootstrap.Modal.getInstance(adviceModal);
+                  if (modalInst) {
+                      modalInst.hide();
+                  }
+
+                  // 2. Hiển thị màn hình cuộc gọi mô phỏng
+                  callingNameSpan.innerText = name;
+                  callingPhoneSpan.innerText = phone;
+                  callingStatus.innerText = 'Đang quay số...';
+                  callingSub.innerText = 'Kết nối cổng tổng đài ảo VoIP...';
+                  callingProgressLogs.innerText = '[System]: Khởi tạo đường truyền kết nối...';
+                  callingOverlay.classList.remove('d-none');
+
+                  // Gửi dữ liệu qua fetch API để lưu CSDL
+                  fetch("{{ route('contact.storeCallRequest') }}", {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                      },
+                      body: JSON.stringify({
+                          name: name,
+                          phone: phone,
+                          subject: subject,
+                          message: message
+                      })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          // Bắt đầu chuỗi giả lập cuộc gọi VoIP
+                          callTimer1 = setTimeout(function() {
+                              callingStatus.innerText = 'Đang đổ chuông...';
+                              callingSub.innerText = 'Điện thoại của bà con đang reo...';
+                              callingProgressLogs.innerText = '[Ringing]: Vui lòng sẵn sàng nhấc máy điện thoại.';
+                          }, 2500);
+
+                          callTimer2 = setTimeout(function() {
+                              callingStatus.innerText = 'Đã kết nối!';
+                              callingSub.innerText = 'Cuộc gọi đàm thoại đang diễn ra...';
+                              callingProgressLogs.style.color = '#4caf50';
+                              callingProgressLogs.innerHTML = '<i class="fa-solid fa-circle-nodes"></i> Kỹ sư Nông học đang kết nối trực tiếp với bà con.';
+                              const icon = document.getElementById('callingIcon');
+                              if (icon) {
+                                  icon.classList.remove('fa-phone-volume');
+                                  icon.classList.add('fa-phone');
+                              }
+                          }, 5500);
+
+                          callTimer3 = setTimeout(function() {
+                              // Tự động hoàn tất sau 11.5 giây đàm thoại mẫu
+                              finishCall();
+                          }, 11500);
+
+                      } else {
+                          callingStatus.innerText = 'Lỗi kết nối!';
+                          callingSub.innerText = 'Yêu cầu không được ghi nhận.';
+                          callingProgressLogs.innerText = '[Error]: ' + data.message;
+                      }
+                  })
+                  .catch(err => {
+                      callingStatus.innerText = 'Lỗi đường truyền!';
+                      callingSub.innerText = 'Không thể kết nối máy chủ.';
+                      callingProgressLogs.innerText = '[System Error]: ' + err.message;
+                  });
+              });
+          }
+
+          if (hangupBtn) {
+              hangupBtn.addEventListener('click', function() {
+                  finishCall();
+              });
+          }
+
+          function finishCall() {
+              // Xóa các bộ hẹn giờ
+              clearTimeout(callTimer1);
+              clearTimeout(callTimer2);
+              clearTimeout(callTimer3);
+
+              // Ẩn màn hình gọi điện
+              callingOverlay.classList.add('d-none');
+              
+              // Reset icon
+              const icon = document.getElementById('callingIcon');
+              if (icon) {
+                  icon.classList.remove('fa-phone');
+                  icon.classList.add('fa-phone-volume');
+              }
+              callingProgressLogs.style.color = '';
+              callingProgressLogs.innerText = '';
+              
+              alert('Cuộc gọi tư vấn đã kết thúc thành công. Thông tin của bà con đã được lưu trữ để kỹ sư tiếp tục theo dõi!');
+          }
+      });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

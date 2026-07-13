@@ -93,7 +93,7 @@ class CartController extends Controller
             'payment_status'   => 'unpaid',   // Tình trạng dòng tiền mặc định: Chưa thanh toán
         ]);
 
-        // 🌟 LƯU CHI TIẾT CÁC MẶT HÀNG ĐẶT MUA VÀO CSDL (HỖ TRỢ PHÂN LOẠI BIẾN THỂ)
+        // 🌟 LƯU CHI TIẾT CÁC MẶT HÀNG ĐẶT MUA VÀO CSDL VÀ GIẢM TỒN KHO THỰC TẾ
         foreach ($cartItems as $cartKey => $item) {
             $order->items()->create([
                 'product_id'         => $item['product_id'],
@@ -102,6 +102,19 @@ class CartController extends Controller
                 'unit_price'         => $item['price'],
                 'price_type'         => 'retail',
             ]);
+
+            // Trừ tồn kho thực tế trong CSDL ngay khi khách chốt đơn để giữ hàng cho khách
+            if (!empty($item['variant_id'])) {
+                $variant = \App\Models\ProductVariant::find($item['variant_id']);
+                if ($variant) {
+                    $variant->decrement('stock', $item['quantity']);
+                }
+            } else {
+                $product = \App\Models\Product::find($item['product_id']);
+                if ($product) {
+                    $product->decrement('stock', $item['quantity']);
+                }
+            }
         }
 
         // 🌟 GỬI BÁO ĐỘNG HỎA TỐC CHO ROBOT TELEGRAM SAU KHI ĐƠN ĐÃ CÓ ĐỦ SẢN PHẨM (PRD)

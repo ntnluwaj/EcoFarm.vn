@@ -64,6 +64,7 @@ class ProductResource extends Resource
                     ->image() 
                     ->reorderable() 
                     ->directory('products') 
+                    ->disk('public')
                     ->columnSpanFull() 
                     ->label('Bộ sưu tập hình ảnh vật tư (Nhiều ảnh Slide)'),
 
@@ -135,6 +136,11 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                \Filament\Tables\Columns\ImageColumn::make('images')
+                    ->label('Hình ảnh')
+                    ->stacked()
+                    ->circular()
+                    ->limit(3),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()

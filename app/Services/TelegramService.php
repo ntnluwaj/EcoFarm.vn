@@ -36,12 +36,12 @@ class TelegramService
         $message .= "📦 *Mã đơn:* `{$orderCode}`\n";
         $message .= "👤 *Khách hàng:* {$order->customer_name}\n";
         $message .= "📞 *Số điện thoại:* `{$order->customer_phone}`\n";
-        $message .= "📍 *Bến giao:* {$cleanAddress}\n";
+        $message .= "📍 *Địa chỉ giao:* {$cleanAddress}\n";
         $message .= "💰 *Tổng tiền:* `{$totalFormatted}`\n";
         $message .= "💳 *Thanh toán:* _" . strtoupper($order->payment_method) . "_\n";
         $message .= "📋 *Thuế đỏ:* {$vat}\n";
         $message .= "───────────────────────\n";
-        $message .= "🌾 *DANH SÁCH BỐC XẾP VẬT TƯ:*\n";
+        $message .= "🌾 *CHI TIẾT VẬT TƯ ĐẶT MUA:*\n";
 
         foreach ($order->items as $index => $item) {
             $stt = $index + 1;
