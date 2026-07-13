@@ -26,19 +26,16 @@
                         
                         <div class="carousel-content-card">
                             @if($banner->subtitle)
-                                <div class="carousel-badge mb-3 d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-success-subtle text-success fw-bold text-uppercase" style="font-size: 11px; letter-spacing: 1px; border: 1px solid rgba(46, 125, 50, 0.25);">
-                                    <span class="badge-dot"></span>
+                                <span class="badge bg-success text-white fw-bold mb-3 px-3 py-2 text-uppercase tracking-wide carousel-badge" style="font-size: 10px; letter-spacing: 1px;">
                                     {{ $banner->subtitle }}
-                                </div>
+                                </span>
                             @endif
-                            <h1 class="display-5 fw-bold mb-3 carousel-title" style="line-height: 1.25; font-weight: 800; color: #1b5e20;">
+                            <h1 class="display-6 fw-bold mb-3 carousel-title" style="line-height: 1.3; font-weight: 800; color: #1b5e20;">
                                 {{ $banner->title }}
                             </h1>
-                            <div class="carousel-divider mb-3"></div>
                             @if($banner->link_url)
-                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-2 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
-                                    <span>KHÁM PHÁ NGAY</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
+                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-3 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
+                                    <i class="fa-solid fa-circle-chevron-right"></i> KHÁM PHÁ NGAY
                                 </a>
                             @endif
                         </div>
@@ -54,6 +51,12 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+        <!-- Organic wave divider at bottom (overlapped by -1px to prevent browser subpixel white line gap) -->
+        <div class="position-absolute start-0 w-100 overflow-hidden" style="line-height: 0; transform: rotate(180deg); z-index: 2; bottom: -1px;">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="position: relative; display: block; width: calc(100% + 1.3px); height: 35px;">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C120.55,43.25,237,51.62,321.39,56.44Z" style="fill: #f8f9fa; opacity: 1;"></path>
+            </svg>
+        </div>
     </div>
 @else
     <!-- Default Static Fallback Banner -->
@@ -307,7 +310,7 @@
     .carousel-item-bg {
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         background-size: cover;
@@ -330,100 +333,47 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
         z-index: 1;
     }
-    
-    /* Refined Floating Glassmorphic Card */
     .carousel-content-card {
         z-index: 2;
         position: relative;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         border-left: 6px solid #2e7d32;
-        padding: 40px 45px;
-        border-radius: 24px;
-        max-width: 550px;
+        padding: 45px 50px;
+        border-radius: 20px;
+        max-width: 580px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         margin-left: 8%;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    /* Modern Badge with Glowing Dot */
-    .badge-dot {
-        width: 8px;
-        height: 8px;
-        background-color: #2e7d32;
-        border-radius: 50%;
-        display: inline-block;
-        animation: badgePulse 1.5s infinite;
-    }
-    @keyframes badgePulse {
-        0% { transform: scale(0.85); opacity: 0.5; }
-        50% { transform: scale(1.15); opacity: 1; }
-        100% { transform: scale(0.85); opacity: 0.5; }
-    }
-
-    /* Animated Underline Divider */
-    .carousel-divider {
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, #2e7d32 0%, rgba(46, 125, 50, 0) 100%);
-        border-radius: 2px;
-        opacity: 0;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: all 0.6s ease-in-out;
-    }
-    .carousel-item.active .carousel-divider {
-        opacity: 1;
-        transform: scaleX(1);
-    }
-
-    /* Elements Micro-Animations */
-    .carousel-item .carousel-badge,
-    .carousel-item .carousel-title,
-    .carousel-item .carousel-divider,
-    .carousel-item .carousel-btn {
-        opacity: 0;
-        transform: translateY(25px);
-        transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     }
     
-    .carousel-item.active .carousel-badge,
-    .carousel-item.active .carousel-title,
-    .carousel-item.active .carousel-divider,
-    .carousel-item.active .carousel-btn {
+    /* Staggered Animations for content inside active slide */
+    .carousel-item .carousel-content-card > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .carousel-item.active .carousel-content-card > * {
         opacity: 1;
         transform: translateY(0);
     }
-    
-    .carousel-item.active .carousel-badge {
+    .carousel-item.active .carousel-content-card .carousel-badge {
         transition-delay: 0.1s;
     }
-    .carousel-item.active .carousel-title {
+    .carousel-item.active .carousel-content-card .carousel-title {
         transition-delay: 0.25s;
     }
-    .carousel-item.active .carousel-divider {
-        transition-delay: 0.35s;
-    }
-    .carousel-item.active .carousel-btn {
-        transition-delay: 0.45s;
+    .carousel-item.active .carousel-content-card .carousel-btn {
+        transition-delay: 0.4s;
     }
 
-    /* Pulse Glowing Button with Icon Hover Animation */
+    /* Pulse Glowing Button (Green Glow) */
     .carousel-btn {
         animation: buttonGlow 2.5s infinite;
-    }
-    .carousel-btn i {
-        transition: transform 0.2s ease-in-out;
-    }
-    .carousel-btn:hover i {
-        transform: translateX(4px);
     }
     @keyframes buttonGlow {
         0% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0.4); }
@@ -448,7 +398,7 @@
         height: 50px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.6);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         border-radius: 50%;
@@ -466,39 +416,6 @@
         border-color: #2e7d32;
         color: white !important;
         transform: translateY(-50%) scale(1.05);
-    }
-    .carousel-control-prev-icon, .carousel-control-next-icon {
-        filter: invert(34%) sepia(21%) saturate(1915%) hue-rotate(85deg) brightness(96%) contrast(89%);
-    }
-    .carousel-control-prev:hover .carousel-control-prev-icon,
-    .carousel-control-next:hover .carousel-control-next-icon {
-        filter: invert(1) brightness(100%);
-    }
-
-    /* Responsive Styling for Mobile Devices */
-    @media (max-width: 991.98px) {
-        .carousel-content-card {
-            width: calc(100% - 40px);
-            margin: 20px auto;
-            padding: 30px;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            border-left: none;
-            border-top: 6px solid #2e7d32;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.92);
-        }
-        .carousel-item .carousel-badge,
-        .carousel-item .carousel-title,
-        .carousel-item .carousel-divider,
-        .carousel-item .carousel-btn {
-            transform: translateY(20px);
-        }
-        .carousel-divider {
-            margin: 0 auto;
-            transform-origin: center;
-        }
     }
 </style>
 @endsection
