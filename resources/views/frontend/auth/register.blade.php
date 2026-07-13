@@ -6,7 +6,9 @@
         <div class="col-lg-6 col-md-8">
             <div class="card border-0 shadow-lg rounded-4 bg-white p-4">
                 <div class="text-center mb-4">
-                    <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 70px; object-fit: contain;" class="mb-3">
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 70px; object-fit: contain;" class="mb-3">
+                    </a>
                     <h3 class="fw-bold text-success">Đăng ký tài khoản</h3>
                     <p class="text-muted small">Đăng ký ngay để mua sắm vật tư nông nghiệp và cập nhật cẩm nang kỹ thuật mới nhất</p>
                 </div>

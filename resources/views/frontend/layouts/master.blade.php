@@ -72,6 +72,7 @@
 </head>
 <body>
 
+    @if(!request()->routeIs('login', 'register'))
     <!-- Floating Glassmorphic Navbar -->
     <div class="container sticky-top px-0" style="z-index: 1050; margin-top: 15px; margin-bottom: 5px;">
         <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
@@ -260,6 +261,7 @@
             </div>
         </nav>
     </div>
+    @endif
 
     <div class="container mt-3">
         @if(session('success'))
@@ -281,6 +283,7 @@
         @yield('content')
     </main>
 
+    @if(!request()->routeIs('login', 'register'))
     <footer class="bg-green-footer pt-5 pb-4 mt-5">
         <div class="container">
             <div class="row">
@@ -325,7 +328,9 @@
             </div>
         </div>
     </footer>
+    @endif
 
+    @if(!request()->routeIs('login', 'register'))
     <!-- ========================================== -->
     <!-- FLOATING CHATBOX WIDGET (PRD HIGH AESTHETIC) -->
     <!-- ========================================== -->
@@ -515,6 +520,7 @@
             }
         });
     </script>
+    @endif
 
   <!-- Modal Nhờ Kỹ Sư Gọi Tư Vấn -->
   <div class="modal fade" id="adviceModal" tabindex="-1" aria-labelledby="adviceModalLabel" aria-hidden="true" style="font-family: 'Plus Jakarta Sans', sans-serif;">
