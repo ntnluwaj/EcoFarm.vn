@@ -33,16 +33,8 @@
                             <h1 class="display-6 fw-bold mb-3 carousel-title" style="line-height: 1.3; font-weight: 800; color: #1b5e20;">
                                 {{ $banner->title }}
                             </h1>
-                            
-                            <!-- Bổ sung dải cam kết chất lượng nổi bật và trực quan -->
-                            <div class="d-flex flex-wrap gap-3 my-3 py-2 border-top border-bottom border-light-subtle carousel-features">
-                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-circle-check text-success"></i> 100% Chính hãng</span>
-                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-truck-fast text-success"></i> Giao nhanh 24h</span>
-                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-user-doctor text-success"></i> Kỹ sư hỗ trợ</span>
-                            </div>
-
                             @if($banner->link_url)
-                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-2 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
+                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-3 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
                                     <i class="fa-solid fa-circle-chevron-right"></i> KHÁM PHÁ NGAY
                                 </a>
                             @endif
@@ -308,7 +300,6 @@
         overflow: hidden;
         display: flex;
         align-items: center;
-        background: #0d1e0d; /* Nền tối đậm để tăng độ tương phản của ảnh phía trên */
     }
     .carousel-item-bg {
         position: absolute;
@@ -319,7 +310,6 @@
         background-size: cover;
         background-position: center;
         z-index: 0;
-        opacity: 0.9; /* Trộn nhẹ với nền tối để màu sắc ảnh trở nên sâu và đậm đà hơn */
         transform: scale(1);
         transition: transform 0.6s ease-in-out;
     }
@@ -328,104 +318,31 @@
         animation: kenburns 20s ease-out forwards;
     }
     @keyframes kenburns {
-        0% { transform: scale(1.02); }
-        100% { transform: scale(1.12); }
+        0% { transform: scale(1.03); }
+        100% { transform: scale(1.15); }
     }
-    /* Vibrant Sunrise-to-Forest Gradient Overlay */
     .carousel-overlay {
-        display: block;
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        /* Kết hợp sắc xanh lá cây trù phú ở bên trái và sắc vàng cam bình minh ở bên phải */
-        background: linear-gradient(135deg, rgba(27, 94, 32, 0.45) 0%, rgba(27, 94, 32, 0.15) 50%, rgba(255, 152, 0, 0.22) 100%);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
         z-index: 1;
     }
-
-    /* Floating Bio-Orbs inside the banner to break the monochrome look with warm lights */
-    .carousel-item-container::before {
-        content: '';
-        position: absolute;
-        top: -10%;
-        left: 10%;
-        width: 380px;
-        height: 380px;
-        background: radial-gradient(circle, rgba(255, 152, 0, 0.28) 0%, rgba(255, 152, 0, 0) 70%);
-        filter: blur(50px);
-        z-index: 2;
-        animation: orbFloatOne 12s infinite alternate ease-in-out;
-        pointer-events: none;
-    }
-    .carousel-item-container::after {
-        content: '';
-        position: absolute;
-        bottom: -10%;
-        left: 25%;
-        width: 320px;
-        height: 320px;
-        background: radial-gradient(circle, rgba(0, 230, 118, 0.25) 0%, rgba(0, 230, 118, 0) 70%);
-        filter: blur(40px);
-        z-index: 2;
-        animation: orbFloatTwo 10s infinite alternate-reverse ease-in-out;
-        pointer-events: none;
-    }
-    @keyframes orbFloatOne {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(30px, -30px) scale(1.15); }
-    }
-    @keyframes orbFloatTwo {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(-25px, 25px) scale(0.9); }
-    }
-
-    /* Premium Glowing Glassmorphic Card */
     .carousel-content-card {
-        z-index: 3;
+        z-index: 2;
         position: relative;
-        background: rgba(255, 255, 255, 0.76);
-        backdrop-filter: blur(25px) saturate(180%);
-        -webkit-backdrop-filter: blur(25px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-left: 8px solid #2e7d32;
-        padding: 40px 45px;
-        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-left: 6px solid #2e7d32;
+        padding: 45px 50px;
+        border-radius: 20px;
         max-width: 580px;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         margin-left: 8%;
-    }
-    
-    /* Modern Pill Badge */
-    .carousel-badge {
-        background: #2e7d32 !important;
-        color: #ffffff !important;
-        border-radius: 50px !important;
-        font-size: 10px !important;
-        font-weight: 700 !important;
-        padding: 5px 14px !important;
-        letter-spacing: 1px !important;
-        display: inline-block;
-    }
-
-    /* Premium Gradient Title (Vibrant Green) */
-    .carousel-title {
-        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #388e3c 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 850 !important;
-        line-height: 1.3;
-        font-size: 2.1rem !important;
-        display: inline-block;
-    }
-
-    /* Trust features list style */
-    .carousel-features {
-        border-color: rgba(46, 125, 50, 0.15) !important;
-    }
-    .carousel-features span {
-        font-size: 12px;
-        color: #2e7d32;
     }
     
     /* Staggered Animations for content inside active slide */
@@ -442,57 +359,47 @@
         transition-delay: 0.1s;
     }
     .carousel-item.active .carousel-content-card .carousel-title {
-        transition-delay: 0.2s;
-    }
-    .carousel-item.active .carousel-content-card .carousel-features {
-        transition-delay: 0.3s;
+        transition-delay: 0.25s;
     }
     .carousel-item.active .carousel-content-card .carousel-btn {
-        transition-delay: 0.42s;
+        transition-delay: 0.4s;
     }
 
-    /* Pulse Glowing Button */
+    /* Pulse Glowing Button (Green Glow) */
     .carousel-btn {
         animation: buttonGlow 2.5s infinite;
-        border-radius: 12px !important;
     }
     @keyframes buttonGlow {
-        0% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0.45); }
+        0% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0.4); }
         70% { box-shadow: 0 0 0 12px rgba(46, 125, 80, 0); }
         100% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0); }
     }
 
-    /* Pill-shaped Indicators */
     .carousel-indicators [data-bs-target] {
-        width: 20px;
-        height: 5px;
-        border-radius: 30px;
-        background-color: rgba(255, 255, 255, 0.4);
+        width: 25px;
+        height: 4px;
+        border-radius: 2px;
+        background-color: rgba(46, 125, 50, 0.3);
         border: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
     }
     .carousel-indicators .active {
-        width: 40px;
+        width: 45px;
         background-color: #2e7d32 !important;
-        box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
     }
-
-    /* Glassmorphic Navigation Arrows */
     .carousel-control-prev, .carousel-control-next {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
         border-radius: 50%;
-        margin: 0 20px;
+        margin: 0 15px;
         opacity: 0;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(46, 125, 50, 0.1);
-        color: #1b5e20 !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        transition: all 0.25s ease;
+        border: 1px solid rgba(46, 125, 50, 0.15);
     }
     #heroCarousel:hover .carousel-control-prev, 
     #heroCarousel:hover .carousel-control-next {
@@ -502,48 +409,7 @@
         background: #2e7d32;
         border-color: #2e7d32;
         color: white !important;
-        transform: translateY(-50%) scale(1.08);
-        box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
-    }
-
-    /* Responsiveness for tablets and mobiles */
-    @media (max-width: 991px) {
-        .carousel-item-container {
-            height: 440px;
-        }
-        .carousel-content-card {
-            max-width: 70%;
-            margin-left: 6%;
-            padding: 35px 40px;
-        }
-        .carousel-title {
-            font-size: 1.8rem !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .carousel-item-container {
-            height: 380px;
-            padding: 20px;
-        }
-        .carousel-item-container::before, .carousel-item-container::after {
-            display: none; /* Hide background orbs on mobile */
-        }
-        .carousel-content-card {
-            max-width: 90%;
-            margin-left: 5%;
-            border-left: 4px solid #2e7d32;
-            padding: 25px;
-        }
-        .carousel-title {
-            font-size: 1.5rem !important;
-        }
-        .carousel-features {
-            display: none !important; /* Hide features list on mobile to save vertical space */
-        }
-        .carousel-indicators {
-            bottom: 15px !important;
-        }
+        transform: translateY(-50%) scale(1.05);
     }
 </style>
 @endsection
