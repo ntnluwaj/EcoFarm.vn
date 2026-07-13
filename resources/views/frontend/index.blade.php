@@ -300,58 +300,54 @@
         overflow: hidden;
         display: flex;
         align-items: center;
+        background: #ffffff; /* Nền trắng sang trọng bên trái */
     }
     .carousel-item-bg {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        right: 4%;
+        top: 6%;
+        width: 46%;
+        height: 88%;
+        border-radius: 24px;
         background-size: cover;
         background-position: center;
-        z-index: 0;
-        transform: scale(1);
+        z-index: 1;
+        box-shadow: 0 20px 45px rgba(27, 94, 32, 0.15);
         transition: transform 0.6s ease-in-out;
     }
-    /* Ken Burns Zoom Effect */
+    /* Gently floats the image card to create a premium depth effect */
     .carousel-item.active .carousel-item-bg {
-        animation: kenburns 20s ease-out forwards;
+        animation: cardFloat 6s ease-in-out infinite alternate;
     }
-    @keyframes kenburns {
-        0% { transform: scale(1.02); }
-        100% { transform: scale(1.12); }
+    @keyframes cardFloat {
+        0% { transform: translateY(0) scale(1); }
+        100% { transform: translateY(-8px) scale(1.02); }
     }
-    /* Smooth left-fade overlay blending into the body background #f8f9fa */
+    /* Hide the overlay to keep the right image 100% vibrant and clear */
     .carousel-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, rgba(248, 249, 250, 0.95) 0%, rgba(248, 249, 250, 0.7) 35%, rgba(248, 249, 250, 0.25) 70%, rgba(248, 249, 250, 0) 100%);
-        z-index: 1;
+        display: none;
     }
-    /* Premium Glowing Glassmorphic Card */
+    /* Clean text layout on the left side */
     .carousel-content-card {
         z-index: 2;
         position: relative;
-        background: rgba(255, 255, 255, 0.78);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        border-left: 8px solid #2e7d32;
-        padding: 40px 45px;
-        border-radius: 24px;
-        max-width: 580px;
-        box-shadow: 0 30px 60px rgba(27, 94, 32, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        margin-left: 8%;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-left: 6px solid #2e7d32;
+        padding: 10px 0 10px 30px;
+        border-radius: 0;
+        max-width: 42%;
+        margin-left: 8.5%;
     }
     
-    /* Modern Pill Badge Glow */
+    /* Modern Pill Badge */
     .carousel-badge {
         background: rgba(46, 125, 50, 0.1) !important;
         color: #2e7d32 !important;
-        border: 1px solid rgba(46, 125, 50, 0.25) !important;
+        border: 1px solid rgba(46, 125, 50, 0.2) !important;
         border-radius: 50px !important;
         font-size: 11px !important;
         font-weight: 700 !important;
@@ -360,20 +356,19 @@
         display: inline-block;
     }
 
-    /* Premium Gradient Title */
+    /* Premium Title */
     .carousel-title {
-        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #388e3c 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #1b5e20 !important;
         font-weight: 850 !important;
-        line-height: 1.3;
+        line-height: 1.25;
+        font-size: 2.2rem !important;
     }
     
     /* Staggered Animations for content inside active slide */
     .carousel-item .carousel-content-card > * {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: translateY(15px);
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .carousel-item.active .carousel-content-card > * {
         opacity: 1;
@@ -389,7 +384,7 @@
         transition-delay: 0.4s;
     }
 
-    /* Pulse Glowing Button (Green Glow) */
+    /* Pulse Glowing Button */
     .carousel-btn {
         animation: buttonGlow 2.5s infinite;
         border-radius: 12px !important;
@@ -400,37 +395,39 @@
         100% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0); }
     }
 
-    /* Premium Pill-shaped Indicators */
+    /* Align indicators to the bottom left under the text */
+    .carousel-indicators {
+        justify-content: flex-start !important;
+        margin-left: 8.5% !important;
+        bottom: 25px !important;
+        margin-right: 0 !important;
+    }
     .carousel-indicators [data-bs-target] {
-        width: 20px;
+        width: 18px;
         height: 5px;
         border-radius: 30px;
-        background-color: rgba(46, 125, 50, 0.25);
+        background-color: rgba(46, 125, 50, 0.2);
         border: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
     }
     .carousel-indicators .active {
-        width: 40px;
+        width: 35px;
         background-color: #2e7d32 !important;
-        box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
     }
 
-    /* Glassmorphic Rounded Navigation Arrows */
+    /* Navigation Arrows */
     .carousel-control-prev, .carousel-control-next {
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 50%;
-        margin: 0 20px;
         opacity: 0;
         transition: all 0.3s ease;
         border: 1px solid rgba(46, 125, 50, 0.1);
         color: #1b5e20 !important;
-        box-shadow: 0 8px 24px rgba(27, 94, 32, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
     #heroCarousel:hover .carousel-control-prev, 
     #heroCarousel:hover .carousel-control-next {
@@ -440,8 +437,60 @@
         background: #2e7d32;
         border-color: #2e7d32;
         color: white !important;
-        transform: translateY(-50%) scale(1.08);
-        box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Responsiveness for tablets and mobiles */
+    @media (max-width: 991px) {
+        .carousel-item-container {
+            height: 420px;
+        }
+        .carousel-item-bg {
+            width: 48%;
+            right: 2%;
+        }
+        .carousel-content-card {
+            max-width: 48%;
+            margin-left: 4%;
+        }
+        .carousel-title {
+            font-size: 1.8rem !important;
+        }
+        .carousel-indicators {
+            margin-left: 4% !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .carousel-item-container {
+            height: 380px;
+            padding: 20px;
+        }
+        .carousel-item-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            opacity: 0.15;
+            z-index: 0;
+            box-shadow: none;
+        }
+        .carousel-content-card {
+            max-width: 90%;
+            margin-left: 5%;
+            border-left: 4px solid #2e7d32;
+            padding-left: 15px;
+            z-index: 2;
+        }
+        .carousel-title {
+            font-size: 1.6rem !important;
+        }
+        .carousel-indicators {
+            margin-left: 5% !important;
+            bottom: 15px !important;
+        }
     }
 </style>
 @endsection
