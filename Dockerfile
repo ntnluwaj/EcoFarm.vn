@@ -12,10 +12,12 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     libpq-dev \
+    libicu-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 2. Cài đặt các PHP extension bắt buộc cho Laravel (MySQL và PostgreSQL)
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip intl
 
 # 3. Kích hoạt module rewrite của Apache (để chạy đường dẫn thân thiện của Laravel)
 RUN a2enmod rewrite
@@ -37,7 +39,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # 8. Cài đặt các gói PHP (Composer) và JS (NPM)
-RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN composer install --no-interaction --optimize-autoloader --no-dev --ignore-platform-reqs
 RUN npm install && npm run build
 
 # 9. Cấp quyền ghi cho các thư mục cache và storage của Laravel
