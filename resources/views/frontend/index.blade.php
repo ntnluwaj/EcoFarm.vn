@@ -51,12 +51,6 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-        <!-- Organic wave divider at bottom (overlapped by -1px to prevent browser subpixel white line gap) -->
-        <div class="position-absolute start-0 w-100 overflow-hidden" style="line-height: 0; transform: rotate(180deg); z-index: 2; bottom: -1px;">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="position: relative; display: block; width: calc(100% + 1.3px); height: 35px;">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C120.55,43.25,237,51.62,321.39,56.44Z" style="fill: #f8f9fa; opacity: 1;"></path>
-            </svg>
-        </div>
     </div>
 @else
     <!-- Default Static Fallback Banner -->
@@ -309,10 +303,10 @@
     }
     .carousel-item-bg {
         position: absolute;
-        top: 0;
+        top: -4px;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% + 8px);
         background-size: cover;
         background-position: center;
         z-index: 0;
