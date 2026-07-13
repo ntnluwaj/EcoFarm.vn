@@ -40,6 +40,7 @@ COPY . .
 
 # 8. Cài đặt các gói PHP (Composer) và JS (NPM)
 RUN composer install --no-interaction --optimize-autoloader --no-dev --ignore-platform-reqs
+RUN php artisan filament:assets
 RUN npm install && npm run build
 
 # 9. Cấp quyền ghi cho các thư mục cache và storage của Laravel

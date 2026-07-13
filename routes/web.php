@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 */
 
-// 🌟 [HỆ THỐNG]: ĐƯỜNG DẪN ĐĂNG NHẬP CHÍNH THỨC
-// Chuyển hướng /login về form đăng nhập gốc của Filament
-Route::redirect('/login', '/admin/login')->name('login');
+// 🌟 [HỆ THỐNG]: ĐƯỜNG DẪN XÁC THỰC TÀI KHOẢN (ĐĂNG NHẬP / ĐĂNG KÝ)
+Route::get('/login', [\App\Http\Controllers\Frontend\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [\App\Http\Controllers\Frontend\LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', [\App\Http\Controllers\Frontend\LoginController::class, 'logout'])->name('frontend.logout');
 Route::get('/register', [\App\Http\Controllers\Frontend\RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [\App\Http\Controllers\Frontend\RegisterController::class, 'register']);
 
