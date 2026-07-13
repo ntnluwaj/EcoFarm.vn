@@ -330,26 +330,27 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 100%);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
         z-index: 1;
     }
     
-    /* Immersive Glassmorphic Side-Split Panel */
+    /* Refined Floating Glassmorphic Card */
     .carousel-content-card {
         z-index: 2;
         position: relative;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.88) 75%, rgba(255, 255, 255, 0) 100%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-left: 6px solid #2e7d32;
+        padding: 40px 45px;
+        border-radius: 24px;
+        max-width: 550px;
+        margin-left: 8%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 0 8% 0 6%;
-        border-radius: 0;
-        max-width: none;
-        border: none;
     }
 
     /* Modern Badge with Glowing Dot */
@@ -477,13 +478,16 @@
     /* Responsive Styling for Mobile Devices */
     @media (max-width: 991.98px) {
         .carousel-content-card {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.8) 100%);
-            padding: 40px;
+            width: calc(100% - 40px);
+            margin: 20px auto;
+            padding: 30px;
             text-align: center;
             align-items: center;
             justify-content: center;
+            border-left: none;
+            border-top: 6px solid #2e7d32;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.92);
         }
         .carousel-item .carousel-badge,
         .carousel-item .carousel-title,
