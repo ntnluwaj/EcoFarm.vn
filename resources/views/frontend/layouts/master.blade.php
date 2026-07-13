@@ -248,7 +248,7 @@
                             </ul>
                         </div>
                     @else
-                        <div class="d-flex gap-1.5">
+                        <div class="d-flex gap-2">
                             <a href="/login" class="btn btn-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
                                 <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
                             </a>
