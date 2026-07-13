@@ -33,8 +33,16 @@
                             <h1 class="display-6 fw-bold mb-3 carousel-title" style="line-height: 1.3; font-weight: 800; color: #1b5e20;">
                                 {{ $banner->title }}
                             </h1>
+                            
+                            <!-- Bổ sung dải cam kết chất lượng nổi bật và trực quan -->
+                            <div class="d-flex flex-wrap gap-3 my-3 py-2 border-top border-bottom border-light-subtle carousel-features">
+                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-circle-check text-success"></i> 100% Chính hãng</span>
+                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-truck-fast text-success"></i> Giao nhanh 24h</span>
+                                <span class="small fw-semibold text-success-emphasis d-flex align-items-center gap-1.5"><i class="fa-solid fa-user-doctor text-success"></i> Kỹ sư hỗ trợ</span>
+                            </div>
+
                             @if($banner->link_url)
-                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-3 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
+                                <a href="{{ $banner->link_url }}" class="btn btn-success btn-lg fw-bold px-4 py-2.5 text-white shadow-sm mt-2 d-inline-flex align-items-center gap-2 carousel-btn" style="font-size: 13px; border-radius: 12px; transition: all 0.3s ease; background-color: #2e7d32; border: none;">
                                     <i class="fa-solid fa-circle-chevron-right"></i> KHÁM PHÁ NGAY
                                 </a>
                             @endif
@@ -295,134 +303,136 @@
 
     /* Premium Carousel Layout & Glassmorphism Styling */
     .carousel-item-container {
-        height: 480px;
+        height: 500px;
         position: relative;
         overflow: hidden;
         display: flex;
         align-items: center;
-        background-color: #ffffff;
-        /* Subtle green dot-grid pattern for a modern tech-farming look */
-        background-image: radial-gradient(rgba(46, 125, 50, 0.08) 1.5px, transparent 1.5px);
-        background-size: 24px 24px;
+        background: #0d1e0d; /* Nền tối đậm để tăng độ tương phản của ảnh phía trên */
     }
-    /* Floating Bio-Orbs in the background behind the image */
+    .carousel-item-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+        opacity: 0.9; /* Trộn nhẹ với nền tối để màu sắc ảnh trở nên sâu và đậm đà hơn */
+        transform: scale(1);
+        transition: transform 0.6s ease-in-out;
+    }
+    /* Ken Burns Zoom Effect */
+    .carousel-item.active .carousel-item-bg {
+        animation: kenburns 20s ease-out forwards;
+    }
+    @keyframes kenburns {
+        0% { transform: scale(1.02); }
+        100% { transform: scale(1.12); }
+    }
+    /* Vibrant Sunrise-to-Forest Gradient Overlay */
+    .carousel-overlay {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Kết hợp sắc xanh lá cây trù phú ở bên trái và sắc vàng cam bình minh ở bên phải */
+        background: linear-gradient(135deg, rgba(27, 94, 32, 0.45) 0%, rgba(27, 94, 32, 0.15) 50%, rgba(255, 152, 0, 0.22) 100%);
+        z-index: 1;
+    }
+
+    /* Floating Bio-Orbs inside the banner to break the monochrome look with warm lights */
     .carousel-item-container::before {
         content: '';
         position: absolute;
-        top: 5%;
-        right: 8%;
-        width: 340px;
-        height: 340px;
-        background: radial-gradient(circle, rgba(76, 175, 80, 0.28) 0%, rgba(76, 175, 80, 0) 70%);
-        filter: blur(40px);
-        z-index: 0;
+        top: -10%;
+        left: 10%;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(255, 152, 0, 0.28) 0%, rgba(255, 152, 0, 0) 70%);
+        filter: blur(50px);
+        z-index: 2;
         animation: orbFloatOne 12s infinite alternate ease-in-out;
         pointer-events: none;
     }
     .carousel-item-container::after {
         content: '';
         position: absolute;
-        bottom: -5%;
-        right: 20%;
-        width: 280px;
-        height: 280px;
-        background: radial-gradient(circle, rgba(139, 195, 74, 0.22) 0%, rgba(139, 195, 74, 0) 70%);
-        filter: blur(35px);
-        z-index: 0;
+        bottom: -10%;
+        left: 25%;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(0, 230, 118, 0.25) 0%, rgba(0, 230, 118, 0) 70%);
+        filter: blur(40px);
+        z-index: 2;
         animation: orbFloatTwo 10s infinite alternate-reverse ease-in-out;
         pointer-events: none;
     }
     @keyframes orbFloatOne {
         0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(30px, -20px) scale(1.15); }
+        100% { transform: translate(30px, -30px) scale(1.15); }
     }
     @keyframes orbFloatTwo {
         0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(-20px, 30px) scale(0.9); }
+        100% { transform: translate(-25px, 25px) scale(0.9); }
     }
 
-    /* Morphing Organic Leaf-Shaped Image Card */
-    .carousel-item-bg {
-        position: absolute;
-        right: 6%;
-        top: 10%;
-        width: 42%;
-        height: 80%;
-        z-index: 1;
-        box-shadow: 0 30px 65px rgba(27, 94, 32, 0.22);
-        background-size: cover;
-        background-position: center;
-        border: 4px solid rgba(255, 255, 255, 0.9);
-        animation: morphLeaf 15s infinite ease-in-out;
-    }
-    @keyframes morphLeaf {
-        0% {
-            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
-            transform: scale(1) rotate(0deg);
-        }
-        33% {
-            border-radius: 50% 50% 70% 30% / 55% 45% 55% 45%;
-            transform: scale(1.03) rotate(1deg);
-        }
-        66% {
-            border-radius: 70% 30% 50% 50% / 45% 65% 35% 55%;
-            transform: scale(0.97) rotate(-1deg);
-        }
-        100% {
-            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
-            transform: scale(1) rotate(0deg);
-        }
-    }
-
-    /* Hide the overlay to keep the right image 100% vibrant and clear */
-    .carousel-overlay {
-        display: none;
-    }
-    /* Clean text layout on the left side */
+    /* Premium Glowing Glassmorphic Card */
     .carousel-content-card {
-        z-index: 2;
+        z-index: 3;
         position: relative;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border-left: 6px solid #2e7d32;
-        padding: 10px 0 10px 30px;
-        border-radius: 0;
-        max-width: 42%;
-        margin-left: 8.5%;
+        background: rgba(255, 255, 255, 0.76);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-left: 8px solid #2e7d32;
+        padding: 40px 45px;
+        border-radius: 24px;
+        max-width: 580px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        margin-left: 8%;
     }
     
     /* Modern Pill Badge */
     .carousel-badge {
-        background: rgba(46, 125, 50, 0.1) !important;
-        color: #2e7d32 !important;
-        border: 1px solid rgba(46, 125, 50, 0.2) !important;
+        background: #2e7d32 !important;
+        color: #ffffff !important;
         border-radius: 50px !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
         font-weight: 700 !important;
-        padding: 6px 16px !important;
+        padding: 5px 14px !important;
         letter-spacing: 1px !important;
         display: inline-block;
     }
 
-    /* Premium Gradient Title */
+    /* Premium Gradient Title (Vibrant Green) */
     .carousel-title {
-        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #4caf50 100%);
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #388e3c 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 850 !important;
-        line-height: 1.25;
-        font-size: 2.20rem !important;
+        line-height: 1.3;
+        font-size: 2.1rem !important;
         display: inline-block;
+    }
+
+    /* Trust features list style */
+    .carousel-features {
+        border-color: rgba(46, 125, 50, 0.15) !important;
+    }
+    .carousel-features span {
+        font-size: 12px;
+        color: #2e7d32;
     }
     
     /* Staggered Animations for content inside active slide */
     .carousel-item .carousel-content-card > * {
         opacity: 0;
-        transform: translateY(15px);
-        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .carousel-item.active .carousel-content-card > * {
         opacity: 1;
@@ -432,10 +442,13 @@
         transition-delay: 0.1s;
     }
     .carousel-item.active .carousel-content-card .carousel-title {
-        transition-delay: 0.25s;
+        transition-delay: 0.2s;
+    }
+    .carousel-item.active .carousel-content-card .carousel-features {
+        transition-delay: 0.3s;
     }
     .carousel-item.active .carousel-content-card .carousel-btn {
-        transition-delay: 0.4s;
+        transition-delay: 0.42s;
     }
 
     /* Pulse Glowing Button */
@@ -449,39 +462,37 @@
         100% { box-shadow: 0 0 0 0 rgba(46, 125, 80, 0); }
     }
 
-    /* Align indicators to the bottom left under the text */
-    .carousel-indicators {
-        justify-content: flex-start !important;
-        margin-left: 8.5% !important;
-        bottom: 25px !important;
-        margin-right: 0 !important;
-    }
+    /* Pill-shaped Indicators */
     .carousel-indicators [data-bs-target] {
-        width: 18px;
+        width: 20px;
         height: 5px;
         border-radius: 30px;
-        background-color: rgba(46, 125, 50, 0.2);
+        background-color: rgba(255, 255, 255, 0.4);
         border: none;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .carousel-indicators .active {
-        width: 35px;
+        width: 40px;
         background-color: #2e7d32 !important;
+        box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
     }
 
-    /* Navigation Arrows */
+    /* Glassmorphic Navigation Arrows */
     .carousel-control-prev, .carousel-control-next {
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-radius: 50%;
+        margin: 0 20px;
         opacity: 0;
         transition: all 0.3s ease;
         border: 1px solid rgba(46, 125, 50, 0.1);
         color: #1b5e20 !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
     #heroCarousel:hover .carousel-control-prev, 
     #heroCarousel:hover .carousel-control-next {
@@ -491,29 +502,22 @@
         background: #2e7d32;
         border-color: #2e7d32;
         color: white !important;
-        transform: translateY(-50%) scale(1.05);
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
     }
 
     /* Responsiveness for tablets and mobiles */
     @media (max-width: 991px) {
         .carousel-item-container {
-            height: 420px;
-        }
-        .carousel-item-bg {
-            width: 48%;
-            right: 2%;
-            top: 15%;
-            height: 70%;
+            height: 440px;
         }
         .carousel-content-card {
-            max-width: 48%;
-            margin-left: 4%;
+            max-width: 70%;
+            margin-left: 6%;
+            padding: 35px 40px;
         }
         .carousel-title {
             font-size: 1.8rem !important;
-        }
-        .carousel-indicators {
-            margin-left: 4% !important;
         }
     }
 
@@ -521,39 +525,23 @@
         .carousel-item-container {
             height: 380px;
             padding: 20px;
-            background-image: none; /* Hide grid on mobile to keep clean */
         }
         .carousel-item-container::before, .carousel-item-container::after {
             display: none; /* Hide background orbs on mobile */
-        }
-        .carousel-item-bg {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-            opacity: 0.15;
-            z-index: 0;
-            box-shadow: none;
-            animation: none; /* Disable morphing on mobile for performance */
         }
         .carousel-content-card {
             max-width: 90%;
             margin-left: 5%;
             border-left: 4px solid #2e7d32;
-            padding-left: 15px;
-            z-index: 2;
+            padding: 25px;
         }
         .carousel-title {
-            font-size: 1.6rem !important;
-            background: none;
-            -webkit-background-clip: initial;
-            -webkit-text-fill-color: initial;
-            color: #1b5e20 !important;
+            font-size: 1.5rem !important;
+        }
+        .carousel-features {
+            display: none !important; /* Hide features list on mobile to save vertical space */
         }
         .carousel-indicators {
-            margin-left: 5% !important;
             bottom: 15px !important;
         }
     }
