@@ -31,7 +31,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 6. Cài đặt Node.js và NPM để biên dịch asset (Vite)
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
 # 7. Thiết lập thư mục làm việc và copy toàn bộ mã nguồn vào container
