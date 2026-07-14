@@ -210,7 +210,7 @@
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">
-                                @if(in_array(auth()->user()->role, ['admin', 'employee']))
+                                @if(in_array(auth()->user()->role, ['admin', 'staff']))
                                     <li>
                                         <a class="dropdown-item py-2 text-dark fw-semibold" href="/admin">
                                             <i class="fa-solid fa-gauge-high me-2 text-success"></i>Vào trang quản trị
