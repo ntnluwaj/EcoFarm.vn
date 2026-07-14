@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Đảm bảo các thư mục đích tồn tại trong ổ đĩa mount
+mkdir -p /var/www/html/storage/app/public/products
+mkdir -p /var/www/html/storage/app/public/banners
+mkdir -p /var/www/html/storage/app/public/agency_licenses
+mkdir -p /var/www/html/storage/app/public/uploads
+
+# Khôi phục các tệp ảnh mẫu từ thư mục backup vào ổ đĩa mount
+cp -R /var/www/html/storage_backup/* /var/www/html/storage/app/public/
+
 # Cấp quyền ghi tuyệt đối cho thư mục storage và cache tại thời điểm chạy container
 chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache || true
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true

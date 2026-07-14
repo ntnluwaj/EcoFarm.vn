@@ -45,9 +45,12 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev --ignore-pl
 RUN php artisan filament:assets
 RUN npm install && npm run build
 
-# 9. Cấp quyền ghi cho các thư mục cache và storage của Laravel
-RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 9. Sao lưu thư mục lưu trữ tĩnh để khôi phục khi Render mount volume đè lên
+RUN mkdir -p /var/www/html/storage_backup && cp -R /var/www/html/storage/app/public/* /var/www/html/storage_backup/
+
+# 10. Cấp quyền ghi cho các thư mục cache và storage của Laravel
+RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/storage_backup
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/storage_backup
 
 # 10. Copy tập lệnh khởi chạy vào bin hệ thống
 COPY docker-entrypoint.sh /usr/local/bin/
