@@ -33,6 +33,9 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            if (in_array($user->role, ['admin', 'employee'])) {
+                return redirect()->intended('/admin')->with('success', "Đăng nhập thành công! Chào mừng {$user->name} truy cập trang quản trị.");
+            }
             return redirect()->intended('/')->with('success', "Đăng nhập thành công! Chào mừng bà con {$user->name} đã quay trở lại.");
         }
 
