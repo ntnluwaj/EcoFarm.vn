@@ -6,13 +6,23 @@
 <div class="container py-5 text-center" style="min-height: 75vh;">
     <div class="row justify-content-center">
         <div class="col-md-7">
-            <div class="mb-4">
-                <i class="fa-solid fa-circle-check text-success animate__animated animate__bounceIn" style="font-size: 70px;"></i>
-            </div>
+            @if(strtolower($order->payment_method) === 'vietqr')
+                <div class="mb-4">
+                    <i class="fa-solid fa-clock-rotate-left text-warning animate__animated animate__pulse animate__infinite" style="font-size: 70px;"></i>
+                </div>
 
-            <span class="text-uppercase text-muted small fw-bold tracking-wider d-block mb-1">Hệ thống ghi nhận thành công</span>
-            <h2 class="fw-bold text-dark mb-3">Cảm Ơn Bạn Đã Đặt Hàng!</h2>
-            <p class="text-secondary small mb-5">Đơn hàng của bạn đã được chuyển đến bộ phận điều phối bến kho Cần Thơ để tiến hành đối soát và bốc xếp vận chuyển trong thời gian ngắn nhất.</p>
+                <span class="text-uppercase text-warning small fw-bold tracking-wider d-block mb-1" style="letter-spacing: 1px;">Trạng thái: Chờ thanh toán</span>
+                <h2 class="fw-bold text-dark mb-3">Vui Lòng Chuyển Khoản Thanh Toán!</h2>
+                <p class="text-secondary small mb-5">Đơn hàng của bạn đã được khởi tạo thành công trên hệ thống. Vui lòng thực hiện chuyển khoản bằng cách quét mã VietQR thụ hưởng bên dưới để kích hoạt đóng gói và vận chuyển đơn hàng.</p>
+            @else
+                <div class="mb-4">
+                    <i class="fa-solid fa-circle-check text-success animate__animated animate__bounceIn" style="font-size: 70px;"></i>
+                </div>
+
+                <span class="text-uppercase text-muted small fw-bold tracking-wider d-block mb-1">Hệ thống ghi nhận thành công</span>
+                <h2 class="fw-bold text-dark mb-3">Cảm Ơn Bạn Đã Đặt Hàng!</h2>
+                <p class="text-secondary small mb-5">Đơn hàng của bạn đã được chuyển đến bộ phận điều phối bến kho Cần Thơ để tiến hành đối soát và bốc xếp vận chuyển trong thời gian ngắn nhất.</p>
+            @endif
 
             <div class="card border-0 shadow-sm rounded-4 text-start bg-white p-4 mb-4">
                 <h5 class="fw-bold text-dark mb-3 pb-2 border-bottom">
