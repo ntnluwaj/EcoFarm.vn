@@ -251,5 +251,23 @@ class DatabaseSeeder extends Seeder
                 'is_active' => true,
             ]);
         }
+
+        // 🌟 BỔ SUNG: Khởi tạo thông báo mẫu cho cả Admin và Nhân viên (staff) để hiển thị chuông thông báo ngay sau khi deploy
+        try {
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
+            foreach ($recipients as $recipient) {
+                $hasNotifs = \Illuminate\Support\Facades\DB::table('notifications')->where('notifiable_id', $recipient->id)->exists();
+                if (!$hasNotifs) {
+                    \Filament\Notifications\Notification::make()
+                        ->title('Hệ thống thông báo tác nghiệp đã kích hoạt!')
+                        ->body('EcoFarm chúc bạn một ngày làm việc hiệu quả. Các thông báo đơn hàng và yêu cầu tư vấn mới sẽ hiển thị tại đây.')
+                        ->icon('heroicon-o-bell')
+                        ->color('success')
+                        ->sendToDatabase($recipient);
+                }
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Lỗi khi tạo thông báo mẫu: " . $e->getMessage());
+        }
     }
 }
