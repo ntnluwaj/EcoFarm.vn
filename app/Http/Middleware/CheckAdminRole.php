@@ -25,8 +25,8 @@ public function handle(Request $request, Closure $next): Response
         return redirect()->route('login')->with('error', 'Vui lòng đăng nhập tài khoản để tiếp tục tác nghiệp!');
     }
 
-    // Tiêu chí AC-05: Đang vào vùng quản trị nhưng không phải Admin -> Đẩy ra trang chủ Frontend
-    if (Auth::user()->role !== 'admin' && $request->is('admin*')) {
+    // Tiêu chí AC-05: Đang vào vùng quản trị nhưng không phải Admin hoặc Nhân viên (employee) -> Đẩy ra trang chủ Frontend
+    if (!in_array(Auth::user()->role, ['admin', 'employee']) && $request->is('admin*')) {
         return redirect('/');
     }
 

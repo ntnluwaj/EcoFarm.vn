@@ -163,6 +163,11 @@ class StockResource extends Resource
         return [];
     }
 
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->role === 'admin';
+    }
+
     public static function getPages(): array
     {
         return [
