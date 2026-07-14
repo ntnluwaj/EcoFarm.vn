@@ -96,25 +96,3 @@ Route::post('/api/shipping/ghn-webhook', [\App\Http\Controllers\Api\ShippingWebh
 
 // 🌟 11. ĐƯỜNG DẪN YÊU CẦU GỌI ĐIỆN TƯ VẤN (AJAX CALL SIMULATOR)
 Route::post('/lien-he/yeu-cau-goi-dien', [\App\Http\Controllers\Frontend\ContactController::class, 'storeCallRequest'])->name('contact.storeCallRequest');
-
-// 🌟 TẠM THỜI: Route gỡ lỗi hiển thị hình ảnh
-Route::get('/debug-storage', function () {
-    $res = [];
-    $res['public_storage_exists'] = file_exists(public_path('storage'));
-    $res['public_storage_is_link'] = is_link(public_path('storage'));
-    if ($res['public_storage_is_link']) {
-        $res['public_storage_target'] = readlink(public_path('storage'));
-    }
-    $res['storage_app_public_exists'] = file_exists(storage_path('app/public'));
-    $res['products_dir_exists'] = file_exists(storage_path('app/public/products'));
-    if ($res['products_dir_exists']) {
-        $res['products_files'] = scandir(storage_path('app/public/products'));
-    }
-    $res['banners_dir_exists'] = file_exists(storage_path('app/public/banners'));
-    if ($res['banners_dir_exists']) {
-        $res['banners_files'] = scandir(storage_path('app/public/banners'));
-    }
-    $res['app_url'] = env('APP_URL');
-    $res['filesystems_public_url'] = config('filesystems.disks.public.url');
-    return response()->json($res);
-});
