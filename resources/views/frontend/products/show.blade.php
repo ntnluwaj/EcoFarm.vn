@@ -146,7 +146,7 @@
 
                     <div class="mt-2 text-xs" id="stock-label">
                         @if($product->stock > 0)
-                            <span class="text-success fw-bold"><i class="fa-solid fa-circle-check"></i> Còn hàng (Còn {{ $product->stock }})</span>
+                            <span class="text-success fw-bold"><i class="fa-solid fa-circle-check"></i> Còn hàng</span>
                         @else
                             <span class="text-danger fw-bold"><i class="fa-solid fa-circle-xmark"></i> Tạm hết hàng</span>
                         @endif
@@ -333,7 +333,7 @@
             priceDisplay.textContent = new Intl.NumberFormat('vi-VN').format(price) + ' VND';
             
             if (stock > 0) {
-                stockLabel.innerHTML = `<span class="text-success fw-bold"><i class="fa-solid fa-circle-check"></i> Còn hàng (Còn ${stock})</span>`;
+                stockLabel.innerHTML = `<span class="text-success fw-bold"><i class="fa-solid fa-circle-check"></i> Còn hàng</span>`;
                 if (quantityInput) {
                     quantityInput.max = stock;
                     quantityInput.value = 1;

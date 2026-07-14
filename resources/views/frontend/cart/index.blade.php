@@ -71,8 +71,8 @@
                                                     <input type="number" name="quantity" class="form-control border-0 text-center fw-bold bg-transparent" value="{{ $item['quantity'] }}" min="1" max="{{ $maxStock }}" onchange="this.form.submit()" style="width: 40px; font-size: 13px; padding: 4px 0;">
                                                     <button type="button" class="btn btn-light border-0 px-2" onclick="increaseQty(this)">+</button>
                                                 </div>
-                                                <span class="text-muted mt-1 text-nowrap" style="font-size: 10px;">
-                                                    <i class="fa-solid fa-warehouse text-success"></i> Tồn: {{ $maxStock }}
+                                                <span class="text-success mt-1 text-nowrap" style="font-size: 10px; font-weight: 600;">
+                                                    <i class="fa-solid fa-circle-check text-success"></i> Còn hàng
                                                 </span>
                                             </form>
                                         </td>
