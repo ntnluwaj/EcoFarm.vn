@@ -1,5 +1,7 @@
-# Sử dụng PHP Apache chính thức làm base image
 FROM php:8.2-apache
+
+# Thiết lập log channel mặc định ghi ra stderr (stdout của container) để tránh lỗi quyền ghi tệp tin logs trên cloud
+ENV LOG_CHANNEL=stderr
 
 # 1. Cài đặt các công cụ hệ thống và thư viện cần thiết cho Laravel
 RUN apt-get update && apt-get install -y \
