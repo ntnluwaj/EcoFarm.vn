@@ -26,9 +26,9 @@ class StockResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Quản lý kho bãi';
 
-    protected static ?string $navigationGroup = 'Hệ thống EcoFarm';
+    protected static ?string $navigationGroup = 'Vận hành & Kho bãi';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function table(Table $table): Table
     {

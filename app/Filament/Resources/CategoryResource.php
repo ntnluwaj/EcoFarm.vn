@@ -17,9 +17,13 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
     
     protected static ?string $navigationLabel = 'Danh mục Phân loại';
+
+    protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
+
+    protected static ?int $navigationSort = 2;
     
     protected static ?string $modelLabel = 'Danh mục';
     
@@ -61,6 +65,8 @@ class CategoryResource extends Resource
             ->columns([
                 ImageColumn::make('image_url')
                     ->disk('public')
+                    ->square()
+                    ->size(50)
                     ->label('Ảnh đại diện'),
                 TextColumn::make('name')
                     ->searchable()

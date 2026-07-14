@@ -20,9 +20,13 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+    protected static ?string $navigationIcon = 'heroicon-o-beaker';
     
     protected static ?string $navigationLabel = 'Sản phẩm Vật tư';
+
+    protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
+
+    protected static ?int $navigationSort = 1;
     
     protected static ?string $modelLabel = 'Sản phẩm';
     
@@ -139,7 +143,8 @@ class ProductResource extends Resource
                 \Filament\Tables\Columns\ImageColumn::make('images')
                     ->label('Hình ảnh')
                     ->stacked()
-                    ->circular()
+                    ->square()
+                    ->size(50)
                     ->limit(3),
                 TextColumn::make('name')
                     ->searchable()

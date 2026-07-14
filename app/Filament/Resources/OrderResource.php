@@ -22,9 +22,13 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
     
     protected static ?string $navigationLabel = 'Quản lý Đơn hàng';
+
+    protected static ?string $navigationGroup = 'Vận hành & Kho bãi';
+
+    protected static ?int $navigationSort = 1;
     
     protected static ?string $modelLabel = 'Đơn hàng';
     

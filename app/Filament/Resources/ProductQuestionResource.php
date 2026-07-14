@@ -19,9 +19,9 @@ class ProductQuestionResource extends Resource
 
     protected static ?string $navigationLabel = 'Hỏi đáp kỹ thuật';
 
-    protected static ?string $navigationGroup = 'Quản lý sản phẩm';
+    protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

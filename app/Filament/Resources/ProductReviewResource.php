@@ -15,13 +15,13 @@ class ProductReviewResource extends Resource
 {
     protected static ?string $model = ProductReview::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
 
     protected static ?string $navigationLabel = 'Đánh giá từ khách';
 
-    protected static ?string $navigationGroup = 'Quản lý sản phẩm';
+    protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
     
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {

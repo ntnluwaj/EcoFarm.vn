@@ -21,12 +21,16 @@ class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-bar';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
 
     protected static ?string $navigationLabel = 'Banner Quảng cáo';
 
-    protected static ?string $modelLabel = 'Banner';
+    protected static ?string $navigationGroup = 'Truyền thông & Marketing';
 
+    protected static ?int $navigationSort = 2;
+    
+    protected static ?string $modelLabel = 'Banner';
+    
     protected static ?string $pluralModelLabel = 'Danh sách Banner';
 
     public static function form(Form $form): Form

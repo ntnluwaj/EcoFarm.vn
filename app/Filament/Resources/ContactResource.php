@@ -23,11 +23,13 @@ class ContactResource extends Resource
 
     protected static ?string $navigationLabel = 'Liên hệ tư vấn';
 
+    protected static ?string $navigationGroup = 'Khách hàng & Tư vấn';
+
     protected static ?string $pluralLabel = 'Liên hệ tư vấn';
 
     protected static ?string $modelLabel = 'Liên hệ';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

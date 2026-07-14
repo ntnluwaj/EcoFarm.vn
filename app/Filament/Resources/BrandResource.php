@@ -15,9 +15,13 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
     
     protected static ?string $navigationLabel = 'Thương hiệu / Nhà SX';
+
+    protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
+
+    protected static ?int $navigationSort = 3;
     
     protected static ?string $modelLabel = 'Thương hiệu';
     

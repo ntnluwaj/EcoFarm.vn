@@ -22,9 +22,13 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $navigationLabel = 'Cẩm nang & Tin tức';
+
+    protected static ?string $navigationGroup = 'Truyền thông & Marketing';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $modelLabel = 'Bài viết';
 
@@ -86,6 +90,7 @@ class PostResource extends Resource
                 ImageColumn::make('thumbnail')
                     ->disk('public')
                     ->square()
+                    ->size(50)
                     ->label('Ảnh'),
 
                 TextColumn::make('title')
