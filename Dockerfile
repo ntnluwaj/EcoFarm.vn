@@ -44,6 +44,7 @@ RUN php artisan filament:assets
 RUN npm install && npm run build
 
 # 9. Cấp quyền ghi cho các thư mục cache và storage của Laravel
+RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # 10. Copy tập lệnh khởi chạy vào bin hệ thống

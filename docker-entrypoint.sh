@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Cấp quyền ghi tuyệt đối cho thư mục storage và cache tại thời điểm chạy container
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache || true
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
+
 # 1. Tạo liên kết thư mục chứa ảnh
 php artisan storage:link --force || true
 
