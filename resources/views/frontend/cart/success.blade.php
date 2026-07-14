@@ -55,8 +55,8 @@
                     
                     @php
                         $bankId = 'vcb';
-                        $accountNo = '1022334455';
-                        $accountName = rawurlencode('CONG TY ECOFARM');
+                        $accountNo = '1031309340';
+                        $accountName = rawurlencode('NGUYEN THI NGOC LUA');
                         $memo = rawurlencode('EcoFarm DH' . $order->id);
                         $amount = (int) $order->total_amount;
                         $qrUrl = "https://img.vietqr.io/image/{$bankId}-{$accountNo}-compact2.jpg?amount={$amount}&addInfo={$memo}&accountName={$accountName}";
@@ -73,11 +73,11 @@
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Chủ tài khoản:</span>
-                            <strong>CONG TY ECOFARM</strong>
+                            <strong>NGUYEN THI NGOC LUA</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Số tài khoản:</span>
-                            <strong class="text-success-emphasis">1022 3344 55</strong>
+                            <strong class="text-success-emphasis">1031309340</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Số tiền chuyển:</span>
