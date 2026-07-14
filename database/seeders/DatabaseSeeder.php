@@ -197,32 +197,38 @@ class DatabaseSeeder extends Seeder
 
         // 5. Khởi tạo danh sách bài viết cẩm nang mẫu
         if (\App\Models\Post::count() === 0) {
-            \App\Models\Post::create([
-                'title' => 'Kỹ thuật bón phân NPK Đầu Trâu cho lúa đạt năng suất cao đầu vụ',
-                'slug' => 'ky-thuat-bon-phan-npk-dau-trau-cho-lua-dat-nang-suat-cao-dau-vu',
-                'category' => 'Kỹ thuật canh tác',
-                'thumbnail' => 'posts/bon_phan_npk_lua.jpg',
-                'content' => '<p>Bón phân NPK cân đối là yếu tố quyết định hàng đầu giúp lúa đẻ nhánh khỏe, nở bụi nhanh và đạt số hạt trên bông cao. Dưới đây là quy trình chi tiết:</p><h5>1. Giai đoạn bón lót</h5><p>Bón lót trước khi sạ lúa từ 1-2 ngày để cung cấp dinh dưỡng kích rễ phát triển sâu vào lòng đất. Sử dụng phân bón hữu cơ kết hợp phân lân super.</p><h5>2. Bón thúc đợt 1 (7-10 ngày sau sạ)</h5><p>Bón thúc đẻ nhánh giúp lúa phục hồi nhanh sau sạ. Sử dụng NPK Đầu Trâu 20-20-15 với liều lượng 100-150kg/ha.</p><h5>3. Bón thúc đợt 2 (20-25 ngày sau sạ)</h5><p>Bón thúc giúp lúa đẻ nhánh tối đa và phân hóa mầm hoa tốt. Tăng cường phân đạm và kali.</p><p>Hy vọng quy trình này giúp bà con đạt vụ mùa bội thu!</p>',
-                'published_at' => now(),
-            ]);
+            \App\Models\Post::updateOrCreate(
+                ['slug' => 'ky-thuat-bon-phan-npk-dau-trau-cho-lua-dat-nang-suat-cao-dau-vu'],
+                [
+                    'title' => 'Kỹ thuật bón phân NPK Đầu Trâu cho lúa đạt năng suất cao đầu vụ',
+                    'category' => 'Kỹ thuật canh tác',
+                    'thumbnail' => 'products/ure_phumy_field.png',
+                    'content' => '<p>Bón phân NPK cân đối là yếu tố quyết định hàng đầu giúp lúa đẻ nhánh khỏe, nở bụi nhanh và đạt số hạt trên bông cao. Dưới đây là quy trình chi tiết:</p><h5>1. Giai đoạn bón lót</h5><p>Bón lót trước khi sạ lúa từ 1-2 ngày để cung cấp dinh dưỡng kích rễ phát triển sâu vào lòng đất. Sử dụng phân bón hữu cơ kết hợp phân lân super.</p><h5>2. Bón thúc đợt 1 (7-10 ngày sau sạ)</h5><p>Bón thúc đẻ nhánh giúp lúa phục hồi nhanh sau sạ. Sử dụng NPK Đầu Trâu 20-20-15 với liều lượng 100-150kg/ha.</p><h5>3. Bón thúc đợt 2 (20-25 ngày sau sạ)</h5><p>Bón thúc giúp lúa đẻ nhánh tối đa và phân hóa mầm hoa tốt. Tăng cường phân đạm và kali.</p><p>Hy vọng quy trình này giúp bà con đạt vụ mùa bội thu!</p>',
+                    'published_at' => now(),
+                ]
+            );
 
-            \App\Models\Post::create([
-                'title' => 'Lịch xuống giống mùa vụ Thu Đông 2026 khu vực miền Tây',
-                'slug' => 'lich-xuong-giong-mua-vu-thu-dong-2026-khu-vuc-mien-tay',
-                'category' => 'Lịch mùa vụ',
-                'thumbnail' => 'posts/lich_xuong_giong.jpg',
-                'content' => '<p>Sở Nông nghiệp và Phát triển nông thôn các tỉnh Đồng bằng sông Cửu Long vừa ban hành khung lịch thời vụ xuống giống lúa Thu Đông 2026 bám sát triều cường và hạn mặn:</p><h5>1. Đợt 1 (Từ ngày 10/08 - 25/08/2026)</h5><p>Áp dụng cho các vùng đất cao, chủ động được nguồn nước tưới tiêu và thoát nước triệt để khi mưa lũ tràn về.</p><h5>2. Đợt 2 (Từ ngày 05/09 - 20/09/2026)</h5><p>Đây là đợt xuống giống tập trung và quy mô lớn nhất cho toàn vùng Đồng bằng sông Cửu Long. Khuyến cáo bà con sạ đồng loạt để phòng tránh dịch rầy nâu truyền bệnh.</p><h5>3. Các lưu ý phòng trừ sâu hại đầu vụ</h5><p>Bà con cần làm đất kỹ, vệ sinh đồng ruộng sạch cỏ rác và sử dụng các loại thuốc bảo vệ thực vật chính hãng như Anvil 5SC để xử lý hạt giống trước khi gieo sạ.</p>',
-                'published_at' => now(),
-            ]);
+            \App\Models\Post::updateOrCreate(
+                ['slug' => 'lich-xuong-giong-mua-vu-thu-dong-2026-khu-vuc-mien-tay'],
+                [
+                    'title' => 'Lịch xuống giống mùa vụ Thu Đông 2026 khu vực miền Tây',
+                    'category' => 'Lịch mùa vụ',
+                    'thumbnail' => 'banners/banner_canhtac.png',
+                    'content' => '<p>Sở Nông nghiệp và Phát triển nông thôn các tỉnh Đồng bằng sông Cửu Long vừa ban hành khung lịch thời vụ xuống giống lúa Thu Đông 2026 bám sát triều cường và hạn mặn:</p><h5>1. Đợt 1 (Từ ngày 10/08 - 25/08/2026)</h5><p>Áp dụng cho các vùng đất cao, chủ động được nguồn nước triệt tiêu và thoát nước triệt để khi mưa lũ tràn về.</p><h5>2. Đợt 2 (Từ ngày 05/09 - 20/09/2026)</h5><p>Đây là đợt xuống giống tập trung và quy mô lớn nhất cho toàn vùng Đồng bằng sông Cửu Long. Khuyến cáo bà con sạ đồng loạt để phòng tránh dịch rầy nâu truyền bệnh.</p><h5>3. Các lưu ý phòng trừ sâu hại đầu vụ</h5><p>Bà con cần làm đất kỹ, vệ sinh đồng ruộng sạch cỏ rác và sử dụng các loại thuốc bảo vệ thực vật chính hãng như Anvil 5SC để xử lý hạt giống trước khi gieo sạ.</p>',
+                    'published_at' => now(),
+                ]
+            );
 
-            \App\Models\Post::create([
-                'title' => 'Giải pháp phòng ngừa nấm bệnh rỉ sắt trên cây sầu riêng mùa mưa lũ',
-                'slug' => 'giai-phap-phong-ngua-nam-benh-ri-sat-tren-cay-sau-rieng-mua-mua-lu',
-                'category' => 'Tin thị trường',
-                'thumbnail' => 'posts/ri_sat_sau_rieng.jpg',
-                'content' => '<p>Bệnh rỉ sắt do nấm Phakopsora ampelopsidis gây ra là nỗi ám ảnh lớn của các nhà vườn trồng sầu riêng tại miền Tây mỗi khi bước vào mùa mưa dầm bão lũ.</p><h5>1. Triệu chứng nhận biết</h5><p>On mặt lá xuất hiện các đốm nhỏ màu vàng nhạt, sau đó chuyển sang màu nâu đỏ như màu rỉ sắt ở mặt dưới lá. Bệnh nặng làm lá khô cháy và rụng đồng loạt, khiến cây suy kiệt nghiêm trọng.</p><h5>2. Biện pháp canh tác phòng ngừa</h5><p>Thường xuyên cắt tỉa cành tạo tán thông thoáng, dọn sạch cỏ dại quanh gốc để tránh đọng ẩm. Bón phân hữu cơ vi sinh kết hợp lân và kali đầy đủ để tăng sức đề kháng cho cây.</p><h5>3. Biện pháp hóa học</h5><p>Khi bệnh chớm xuất hiện, bà con cần phun ngay thuốc trừ nấm nội hấp mạnh như <strong>Anvil 5SC của Syngenta</strong>. Phun đều 2 mặt lá định kỳ 7-10 ngày/lần để bảo vệ cây toàn diện.</p>',
-                'published_at' => now(),
-            ]);
+            \App\Models\Post::updateOrCreate(
+                ['slug' => 'giai-phap-phong-ngua-nam-benh-ri-sat-tren-cay-sau-rieng-mua-mua-lu'],
+                [
+                    'title' => 'Giải pháp phòng ngừa nấm bệnh rỉ sắt trên cây sầu riêng mùa mưa lũ',
+                    'category' => 'Tin thị trường',
+                    'thumbnail' => 'products/regent_spraying.png',
+                    'content' => '<p>Bệnh rỉ sắt do nấm Phakopsora ampelopsidis gây ra là nỗi ám ảnh lớn của các nhà vườn trồng sầu riêng tại miền Tây mỗi khi bước vào mùa mưa dầm bão lũ.</p><h5>1. Triệu chứng nhận nhận biết</h5><p>On mặt lá xuất hiện các đốm nhỏ màu vàng nhạt, sau đó chuyển sang màu nâu đỏ như màu rỉ sắt ở mặt dưới lá. Bệnh nặng làm lá khô cháy và rụng đồng loạt, khiến cây suy kiệt nghiêm trọng.</p><h5>2. Biện pháp canh tác phòng ngừa</h5><p>Thường xuyên cắt tỉa cành tạo tán thông thoáng, dọn sạch cỏ dại quanh gốc để tránh đọng ẩm. Bón phân hữu cơ vi sinh kết hợp lân và kali đầy đủ để tăng sức đề kháng cho cây.</p><h5>3. Biện pháp hóa học</h5><p>Khi bệnh chớm xuất hiện, bà con cần phun ngay thuốc trừ nấm nội hấp mạnh như <strong>Anvil 5SC của Syngenta</strong>. Phun đều 2 mặt lá định kỳ 7-10 ngày/lần để bảo vệ cây toàn diện.</p>',
+                    'published_at' => now(),
+                ]
+            );
         }
 
         // 6. Khởi tạo danh sách slide banner động mẫu chủ đề Nông nghiệp tươi sáng
