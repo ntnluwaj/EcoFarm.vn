@@ -95,13 +95,13 @@ class ProductController extends Controller
         ]);
 
         try {
-            $admins = \App\Models\User::where('role', 'admin')->get();
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
             \Filament\Notifications\Notification::make()
                 ->title('Đánh giá sản phẩm mới!')
                 ->body("Khách hàng {$reviewerName} đã đánh giá {$request->rating} sao cho vật tư '{$product->name}'.")
                 ->icon('heroicon-o-star')
                 ->color('info')
-                ->sendToDatabase($admins);
+                ->sendToDatabase($recipients);
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo đánh giá Filament: " . $e->getMessage());
         }
@@ -131,13 +131,13 @@ class ProductController extends Controller
         ]);
 
         try {
-            $admins = \App\Models\User::where('role', 'admin')->get();
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
             \Filament\Notifications\Notification::make()
                 ->title('Có câu hỏi kỹ thuật mới!')
                 ->body("Nông dân {$askerName} vừa đặt câu hỏi cho vật tư '{$product->name}'.")
                 ->icon('heroicon-o-question-mark-circle')
                 ->color('warning')
-                ->sendToDatabase($admins);
+                ->sendToDatabase($recipients);
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo câu hỏi Filament: " . $e->getMessage());
         }

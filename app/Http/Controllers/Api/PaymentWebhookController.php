@@ -66,13 +66,13 @@ class PaymentWebhookController extends Controller
 
             // Bắn thông báo chuông chào mừng cho Admin về biến động dòng tiền
             try {
-                $admins = \App\Models\User::where('role', 'admin')->get();
+                $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
                 \Filament\Notifications\Notification::make()
                     ->title("Thanh toán tự động thành công!")
                     ->body("Đơn hàng #DH{$order->id} vừa nhận thanh toán số tiền " . number_format($amountIn, 0, ',', '.') . "đ qua VietQR. Hệ thống đã tự động chuyển trạng thái đơn hàng sang Đang đóng gói.")
                     ->icon('heroicon-o-currency-dollar')
                     ->color('success')
-                    ->sendToDatabase($admins);
+                    ->sendToDatabase($recipients);
             } catch (\Exception $e) {
                 Log::error("Lỗi khi bắn thông báo Admin qua Filament: " . $e->getMessage());
             }

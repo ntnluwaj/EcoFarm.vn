@@ -47,9 +47,9 @@ class ShippingWebhookController extends Controller
 
             $order->update($updateData);
 
-            // Báo cho Admin biết tình trạng shipper
+            // Báo cho Admin và Nhân viên biết tình trạng shipper
             try {
-                $admins = \App\Models\User::where('role', 'admin')->get();
+                $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
                 $statusLabel = $status === 'shipping' ? 'Đang vận chuyển' : 'Giao hàng thành công';
                 
                 \Filament\Notifications\Notification::make()
@@ -57,7 +57,7 @@ class ShippingWebhookController extends Controller
                     ->body("Shipper báo: {$statusLabel}. Chi tiết: " . ($description ?: 'Cập nhật từ hệ thống ĐVVC.'))
                     ->icon('heroicon-o-truck')
                     ->color('info')
-                    ->sendToDatabase($admins);
+                    ->sendToDatabase($recipients);
             } catch (\Exception $e) {
                 Log::error("Lỗi khi bắn thông báo Admin qua Filament: " . $e->getMessage());
             }

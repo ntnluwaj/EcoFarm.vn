@@ -107,15 +107,15 @@ class ContactController extends Controller
                 'status' => 'pending',
             ]);
 
-            // Gửi thông báo đến trang quản trị Filament Admin
+            // Gửi thông báo đến trang quản trị Filament Admin & Staff
             try {
-                $admins = \App\Models\User::where('role', 'admin')->get();
+                $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
                 \Filament\Notifications\Notification::make()
                     ->title('Yêu cầu gọi điện tư vấn nông học!')
                     ->body("Nông dân {$request->name} yêu cầu tổng đài ảo kết nối cuộc gọi gấp qua SĐT: {$request->phone}")
                     ->icon('heroicon-o-phone')
                     ->color('warning')
-                    ->sendToDatabase($admins);
+                    ->sendToDatabase($recipients);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error("Lỗi thông báo gọi điện Filament: " . $e->getMessage());
             }

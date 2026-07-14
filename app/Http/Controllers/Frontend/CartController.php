@@ -125,15 +125,15 @@ class CartController extends Controller
             \Illuminate\Support\Facades\Log::error("Lỗi khi bắn cảnh báo đơn hàng Telegram: " . $e->getMessage());
         }
 
-        // 🌟 THÔNG BÁO CHO ADMIN QUA FILAMENT DATABASE NOTIFICATION (PRD)
+        // 🌟 THÔNG BÁO CHO ADMIN VÀ NHÂN VIÊN QUA FILAMENT DATABASE NOTIFICATION (PRD)
         try {
-            $admins = \App\Models\User::where('role', 'admin')->get();
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
             \Filament\Notifications\Notification::make()
                 ->title('Có đơn hàng mới!')
                 ->body("Khách hàng {$order->customer_name} vừa đặt đơn hàng trị giá " . number_format($order->total_amount, 0, ',', '.') . "đ.")
                 ->icon('heroicon-o-shopping-bag')
                 ->color('success')
-                ->sendToDatabase($admins);
+                ->sendToDatabase($recipients);
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo hệ thống Filament: " . $e->getMessage());
         }
