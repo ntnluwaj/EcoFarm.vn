@@ -20,6 +20,11 @@
                 class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
                 <span class="text-lg">📦</span> Quản lý tồn kho tối ưu (Safety Stock & ROP)
             </button>
+            <button @click="activeTab = 'ai'" 
+                :class="activeTab === 'ai' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
+                class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
+                <span class="text-lg">🤖</span> Nhật ký Trợ lý AI (NLP Analytics)
+            </button>
         </div>
 
         <!-- 🌟 TAB 1: DỰ BÁO DOANH SỐ -->
@@ -268,6 +273,126 @@
                                         </span>
                                     </td>
                                     <td class="p-4 font-medium text-{{ $item['color'] }}-800 dark:text-{{ $item['color'] }}-300 text-2xs">{{ $item['recommendation'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 TAB 4: NHẬT KÝ & PHÂN TÍCH TRỢ LÝ AI -->
+        <div x-show="activeTab === 'ai'" class="space-y-6" x-transition>
+            <!-- Tóm tắt AI -->
+            <div class="bg-gradient-to-r from-violet-800 to-fuchsia-800 text-white rounded-xl p-6 shadow-md border-0">
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">🤖 Nhật ký tư vấn & Phân tích phản hồi từ Trợ lý ảo EcoBot</h3>
+                <p class="text-sm text-violet-100 leading-relaxed max-w-4xl">
+                    Hệ thống lưu trữ tự động toàn bộ hội thoại giữa nhà nông và Trợ lý AI **EcoBot**.
+                    Bằng thuật toán xử lý ngôn ngữ tự nhiên (NLP) cơ bản, hệ thống tự động bóc tách **Chủ đề thắc mắc (Topic detection)** và **Tâm thái khách hàng (Sentiment analysis)** của nông dân để giúp đại lý nắm bắt chính xác xu hướng dịch bệnh hại ngoài đồng ruộng và nhu cầu vật tư thực tế.
+                </p>
+            </div>
+
+            <!-- Grid thống kê AI -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Thống kê chủ đề mối quan tâm -->
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">📈 Tần suất chủ đề nông dân quan tâm (Hỏi nhiều nhất)</h4>
+                    <div class="space-y-3">
+                        @foreach($aiAnalytics['topic_stats'] as $topic => $count)
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">{{ $topic }}</span>
+                                    <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $count }} lượt hỏi</span>
+                                </div>
+                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                                    @php
+                                        $sumTopics = array_sum($aiAnalytics['topic_stats']);
+                                        $percent = $sumTopics > 0 ? min(100, round(($count / $sumTopics) * 100)) : 0;
+                                    @endphp
+                                    <div class="bg-emerald-500 h-2 rounded-full" style="width: {{ $percent }}%"></div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Thống kê tâm thái hội thoại -->
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">🎭 Phân tích tâm trạng nông dân (Sentiment Analysis)</h4>
+                    <div class="space-y-3">
+                        @foreach($aiAnalytics['sentiment_stats'] as $sent => $count)
+                            @php
+                                $label = match($sent) {
+                                    'positive' => 'Tích cực (Hài lòng, cảm ơn)',
+                                    'negative' => 'Tiêu cực (Lo lắng, sâu bệnh tàn phá)',
+                                    default => 'Trung tính / Tư vấn kỹ thuật'
+                                };
+                                $color = match($sent) {
+                                    'positive' => 'emerald',
+                                    'negative' => 'rose',
+                                    default => 'amber'
+                                };
+                                $sumSentiments = array_sum($aiAnalytics['sentiment_stats']);
+                                $percent = $sumSentiments > 0 ? min(100, round(($count / $sumSentiments) * 100)) : 0;
+                            @endphp
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">{{ $label }}</span>
+                                    <span class="font-bold text-{{ $color }}-600 dark:text-{{ $color }}-400">{{ $count }} lượt</span>
+                                </div>
+                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                                    <div class="bg-{{ $color }}-500 h-2 rounded-full" style="width: {{ $percent }}%"></div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bảng nhật ký hội thoại -->
+            <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200">Nhật ký các câu hỏi tư vấn AI gần đây nhất</h4>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-semibold border-b border-gray-100 dark:border-gray-800">
+                                <th class="p-4">Thời gian / Người hỏi</th>
+                                <th class="p-4">Nội dung nông dân hỏi</th>
+                                <th class="p-4">EcoBot phản hồi (Tự gợi ý sản phẩm mua kèm)</th>
+                                <th class="p-4">Chủ đề phân loại</th>
+                                <th class="p-4">Tâm trạng</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300">
+                            @foreach($aiAnalytics['details'] as $log)
+                                <tr>
+                                    <td class="p-4 font-bold text-nowrap">{{ $log['created_at'] }}<br><span class="text-3xs font-medium text-gray-400">{{ $log['name'] }}</span></td>
+                                    <td class="p-4 text-gray-700 dark:text-gray-300 max-w-xs text-wrap">{{ $log['message'] }}</td>
+                                    <td class="p-4 text-gray-600 dark:text-gray-400 max-w-sm text-wrap font-medium">{!! strip_tags($log['response']) !!}</td>
+                                    <td class="p-4">
+                                        <span class="inline-flex px-2 py-0.5 rounded text-3xs font-semibold bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                                            {{ $log['topic'] }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4">
+                                        @php
+                                            $color = match($log['sentiment']) {
+                                                'positive' => 'emerald',
+                                                'negative' => 'rose',
+                                                default => 'amber'
+                                            };
+                                            $badgeLabel = match($log['sentiment']) {
+                                                'positive' => 'Tích cực',
+                                                'negative' => 'Tiêu cực',
+                                                default => 'Trung tính'
+                                            };
+                                        @endphp
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-3xs font-medium bg-{{ $color }}-100 text-{{ $color }}-800 dark:bg-{{ $color }}-900/30 dark:text-{{ $color }}-300">
+                                            {{ $badgeLabel }}
+                                        </span>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

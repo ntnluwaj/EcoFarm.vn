@@ -96,3 +96,6 @@ Route::post('/api/shipping/ghn-webhook', [\App\Http\Controllers\Api\ShippingWebh
 
 // 🌟 11. ĐƯỜNG DẪN YÊU CẦU GỌI ĐIỆN TƯ VẤN (AJAX CALL SIMULATOR)
 Route::post('/lien-he/yeu-cau-goi-dien', [\App\Http\Controllers\Frontend\ContactController::class, 'storeCallRequest'])->name('contact.storeCallRequest');
+
+// 🌟 12. ĐƯỜNG DẪN TRỢ LÝ ẢO AI ECOBOT TƯ VẤN NÔNG HỌC
+Route::post('/api/ai/chat', [\App\Http\Controllers\Frontend\AIAdvisorController::class, 'chat'])->name('ai.chat');
