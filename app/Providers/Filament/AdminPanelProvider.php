@@ -40,6 +40,13 @@ public function panel(Panel $panel): Panel
             ->brandName('EcoFarm Admin')
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('5.5rem')
+            ->sidebarCollapsibleOnDesktop()
+            ->navigationGroups([
+                'Hệ trợ giúp quyết định (DSS)',
+                'Quản lý Cửa hàng',
+                'Vận hành & Kho bãi',
+                'Tài khoản & Phân quyền',
+            ])
             ->colors([
                 'primary' => Color::Emerald,
             ])
@@ -68,5 +75,10 @@ public function panel(Panel $panel): Panel
                 // 🌟 KÍCH HOẠT MIDDLEWARE CHẶN QUYỀN ĐÃ ĐƯỢC TỐI ƯU CỦA BẠN TẠI ĐÂY
                 \App\Http\Middleware\CheckAdminRole::class,
             ]);
+    }
+
+    public function boot(): void
+    {
+        \Filament\Pages\Dashboard::$defaultWidgets = [];
     }
 }
