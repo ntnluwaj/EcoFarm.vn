@@ -107,8 +107,7 @@ class BannerResource extends Resource
                     ->alignCenter()
                     ->label('Thứ tự'),
 
-                IconColumn::make('is_active')
-                    ->boolean()
+                \Filament\Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Đang hiển thị'),
 
                 TextColumn::make('created_at')

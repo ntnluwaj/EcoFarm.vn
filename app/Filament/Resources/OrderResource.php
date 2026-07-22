@@ -34,6 +34,8 @@ class OrderResource extends Resource
     
     protected static ?string $pluralModelLabel = 'Danh sách Đơn hàng';
 
+    protected static ?string $recordTitleAttribute = 'customer_name';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -32,6 +32,8 @@ class ProductResource extends Resource
     
     protected static ?string $pluralModelLabel = 'Kho Sản phẩm Vật tư';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -163,8 +165,7 @@ class ProductResource extends Resource
                     ->label('Tồn kho'),
                 TextColumn::make('unit')
                     ->label('ĐVT'),
-                IconColumn::make('status')
-                    ->boolean()
+                \Filament\Tables\Columns\ToggleColumn::make('status')
                     ->label('Đang bán'),
             ])
             ->filters([

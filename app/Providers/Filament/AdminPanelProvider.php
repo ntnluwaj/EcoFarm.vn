@@ -43,9 +43,10 @@ public function panel(Panel $panel): Panel
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 'Hệ trợ giúp quyết định (DSS)',
-                'Quản lý Cửa hàng',
+                'Danh mục & Sản phẩm',
                 'Vận hành & Kho bãi',
-                'Tài khoản & Phân quyền',
+                'Khách hàng & Tư vấn',
+                'Truyền thông & Marketing',
             ])
             ->colors([
                 'primary' => Color::Emerald,

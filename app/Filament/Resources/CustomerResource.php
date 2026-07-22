@@ -28,6 +28,8 @@ class CustomerResource extends Resource
     
     protected static ?string $pluralModelLabel = 'Danh sách Tài khoản';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function canViewAny(): bool
     {
         return auth()->user()?->role === 'admin';
