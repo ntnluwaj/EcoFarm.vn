@@ -2,47 +2,69 @@
     <!-- Nhúng thư viện Chart.js qua CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <div x-data="{ activeTab: 'forecasting' }" class="space-y-6">
-        <!-- Hệ thống tab điều hướng mượt mà với AlpineJS -->
-        <div class="flex border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-t-xl px-4 shadow-sm">
-            <button @click="activeTab = 'forecasting'" 
-                :class="activeTab === 'forecasting' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-                class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
-                <span class="text-lg">📈</span> Dự báo doanh số (SES & Regression)
-            </button>
-            <button @click="activeTab = 'rfm'" 
-                :class="activeTab === 'rfm' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-                class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
-                <span class="text-lg">👥</span> Phân khúc RFM (CRM thông minh)
-            </button>
-            <button @click="activeTab = 'inventory'" 
-                :class="activeTab === 'inventory' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-                class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
-                <span class="text-lg">📦</span> Quản lý tồn kho tối ưu (Safety Stock & ROP)
-            </button>
-            <button @click="activeTab = 'ai'" 
-                :class="activeTab === 'ai' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-                class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
-                <span class="text-lg">🤖</span> Nhật ký Trợ lý AI (NLP Analytics)
-            </button>
+    <div x-data="{ activeTab: 'forecasting', showAcademic: false }" class="space-y-6">
+        <!-- Hệ thống tab điều hướng mượt mà với AlpineJS và Nút chuyển đổi Chế độ Học thuật -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gray-900 rounded-xl px-4 py-2 shadow-sm border border-gray-100 dark:border-gray-800">
+            <!-- Tabs -->
+            <div class="flex flex-wrap border-b border-gray-200 dark:border-gray-700 md:border-b-0">
+                <button @click="activeTab = 'forecasting'" 
+                    :class="activeTab === 'forecasting' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
+                    class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
+                    <span class="text-lg">📈</span> Dự báo sức mua
+                </button>
+                <button @click="activeTab = 'rfm'" 
+                    :class="activeTab === 'rfm' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
+                    class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
+                    <span class="text-lg">👥</span> Phân nhóm khách hàng
+                </button>
+                <button @click="activeTab = 'inventory'" 
+                    :class="activeTab === 'inventory' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
+                    class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
+                    <span class="text-lg">📦</span> Cảnh báo nhập hàng
+                </button>
+                <button @click="activeTab = 'ai'" 
+                    :class="activeTab === 'ai' ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 font-bold border-b-2' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
+                    class="py-4 px-6 text-sm focus:outline-none transition duration-150 flex items-center gap-2">
+                    <span class="text-lg">🤖</span> Báo cáo Trợ lý AI
+                </button>
+            </div>
+
+            <!-- Chuyển đổi chế độ Học thuật -->
+            <div class="flex items-center gap-2 px-4 py-2 border-t border-gray-100 md:border-t-0 dark:border-gray-800">
+                <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Chế độ kiểm định Học thuật (Hội đồng chấm):</span>
+                <button @click="showAcademic = !showAcademic" 
+                    :class="showAcademic ? 'bg-emerald-600' : 'bg-gray-200 dark:bg-gray-700'"
+                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                    role="switch" aria-checked="false">
+                    <span :class="showAcademic ? 'translate-x-5' : 'translate-x-0'"
+                        class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+            </div>
         </div>
 
         <!-- 🌟 TAB 1: DỰ BÁO DOANH SỐ -->
         <div x-show="activeTab === 'forecasting'" class="space-y-6" x-transition>
-            <!-- Thẻ tóm tắt học thuật -->
+            <!-- Thẻ tóm tắt học thuật / doanh nghiệp -->
             <div class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white rounded-xl p-6 shadow-md">
-                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">🔬 Nghiên cứu khoa học dữ liệu kinh doanh</h3>
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                    <span x-text="showAcademic ? '🔬 Nghiên cứu khoa học dữ liệu kinh doanh' : '📈 Dự báo nhu cầu & Doanh số bán hàng'"></span>
+                </h3>
                 <p class="text-sm text-emerald-100 leading-relaxed max-w-4xl">
-                    Hệ thống áp dụng hai phương pháp thống kê học thuật tiêu chuẩn:
-                    <strong>Single Exponential Smoothing (San bằng mũ đơn - SES)</strong> với hệ số san bằng tự thích ứng $\alpha = 0.3$ giúp loại bỏ nhiễu và làm phẳng dao động ngắn hạn;
-                    và <strong>Hồi quy tuyến tính đơn giản (SLR)</strong> giúp phân tích xu hướng tăng trưởng dài hạn của thị trường vật tư nông nghiệp miền Tây.
+                    <template x-if="showAcademic">
+                        <span>Hệ thống áp dụng hai phương pháp thống kê học thuật tiêu chuẩn:
+                        <strong>Single Exponential Smoothing (San bằng mũ đơn - SES)</strong> với hệ số san bằng tự thích ứng &alpha; = 0.3 giúp loại bỏ nhiễu ngắn hạn;
+                        và <strong>Hồi quy tuyến tính đơn giản (SLR)</strong> giúp phân tích xu hướng tăng trưởng dài hạn của thị trường.</span>
+                    </template>
+                    <template x-if="!showAcademic">
+                        <span>Phân tích dữ liệu doanh thu thực tế quá khứ để dự báo trước sức mua vật tư nông nghiệp của bà con nông dân trong 3 tháng tiếp theo, giúp đại lý chuẩn bị kế hoạch nhập hàng.</span>
+                    </template>
                 </p>
             </div>
 
             <!-- Grid biểu đồ và công thức -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Biểu đồ -->
-                <div class="lg:col-span-2 bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                <div :class="showAcademic ? 'lg:col-span-2' : 'lg:col-span-3'" class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
                     <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">Biểu đồ đối chiếu doanh số thực tế và dự báo tương lai</h4>
                     <div style="height: 320px; position: relative;">
                         <canvas id="forecastChart"></canvas>
@@ -50,7 +72,7 @@
                 </div>
 
                 <!-- Diễn giải công thức toán học -->
-                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col justify-between">
+                <div x-show="showAcademic" class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col justify-between">
                     <div>
                         <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">Mô hình toán học ứng dụng</h4>
                         <div class="space-y-4 text-xs text-gray-600 dark:text-gray-400">
@@ -85,10 +107,16 @@
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-semibold border-b border-gray-100 dark:border-gray-800">
-                                <th class="p-4">Kỳ phân tích / Dự báo</th>
-                                <th class="p-4">Doanh số Thực tế ($Y_t$)</th>
-                                <th class="p-4">San bằng mũ đơn ($F_t$)</th>
-                                <th class="p-4">Đường xu hướng hồi quy</th>
+                                <th class="p-4">Tháng phân tích</th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Doanh số Thực tế ($Y_t$)' : 'Doanh thu Thực tế'"></span>
+                                </th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'San bằng mũ đơn ($F_t$)' : 'Dự đoán Ngắn hạn'"></span>
+                                </th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Đường xu hướng hồi quy' : 'Dự đoán dài hạn (Xu hướng)'"></span>
+                                </th>
                                 <th class="p-4">Trạng thái dữ liệu</th>
                             </tr>
                         </thead>
@@ -108,7 +136,7 @@
                                     </td>
                                     <td class="p-4">
                                         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-2xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
-                                            <span class="h-1.5 w-1.5 rounded-circle bg-gray-400"></span> Dữ liệu lịch sử
+                                            <span class="h-1.5 w-1.5 rounded-circle bg-gray-400"></span> Số liệu lịch sử
                                         </span>
                                     </td>
                                 </tr>
@@ -127,7 +155,7 @@
                                     </td>
                                     <td class="p-4">
                                         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-2xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                                            <span class="h-1.5 w-1.5 rounded-circle bg-emerald-500 animate-pulse"></span> Dự báo tương lai
+                                            <span class="h-1.5 w-1.5 rounded-circle bg-emerald-500 animate-pulse"></span> Dự đoán tương lai
                                         </span>
                                     </td>
                                 </tr>
@@ -142,13 +170,20 @@
         <div x-show="activeTab === 'rfm'" class="space-y-6" x-transition>
             <!-- Tóm tắt RFM -->
             <div class="bg-gradient-to-r from-teal-800 to-indigo-800 text-white rounded-xl p-6 shadow-md">
-                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">📊 Mô hình phân khúc khách hàng RFM (Recency - Frequency - Monetary)</h3>
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                    <span x-text="showAcademic ? '📊 Mô hình phân khúc khách hàng RFM (Recency - Frequency - Monetary)' : '👥 Phân loại nhóm khách hàng mua sắm'"></span>
+                </h3>
                 <p class="text-sm text-teal-100 leading-relaxed max-w-4xl">
-                    RFM là mô hình khoa học dữ liệu kinh doanh được chấp nhận rộng rãi để định vị khách hàng dựa trên 3 hành vi giao dịch chính:
-                    <strong>Recency (Độ gần đây)</strong> - Số ngày kể từ đơn hàng cuối cùng;
-                    <strong>Frequency (Tần suất)</strong> - Tổng số đơn đặt hàng;
-                    và <strong>Monetary (Giá trị tiền)</strong> - Tổng doanh thu đóng góp. 
-                    Thuật toán tự động chấm điểm mỗi chiều từ 1-5 và phân bổ khách hàng vào các nhóm hành vi cụ thể để đại lý ra quyết định khuyến mãi tối ưu.
+                    <template x-if="showAcademic">
+                        <span>RFM là mô hình khoa học dữ liệu kinh doanh để định vị khách hàng dựa trên 3 hành vi giao dịch chính:
+                        <strong>Recency (Độ gần đây)</strong> - Số ngày kể từ đơn hàng cuối cùng;
+                        <strong>Frequency (Tần suất)</strong> - Tổng số đơn đặt hàng;
+                        và <strong>Monetary (Giá trị tiền)</strong> - Tổng doanh thu đóng góp. 
+                        Thuật toán tự động chấm điểm mỗi chiều từ 1-5 và phân bổ khách hàng vào các nhóm hành vi cụ thể.</span>
+                    </template>
+                    <template x-if="!showAcademic">
+                        <span>Tự động phân nhóm người mua hàng dựa trên lịch sử giao dịch gần đây, số lượng đơn hàng đã đặt và tổng số tiền đã mua để chủ đại lý đưa ra các chương trình khuyến mãi và chăm sóc phù hợp.</span>
+                    </template>
                 </p>
             </div>
 
@@ -164,7 +199,7 @@
                         </div>
                         <div class="mt-4 pt-2 border-t border-gray-50 dark:border-gray-800">
                             <span class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $seg['count'] }}</span>
-                            <span class="text-2xs text-gray-400">khách hàng</span>
+                            <span class="text-2xs text-gray-400">thành viên</span>
                         </div>
                     </div>
                 @endforeach
@@ -173,7 +208,7 @@
             <!-- Chi tiết phân khúc khách hàng -->
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
-                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200">Danh sách xếp hạng phân khúc khách hàng động</h4>
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200">Danh sách phân nhóm khách hàng chi tiết</h4>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
@@ -181,11 +216,19 @@
                             <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-semibold border-b border-gray-100 dark:border-gray-800">
                                 <th class="p-4">Khách hàng</th>
                                 <th class="p-4">Số điện thoại</th>
-                                <th class="p-4">Giao dịch cuối (R)</th>
-                                <th class="p-4">Số đơn mua (F)</th>
-                                <th class="p-4">Tổng chi tiêu (M)</th>
-                                <th class="p-4">Điểm hành vi (R-F-M)</th>
-                                <th class="p-4">Phân khúc</th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Giao dịch cuối (R)' : 'Số ngày chưa mua lại'"></span>
+                                </th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Số đơn mua (F)' : 'Tổng đơn đã mua'"></span>
+                                </th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Tổng chi tiêu (M)' : 'Tổng tiền đã mua'"></span>
+                                </th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Điểm hành vi (R-F-M)' : 'Điểm xếp hạng hành vi'"></span>
+                                </th>
+                                <th class="p-4">Phân loại nhóm</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300">
@@ -193,8 +236,10 @@
                                 <tr>
                                     <td class="p-4 font-bold">{{ $cust['name'] }}<br><span class="text-3xs text-gray-400">{{ $cust['email'] }}</span></td>
                                     <td class="p-4 text-gray-600 dark:text-gray-400">{{ $cust['phone'] }}</td>
-                                    <td class="p-4 text-gray-600 dark:text-gray-400">{{ $cust['recency'] }}</td>
-                                    <td class="p-4 text-gray-600 dark:text-gray-400">{{ $cust['frequency'] }}</td>
+                                    <td class="p-4 text-gray-600 dark:text-gray-400">
+                                        <span x-text="showAcademic ? '{{ $cust['recency'] }} ngày trước' : '{{ $cust['recency'] }} ngày'"></span>
+                                    </td>
+                                    <td class="p-4 text-gray-600 dark:text-gray-400">{{ $cust['frequency'] }} đơn</td>
                                     <td class="p-4 font-semibold text-gray-800 dark:text-gray-200">{{ $cust['monetary'] }}</td>
                                     <td class="p-4 font-mono font-bold text-blue-600 dark:text-blue-400">{{ $cust['score'] }}</td>
                                     <td class="p-4">
@@ -214,15 +259,22 @@
         <div x-show="activeTab === 'inventory'" class="space-y-6" x-transition>
             <!-- Tóm tắt ROP -->
             <div class="bg-gradient-to-r from-sky-800 to-cyan-700 text-white rounded-xl p-6 shadow-md">
-                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">📦 Chuỗi cung ứng thông minh: Safety Stock & Reorder Point (ROP)</h3>
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                    <span x-text="showAcademic ? '📦 Chuỗi cung ứng thông minh: Safety Stock & Reorder Point (ROP)' : '📦 Cảnh báo nhập hàng & Tối ưu tồn kho'"></span>
+                </h3>
                 <p class="text-sm text-sky-100 leading-relaxed max-w-4xl">
-                    Để tránh tình trạng đứt gãy chuỗi cung ứng vật tư nông nghiệp (cháy hàng khi mùa vụ cao điểm) hoặc ứ đọng vốn (tồn kho quá nhiều), hệ thống tính toán động 
-                    <strong>Điểm tái đặt hàng (Reorder Point - ROP)</strong> và <strong>Lượng tồn kho an toàn (Safety Stock - SS)</strong> cho từng sản phẩm dựa trên doanh số bán thực tế hàng ngày trong 60 ngày gần nhất.
+                    <template x-if="showAcademic">
+                        <span>Để tránh tình trạng đứt gãy chuỗi cung ứng vật tư nông nghiệp (cháy hàng khi mùa vụ cao điểm) hoặc ứ đọng vốn (tồn kho quá nhiều), hệ thống tính toán động 
+                        <strong>Điểm tái đặt hàng (Reorder Point - ROP)</strong> và <strong>Lượng tồn kho an toàn (Safety Stock - SS)</strong> cho từng sản phẩm dựa trên doanh số bán thực tế hàng ngày trong 60 ngày gần nhất.</span>
+                    </template>
+                    <template x-if="!showAcademic">
+                        <span>Hệ thống phân tích mức độ tiêu thụ thực tế hàng ngày của từng sản phẩm để tự động tính toán và đưa ra cảnh báo thời điểm thích hợp cần liên hệ đối tác nhập thêm hàng, đảm bảo không bị gián đoạn nguồn cung.</span>
+                    </template>
                 </p>
             </div>
 
             <!-- Minh họa công thức -->
-            <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+            <div x-show="showAcademic" class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800" x-transition>
                 <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">Công thức chuỗi cung ứng ứng dụng</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-gray-600 dark:text-gray-400">
                     <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
@@ -250,11 +302,17 @@
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-semibold border-b border-gray-100 dark:border-gray-800">
-                                <th class="p-4">Tên Sản phẩm vật tư</th>
-                                <th class="p-4 text-center">Tồn thực tế</th>
-                                <th class="p-4 text-center">Tiêu thụ ngày ($d$)</th>
-                                <th class="p-4 text-center">Tồn an toàn ($SS$)</th>
-                                <th class="p-4 text-center">Điểm tái đặt hàng ($ROP$)</th>
+                                <th class="p-4">Tên sản phẩm</th>
+                                <th class="p-4 text-center">Tồn kho thực tế</th>
+                                <th class="p-4 text-center">
+                                    <span x-text="showAcademic ? 'Tiêu thụ ngày ($d$)' : 'Mức bán trung bình/ngày'"></span>
+                                </th>
+                                <th class="p-4 text-center">
+                                    <span x-text="showAcademic ? 'Tồn an toàn ($SS$)' : 'Lượng dự phòng an toàn'"></span>
+                                </th>
+                                <th class="p-4 text-center">
+                                    <span x-text="showAcademic ? 'Điểm tái đặt hàng ($ROP$)' : 'Ngưỡng cần nhập thêm hàng'"></span>
+                                </th>
                                 <th class="p-4">Tình trạng kho</th>
                                 <th class="p-4">Khuyến nghị hành động</th>
                             </tr>
@@ -285,10 +343,17 @@
         <div x-show="activeTab === 'ai'" class="space-y-6" x-transition>
             <!-- Tóm tắt AI -->
             <div class="bg-gradient-to-r from-violet-800 to-fuchsia-800 text-white rounded-xl p-6 shadow-md border-0">
-                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">🤖 Nhật ký tư vấn & Phân tích phản hồi từ Trợ lý ảo EcoBot</h3>
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                    <span x-text="showAcademic ? '🤖 Nhật ký tư vấn & Phân tích phản hồi từ Trợ lý ảo EcoBot' : '🤖 Nhật ký hỗ trợ khách hàng bằng Trợ lý AI'"></span>
+                </h3>
                 <p class="text-sm text-violet-100 leading-relaxed max-w-4xl">
-                    Hệ thống lưu trữ tự động toàn bộ hội thoại giữa nhà nông và Trợ lý AI **EcoBot**.
-                    Bằng thuật toán xử lý ngôn ngữ tự nhiên (NLP) cơ bản, hệ thống tự động bóc tách **Chủ đề thắc mắc (Topic detection)** và **Tâm thái khách hàng (Sentiment analysis)** của nông dân để giúp đại lý nắm bắt chính xác xu hướng dịch bệnh hại ngoài đồng ruộng và nhu cầu vật tư thực tế.
+                    <template x-if="showAcademic">
+                        <span>Hệ thống lưu trữ tự động toàn bộ hội thoại giữa nhà nông và Trợ lý AI **EcoBot**.
+                        Bằng thuật toán xử lý ngôn ngữ tự nhiên (NLP) cơ bản, hệ thống tự động bóc tách **Chủ đề thắc mắc (Topic detection)** và **Tâm thái khách hàng (Sentiment analysis)** của nông dân để giúp đại lý nắm bắt chính xác xu hướng dịch bệnh hại ngoài đồng ruộng và nhu cầu vật tư thực tế.</span>
+                    </template>
+                    <template x-if="!showAcademic">
+                        <span>Xem danh sách câu hỏi và thắc mắc của nông dân gửi cho Trợ lý ảo để nắm bắt kịp thời các mối bận tâm về kỹ thuật gieo trồng hay sâu hại.</span>
+                    </template>
                 </p>
             </div>
 
@@ -296,7 +361,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Thống kê chủ đề mối quan tâm -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
-                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">📈 Tần suất chủ đề nông dân quan tâm (Hỏi nhiều nhất)</h4>
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">📈 Chủ đề nông dân quan tâm hàng đầu</h4>
                     <div class="space-y-3">
                         @foreach($aiAnalytics['topic_stats'] as $topic => $count)
                             <div>
@@ -318,14 +383,16 @@
 
                 <!-- Thống kê tâm thái hội thoại -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
-                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">🎭 Phân tích tâm trạng nông dân (Sentiment Analysis)</h4>
+                    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">
+                        <span x-text="showAcademic ? '🎭 Phân tích tâm trạng nông dân (Sentiment Analysis)' : '🎭 Trạng thái phản hồi của người mua'"></span>
+                    </h4>
                     <div class="space-y-3">
                         @foreach($aiAnalytics['sentiment_stats'] as $sent => $count)
                             @php
                                 $label = match($sent) {
                                     'positive' => 'Tích cực (Hài lòng, cảm ơn)',
-                                    'negative' => 'Tiêu cực (Lo lắng, sâu bệnh tàn phá)',
-                                    default => 'Trung tính / Tư vấn kỹ thuật'
+                                    'negative' => 'Tiêu cực (Lo lắng dịch bệnh, sâu hại)',
+                                    default => 'Trung tính / Hỏi kỹ thuật'
                                 };
                                 $color = match($sent) {
                                     'positive' => 'emerald',
@@ -362,7 +429,9 @@
                                 <th class="p-4">Nội dung nông dân hỏi</th>
                                 <th class="p-4">EcoBot phản hồi (Tự gợi ý sản phẩm mua kèm)</th>
                                 <th class="p-4">Chủ đề phân loại</th>
-                                <th class="p-4">Tâm trạng</th>
+                                <th class="p-4">
+                                    <span x-text="showAcademic ? 'Tâm trạng' : 'Trạng thái cảm xúc'"></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300">
@@ -385,8 +454,8 @@
                                             };
                                             $badgeLabel = match($log['sentiment']) {
                                                 'positive' => 'Tích cực',
-                                                'negative' => 'Tiêu cực',
-                                                default => 'Trung tính'
+                                                'negative' => 'Lo lắng',
+                                                default => 'Bình thường'
                                             };
                                         @endphp
                                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-3xs font-medium bg-{{ $color }}-100 text-{{ $color }}-800 dark:bg-{{ $color }}-900/30 dark:text-{{ $color }}-300">
