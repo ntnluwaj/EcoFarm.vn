@@ -16,28 +16,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Lấy danh mục gốc (parent_id là null) phục vụ duyệt nhanh danh mục đa tầng
-        $categories = Category::whereNull('parent_id')->get();
+        // Cấu hình Cache 5 phút (300 giây) tối ưu hóa hiệu năng chịu tải thực tế
+        $categories = cache()->remember('home_categories', 300, fn() => Category::whereNull('parent_id')->get());
 
-        // Lấy 8 mặt hàng vật tư nông nghiệp nổi bật đang kinh doanh
-        $featuredProducts = Product::where('status', 1)
+        $featuredProducts = cache()->remember('home_featured_products', 300, fn() => Product::where('status', 1)
             ->latest()
             ->take(8)
-            ->get();
+            ->get());
 
-        // Lấy 3 bài viết cẩm nang kỹ thuật, lịch mùa vụ mới nhất vừa xuất bản (chỉ lấy bài đã duyệt)
-        $latestPosts = Post::whereNotNull('published_at')
+        $latestPosts = cache()->remember('home_latest_posts', 300, fn() => Post::whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->latest()
             ->take(3)
-            ->get();
+            ->get());
 
-        // Lấy danh sách banner động đang hoạt động ngoài trang chủ
-        $banners = Banner::where('is_active', true)
+        $banners = cache()->remember('home_banners', 300, fn() => Banner::where('is_active', true)
             ->orderBy('sort_order', 'asc')
-            ->get();
+            ->get());
 
-        // Trả dữ liệu về view trang chủ ngoài Frontend
         return view('frontend.index', compact('categories', 'featuredProducts', 'latestPosts', 'banners'));
     }
     

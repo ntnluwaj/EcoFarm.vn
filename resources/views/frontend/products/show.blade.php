@@ -2,6 +2,11 @@
 
 @section('title', $product->name . ' - Vật Tư Nông Nghiệp')
 
+@section('og_title', $product->name . ' - Vật Tư Nông Nghiệp EcoFarm')
+@section('og_image', is_array($product->images) && count($product->images) > 0 ? asset('storage/' . $product->images[0]) : (!empty($product->image) ? asset('storage/' . $product->image) : asset('images/logo.png')))
+@section('og_description', strip_tags(str($product->description)->limit(160)))
+@section('meta_description', strip_tags(str($product->description)->limit(160)))
+
 @section('content')
 <div class="container py-4" style="min-height: 80vh;">
     <nav aria-label="breadcrumb" class="mb-4">
