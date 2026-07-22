@@ -76,9 +76,4 @@ public function panel(Panel $panel): Panel
                 \App\Http\Middleware\CheckAdminRole::class,
             ]);
     }
-
-    public function boot(): void
-    {
-        \Filament\Pages\Dashboard::$defaultWidgets = [];
-    }
 }
