@@ -376,6 +376,7 @@
             <!-- Chat Footer Input -->
             <div class="card-footer p-2 bg-white border-top border-light-subtle">
                 <form id="chatbox-form" class="d-flex gap-1.5 align-items-center">
+                    @csrf
                     <input type="text" id="chatbox-input" class="form-control form-control-sm border-0 bg-light rounded-3 px-3 py-2" placeholder="Nhập câu hỏi của bà con..." autocomplete="off" style="font-size: 12.5px; box-shadow: none;">
                     <button type="submit" class="btn btn-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: #2e7d32; border: none;">
                         <i class="fa-solid fa-paper-plane text-white" style="font-size: 11px;"></i>
@@ -432,51 +433,72 @@
             const messagesContainer = document.getElementById('chatbox-messages');
 
             // Open / Close Toggle
-            toggleBtn.addEventListener('click', function () {
-                windowEl.classList.toggle('d-none');
-                if (!windowEl.classList.contains('d-none')) {
-                    toggleIcon.className = 'fa-solid fa-xmark text-white fs-4';
-                    unreadDot.style.display = 'none'; // Clear unread badge
-                    input.focus();
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                } else {
-                    toggleIcon.className = 'fa-solid fa-comments text-white fs-4';
-                }
-            });
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    windowEl.classList.toggle('d-none');
+                    if (!windowEl.classList.contains('d-none')) {
+                        toggleIcon.className = 'fa-solid fa-xmark text-white fs-4';
+                        unreadDot.style.display = 'none'; // Clear unread badge
+                        input.focus();
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    } else {
+                        toggleIcon.className = 'fa-solid fa-comments text-white fs-4';
+                    }
+                });
+            }
 
-            closeBtn.addEventListener('click', function () {
-                windowEl.classList.add('d-none');
-                toggleIcon.className = 'fa-solid fa-comments text-white fs-4';
-            });
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    windowEl.classList.add('d-none');
+                    toggleIcon.className = 'fa-solid fa-comments text-white fs-4';
+                });
+            }
 
             // Handle Send Message
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const text = input.value.trim();
-                if (!text) return;
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const text = input.value.trim();
+                    if (!text) return;
 
-                // Add User Message
-                addMessage(text, 'user-msg');
-                input.value = '';
+                    // Add User Message
+                    addMessage(text, 'user-msg');
+                    input.value = '';
 
-                // Typing indicator
-                const typingId = addTypingIndicator();
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-                // Bot Response Simulation
-                setTimeout(function () {
-                    removeTypingIndicator(typingId);
-                    const botReply = getBotResponse(text);
-                    addMessage(botReply, 'bot-msg');
+                    // Typing indicator
+                    const typingId = addTypingIndicator();
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 1000);
-            });
+
+                    // Send AJAX request to AI chat API
+                    fetch('/api/ai/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        },
+                        body: JSON.stringify({ message: text })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        removeTypingIndicator(typingId);
+                        addMessage(data.response, 'bot-msg');
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    })
+                    .catch(err => {
+                        removeTypingIndicator(typingId);
+                        addMessage("Rất tiếc, đã có lỗi đường truyền xảy ra. Bà con vui lòng thử lại sau ít phút!", 'bot-msg text-danger');
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    });
+                });
+            }
 
             function addMessage(text, className) {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = className;
                 // Parse simple markdown-like bold text **text** to HTML strong tags
                 let htmlContent = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Convert markdown [LinkText](/url) to HTML links
+                htmlContent = htmlContent.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" class="text-success fw-bold text-decoration-underline" style="color:#2e7d32 !important; font-weight:700;">$1</a>');
                 // Replace newlines with break tags
                 htmlContent = htmlContent.replace(/\n/g, '<br>');
                 msgDiv.innerHTML = htmlContent;
@@ -497,28 +519,6 @@
                 if (indicator) {
                     indicator.remove();
                 }
-            }
-
-            function getBotResponse(input) {
-                const lowerInput = input.toLowerCase();
-
-                if (lowerInput.includes('npk') || lowerInput.includes('phân bón')) {
-                    return "EcoFarm đang có phân bón **NPK Đầu Trâu** dạng bao 10kg, 25kg, 50kg cực tốt cho việc kích rễ và nuôi trái. Bà con nên bón thúc vào giai đoạn cây chuẩn bị ra bông và nuôi trái non nhé!";
-                }
-                if (lowerInput.includes('anvil') || lowerInput.includes('bệnh') || lowerInput.includes('sâu') || lowerInput.includes('rầy') || lowerInput.includes('nấm')) {
-                    return "Để xử lý nấm hại và rỉ sắt, thuốc trừ bệnh **Anvil 5SC Syngenta** (chai 250ml, 500ml, 1L) là giải pháp tốt nhất. Liều dùng khuyên dùng: 20-30ml cho bình 16 lít nước, phun đều tán lá.";
-                }
-                if (lowerInput.includes('đơn hàng') || lowerInput.includes('mua hàng') || lowerInput.includes('giao hàng')) {
-                    return "Bà con có thể tra cứu nhanh lịch trình vận đơn ở mục **'Tra cứu đơn hàng'** trên thanh menu hoặc click vào chuông thông báo nếu đã đăng nhập. Nếu cần bốc xếp gấp, bà con gọi hotline **1900 888 999** nhé!";
-                }
-                if (lowerInput.includes('giá sỉ') || lowerInput.includes('sỉ') || lowerInput.includes('đại lý') || lowerInput.includes('chiết khấu')) {
-                    return "Chào bà con, EcoFarm áp dụng biểu giá sỉ chiết khấu lên đến **15%** cho Đại lý và Hợp tác xã mua sỉ số lượng lớn. Bà con vui lòng liên hệ hotline **1900 888 999** để gặp kỹ sư kinh tế thương lượng giá!";
-                }
-                if (lowerInput.includes('cảm ơn') || lowerInput.includes('thank')) {
-                    return "Dạ không có chi! Chúc bà con một mùa vụ trúng lớn, được mùa được giá! Cần hỗ trợ gì thêm bà con cứ hỏi nhé.";
-                }
-
-                return "EcoBot xin ghi nhận câu hỏi của bà con. Hiện tại Kỹ sư nông học của EcoFarm đang bận tư vấn ngoài ruộng. Bà con có thể gửi câu hỏi chi tiết ở mục **'Hỏi đáp kỹ thuật'** ở trang sản phẩm hoặc liên hệ hotline **1900 888 999** để nhận tư vấn trực tiếp miễn phí!";
             }
         });
     </script>
@@ -735,214 +735,6 @@
           }
       });
   </script>
-
-  <!-- ========================================== -->
-  <!-- FLOATING AI CHATBOT ECOBOT (GRADUATION BREAKTHROUGH) -->
-  <!-- ========================================== -->
-  <div class="position-fixed" style="bottom: 95px; right: 25px; z-index: 9999;">
-      <!-- Floating Button -->
-      <button id="chatbotToggle" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center position-relative" style="width: 54px; height: 54px; background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); border: none; transition: transform 0.2s;">
-          <i class="fa-solid fa-robot fs-4 text-white"></i>
-          <!-- Pulse ring -->
-          <span class="position-absolute top-0 start-100 translate-middle p-1.5 bg-danger border border-light rounded-circle" style="width: 10px; height: 10px;"></span>
-      </button>
-
-      <!-- Chat Window -->
-      <div id="chatbotWindow" class="card shadow-2xl border-0 rounded-4 d-none position-absolute" style="bottom: 70px; right: 0; width: 340px; height: 450px; overflow: hidden; background: #fff; font-size: 13px;">
-          <!-- Header -->
-          <div class="card-header text-white d-flex align-items-center justify-content-between py-2.5 px-3" style="background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); border: none;">
-              <div class="d-flex align-items-center gap-2">
-                  <div class="bg-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-                      <i class="fa-solid fa-robot text-success fs-5"></i>
-                  </div>
-                  <div>
-                      <h6 class="m-0 fw-bold text-xs" style="color: #fff !important; font-size: 13px;">EcoBot - Trợ lý Nông học AI</h6>
-                      <small class="text-white-50 text-3xs" style="font-size: 10px;"><span class="d-inline-block rounded-circle bg-success me-1 animate-pulse" style="width: 6px; height: 6px;"></span>Kỹ sư ảo đang trực tuyến</small>
-                  </div>
-              </div>
-              <button id="chatbotClose" class="btn-close btn-close-white" style="font-size: 11px;"></button>
-          </div>
-
-          <!-- Body / Messages -->
-          <div id="chatbotBody" class="card-body p-3 overflow-y-auto d-flex flex-column gap-2" style="height: calc(100% - 110px); background-color: #f7f9f7;">
-              <!-- Bot message -->
-              <div class="d-flex align-items-start gap-2">
-                  <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mt-1" style="width: 24px; height: 24px; min-width: 24px; background-color: #2e7d32 !important;">
-                      <i class="fa-solid fa-robot" style="font-size: 10px;"></i>
-                  </div>
-                  <div class="bg-white p-2.5 rounded-3 shadow-sm text-dark max-w-75 leading-relaxed">
-                      Dạ chào bà con! Tôi là <strong>EcoBot</strong>, trợ lý AI tư vấn kỹ thuật nông học của EcoFarm. Bà con cần hỗ trợ gì về kỹ thuật trồng lúa, sầu riêng hay xử lý sâu bệnh hại ạ?
-                  </div>
-              </div>
-
-              <!-- Quick reply chips -->
-              <div class="d-flex flex-wrap gap-1.5 mt-2">
-                  <button class="btn btn-outline-success btn-xs chatbot-chip rounded-pill bg-white text-3xs px-2.5 py-1">Trị rỉ sắt sầu riêng</button>
-                  <button class="btn btn-outline-success btn-xs chatbot-chip rounded-pill bg-white text-3xs px-2.5 py-1">Cách bón NPK Đầu Trâu</button>
-                  <button class="btn btn-outline-success btn-xs chatbot-chip rounded-pill bg-white text-3xs px-2.5 py-1">Diệt sâu hại lúa</button>
-              </div>
-          </div>
-
-          <!-- Input Footer -->
-          <div class="card-footer bg-white border-top p-2">
-              <form id="chatbotForm" class="d-flex align-items-center gap-1.5 m-0">
-                  @csrf
-                  <input id="chatbotInput" type="text" class="form-control form-control-sm border-0 bg-light rounded-pill px-3" placeholder="Nhập câu hỏi nông học..." autocomplete="off" style="font-size: 12px; outline: none; box-shadow: none;">
-                  <button type="submit" class="btn btn-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; min-width: 32px; border: none; background: #2e7d32;">
-                      <i class="fa-solid fa-paper-plane text-white" style="font-size: 11px;"></i>
-                  </button>
-              </form>
-          </div>
-      </div>
-  </div>
-
-  <style>
-      .chatbot-chip {
-          border-color: #a3d9a5;
-          color: #2e7d32;
-          font-weight: 500;
-          transition: all 0.2s;
-          font-size: 10px;
-      }
-      .chatbot-chip:hover {
-          background-color: #2e7d32 !important;
-          color: #fff !important;
-          border-color: #2e7d32;
-      }
-      #chatbotBody::-webkit-scrollbar {
-          width: 4px;
-      }
-      #chatbotBody::-webkit-scrollbar-thumb {
-          background-color: rgba(0,0,0,0.1);
-          border-radius: 4px;
-      }
-      #chatbotToggle:hover {
-          transform: scale(1.08);
-      }
-  </style>
-
-  <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const chatbotToggle = document.getElementById('chatbotToggle');
-          const chatbotWindow = document.getElementById('chatbotWindow');
-          const chatbotClose = document.getElementById('chatbotClose');
-          const chatbotForm = document.getElementById('chatbotForm');
-          const chatbotInput = document.getElementById('chatbotInput');
-          const chatbotBody = document.getElementById('chatbotBody');
-
-          if (chatbotToggle) {
-              chatbotToggle.addEventListener('click', function () {
-                  chatbotWindow.classList.toggle('d-none');
-                  chatbotBody.scrollTop = chatbotBody.scrollHeight;
-              });
-          }
-
-          if (chatbotClose) {
-              chatbotClose.addEventListener('click', function () {
-                  chatbotWindow.classList.add('d-none');
-              });
-          }
-
-          // Xử lý Quick Chips
-          document.querySelectorAll('.chatbot-chip').forEach(chip => {
-              chip.addEventListener('click', function () {
-                  const text = this.innerText;
-                  sendMessage(text);
-              });
-          });
-
-          if (chatbotForm) {
-              chatbotForm.addEventListener('submit', function (e) {
-                  e.preventDefault();
-                  const text = chatbotInput.value.trim();
-                  if (text === '') return;
-                  chatbotInput.value = '';
-                  sendMessage(text);
-              });
-          }
-
-          function parseMarkdownLinks(text) {
-              return text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" class="text-success fw-bold text-decoration-underline" style="color:#2e7d32 !important; font-weight:700;">$1</a>');
-          }
-
-          function sendMessage(text) {
-              // 1. Render tin nhắn của User
-              const userMsgHtml = `
-                  <div class="d-flex align-items-start justify-content-end gap-2 w-100">
-                      <div class="bg-success text-white p-2.5 rounded-3 shadow-sm max-w-75 leading-relaxed" style="background-color:#2e7d32 !important; color:#fff !important;">
-                          ${text}
-                      </div>
-                  </div>
-              `;
-              chatbotBody.insertAdjacentHTML('beforeend', userMsgHtml);
-              chatbotBody.scrollTop = chatbotBody.scrollHeight;
-
-              // 2. Render typing indicator
-              const typingId = 'typing-' + Date.now();
-              const typingHtml = `
-                  <div id="${typingId}" class="d-flex align-items-start gap-2 w-100">
-                      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mt-1" style="width: 24px; height: 24px; min-width: 24px; background-color:#2e7d32 !important;">
-                          <i class="fa-solid fa-robot" style="font-size: 10px;"></i>
-                      </div>
-                      <div class="bg-white p-2.5 rounded-3 shadow-sm text-muted max-w-75 italic" style="font-size: 11px;">
-                          <span class="spinner-grow spinner-grow-sm text-success" role="status" style="width:8px; height:8px;"></span> EcoBot đang suy nghĩ...
-                      </div>
-                  </div>
-              `;
-              chatbotBody.insertAdjacentHTML('beforeend', typingHtml);
-              chatbotBody.scrollTop = chatbotBody.scrollHeight;
-
-              // 3. Gửi Ajax request lên server
-              fetch('/api/ai/chat', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                  },
-                  body: JSON.stringify({ message: text })
-              })
-              .then(res => res.json())
-              .then(data => {
-                  // Xóa typing indicator
-                  const typingEl = document.getElementById(typingId);
-                  if (typingEl) typingEl.remove();
-
-                  // Render tin nhắn trả lời của Bot
-                  const parsedMsg = parseMarkdownLinks(data.response);
-                  const botMsgHtml = `
-                      <div class="d-flex align-items-start gap-2 w-100">
-                          <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mt-1" style="width: 24px; height: 24px; min-width: 24px; background-color:#2e7d32 !important;">
-                              <i class="fa-solid fa-robot" style="font-size: 10px;"></i>
-                          </div>
-                          <div class="bg-white p-2.5 rounded-3 shadow-sm text-dark max-w-75 leading-relaxed">
-                              ${parsedMsg}
-                          </div>
-                      </div>
-                  `;
-                  chatbotBody.insertAdjacentHTML('beforeend', botMsgHtml);
-                  chatbotBody.scrollTop = chatbotBody.scrollHeight;
-              })
-              .catch(err => {
-                  const typingEl = document.getElementById(typingId);
-                  if (typingEl) typingEl.remove();
-                  
-                  const errorMsgHtml = `
-                      <div class="d-flex align-items-start gap-2 w-100">
-                          <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mt-1" style="width: 24px; height: 24px; min-width: 24px; background-color:#2e7d32 !important;">
-                              <i class="fa-solid fa-robot" style="font-size: 10px;"></i>
-                          </div>
-                          <div class="bg-white p-2.5 rounded-3 shadow-sm text-danger max-w-75 italic">
-                              Rất tiếc, đã có lỗi đường truyền xảy ra. Bà con vui lòng thử lại sau ít phút!
-                          </div>
-                      </div>
-                  `;
-                  chatbotBody.insertAdjacentHTML('beforeend', errorMsgHtml);
-                  chatbotBody.scrollTop = chatbotBody.scrollHeight;
-              });
-          }
-      });
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
