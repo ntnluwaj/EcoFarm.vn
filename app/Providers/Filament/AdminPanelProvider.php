@@ -42,7 +42,6 @@ public function panel(Panel $panel): Panel
             ->brandLogoHeight('5.5rem')
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
-                'Hệ trợ giúp quyết định (DSS)',
                 'Danh mục & Sản phẩm',
                 'Vận hành & Kho bãi',
                 'Khách hàng & Tư vấn',
