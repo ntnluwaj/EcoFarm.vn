@@ -26,7 +26,7 @@
 
             <div class="card border-0 shadow-sm rounded-4 text-start bg-white p-4 mb-4">
                 <h5 class="fw-bold text-dark mb-3 pb-2 border-bottom">
-                    <i class="fa-solid fa-receipt text-success me-2"></i>Chi tiết vận đơn #{ $order->id }
+                    <i class="fa-solid fa-receipt text-success me-2"></i>Chi tiết vận đơn #{{ $order->id }}
                 </h5>
                 
                 <div class="d-flex flex-column gap-2.5" style="font-size: 14px;">
