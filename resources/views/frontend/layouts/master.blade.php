@@ -109,6 +109,9 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold {{ request()->routeIs('orders.track') ? 'active' : '' }}" href="{{ route('orders.track') }}">Tra cứu đơn hàng</a>
+                    </li>
                 </ul>
                 
                 <form class="d-flex me-2" action="{{ route('products.index') }}" method="GET">
@@ -311,6 +314,7 @@
                         <li><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none small">Danh mục vật tư</a></li>
                         <li><a href="{{ route('posts.index') }}" class="text-white-50 text-decoration-none small">Bài viết kỹ thuật canh tác</a></li>
                         <li><a href="{{ route('contact.index') }}" class="text-white-50 text-decoration-none small">Liên hệ tư vấn</a></li>
+                        <li><a href="{{ route('orders.track') }}" class="text-white-50 text-decoration-none small">Tra cứu đơn hàng</a></li>
                         @if(auth()->check() && auth()->user()->role === 'admin')
                             <li class="pt-2"><a href="{{ route('sandbox.index') }}" class="text-warning text-decoration-none small fw-bold"><i class="fa-solid fa-flask me-1"></i>Trang Giả lập Webhook (Sandbox)</a></li>
                         @endif

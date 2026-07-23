@@ -222,16 +222,20 @@ class CartController extends Controller
         $orderId = $request->input('order_id');
         $phone   = $request->input('phone');
 
+        // Nếu thiếu thông tin đầu vào, hiển thị trang điền thông tin tra cứu
         if (!$orderId || !$phone) {
-            return redirect()->route('home')->with('error', 'Vui lòng nhập đầy đủ mã đơn hàng và số điện thoại giao nhận!');
+            return view('frontend.orders.track_form');
         }
 
         $order = Order::where('id', $orderId)
             ->where('customer_phone', $phone)
             ->first();
 
+        // Nếu có thông tin đầu vào nhưng không tìm thấy đơn, hiển thị form kèm thông báo lỗi
         if (!$order) {
-            return redirect()->route('home')->with('error', 'Không tìm thấy đơn hàng trùng khớp thông tin trên hệ thống!');
+            return view('frontend.orders.track_form', [
+                'error' => 'Không tìm thấy đơn hàng trùng khớp thông tin trên hệ thống!'
+            ]);
         }
 
         $logs = $order->orderLogs()->orderBy('id', 'asc')->get();
