@@ -222,19 +222,40 @@ class CartController extends Controller
         $orderId = $request->input('order_id');
         $phone   = $request->input('phone');
 
-        // Nếu thiếu thông tin đầu vào, hiển thị trang điền thông tin tra cứu
-        if (!$orderId || !$phone) {
+        // Trường hợp 1: Không nhập gì cả
+        if (!$orderId && !$phone) {
             return view('frontend.orders.track_form');
         }
 
+        // Trường hợp 2: Chỉ nhập số điện thoại (Khi quên mã đơn)
+        if ($phone && !$orderId) {
+            $orders = Order::where('customer_phone', $phone)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            if ($orders->isEmpty()) {
+                return view('frontend.orders.track_form', [
+                    'error' => 'Không tìm thấy bất kỳ đơn hàng nào liên kết với số điện thoại này!',
+                    'phone' => $phone
+                ]);
+            }
+
+            return view('frontend.orders.track_form', [
+                'foundOrders' => $orders,
+                'phone' => $phone
+            ]);
+        }
+
+        // Trường hợp 3: Có nhập đầy đủ mã đơn và số điện thoại
         $order = Order::where('id', $orderId)
             ->where('customer_phone', $phone)
             ->first();
 
-        // Nếu có thông tin đầu vào nhưng không tìm thấy đơn, hiển thị form kèm thông báo lỗi
+        // Nếu không tìm thấy đơn, hiển thị form kèm thông báo lỗi
         if (!$order) {
             return view('frontend.orders.track_form', [
-                'error' => 'Không tìm thấy đơn hàng trùng khớp thông tin trên hệ thống!'
+                'error' => 'Không tìm thấy đơn hàng trùng khớp thông tin trên hệ thống!',
+                'phone' => $phone
             ]);
         }
 
