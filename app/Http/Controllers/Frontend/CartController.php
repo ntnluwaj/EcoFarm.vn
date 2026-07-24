@@ -219,8 +219,14 @@ class CartController extends Controller
      */
     public function trackOrder(Request $request)
     {
-        $orderId = $request->input('order_id');
+        $orderIdInput = $request->input('order_id');
         $phone   = $request->input('phone');
+
+        $orderId = null;
+        if ($orderIdInput) {
+            // Chuẩn hóa mã đơn hàng: loại bỏ tiền tố ECF/ecf và ép kiểu nguyên
+            $orderId = (int) preg_replace('/^[Ee][Cc][Ff]/', '', trim($orderIdInput));
+        }
 
         // Trường hợp 1: Không nhập gì cả
         if (!$orderId && !$phone) {

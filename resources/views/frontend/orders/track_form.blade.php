@@ -35,7 +35,7 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-solid fa-hashtag"></i></span>
-                    <input type="number" name="order_id" id="order_id" class="form-control bg-light border-start-0 focus-ring" placeholder="Nhập mã số đơn (Ví dụ: 15)..." value="{{ request('order_id') }}">
+                    <input type="text" name="order_id" id="order_id" class="form-control bg-light border-start-0 focus-ring" placeholder="Nhập mã số đơn (Ví dụ: ECF000015)..." value="{{ request('order_id') }}">
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
                     @foreach($foundOrders as $o)
                         <a href="{{ route('orders.track', ['order_id' => $o->id, 'phone' => $o->customer_phone]) }}" class="list-group-item list-group-item-action p-3 d-flex justify-content-between align-items-center hover-light">
                             <div>
-                                <span class="fw-bold text-success">Đơn hàng #{{ $o->id }}</span>
+                                <span class="fw-bold text-success">Đơn hàng ECF{{ str_pad($o->id, 6, '0', STR_PAD_LEFT) }}</span>
                                 <div class="text-muted mt-1" style="font-size: 11.5px;">
                                     <i class="fa-solid fa-calendar-days me-1"></i>{{ $o->created_at->format('H:i d/m/Y') }}
                                     <span class="mx-1">|</span>

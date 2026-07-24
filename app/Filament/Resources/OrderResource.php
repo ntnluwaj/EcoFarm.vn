@@ -124,7 +124,10 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable()->label('Mã đơn'),
+                TextColumn::make('id')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => 'ECF' . str_pad($state, 6, '0', STR_PAD_LEFT))
+                    ->label('Mã đơn'),
                 TextColumn::make('customer_name')->searchable()->wrap()->label('Người nhận'),
                 TextColumn::make('customer_phone')->searchable()->label('Số điện thoại'),
                 
@@ -207,6 +210,11 @@ class OrderResource extends Resource
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return auth()->user()?->role === 'admin';
+    }
+
+    public static function getGlobalSearchResultTitle(\Illuminate\Database\Eloquent\Model $record): string
+    {
+        return 'ECF' . str_pad($record->id, 6, '0', STR_PAD_LEFT) . ' - ' . $record->customer_name;
     }
 
     public static function getPages(): array

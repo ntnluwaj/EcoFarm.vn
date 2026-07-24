@@ -26,7 +26,7 @@
 
             <div class="card border-0 shadow-sm rounded-4 text-start bg-white p-4 mb-4">
                 <h5 class="fw-bold text-dark mb-3 pb-2 border-bottom">
-                    <i class="fa-solid fa-receipt text-success me-2"></i>Chi tiết vận đơn #{{ $order->id }}
+                    <i class="fa-solid fa-receipt text-success me-2"></i>Chi tiết vận đơn ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
                 </h5>
                 
                 <div class="d-flex flex-column gap-2.5" style="font-size: 14px;">
@@ -67,7 +67,7 @@
                         $bankId = 'vcb';
                         $accountNo = '1031309340';
                         $accountName = rawurlencode('NGUYEN THI NGOC LUA');
-                        $memo = rawurlencode('EcoFarm DH' . $order->id);
+                        $memo = rawurlencode('ECF' . str_pad($order->id, 6, '0', STR_PAD_LEFT));
                         $amount = (int) $order->total_amount;
                         $qrUrl = "https://img.vietqr.io/image/{$bankId}-{$accountNo}-compact2.jpg?amount={$amount}&addInfo={$memo}&accountName={$accountName}";
                     @endphp
@@ -95,7 +95,7 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <span class="text-muted">Nội dung chuyển khoản:</span>
-                            <strong class="text-primary">EcoFarm DH{{ $order->id }}</strong>
+                            <strong class="text-primary">ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong>
                         </div>
                     </div>
                 </div>

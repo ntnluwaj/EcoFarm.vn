@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Tiến Độ Đơn Hàng #' . $order->id)
+@section('title', 'Tiến Độ Đơn Hàng ECF' . str_pad($order->id, 6, '0', STR_PAD_LEFT))
 
 @section('content')
 <div class="container py-4" style="max-width: 850px; min-height: 80vh;">
@@ -12,7 +12,7 @@
                     <i class="fa-solid fa-route me-2"></i>Chi tiết tiến trình vận đơn nông nghiệp
                 </h4>
                 <p class="text-muted small mb-0">
-                    Mã đơn hệ thống: <span class="text-dark fw-bold">#{{ $order->id }}</span> | Ngày chốt đơn: {{ \Carbon\Carbon::parse($order->created_at)->format('H:i d/m/Y') }}
+                    Mã đơn hệ thống: <span class="text-dark fw-bold">ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</span> | Ngày chốt đơn: {{ \Carbon\Carbon::parse($order->created_at)->format('H:i d/m/Y') }}
                 </p>
             </div>
             <span class="badge p-2.5 px-3 text-uppercase font-weight-bold rounded-3 shadow-sm text-xs

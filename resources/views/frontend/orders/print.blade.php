@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Phiếu Xuất Kho - Đơn hàng #{{ $order->id }}</title>
+    <title>Phiếu Xuất Kho - Đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</title>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
@@ -127,7 +127,7 @@
         <p style="margin: 3px 0 0 0; font-size: 11px;">Hotline: 1900 888 999 - Email: contact@ecofarm.vn</p>
         <h2 class="doc-title">PHIẾU XUẤT KHO & GIAO HÀNG VẬT TƯ</h2>
         <div class="barcode">|||| | | ||| |||| | |</div>
-        <p style="margin: 0; font-size: 11px;">Mã vận đơn: DH{{ str_pad($order->id, 8, '0', STR_PAD_LEFT) }} | Ngày lập: {{ date('d/m/Y H:i') }}</p>
+        <p style="margin: 0; font-size: 11px;">Mã vận đơn: ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }} | Ngày lập: {{ date('d/m/Y H:i') }}</p>
     </div>
 
     @php

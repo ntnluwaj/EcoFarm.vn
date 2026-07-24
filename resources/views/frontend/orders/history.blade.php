@@ -33,7 +33,7 @@
                             <tr style="border-bottom: 1px solid #f1f4f5;">
                                 <td class="text-center py-3">
                                     <span class="badge bg-danger-subtle text-danger fw-bold px-2.5 py-1.5 rounded-3" style="font-size: 12px;">
-                                        #{{ $order->id }}
+                                        ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 
@@ -85,9 +85,9 @@
                                             <!-- Modal Hủy đơn hàng -->
                                             <div class="modal fade text-start" id="cancelOrderModal{{ $order->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
                                                 <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content rounded-4 border-0 shadow">
-                                                        <div class="modal-header bg-danger text-white py-3">
-                                                            <h6 class="modal-title fw-bold m-0"><i class="fa-solid fa-ban me-2"></i>Xác nhận hủy đơn hàng #{{ $order->id }}</h6>
+                                                    <div class="modal-content border-0 shadow-lg rounded-4">
+                                                        <div class="modal-header border-bottom border-light-subtle bg-light rounded-t-4 py-3">
+                                                            <h6 class="modal-title fw-bold m-0"><i class="fa-solid fa-ban me-2"></i>Xác nhận hủy đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
                                                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
