@@ -28,12 +28,14 @@ class ShippingWebhookController extends Controller
             ], 400);
         }
 
+        $formattedId = 'ECF' . str_pad($orderId, 6, '0', STR_PAD_LEFT);
+
         // Tìm đơn hàng trên hệ thống
         $order = Order::find($orderId);
         if (!$order) {
             return response()->json([
                 'success' => false,
-                'message' => "Không tìm thấy đơn hàng #DH{$orderId} trên hệ thống!"
+                'message' => "Không tìm thấy đơn hàng {$formattedId} trên hệ thống!"
             ], 200);
         }
 
@@ -53,7 +55,7 @@ class ShippingWebhookController extends Controller
                 $statusLabel = $status === 'shipping' ? 'Đang vận chuyển' : 'Giao hàng thành công';
                 
                 \Filament\Notifications\Notification::make()
-                    ->title("Cập nhật vận đơn #DH{$order->id} từ ĐVVC")
+                    ->title("Cập nhật vận đơn {$formattedId} từ ĐVVC")
                     ->body("Shipper báo: {$statusLabel}. Chi tiết: " . ($description ?: 'Cập nhật từ hệ thống ĐVVC.'))
                     ->icon('heroicon-o-truck')
                     ->color('info')
@@ -64,7 +66,7 @@ class ShippingWebhookController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Đã cập nhật đơn hàng #DH{$orderId} sang trạng thái {$status} thành công!"
+                'message' => "Đã cập nhật đơn hàng {$formattedId} sang trạng thái {$status} thành công!"
             ]);
         }
 

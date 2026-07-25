@@ -28,8 +28,8 @@ class PaymentWebhookController extends Controller
             ], 400);
         }
 
-        // 2. Tìm mã đơn hàng từ nội dung chuyển khoản (Định dạng: EcoFarm DH[id])
-        if (preg_match('/EcoFarm\s*DH\s*(\d+)/i', $content, $matches)) {
+        // 2. Tìm mã đơn hàng từ nội dung chuyển khoản (Định dạng: ECF[id] hoặc EcoFarm DH[id])
+        if (preg_match('/(?:EcoFarm\s*DH|ECF)\s*0*(\d+)/i', $content, $matches)) {
             $orderId = intval($matches[1]);
         } else {
             return response()->json([
@@ -38,12 +38,14 @@ class PaymentWebhookController extends Controller
             ], 200); // Trả về 200 để tránh SePay gửi lại liên tục
         }
 
+        $formattedId = 'ECF' . str_pad($orderId, 6, '0', STR_PAD_LEFT);
+
         // 3. Tìm đơn hàng trên CSDL
         $order = Order::find($orderId);
         if (!$order) {
             return response()->json([
                 'success' => false,
-                'message' => "Không tìm thấy đơn hàng #DH{$orderId} trên hệ thống!"
+                'message' => "Không tìm thấy đơn hàng {$formattedId} trên hệ thống!"
             ], 200);
         }
 
@@ -52,10 +54,11 @@ class PaymentWebhookController extends Controller
         if (abs(floatval($order->total_amount) - $amountIn) > 1000) {
             return response()->json([
                 'success' => false,
-                'message' => "Số tiền thanh toán ({$amountIn}đ) không khớp với tổng tiền đơn hàng #DH{$orderId} ({$order->total_amount}đ)!"
+                'message' => "Số tiền thanh toán ({$amountIn}đ) không khớp với tổng tiền đơn hàng {$formattedId} ({$order->total_amount}đ)!"
             ], 200);
         }
 
+        // 5. Cập nhật trạng thái đơn hàng nếu đơn đang chờ thanh toán
         // 5. Cập nhật trạng thái đơn hàng nếu đơn đang chờ thanh toán
         if ($order->payment_status !== 'paid') {
             $order->update([
@@ -69,7 +72,7 @@ class PaymentWebhookController extends Controller
                 $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
                 \Filament\Notifications\Notification::make()
                     ->title("Thanh toán tự động thành công!")
-                    ->body("Đơn hàng #DH{$order->id} vừa nhận thanh toán số tiền " . number_format($amountIn, 0, ',', '.') . "đ qua VietQR. Hệ thống đã tự động chuyển trạng thái đơn hàng sang Đang đóng gói.")
+                    ->body("Đơn hàng {$formattedId} vừa nhận thanh toán số tiền " . number_format($amountIn, 0, ',', '.') . "đ qua VietQR. Hệ thống đã tự động chuyển trạng thái đơn hàng sang Đang đóng gói.")
                     ->icon('heroicon-o-currency-dollar')
                     ->color('success')
                     ->sendToDatabase($recipients);
@@ -79,13 +82,13 @@ class PaymentWebhookController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Xác thực thanh toán đơn hàng #DH{$orderId} thành công!"
+                'message' => "Xác thực thanh toán đơn hàng {$formattedId} thành công!"
             ]);
         }
 
         return response()->json([
             'success' => true,
-            'message' => "Đơn hàng #DH{$orderId} đã được thanh toán trước đó."
+            'message' => "Đơn hàng {$formattedId} đã được thanh toán trước đó."
         ]);
     }
 }

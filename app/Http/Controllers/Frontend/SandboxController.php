@@ -45,7 +45,7 @@ class SandboxController extends Controller
                 'transactionDate' => now()->format('Y-m-d H:i:s'),
                 'amountIn' => floatval($order->total_amount),
                 'amountOut' => 0,
-                'content' => "EcoFarm DH{$order->id} thanh toan chuyen khoan",
+                'content' => 'ECF' . str_pad($order->id, 6, '0', STR_PAD_LEFT) . ' thanh toan chuyen khoan',
                 'transferType' => 'in',
                 'referenceCode' => 'FT' . rand(10000000, 99999999),
                 'subAccount' => '1029384756',
