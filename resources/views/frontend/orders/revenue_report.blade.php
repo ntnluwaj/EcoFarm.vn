@@ -114,7 +114,7 @@
     <div class="meta-info">
         <div>
             <strong>Ngày lập báo cáo:</strong> {{ date('d/m/Y H:i:s') }}<br>
-            <strong>Người lập:</strong> Ban Quản trị EcoFarm ({{ Auth::user()->name }})
+            <strong>Người lập:</strong> Ban Quản trị EcoFarm ({{ auth()->user()->name }})
         </div>
         <div class="text-right">
             <strong>Mẫu báo cáo:</strong> BC-DT-01<br>
@@ -206,7 +206,7 @@
         <div class="signature-box">
             <p><strong>Người lập báo cáo</strong></p>
             <p class="signature-space"></p>
-            <p style="text-decoration: underline;">{{ Auth::user()->name }}</p>
+            <p style="text-decoration: underline;">{{ auth()->user()->name }}</p>
         </div>
         <div class="signature-box">
             <p><strong>Xác nhận Giám đốc kho</strong></p>
