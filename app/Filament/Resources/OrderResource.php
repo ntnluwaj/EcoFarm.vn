@@ -93,6 +93,16 @@ class OrderResource extends Resource
                             ->default(0)
                             ->label('Tổng dòng tiền hóa đơn cuối'),
 
+                        TextInput::make('coupon_code')
+                            ->disabled()
+                            ->label('Mã giảm giá đã dùng'),
+
+                        TextInput::make('discount_amount')
+                            ->numeric()
+                            ->prefix('VND')
+                            ->disabled()
+                            ->label('Số tiền chiết khấu'),
+
                         Grid::make(2)->schema([
                             Select::make('payment_method')
                                 ->options([
@@ -135,6 +145,13 @@ class OrderResource extends Resource
                     ->formatStateUsing(fn ($state) => number_format($state, 0, ',', '.') . ' VND')
                     ->sortable()
                     ->label('Tổng tiền'),
+                TextColumn::make('coupon_code')
+                    ->label('Mã KM')
+                    ->placeholder('-'),
+                TextColumn::make('discount_amount')
+                    ->money('VND')
+                    ->label('Chiết khấu')
+                    ->sortable(),
                 TextColumn::make('payment_method')->label('Hình thức'),
                 TextColumn::make('payment_status')
                     ->badge()
@@ -216,7 +233,9 @@ class OrderResource extends Resource
                                 'Số điện thoại',
                                 'Email nhận hóa đơn',
                                 'Địa chỉ giao hàng',
-                                'Tổng tiền (VND)',
+                                'Tổng tiền thanh toán (VND)',
+                                'Mã giảm giá',
+                                'Số tiền giảm giá (VND)',
                                 'Phương thức thanh toán',
                                 'Trạng thái thanh toán',
                                 'Trạng thái đơn hàng'
@@ -231,7 +250,9 @@ class OrderResource extends Resource
                                     $r->customer_email,
                                     $r->shipping_address,
                                     $r->total_amount,
-                                    strtoupper($r->payment_method),
+                                    $r->coupon_code,
+                                    $r->discount_amount,
+                                    strtoupper($r->payment_method ?? ''),
                                     $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
                                     match($r->status) {
                                         'pending' => 'Chờ duyệt',
@@ -280,7 +301,9 @@ class OrderResource extends Resource
                                     'Số điện thoại',
                                     'Email nhận hóa đơn',
                                     'Địa chỉ giao hàng',
-                                    'Tổng tiền (VND)',
+                                    'Tổng tiền thanh toán (VND)',
+                                    'Mã giảm giá',
+                                    'Số tiền giảm giá (VND)',
                                     'Phương thức thanh toán',
                                     'Trạng thái thanh toán',
                                     'Trạng thái đơn hàng'
@@ -295,7 +318,9 @@ class OrderResource extends Resource
                                         $r->customer_email,
                                         $r->shipping_address,
                                         $r->total_amount,
-                                        strtoupper($r->payment_method),
+                                        $r->coupon_code,
+                                        $r->discount_amount,
+                                        strtoupper($r->payment_method ?? ''),
                                         $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
                                         match($r->status) {
                                             'pending' => 'Chờ duyệt',

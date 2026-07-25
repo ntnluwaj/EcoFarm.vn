@@ -45,8 +45,23 @@ class CartController extends Controller
 
         $user = Auth::user();
 
+        // Kiểm tra và cập nhật voucher từ session
+        $discountAmount = 0;
+        $finalTotal = $totalAmount;
+
+        if (session()->has('applied_voucher')) {
+            $voucher = \App\Models\Voucher::where('code', session('applied_voucher.code'))->first();
+            if ($voucher && $voucher->isValidForAmount($totalAmount)) {
+                $discountAmount = $voucher->calculateDiscount($totalAmount);
+                session()->put('applied_voucher.discount', $discountAmount);
+                $finalTotal = $totalAmount - $discountAmount;
+            } else {
+                session()->forget('applied_voucher');
+            }
+        }
+
         // 4. ĐỒNG BỘ BIẾN: Khớp hoàn hảo với vòng lặp @foreach($cartItems) ngoài giao diện Checkout View
-        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'user'));
+        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'user', 'discountAmount', 'finalTotal'));
     }
 
     /**
@@ -82,6 +97,21 @@ class CartController extends Controller
             $totalAmount += $item['price'] * $item['quantity'];
         }
 
+        // Kiểm tra và áp dụng mã giảm giá thực tế để tính toán doanh số chính xác
+        $discountAmount = 0;
+        $couponCode = null;
+
+        if (session()->has('applied_voucher')) {
+            $voucher = \App\Models\Voucher::where('code', session('applied_voucher.code'))->first();
+            if ($voucher && $voucher->isValidForAmount($totalAmount)) {
+                $discountAmount = $voucher->calculateDiscount($totalAmount);
+                $couponCode = $voucher->code;
+                
+                // Tăng số lượt sử dụng voucher
+                $voucher->increment('uses');
+            }
+        }
+
         // 3. Tiến hành khởi tạo bản ghi đơn hàng mới trong bảng `orders` dưới MySQL bằng các biến đã đồng bộ
         $order = Order::create([
             'user_id'          => Auth::id(), // Sẽ lưu NULL nếu là nông dân vãng lai chưa đăng nhập tài khoản
@@ -89,11 +119,16 @@ class CartController extends Controller
             'customer_phone'   => $request->phone,
             'customer_email'   => $request->email,
             'shipping_address' => $request->address . ($request->has('vat_required') ? " [Xuất HĐ: " . $request->company_name . " - MST: " . $request->tax_code . "]" : ""),
-            'total_amount'     => $totalAmount, // Lưu trữ số tiền thực tế khách đặt mua thay vì dữ liệu mẫu
+            'total_amount'     => max(0, $totalAmount - $discountAmount),
+            'coupon_code'      => $couponCode,
+            'discount_amount'  => $discountAmount,
             'payment_method'   => strtoupper($request->payment_method), // Lưu thành dạng chữ in hoa COD, VIETQR
             'status'           => 'pending',  // Trạng thái mặc định hệ thống: Chờ xác nhận
             'payment_status'   => 'unpaid',   // Tình trạng dòng tiền mặc định: Chưa thanh toán
         ]);
+
+        // Xóa thông tin giảm giá trong session
+        session()->forget('applied_voucher');
 
         // 🌟 LƯU CHI TIẾT CÁC MẶT HÀNG ĐẶT MUA VÀO CSDL VÀ GIẢM TỒN KHO THỰC TẾ
         foreach ($cartItems as $cartKey => $item) {
@@ -422,5 +457,91 @@ class CartController extends Controller
             'completedCount',
             'cancelledCount'
         ));
+    }
+
+    /**
+     * API ÁP DỤNG MÃ GIẢM GIÁ (VOUCHER)
+     */
+    public function applyVoucher(Request $request)
+    {
+        $code = $request->input('code');
+        
+        if (empty($code)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vui lòng nhập mã giảm giá!'
+            ]);
+        }
+
+        // Tái bốc tách giỏ hàng từ Session để tính tổng tiền
+        $cartItems = session()->get('cart', []);
+        if (empty($cartItems)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Giỏ hàng của bạn đang trống!'
+            ]);
+        }
+
+        $subtotal = 0;
+        foreach ($cartItems as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+
+        // Tìm kiếm voucher
+        $voucher = \App\Models\Voucher::where('code', strtoupper($code))->first();
+
+        if (!$voucher) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mã giảm giá không hợp lệ hoặc không tồn tại!'
+            ]);
+        }
+
+        if (!$voucher->is_active) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mã giảm giá này hiện đã bị vô hiệu hóa!'
+            ]);
+        }
+
+        if ($voucher->expires_at && $voucher->expires_at->isPast()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mã giảm giá này đã hết hạn sử dụng!'
+            ]);
+        }
+
+        if ($voucher->uses >= $voucher->max_uses) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mã giảm giá này đã đạt giới hạn lượt sử dụng!'
+            ]);
+        }
+
+        if ($subtotal < $voucher->min_order_amount) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Giá trị đơn hàng chưa đạt mức tối thiểu ' . number_format($voucher->min_order_amount, 0, ',', '.') . 'đ để sử dụng mã này!'
+            ]);
+        }
+
+        // Tính toán chiết khấu
+        $discount = $voucher->calculateDiscount($subtotal);
+        
+        // Lưu thông tin vào session
+        session()->put('applied_voucher', [
+            'code' => $voucher->code,
+            'discount' => $discount
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Áp dụng mã giảm giá thành công!',
+            'code' => $voucher->code,
+            'discount_amount' => $discount,
+            'discount_amount_formatted' => number_format($discount, 0, ',', '.') . 'đ',
+            'new_total' => $subtotal - $discount,
+            'new_total_formatted' => number_format($subtotal - $discount, 0, ',', '.') . 'đ'
+        ]);
     }
 }

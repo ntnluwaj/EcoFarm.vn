@@ -38,6 +38,7 @@ Route::post('/thanh-toan/dat-hang', [CartController::class, 'storeOrder'])->name
 Route::post('/cart/add/{slug}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/api/vouchers/apply', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
 
 // 🌟 4. NGHIỆP VỤ TRA CỨU VẬN ĐƠN & LỊCH SỬ MUA HÀNG (UC-03)
 Route::get('/tra-cuu-don-hang', [CartController::class, 'trackOrder'])->name('orders.track');

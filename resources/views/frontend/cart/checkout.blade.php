@@ -158,10 +158,35 @@
                         @endforeach
                     </div>
 
+                    <div class="d-flex flex-column gap-2 mb-3 pb-3 border-bottom">
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 13px;">
+                            <span>Tạm tính:</span>
+                            <span class="fw-bold text-dark">{{ number_format($totalAmount, 0, ',', '.') }}đ</span>
+                        </div>
+                        <div id="discount-row" class="d-flex justify-content-between text-success {{ $discountAmount > 0 ? '' : 'd-none' }}" style="font-size: 13px;">
+                            <span>Chiết khấu (<span id="applied-code" class="fw-bold">{{ session('applied_voucher.code') }}</span>):</span>
+                            <span class="fw-bold" id="discount-val">-{{ number_format($discountAmount, 0, ',', '.') }}đ</span>
+                        </div>
+                    </div>
+
+                    <!-- Ô nhập mã giảm giá -->
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-semibold mb-1" style="font-size: 12px; display: flex; align-items: center;">
+                            <i class="fa-solid fa-ticket text-success me-1"></i> Mã giảm giá / Voucher
+                        </label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" id="voucher-code" class="form-control" placeholder="Mã giảm giá (ví dụ: ECF10)" value="{{ session('applied_voucher.code') }}" {{ session()->has('applied_voucher') ? 'disabled' : '' }} style="text-transform: uppercase;">
+                            <button class="btn {{ session()->has('applied_voucher') ? 'btn-danger' : 'btn-success' }}" type="button" id="btn-apply-voucher">
+                                {{ session()->has('applied_voucher') ? 'Hủy' : 'Áp dụng' }}
+                            </button>
+                        </div>
+                        <div id="voucher-message" class="form-text small mt-1 d-none"></div>
+                    </div>
+
                     <div class="p-3 bg-success-subtle rounded-3 border border-success-subtle mb-2">
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-success-emphasis" style="font-size: 14px;">Tổng tiền thanh toán:</span>
-                            <span class="text-danger fw-bold fs-4">{{ number_format($total, 0, ',', '.') }} VND</span>
+                            <span id="final-total" class="text-danger fw-bold fs-4">{{ number_format($finalTotal, 0, ',', '.') }} VND</span>
                         </div>
                     </div>
                     <span class="text-muted d-block text-center" style="font-size: 11px;">
@@ -303,6 +328,91 @@
                 suggestionsBox.style.display = 'none';
             }
         });
+    });
+
+    // 🌟 XỬ LÝ ÁP DỤNG MÃ GIẢM GIÁ (VOUCHER) BẰNG AJAX
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnApply = document.getElementById('btn-apply-voucher');
+        const voucherInput = document.getElementById('voucher-code');
+        const voucherMsg = document.getElementById('voucher-message');
+        const discountRow = document.getElementById('discount-row');
+        const appliedCode = document.getElementById('applied-code');
+        const discountVal = document.getElementById('discount-val');
+        const finalTotal = document.getElementById('final-total');
+
+        if (btnApply) {
+            btnApply.addEventListener('click', function() {
+                const code = voucherInput.value.trim();
+
+                // Nếu đang ở trạng thái hủy mã (nút có class btn-danger)
+                if (btnApply.classList.contains('btn-danger')) {
+                    applyVoucherCode('');
+                    return;
+                }
+
+                if (!code) {
+                    showVoucherMessage('Vui lòng nhập mã giảm giá!', 'text-danger');
+                    return;
+                }
+
+                applyVoucherCode(code);
+            });
+        }
+
+        function showVoucherMessage(msg, className) {
+            voucherMsg.textContent = msg;
+            voucherMsg.className = 'form-text small mt-1 ' + className;
+            voucherMsg.classList.remove('d-none');
+        }
+
+        function applyVoucherCode(code) {
+            btnApply.disabled = true;
+            
+            const csrfToken = document.querySelector('input[name="_token"]').value;
+
+            fetch('{{ route("cart.applyVoucher") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btnApply.disabled = false;
+                if (data.success) {
+                    if (code === '') {
+                        // Hủy thành công
+                        voucherInput.value = '';
+                        voucherInput.disabled = false;
+                        btnApply.textContent = 'Áp dụng';
+                        btnApply.className = 'btn btn-success btn-sm';
+                        discountRow.classList.add('d-none');
+                        finalTotal.textContent = data.new_total_formatted + ' VND';
+                        showVoucherMessage('Đã hủy áp dụng mã giảm giá.', 'text-muted');
+                    } else {
+                        // Áp dụng thành công
+                        voucherInput.disabled = true;
+                        btnApply.textContent = 'Hủy';
+                        btnApply.className = 'btn btn-danger btn-sm';
+                        appliedCode.textContent = data.code;
+                        discountVal.textContent = '-' + data.discount_amount_formatted;
+                        discountRow.classList.remove('d-none');
+                        finalTotal.textContent = data.new_total_formatted + ' VND';
+                        showVoucherMessage(data.message, 'text-success');
+                    }
+                } else {
+                    showVoucherMessage(data.message, 'text-danger');
+                }
+            })
+            .catch(err => {
+                btnApply.disabled = false;
+                console.error(err);
+                showVoucherMessage('Có lỗi kết nối hệ thống, vui lòng thử lại!', 'text-danger');
+            });
+        }
     });
 
     window.useSavedAddress = function() {
