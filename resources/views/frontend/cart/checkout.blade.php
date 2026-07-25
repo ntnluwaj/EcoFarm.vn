@@ -181,6 +181,30 @@
                             </button>
                         </div>
                         <div id="voucher-message" class="form-text small mt-1 d-none"></div>
+
+                        @if(isset($vouchers) && count($vouchers) > 0)
+                            <div class="mt-2">
+                                <a class="text-success text-decoration-none fw-semibold" data-bs-toggle="collapse" href="#available-vouchers" role="button" aria-expanded="false" aria-controls="available-vouchers" style="font-size: 11px; display: inline-flex; align-items: center;">
+                                    <i class="fa-solid fa-gift me-1"></i> Xem mã giảm giá hiện có
+                                </a>
+                                <div class="collapse mt-1" id="available-vouchers">
+                                    <div class="card card-body p-2 border bg-light" style="max-height: 150px; overflow-y: auto;">
+                                        @foreach($vouchers as $v)
+                                            <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom last-border-none" style="font-size: 10.5px;">
+                                                <div class="pe-2">
+                                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mb-1 d-inline-block" style="font-size: 10px; font-weight: bold; letter-spacing: 0.5px;">{{ $v->code }}</span>
+                                                    <span class="d-block text-dark fw-medium">Giảm {{ $v->type === 'percent' ? number_format($v->value) . '%' : number_format($v->value, 0, ',', '.') . 'đ' }}</span>
+                                                    <span class="text-muted d-block" style="font-size: 9.5px;">Đơn tối thiểu: {{ number_format($v->min_order_amount, 0, ',', '.') }}đ</span>
+                                                </div>
+                                                <button type="button" class="btn btn-xs btn-outline-success py-0 px-2 btn-select-voucher" data-code="{{ $v->code }}" {{ session()->has('applied_voucher') ? 'disabled' : '' }} style="font-size: 10px; border-radius: 4px;">
+                                                    Chọn
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="p-3 bg-success-subtle rounded-3 border border-success-subtle mb-2">
@@ -359,6 +383,17 @@
             });
         }
 
+        // Xử lý khi chọn nhanh voucher từ danh sách
+        document.querySelectorAll('.btn-select-voucher').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const code = this.getAttribute('data-code');
+                if (voucherInput && btnApply) {
+                    voucherInput.value = code;
+                    btnApply.click();
+                }
+            });
+        });
+
         function showVoucherMessage(msg, className) {
             voucherMsg.textContent = msg;
             voucherMsg.className = 'form-text small mt-1 ' + className;
@@ -392,6 +427,9 @@
                         discountRow.classList.add('d-none');
                         finalTotal.textContent = data.new_total_formatted + ' VND';
                         showVoucherMessage('Đã hủy áp dụng mã giảm giá.', 'text-muted');
+                        
+                        // Kích hoạt lại nút chọn voucher
+                        document.querySelectorAll('.btn-select-voucher').forEach(b => b.disabled = false);
                     } else {
                         // Áp dụng thành công
                         voucherInput.disabled = true;
@@ -402,6 +440,9 @@
                         discountRow.classList.remove('d-none');
                         finalTotal.textContent = data.new_total_formatted + ' VND';
                         showVoucherMessage(data.message, 'text-success');
+
+                        // Vô hiệu hóa nút chọn voucher khác khi đã áp mã thành công
+                        document.querySelectorAll('.btn-select-voucher').forEach(b => b.disabled = true);
                     }
                 } else {
                     showVoucherMessage(data.message, 'text-danger');

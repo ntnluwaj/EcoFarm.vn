@@ -60,8 +60,17 @@ class CartController extends Controller
             }
         }
 
+        // Lấy danh sách mã giảm giá khả dụng để hiển thị gợi ý cho bà con ở Checkout
+        $vouchers = \App\Models\Voucher::where('is_active', true)
+            ->where(function($q) {
+                $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
+            })
+            ->whereColumn('uses', '<', 'max_uses')
+            ->orderBy('min_order_amount', 'asc')
+            ->get();
+
         // 4. ĐỒNG BỘ BIẾN: Khớp hoàn hảo với vòng lặp @foreach($cartItems) ngoài giao diện Checkout View
-        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'user', 'discountAmount', 'finalTotal'));
+        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'user', 'discountAmount', 'finalTotal', 'vouchers'));
     }
 
     /**
