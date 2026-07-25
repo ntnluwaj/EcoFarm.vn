@@ -18,6 +18,7 @@ class Voucher extends Model
         'uses',
         'expires_at',
         'is_active',
+        'product_id',
     ];
 
     protected $casts = [
@@ -27,42 +28,99 @@ class Voucher extends Model
         'uses' => 'integer',
         'is_active' => 'boolean',
         'expires_at' => 'datetime',
+        'product_id' => 'integer',
     ];
 
     /**
-     * Kiểm tra xem mã voucher còn sử dụng được không
+     * Quan hệ liên kết tới sản phẩm nhất định
      */
-    public function isValidForAmount($amount): bool
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Kiểm tra xem mã voucher còn sử dụng được không dựa trên giỏ hàng
+     */
+    public function isValidForCart($cartItems, $totalAmount, &$errorMessage = ''): bool
     {
         if (!$this->is_active) {
+            $errorMessage = 'Mã giảm giá này hiện đã bị vô hiệu hóa!';
             return false;
         }
 
         if ($this->expires_at && $this->expires_at->isPast()) {
+            $errorMessage = 'Mã giảm giá này đã hết hạn sử dụng!';
             return false;
         }
 
         if ($this->uses >= $this->max_uses) {
+            $errorMessage = 'Mã giảm giá này đã đạt giới hạn lượt sử dụng!';
             return false;
         }
 
-        if ($amount < $this->min_order_amount) {
-            return false;
+        // Kiểm tra nếu chỉ áp dụng cho một sản phẩm nhất định
+        if ($this->product_id) {
+            $targetProduct = null;
+            foreach ($cartItems as $item) {
+                if ($item['product_id'] == $this->product_id) {
+                    $targetProduct = $item;
+                    break;
+                }
+            }
+
+            if (!$targetProduct) {
+                $productName = Product::find($this->product_id)->name ?? 'sản phẩm chỉ định';
+                $errorMessage = "Mã giảm giá này chỉ áp dụng cho sản phẩm: {$productName}!";
+                return false;
+            }
+
+            // Tính subtotal của riêng sản phẩm đó
+            $productSubtotal = $targetProduct['price'] * $targetProduct['quantity'];
+            if ($productSubtotal < $this->min_order_amount) {
+                $errorMessage = 'Tổng tiền sản phẩm ' . $targetProduct['name'] . ' chưa đạt mức tối thiểu ' . number_format($this->min_order_amount, 0, ',', '.') . 'đ để sử dụng mã này!';
+                return false;
+            }
+        } else {
+            // Áp dụng cho toàn bộ đơn hàng
+            if ($totalAmount < $this->min_order_amount) {
+                $errorMessage = 'Giá trị đơn hàng chưa đạt mức tối thiểu ' . number_format($this->min_order_amount, 0, ',', '.') . 'đ để sử dụng mã này!';
+                return false;
+            }
         }
 
         return true;
     }
 
     /**
-     * Tính toán số tiền được giảm giá
+     * Tính toán số tiền được giảm giá dựa trên giỏ hàng
      */
-    public function calculateDiscount($amount): float
+    public function calculateDiscountForCart($cartItems, $totalAmount): float
     {
-        if ($this->type === 'percent') {
-            return floatval($amount * ($this->value / 100));
+        if ($this->product_id) {
+            $targetProduct = null;
+            foreach ($cartItems as $item) {
+                if ($item['product_id'] == $this->product_id) {
+                    $targetProduct = $item;
+                    break;
+                }
+            }
+
+            if (!$targetProduct) {
+                return 0;
+            }
+
+            $productSubtotal = floatval($targetProduct['price'] * $targetProduct['quantity']);
+            if ($this->type === 'percent') {
+                return floatval($productSubtotal * ($this->value / 100));
+            }
+            return min(floatval($this->value), $productSubtotal);
         }
 
-        // Loại 'fixed'
-        return min(floatval($this->value), floatval($amount));
+        // Toàn bộ đơn hàng
+        if ($this->type === 'percent') {
+            return floatval($totalAmount * ($this->value / 100));
+        }
+        return min(floatval($this->value), floatval($totalAmount));
     }
 }

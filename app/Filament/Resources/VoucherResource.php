@@ -62,6 +62,12 @@ class VoucherResource extends Resource
                     ->label('Số lượt đã dùng'),
                 Forms\Components\DateTimePicker::make('expires_at')
                     ->label('Ngày hết hạn'),
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
+                    ->searchable()
+                    ->nullable()
+                    ->placeholder('Áp dụng toàn đơn hàng')
+                    ->label('Sản phẩm giới hạn áp dụng'),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true)
                     ->label('Kích hoạt')
@@ -87,6 +93,10 @@ class VoucherResource extends Resource
                 Tables\Columns\TextColumn::make('min_order_amount')
                     ->money('VND')
                     ->label('Đơn tối thiểu'),
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Sản phẩm áp dụng')
+                    ->placeholder('Toàn bộ đơn hàng')
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('uses')
                     ->label('Đã dùng')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),

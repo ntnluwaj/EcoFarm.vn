@@ -51,8 +51,8 @@ class CartController extends Controller
 
         if (session()->has('applied_voucher')) {
             $voucher = \App\Models\Voucher::where('code', session('applied_voucher.code'))->first();
-            if ($voucher && $voucher->isValidForAmount($totalAmount)) {
-                $discountAmount = $voucher->calculateDiscount($totalAmount);
+            if ($voucher && $voucher->isValidForCart($cartItems, $totalAmount)) {
+                $discountAmount = $voucher->calculateDiscountForCart($cartItems, $totalAmount);
                 session()->put('applied_voucher.discount', $discountAmount);
                 $finalTotal = $totalAmount - $discountAmount;
             } else {
@@ -112,8 +112,8 @@ class CartController extends Controller
 
         if (session()->has('applied_voucher')) {
             $voucher = \App\Models\Voucher::where('code', session('applied_voucher.code'))->first();
-            if ($voucher && $voucher->isValidForAmount($totalAmount)) {
-                $discountAmount = $voucher->calculateDiscount($totalAmount);
+            if ($voucher && $voucher->isValidForCart($cartItems, $totalAmount)) {
+                $discountAmount = $voucher->calculateDiscountForCart($cartItems, $totalAmount);
                 $couponCode = $voucher->code;
                 
                 // Tăng số lượt sử dụng voucher
@@ -506,36 +506,16 @@ class CartController extends Controller
             ]);
         }
 
-        if (!$voucher->is_active) {
+        $errorMessage = '';
+        if (!$voucher->isValidForCart($cartItems, $subtotal, $errorMessage)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Mã giảm giá này hiện đã bị vô hiệu hóa!'
+                'message' => $errorMessage
             ]);
         }
 
-        if ($voucher->expires_at && $voucher->expires_at->isPast()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Mã giảm giá này đã hết hạn sử dụng!'
-            ]);
-        }
-
-        if ($voucher->uses >= $voucher->max_uses) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Mã giảm giá này đã đạt giới hạn lượt sử dụng!'
-            ]);
-        }
-
-        if ($subtotal < $voucher->min_order_amount) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Giá trị đơn hàng chưa đạt mức tối thiểu ' . number_format($voucher->min_order_amount, 0, ',', '.') . 'đ để sử dụng mã này!'
-            ]);
-        }
-
-        // Tính toán chiết khấu
-        $discount = $voucher->calculateDiscount($subtotal);
+        // Tính toán chiết khấu dựa trên giỏ hàng
+        $discount = $voucher->calculateDiscountForCart($cartItems, $subtotal);
         
         // Lưu thông tin vào session
         session()->put('applied_voucher', [
