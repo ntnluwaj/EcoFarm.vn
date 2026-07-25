@@ -114,7 +114,7 @@
     <div class="meta-info">
         <div>
             <strong>Ngày lập báo cáo:</strong> {{ date('d/m/Y H:i:s') }}<br>
-            <strong>Người lập:</strong> Ban Quản trị EcoFarm ({{ auth()->user()->name }})
+            <strong>Người lập:</strong> Ban Quản trị EcoFarm ({{ auth()->user()->name ?? 'Administrator' }})
         </div>
         <div class="text-right">
             <strong>Mẫu báo cáo:</strong> BC-DT-01<br>
@@ -125,19 +125,19 @@
     <div class="summary-grid">
         <div class="summary-box">
             <div class="title">Tổng số đơn hàng</div>
-            <div class="value">{{ $totalOrders }}</div>
+            <div class="value">{{ $totalOrders ?? 0 }}</div>
         </div>
         <div class="summary-box">
             <div class="title">Tổng doanh thu</div>
-            <div class="value revenue">{{ number_format($totalRevenue, 0, ',', '.') }}đ</div>
+            <div class="value revenue">{{ number_format($totalRevenue ?? 0, 0, ',', '.') }}đ</div>
         </div>
         <div class="summary-box">
             <div class="title">Đã thu tiền</div>
-            <div class="value" style="color: #2e7d32;">{{ number_format($paidRevenue, 0, ',', '.') }}đ</div>
+            <div class="value" style="color: #2e7d32;">{{ number_format($paidRevenue ?? 0, 0, ',', '.') }}đ</div>
         </div>
         <div class="summary-box">
             <div class="title">Chưa thu (Giao COD)</div>
-            <div class="value" style="color: #e65100;">{{ number_format($unpaidRevenue, 0, ',', '.') }}đ</div>
+            <div class="value" style="color: #e65100;">{{ number_format($unpaidRevenue ?? 0, 0, ',', '.') }}đ</div>
         </div>
     </div>
 
@@ -182,8 +182,8 @@
                     <td>{{ $o->created_at ? $o->created_at->format('d/m/Y H:i') : '' }}</td>
                     <td>{{ $o->customer_name }}</td>
                     <td>{{ $o->customer_phone }}</td>
-                    <td class="text-right fw-bold">{{ number_format($o->total_amount, 0, ',', '.') }}đ</td>
-                    <td class="text-center">{{ strtoupper($o->payment_method) }}</td>
+                    <td class="text-right fw-bold">{{ number_format($o->total_amount ?? 0, 0, ',', '.') }}đ</td>
+                    <td class="text-center">{{ strtoupper($o->payment_method ?? '') }}</td>
                     <td class="text-center">
                         {{ $o->payment_status === 'paid' ? 'Đã thu' : 'Chưa thu' }}
                     </td>
@@ -206,7 +206,7 @@
         <div class="signature-box">
             <p><strong>Người lập báo cáo</strong></p>
             <p class="signature-space"></p>
-            <p style="text-decoration: underline;">{{ auth()->user()->name }}</p>
+            <p style="text-decoration: underline;">{{ auth()->user()->name ?? 'Người lập' }}</p>
         </div>
         <div class="signature-box">
             <p><strong>Xác nhận Giám đốc kho</strong></p>

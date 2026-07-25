@@ -65,6 +65,14 @@ Route::middleware(['admin.role'])->group(function () {
     Route::get('/admin/bao-cao-doanh-thu', [\App\Http\Controllers\Backend\ReportController::class, 'index'])->name('admin.reports');
     Route::get('/admin/orders/{id}/print', [\App\Http\Controllers\Frontend\CartController::class, 'printOrder'])->name('admin.orders.print');
     Route::get('/admin/orders/report/print', [\App\Http\Controllers\Frontend\CartController::class, 'printRevenueReport'])->name('admin.reports.print');
+    Route::get('/admin/debug/logs', function() {
+        $logPath = storage_path('logs/laravel.log');
+        if (!file_exists($logPath)) {
+            return "No log file found.";
+        }
+        $logs = file_get_contents($logPath);
+        return '<pre>' . htmlspecialchars(substr($logs, -10000)) . '</pre>';
+    });
 
     // 🌟 PHÂN HỆ GIẢ LẬP SANDBOX (KIỂM THỬ TỰ ĐỘNG HÓA LOCAL - CHỈ ADMIN TRUY CẬP)
     Route::get('/sandbox/debug', [\App\Http\Controllers\Frontend\SandboxController::class, 'index'])->name('sandbox.index');
