@@ -64,6 +64,7 @@ Route::middleware(['admin.role'])->group(function () {
     // Trang xem báo cáo tổng hợp nội bộ bãi kho của Admin
     Route::get('/admin/bao-cao-doanh-thu', [\App\Http\Controllers\Backend\ReportController::class, 'index'])->name('admin.reports');
     Route::get('/admin/orders/{id}/print', [\App\Http\Controllers\Frontend\CartController::class, 'printOrder'])->name('admin.orders.print');
+    Route::get('/admin/orders/report/print', [\App\Http\Controllers\Frontend\CartController::class, 'printRevenueReport'])->name('admin.reports.print');
 
     // 🌟 PHÂN HỆ GIẢ LẬP SANDBOX (KIỂM THỬ TỰ ĐỘNG HÓA LOCAL - CHỈ ADMIN TRUY CẬP)
     Route::get('/sandbox/debug', [\App\Http\Controllers\Frontend\SandboxController::class, 'index'])->name('sandbox.index');

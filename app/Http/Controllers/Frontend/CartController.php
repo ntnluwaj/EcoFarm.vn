@@ -58,6 +58,7 @@ class CartController extends Controller
         $rules = [
             'name'            => 'required|string|max:100',
             'phone'           => 'required|string|max:15',
+            'email'           => 'required|email|max:100',
             'address'         => 'required|string',
             'payment_method'  => 'required|in:cod,vietqr',
         ];
@@ -86,6 +87,7 @@ class CartController extends Controller
             'user_id'          => Auth::id(), // Sẽ lưu NULL nếu là nông dân vãng lai chưa đăng nhập tài khoản
             'customer_name'    => $request->name,
             'customer_phone'   => $request->phone,
+            'customer_email'   => $request->email,
             'shipping_address' => $request->address . ($request->has('vat_required') ? " [Xuất HĐ: " . $request->company_name . " - MST: " . $request->tax_code . "]" : ""),
             'total_amount'     => $totalAmount, // Lưu trữ số tiền thực tế khách đặt mua thay vì dữ liệu mẫu
             'payment_method'   => strtoupper($request->payment_method), // Lưu thành dạng chữ in hoa COD, VIETQR
@@ -366,12 +368,59 @@ class CartController extends Controller
      */
     public function printOrder($id)
     {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
+        // Bảo vệ tuyến đường chỉ cho Admin/Nhân viên
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Từ chối truy cập!');
         }
 
-        $order = Order::with('items.product', 'items.productVariant')->findOrFail($id);
-
+        $order = Order::with(['items.product', 'items.productVariant'])->findOrFail($id);
+        
         return view('frontend.orders.print', compact('order'));
+    }
+
+    /**
+     * IN BÁO CÁO THỐNG KÊ DOANH THU & VẬN ĐƠN (PDF)
+     */
+    public function printRevenueReport()
+    {
+        // Bảo vệ tuyến đường chỉ cho Admin
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Từ chối truy cập!');
+        }
+
+        $orders = Order::orderBy('id', 'desc')->get();
+        
+        $totalOrders = $orders->count();
+        $totalRevenue = $orders->sum('total_amount');
+        
+        // Doanh thu theo trạng thái thanh toán
+        $paidRevenue = $orders->where('payment_status', 'paid')->sum('total_amount');
+        $unpaidRevenue = $orders->where('payment_status', 'unpaid')->sum('total_amount');
+        
+        // Đếm theo phương thức thanh toán
+        $codCount = $orders->where('payment_method', 'COD')->count();
+        $vietqrCount = $orders->where('payment_method', 'VIETQR')->count();
+        
+        // Đếm theo trạng thái đơn hàng
+        $pendingCount = $orders->where('status', 'pending')->count();
+        $processingCount = $orders->where('status', 'processing')->count();
+        $shippingCount = $orders->where('status', 'shipping')->count();
+        $completedCount = $orders->where('status', 'completed')->count();
+        $cancelledCount = $orders->where('status', 'cancelled')->count();
+
+        return view('frontend.orders.revenue_report', compact(
+            'orders',
+            'totalOrders',
+            'totalRevenue',
+            'paidRevenue',
+            'unpaidRevenue',
+            'codCount',
+            'vietqrCount',
+            'pendingCount',
+            'processingCount',
+            'shippingCount',
+            'completedCount',
+            'cancelledCount'
+        ));
     }
 }

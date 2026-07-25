@@ -19,6 +19,7 @@ class Order extends Model
         'user_id',
         'customer_name',
         'customer_phone',
+        'customer_email',
         'status',
         'cancel_reason',
         'total_amount',
@@ -41,6 +42,18 @@ class Order extends Model
                     'status' => $order->status,
                     'changed_by' => Auth::id() ?? null, // Ghi nhận ID nhân viên/admin thực hiện tác vụ (bảng order_logs)
                 ]);
+            }
+
+            // 🌟 TỰ ĐỘNG GỬI EMAIL THÔNG BÁO TIẾN ĐỘ ĐƠN HÀNG (MỚI BỔ SUNG)
+            if ($order->wasRecentlyCreated || $order->isDirty('status') || $order->isDirty('payment_status')) {
+                if ($order->customer_email) {
+                    try {
+                        \Illuminate\Support\Facades\Mail::to($order->customer_email)
+                            ->send(new \App\Mail\OrderStatusMail($order));
+                    } catch (\Exception $e) {
+                        \Illuminate\Support\Facades\Log::error("Lỗi gửi Email trạng thái đơn hàng: " . $e->getMessage());
+                    }
+                }
             }
 
             // 🌟 THÔNG BÁO CHO KHÁCH HÀNG KHI TRẠNG THÁI ĐƠN HÀNG THAY ĐỔI (PRD)

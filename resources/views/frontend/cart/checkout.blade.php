@@ -47,6 +47,11 @@
                         <input type="text" name="phone" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: 0907xxxxxx" value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}" required style="font-size: 13px;">
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-envelope me-1 text-success"></i>Địa chỉ Email nhận hóa đơn & tiến độ *</label>
+                        <input type="email" name="email" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: hotro@ecofarm.vn" value="{{ auth()->check() ? auth()->user()->email : old('email') }}" required style="font-size: 13px;">
+                    </div>
+
                     <div class="mb-4 position-relative">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-location-dot me-1 text-success"></i>Địa chỉ giao nhận hàng *</label>

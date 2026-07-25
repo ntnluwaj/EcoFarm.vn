@@ -192,9 +192,126 @@ class OrderResource extends Resource
                     ->openUrlInNewTab(),
                 EditAction::make(),
             ])
+            ->headerActions([
+                \Filament\Tables\Actions\Action::make('export_csv')
+                    ->label('Xuất báo cáo Excel (CSV)')
+                    ->icon('heroicon-m-arrow-down-tray')
+                    ->color('success')
+                    ->action(function () {
+                        $records = Order::orderBy('id', 'desc')->get();
+                        
+                        $headers = [
+                            'Content-Type' => 'text/csv; charset=UTF-8',
+                            'Content-Disposition' => 'attachment; filename="Bao_cao_don_hang_' . date('Ymd_His') . '.csv"',
+                        ];
+
+                        $callback = function () use ($records) {
+                            $file = fopen('php://output', 'w');
+                            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+                            
+                            fputcsv($file, [
+                                'Mã đơn hàng',
+                                'Ngày đặt hàng',
+                                'Họ tên khách hàng',
+                                'Số điện thoại',
+                                'Email nhận hóa đơn',
+                                'Địa chỉ giao hàng',
+                                'Tổng tiền (VND)',
+                                'Phương thức thanh toán',
+                                'Trạng thái thanh toán',
+                                'Trạng thái đơn hàng'
+                            ]);
+
+                            foreach ($records as $r) {
+                                fputcsv($file, [
+                                    'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
+                                    $r->created_at ? $r->created_at->format('Y-m-d H:i:s') : '',
+                                    $r->customer_name,
+                                    $r->customer_phone,
+                                    $r->customer_email,
+                                    $r->shipping_address,
+                                    $r->total_amount,
+                                    strtoupper($r->payment_method),
+                                    $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
+                                    match($r->status) {
+                                        'pending' => 'Chờ duyệt',
+                                        'processing' => 'Đang gói',
+                                        'shipping' => 'Đang giao',
+                                        'completed' => 'Hoàn tất',
+                                        'cancelled' => 'Đã hủy',
+                                        default => $r->status
+                                    }
+                                ]);
+                            }
+                            fclose($file);
+                        };
+
+                        return response()->stream($callback, 200, $headers);
+                    }),
+
+                \Filament\Tables\Actions\Action::make('print_report')
+                    ->label('In báo cáo Doanh thu (PDF)')
+                    ->icon('heroicon-m-printer')
+                    ->color('primary')
+                    ->url(fn (): string => route('admin.reports.print'))
+                    ->openUrlInNewTab(),
+            ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    \Filament\Tables\Actions\BulkAction::make('export_selected_csv')
+                        ->label('Xuất đơn hàng đã chọn (CSV)')
+                        ->icon('heroicon-m-arrow-down-tray')
+                        ->color('success')
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $headers = [
+                                'Content-Type' => 'text/csv; charset=UTF-8',
+                                'Content-Disposition' => 'attachment; filename="Bao_cao_don_hang_chon_' . date('Ymd_His') . '.csv"',
+                            ];
+
+                            $callback = function () use ($records) {
+                                $file = fopen('php://output', 'w');
+                                fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+                                
+                                fputcsv($file, [
+                                    'Mã đơn hàng',
+                                    'Ngày đặt hàng',
+                                    'Họ tên khách hàng',
+                                    'Số điện thoại',
+                                    'Email nhận hóa đơn',
+                                    'Địa chỉ giao hàng',
+                                    'Tổng tiền (VND)',
+                                    'Phương thức thanh toán',
+                                    'Trạng thái thanh toán',
+                                    'Trạng thái đơn hàng'
+                                ]);
+
+                                foreach ($records as $r) {
+                                    fputcsv($file, [
+                                        'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
+                                        $r->created_at ? $r->created_at->format('Y-m-d H:i:s') : '',
+                                        $r->customer_name,
+                                        $r->customer_phone,
+                                        $r->customer_email,
+                                        $r->shipping_address,
+                                        $r->total_amount,
+                                        strtoupper($r->payment_method),
+                                        $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
+                                        match($r->status) {
+                                            'pending' => 'Chờ duyệt',
+                                            'processing' => 'Đang gói',
+                                            'shipping' => 'Đang giao',
+                                            'completed' => 'Hoàn tất',
+                                            'cancelled' => 'Đã hủy',
+                                            default => $r->status
+                                        }
+                                    ]);
+                                }
+                                fclose($file);
+                            };
+
+                            return response()->stream($callback, 200, $headers);
+                        }),
                 ]),
             ]);
     }
