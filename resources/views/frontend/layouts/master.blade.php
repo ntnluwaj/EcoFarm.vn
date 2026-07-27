@@ -144,17 +144,17 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Quan ly sau benh hai']) }}">
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.pestManagement') }}">
                                     <i class="fa-solid fa-bug-slash me-2 text-success opacity-75"></i>Quản lý sâu bệnh hại
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Ky thuat canh tac']) }}">
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.farmingTechniques') }}">
                                     <i class="fa-solid fa-seedling me-2 text-success opacity-75"></i>Kỹ thuật canh tác
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Tin tuc nong nghiep']) }}">
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.news') }}">
                                     <i class="fa-solid fa-newspaper me-2 text-success opacity-75"></i>Tin tức nông nghiệp
                                 </a>
                             </li>
@@ -274,8 +274,8 @@
                     
                     @if(auth()->check())
                         <div class="dropdown d-inline-block">
-                            <button class="btn dropdown-toggle fw-bold rounded-pill text-xs d-inline-flex align-items-center gap-1.5" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(46, 125, 50, 0.08); color: #2e7d32; border: 1px solid rgba(46, 125, 50, 0.15); padding: 8px 18px; font-size: 13.5px;">
-                                <i class="fa-solid fa-circle-user fs-6"></i> {{ auth()->user()->name }}
+                            <button class="header-icon-btn d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0;">
+                                <i class="fa-solid fa-circle-user fs-5"></i>
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">

@@ -104,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
 
 // 🌟 8. PHÂN HỆ CẨM NĂNG KỸ THUẬT CANH TÁC & LỊCH MÙA VỤ (PRD mục 7.1)
 Route::get('/cam-nang', [\App\Http\Controllers\Frontend\PostController::class, 'index'])->name('posts.index');
+Route::get('/quan-ly-sau-benh', [\App\Http\Controllers\Frontend\PostController::class, 'pestManagement'])->name('posts.pestManagement');
+Route::get('/ky-thuat-canh-tac', [\App\Http\Controllers\Frontend\PostController::class, 'farmingTechniques'])->name('posts.farmingTechniques');
+Route::get('/tin-tuc-nong-nghiep', [\App\Http\Controllers\Frontend\PostController::class, 'news'])->name('posts.news');
 Route::get('/cam-nang/{slug}', [\App\Http\Controllers\Frontend\PostController::class, 'show'])->name('posts.show');
 
 // 🌟 9. TỰ ĐỘNG HÓA WEBHOOKS (DÒNG TIỀN & VẬN CHUYỂN)

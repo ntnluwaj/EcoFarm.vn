@@ -36,6 +36,51 @@ class PostController extends Controller
     }
 
     /**
+     * TRANG CẨM NĂNG PHÒNG TRỪ SÂU BỆNH HẠI
+     */
+    public function pestManagement()
+    {
+        $posts = Post::query()
+            ->where('category', 'Quan ly sau benh hai')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderBy('id', 'desc')
+            ->paginate(9);
+
+        return view('frontend.posts.pest_management', compact('posts'));
+    }
+
+    /**
+     * TRANG KỸ THUẬT CANH TÁC & DINH DƯỠNG
+     */
+    public function farmingTechniques()
+    {
+        $posts = Post::query()
+            ->where('category', 'Ky thuat canh tac')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderBy('id', 'desc')
+            ->paginate(9);
+
+        return view('frontend.posts.farming_techniques', compact('posts'));
+    }
+
+    /**
+     * TRANG TIN TỨC NÔNG NGHIỆP & THỊ TRƯỜNG
+     */
+    public function news()
+    {
+        $posts = Post::query()
+            ->where('category', 'Tin tuc nong nghiep')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderBy('id', 'desc')
+            ->paginate(9);
+
+        return view('frontend.posts.news', compact('posts'));
+    }
+
+    /**
      * TRANG CHI TIẾT BÀI VIẾT CẨM NĂNG
      */
     public function show($slug)
