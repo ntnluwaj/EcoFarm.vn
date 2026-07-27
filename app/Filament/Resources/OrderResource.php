@@ -253,14 +253,14 @@ class OrderResource extends Resource
 
                             foreach ($records as $r) {
                                 fputcsv($file, [
-                                    'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
-                                    $r->created_at ? $r->created_at->format('Y-m-d H:i:s') : '',
+                                    '="' . 'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT) . '"',
+                                    '="' . ($r->created_at ? $r->created_at->format('H:i d/m/Y') : '') . '"',
                                     $r->customer_name,
-                                    $r->customer_phone,
+                                    '="' . $r->customer_phone . '"',
                                     $r->customer_email,
                                     $r->shipping_address,
                                     $r->total_amount,
-                                    $r->coupon_code,
+                                    '="' . ($r->coupon_code ?? '') . '"',
                                     $r->discount_amount,
                                     strtoupper($r->payment_method ?? ''),
                                     $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
@@ -321,14 +321,14 @@ class OrderResource extends Resource
 
                                 foreach ($records as $r) {
                                     fputcsv($file, [
-                                        'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
-                                        $r->created_at ? $r->created_at->format('Y-m-d H:i:s') : '',
+                                        '="' . 'ECF' . str_pad($r->id, 6, '0', STR_PAD_LEFT) . '"',
+                                        '="' . ($r->created_at ? $r->created_at->format('H:i d/m/Y') : '') . '"',
                                         $r->customer_name,
-                                        $r->customer_phone,
+                                        '="' . $r->customer_phone . '"',
                                         $r->customer_email,
                                         $r->shipping_address,
                                         $r->total_amount,
-                                        $r->coupon_code,
+                                        '="' . ($r->coupon_code ?? '') . '"',
                                         $r->discount_amount,
                                         strtoupper($r->payment_method ?? ''),
                                         $r->payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán',
