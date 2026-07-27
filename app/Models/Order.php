@@ -125,13 +125,29 @@ class Order extends Model
                 $customer = $order->user;
                 if ($customer) {
                     $points = floor($order->total_amount / 10000);
+                    $orderCode = 'ECF' . str_pad($order->id, 6, '0', STR_PAD_LEFT);
                     // Chuyển sang completed: Cộng điểm
                     if ($order->status === 'completed' && $order->getOriginal('status') !== 'completed') {
                         $customer->increment('reward_points', $points);
+                        
+                        // Ghi nhật ký tích điểm
+                        $customer->pointTransactions()->create([
+                            'points' => $points,
+                            'transaction_type' => 'earn',
+                            'description' => "Tích lũy điểm từ đơn hàng hoàn thành {$orderCode}",
+                        ]);
                     }
                     // Chuyển từ completed sang trạng thái khác (hủy/đang xử lý): Trừ điểm
                     elseif ($order->getOriginal('status') === 'completed' && $order->status !== 'completed') {
-                        $customer->decrement('reward_points', min($points, $customer->reward_points));
+                        $actualDeduct = min($points, $customer->reward_points);
+                        $customer->decrement('reward_points', $actualDeduct);
+
+                        // Ghi nhật ký khấu trừ điểm
+                        $customer->pointTransactions()->create([
+                            'points' => -$actualDeduct,
+                            'transaction_type' => 'refund',
+                            'description' => "Khấu trừ điểm do đơn hàng {$orderCode} thay đổi trạng thái",
+                        ]);
                     }
                 }
             }

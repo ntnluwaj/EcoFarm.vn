@@ -85,6 +85,13 @@ class RewardController extends Controller
             'points_cost' => null, // Không cho phép dùng mã này đổi tiếp
         ]);
 
+        // Ghi nhật ký đổi quà
+        $user->pointTransactions()->create([
+            'points' => -$voucher->points_cost,
+            'transaction_type' => 'redeem',
+            'description' => "Đổi điểm lấy mã giảm giá cá nhân {$personalCode}",
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Đổi điểm tích lũy thành công!',

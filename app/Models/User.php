@@ -68,6 +68,11 @@ class User extends Authenticatable implements FilamentUser // 🌟 THỰC THI CH
         return $this->hasMany(Order::class, 'user_id');
     }
 
+    public function pointTransactions(): HasMany
+    {
+        return $this->hasMany(PointTransaction::class, 'user_id');
+    }
+
     /**
      * CẬP NHẬT: Cho phép cả Admin và Đại lý đi qua bộ lọc Panel để thực hiện xác thực
      */

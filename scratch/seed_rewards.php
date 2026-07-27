@@ -5,8 +5,19 @@ $app = require_once 'bootstrap/app.php';
 $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 // 1. Cập nhật 500 điểm tích lũy cho tất cả người dùng trong hệ thống để tiện chạy thử nghiệm
-\App\Models\User::query()->update(['reward_points' => 500]);
-echo "Updated reward points (500 pts) for all users.\n";
+$users = \App\Models\User::all();
+foreach ($users as $user) {
+    $user->update(['reward_points' => 500]);
+    
+    // Xóa log cũ nếu có và thêm log khởi đầu
+    $user->pointTransactions()->delete();
+    $user->pointTransactions()->create([
+        'points' => 500,
+        'transaction_type' => 'earn',
+        'description' => 'Cộng 500 điểm tích lũy khởi điểm chương trình Khách hàng thân thiết',
+    ]);
+}
+echo "Updated reward points (500 pts) and created initial transaction logs for all users.\n";
 
 // 2. Tạo các voucher mẫu cho phép quy đổi điểm thưởng
 \App\Models\Voucher::updateOrCreate(
