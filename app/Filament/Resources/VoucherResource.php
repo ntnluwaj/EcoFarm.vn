@@ -107,7 +107,8 @@ class VoucherResource extends Resource
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Sản phẩm áp dụng')
                     ->placeholder('Toàn bộ đơn hàng')
-                    ->wrap(),
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('points_cost')
                     ->label('Điểm đổi')
                     ->placeholder('Không hỗ trợ')
@@ -115,13 +116,15 @@ class VoucherResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Chủ sở hữu')
                     ->placeholder('Công cộng')
-                    ->wrap(),
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('uses')
                     ->label('Đã dùng')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),
                 Tables\Columns\TextColumn::make('expires_at')
                     ->dateTime('d/m/Y H:i')
-                    ->label('Hạn dùng'),
+                    ->label('Hạn dùng')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
                     ->label('Trạng thái'),

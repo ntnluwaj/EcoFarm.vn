@@ -85,28 +85,13 @@ button[type="submit"] {
     font-weight: 600 !important;
 }
 
-/* Ẩn thanh cuộn của tất cả các container trượt (bảng, danh mục, thanh bên) trong trang quản trị */
-.fi-sidebar-nav,
-.fi-ta-content,
-.fi-ta-ctn,
-.overflow-x-auto,
-.overflow-y-auto,
-.overflow-auto,
-.select-options,
-.dropdown-menu,
-.table-responsive {
-    -ms-overflow-style: none !important;
-    scrollbar-width: none !important;
+/* Ẩn triệt để tất cả các thanh cuộn dọc/ngang (trượt lên/xuống/trái/phải) trên mọi trình duyệt */
+* {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE/Edge */
 }
-
-.fi-sidebar-nav::-webkit-scrollbar,
-.fi-ta-content::-webkit-scrollbar,
-.fi-ta-ctn::-webkit-scrollbar,
-.overflow-x-auto::-webkit-scrollbar,
-.overflow-y-auto::-webkit-scrollbar,
-.overflow-auto::-webkit-scrollbar,
-.select-options::-webkit-scrollbar,
-.dropdown-menu::-webkit-scrollbar,
-.table-responsive::-webkit-scrollbar {
-    display: none !important;
+*::-webkit-scrollbar {
+    display: none !important; /* Safari, Chrome, Opera */
+    width: 0 !important;
+    height: 0 !important;
 }

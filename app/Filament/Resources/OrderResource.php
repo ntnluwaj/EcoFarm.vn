@@ -147,12 +147,16 @@ class OrderResource extends Resource
                     ->label('Tổng tiền'),
                 TextColumn::make('coupon_code')
                     ->label('Mã KM')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('discount_amount')
                     ->money('VND')
                     ->label('Chiết khấu')
-                    ->sortable(),
-                TextColumn::make('payment_method')->label('Hình thức'),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('payment_method')
+                    ->label('Hình thức')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('payment_status')
                     ->badge()
                     ->colors([

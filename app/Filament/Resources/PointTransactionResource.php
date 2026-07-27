@@ -66,7 +66,8 @@ class PointTransactionResource extends Resource
                     ->sortable(),
                 TextColumn::make('user.email')
                     ->label('Email')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('points')
                     ->label('Điểm thay đổi')
                     ->sortable()
