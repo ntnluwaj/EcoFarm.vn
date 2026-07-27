@@ -27,6 +27,7 @@ Route::get('/gioi-thieu', function () {
     return view('frontend.about');
 })->name('about');
 Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
+Route::get('/so-sanh', [ProductController::class, 'compare'])->name('products.compare');
 Route::get('/san-pham/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::post('/san-pham/{slug}/danh-gia', [ProductController::class, 'storeReview'])->name('products.storeReview');
 Route::post('/san-pham/{slug}/hoi-dap', [ProductController::class, 'storeQuestion'])->name('products.storeQuestion');

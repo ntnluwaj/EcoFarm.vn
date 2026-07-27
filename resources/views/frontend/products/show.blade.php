@@ -149,6 +149,13 @@
                         </button>
                     </div>
 
+                    <!-- Nút So sánh vật tư -->
+                    <div class="mt-3 text-center">
+                        <label class="form-check-label text-xs text-muted hover-success cursor-pointer select-none" style="font-size: 13px; display: inline-flex; align-items: center; gap: 6px;">
+                            <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-image="{{ count($product->images ?? []) > 0 ? asset('storage/' . $product->images[0]) : '' }}" style="width: 15px; height: 15px; margin: 0; cursor: pointer;"> <strong>Thêm vật tư này vào bàn so sánh</strong>
+                        </label>
+                    </div>
+
                     <div class="mt-2 text-xs" id="stock-label">
                         @if($product->stock > 0)
                             <span class="text-success fw-bold"><i class="fa-solid fa-circle-check"></i> Còn hàng</span>

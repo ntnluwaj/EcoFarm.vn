@@ -144,4 +144,22 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Câu hỏi của bạn đã được chuyển đến kỹ sư nông học giải đáp!');
     }
+
+    /**
+     * TRANG SO SÁNH VẬT TƯ NÔNG NGHIỆP TRỰC QUAN (MAX 3 SẢN PHẨM)
+     */
+    public function compare(Request $request)
+    {
+        $idsString = $request->query('ids', '');
+        $ids = array_filter(explode(',', $idsString));
+
+        // Giới hạn tối đa 3 sản phẩm
+        $ids = array_slice($ids, 0, 3);
+
+        $products = Product::whereIn('id', $ids)
+            ->with(['category', 'brand', 'reviews'])
+            ->get();
+
+        return view('frontend.products.compare', compact('products'));
+    }
 }

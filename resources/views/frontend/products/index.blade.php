@@ -84,7 +84,12 @@
 
                                 <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
                                     <div>
-                                        <span class="text-muted text-xs d-block mb-1" style="font-size: 11px;">{{ $prod->category->name ?? 'Vật tư EcoFarm' }}</span>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="text-muted text-xs" style="font-size: 11px;">{{ $prod->category->name ?? 'Vật tư EcoFarm' }}</span>
+                                            <label class="form-check-label text-xs text-muted hover-success cursor-pointer select-none" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 0;">
+                                                <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $prod->id }}" data-name="{{ $prod->name }}" data-image="{{ $firstImg ? asset('storage/' . $firstImg) : '' }}" style="width: 12px; height: 12px; margin: 0; cursor: pointer;"> So sánh
+                                            </label>
+                                        </div>
                                         <h6 class="fw-bold text-dark mb-2 text-truncate-2" style="min-height: 40px; line-height: 1.4; font-size: 14px;">{{ $prod->name }}</h6>
                                         <p class="text-xs text-muted mb-3" style="font-size: 12px;"><i class="fa-solid fa-box me-1 text-success"></i>Quy cách: {{ $prod->packaging }}</p>
                                     </div>

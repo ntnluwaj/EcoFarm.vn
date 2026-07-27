@@ -753,6 +753,121 @@
           }
       });
   </script>
+
+  <!-- 🌟 PHÂN HỆ SO SÁNH VẬT TƯ NÔNG NGHIỆP TRỰC QUAN (FLOATING BAR) -->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const compareKey = 'ecofarm_compare_list';
+          let compareList = JSON.parse(localStorage.getItem(compareKey)) || [];
+
+          const barHTML = `
+              <div id="floating-compare-bar" class="position-fixed bottom-0 start-50 translate-middle-x bg-white shadow-lg border rounded-top-4 p-3 d-none animate-slide-up" style="z-index: 9999; width: 90%; max-width: 650px; transition: all 0.3s ease; box-shadow: 0 -5px 25px rgba(0,0,0,0.15) !important;">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="fw-bold mb-0 text-success" style="font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                          <i class="fa-solid fa-scale-balanced"></i> So sánh vật tư nông nghiệp (<span id="compare-count">0</span>/3)
+                      </h6>
+                      <button type="button" class="btn-close" id="btn-close-compare" style="font-size: 10px;"></button>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex gap-2 align-items-center overflow-x-auto py-1" id="compare-thumbnails" style="max-width: 70%; min-height: 52px;">
+                          <!-- Thumbnails -->
+                      </div>
+                      <a href="#" id="btn-start-compare" class="btn btn-success btn-sm px-3 py-2 fw-bold rounded-3 flex-shrink-0" style="font-size: 12px; background-color: #2e7d32; border: none;">
+                          So sánh ngay
+                      </a>
+                  </div>
+              </div>
+          `;
+          
+          document.body.insertAdjacentHTML('beforeend', barHTML);
+          
+          const compareBar = document.getElementById('floating-compare-bar');
+          const compareThumbnails = document.getElementById('compare-thumbnails');
+          const compareCount = document.getElementById('compare-count');
+          const btnStartCompare = document.getElementById('btn-start-compare');
+          const btnCloseCompare = document.getElementById('btn-close-compare');
+
+          function updateCompareUI() {
+              // Đồng bộ tất cả checkbox trên trang hiện tại
+              document.querySelectorAll('.btn-compare-toggle').forEach(checkbox => {
+                  const id = checkbox.getAttribute('data-id');
+                  checkbox.checked = compareList.some(item => item.id == id);
+              });
+
+              if (compareList.length === 0) {
+                  compareBar.classList.add('d-none');
+                  return;
+              }
+
+              compareBar.classList.remove('d-none');
+              compareCount.textContent = compareList.length;
+              
+              // Tạo các thumbnail nhỏ đại diện
+              compareThumbnails.innerHTML = '';
+              compareList.forEach(item => {
+                  const thumbHTML = `
+                      <div class="position-relative border rounded-3 p-1 bg-white text-center" style="width: 48px; height: 48px;">
+                          ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 18px; line-height: 38px;"></i>`}
+                          <button type="button" class="position-absolute top-0 end-0 bg-danger text-white rounded-circle border-0 d-flex align-items-center justify-content-center btn-remove-compare" data-id="${item.id}" style="width: 14px; height: 14px; transform: translate(30%, -30%); font-size: 8px; line-height: 1;">
+                              <i class="fa-solid fa-xmark"></i>
+                          </button>
+                      </div>
+                  `;
+                  compareThumbnails.insertAdjacentHTML('beforeend', thumbHTML);
+              });
+
+              const idsString = compareList.map(item => item.id).join(',');
+              btnStartCompare.href = `{{ url('/so-sanh') }}?ids=` + idsString;
+
+              // Ràng buộc sự kiện nút xóa trên từng thumbnail
+              document.querySelectorAll('.btn-remove-compare').forEach(btn => {
+                  btn.addEventListener('click', function(e) {
+                      e.preventDefault();
+                      const id = this.getAttribute('data-id');
+                      compareList = compareList.filter(item => item.id != id);
+                      localStorage.setItem(compareKey, JSON.stringify(compareList));
+                      updateCompareUI();
+                  });
+              });
+          }
+
+          // Ràng buộc sự kiện khi bấm checkbox so sánh
+          document.body.addEventListener('change', function(e) {
+              if (e.target.classList.contains('btn-compare-toggle')) {
+                  const checkbox = e.target;
+                  const id = checkbox.getAttribute('data-id');
+                  const name = checkbox.getAttribute('data-name');
+                  const image = checkbox.getAttribute('data-image');
+
+                  if (checkbox.checked) {
+                      if (compareList.length >= 3) {
+                          alert('Bạn chỉ có thể chọn tối đa 3 vật tư để tiến hành so sánh!');
+                          checkbox.checked = false;
+                          return;
+                      }
+                      if (!compareList.some(item => item.id == id)) {
+                          compareList.push({ id, name, image });
+                      }
+                  } else {
+                      compareList = compareList.filter(item => item.id != id);
+                  }
+
+                  localStorage.setItem(compareKey, JSON.stringify(compareList));
+                  updateCompareUI();
+              }
+          });
+
+          if (btnCloseCompare) {
+              btnCloseCompare.addEventListener('click', function() {
+                  compareList = [];
+                  localStorage.setItem(compareKey, JSON.stringify(compareList));
+                  updateCompareUI();
+              });
+          }
+
+          updateCompareUI();
+      });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
