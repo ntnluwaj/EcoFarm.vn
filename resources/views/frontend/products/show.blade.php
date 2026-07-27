@@ -150,9 +150,13 @@
                     </div>
 
                     <!-- Nút So sánh vật tư -->
+                    @php
+                        $imgArray = is_array($product->images) ? $product->images : [];
+                        $firstImg = count($imgArray) > 0 ? $imgArray[0] : null;
+                    @endphp
                     <div class="mt-3 text-center">
                         <label class="form-check-label text-xs text-muted hover-success cursor-pointer select-none" style="font-size: 13px; display: inline-flex; align-items: center; gap: 6px;">
-                            <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-image="{{ count($product->images ?? []) > 0 ? asset('storage/' . $product->images[0]) : '' }}" style="width: 15px; height: 15px; margin: 0; cursor: pointer;"> <strong>Thêm vật tư này vào bàn so sánh</strong>
+                            <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-image="{{ $firstImg ? asset('storage/' . $firstImg) : '' }}" style="width: 15px; height: 15px; margin: 0; cursor: pointer;"> <strong>Thêm vật tư này vào bàn so sánh</strong>
                         </label>
                     </div>
 

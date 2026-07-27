@@ -866,6 +866,12 @@
           }
 
           updateCompareUI();
+
+          // Lắng nghe sự kiện pageshow để làm mới danh sách khi nông dân quay lại bằng nút Back (tránh bfcache)
+          window.addEventListener('pageshow', function(event) {
+              compareList = JSON.parse(localStorage.getItem(compareKey)) || [];
+              updateCompareUI();
+          });
       });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
