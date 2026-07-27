@@ -44,4 +44,17 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật thông tin tài khoản thành công!');
     }
+
+    public function vouchers()
+    {
+        $user = Auth::user();
+        
+        // Lấy tất cả voucher thuộc sở hữu của người dùng này
+        $vouchers = \App\Models\Voucher::where('user_id', $user->id)
+            ->with('product')
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        return view('frontend.profile.my_vouchers', compact('user', 'vouchers'));
+    }
 }

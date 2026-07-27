@@ -62,4 +62,22 @@ echo "Updated reward points (500 pts) and created initial transaction logs for a
     ]
 );
 
-echo "Redeemable vouchers seeded successfully!\n";
+// 3. Tạo một số voucher cá nhân đã quy đổi ngẫu nhiên để kiểm thử Ví Voucher
+foreach ($users as $u) {
+    \App\Models\Voucher::updateOrCreate(
+        ['code' => 'REDEEM-TEST' . $u->id],
+        [
+            'type' => 'fixed',
+            'value' => 20000,
+            'min_order_amount' => 150000,
+            'max_uses' => 1,
+            'uses' => 0,
+            'is_active' => true,
+            'points_cost' => null,
+            'user_id' => $u->id,
+            'expires_at' => '2027-12-31 00:00:00',
+        ]
+    );
+}
+
+echo "Redeemable and personal vouchers seeded successfully!\n";

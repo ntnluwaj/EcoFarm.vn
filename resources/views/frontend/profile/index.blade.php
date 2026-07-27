@@ -23,6 +23,9 @@
                     <a href="{{ route('rewards.index') }}" class="list-group-item list-group-item-action border-0 py-2.5 fw-semibold text-dark hover-success">
                         <i class="fa-solid fa-gift me-2"></i>Tích điểm đổi quà
                     </a>
+                    <a href="{{ route('profile.vouchers') }}" class="list-group-item list-group-item-action border-0 py-2.5 fw-semibold text-dark hover-success">
+                        <i class="fa-solid fa-ticket me-2"></i>Ví Voucher của tôi
+                    </a>
                 </div>
             </div>
         </div>

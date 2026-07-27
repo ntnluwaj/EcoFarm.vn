@@ -73,6 +73,12 @@ class VoucherResource extends Resource
                     ->nullable()
                     ->label('Điểm tích lũy để đổi')
                     ->placeholder('Bỏ trống nếu không cho phép đổi bằng điểm'),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->nullable()
+                    ->placeholder('Dùng chung (Công cộng)')
+                    ->label('Sở hữu bởi Khách hàng'),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true)
                     ->label('Kích hoạt')
@@ -106,6 +112,10 @@ class VoucherResource extends Resource
                     ->label('Điểm đổi')
                     ->placeholder('Không hỗ trợ')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Chủ sở hữu')
+                    ->placeholder('Công cộng')
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('uses')
                     ->label('Đã dùng')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),

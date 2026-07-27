@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
     // Quản lý thông tin tài khoản cá nhân và lưu địa chỉ mặc định
     Route::get('/tai-khoan', [\App\Http\Controllers\Frontend\UserController::class, 'profile'])->name('profile.index');
     Route::post('/tai-khoan/cap-nhat', [\App\Http\Controllers\Frontend\UserController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/tai-khoan/voucher', [\App\Http\Controllers\Frontend\UserController::class, 'vouchers'])->name('profile.vouchers');
 
     // Phân hệ Tích điểm & Đổi quà cho Nhà nông
     Route::get('/tich-diem', [\App\Http\Controllers\Frontend\RewardController::class, 'index'])->name('rewards.index');

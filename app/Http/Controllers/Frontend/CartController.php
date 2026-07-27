@@ -66,6 +66,12 @@ class CartController extends Controller
                 $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
             })
             ->whereColumn('uses', '<', 'max_uses')
+            ->where(function($q) {
+                $q->whereNull('user_id');
+                if (auth()->check()) {
+                    $q->orWhere('user_id', auth()->id());
+                }
+            })
             ->orderBy('min_order_amount', 'asc')
             ->get();
 

@@ -20,6 +20,7 @@ class Voucher extends Model
         'is_active',
         'product_id',
         'points_cost',
+        'user_id',
     ];
 
     protected $casts = [
@@ -31,7 +32,16 @@ class Voucher extends Model
         'expires_at' => 'datetime',
         'product_id' => 'integer',
         'points_cost' => 'integer',
+        'user_id' => 'integer',
     ];
+
+    /**
+     * Quan hệ liên kết tới khách hàng sở hữu mã này (nếu có)
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Quan hệ liên kết tới sản phẩm nhất định
@@ -46,6 +56,11 @@ class Voucher extends Model
      */
     public function isValidForCart($cartItems, $totalAmount, &$errorMessage = ''): bool
     {
+        if ($this->user_id && (!auth()->check() || auth()->id() !== $this->user_id)) {
+            $errorMessage = 'Mã giảm giá cá nhân này không thuộc quyền sở hữu của bạn!';
+            return false;
+        }
+
         if (!$this->is_active) {
             $errorMessage = 'Mã giảm giá này hiện đã bị vô hiệu hóa!';
             return false;

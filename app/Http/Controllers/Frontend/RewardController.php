@@ -83,6 +83,7 @@ class RewardController extends Controller
             'is_active' => true,
             'product_id' => $voucher->product_id,
             'points_cost' => null, // Không cho phép dùng mã này đổi tiếp
+            'user_id' => $user->id,
         ]);
 
         // Ghi nhật ký đổi quà
