@@ -2,8 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\VoucherResource\Pages;
-use App\Filament\Resources\VoucherResource\RelationManagers;
+use App\Filament\Resources\GiftResource\Pages;
 use App\Models\Voucher;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,27 +10,25 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class VoucherResource extends Resource
+class GiftResource extends Resource
 {
     protected static ?string $model = Voucher::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-ticket';
-    protected static ?string $navigationGroup = 'Quản lý bán hàng';
-    protected static ?string $navigationLabel = 'Mã giảm giá (Vouchers)';
-    protected static ?string $pluralLabel = 'Mã giảm giá';
-    protected static ?string $modelLabel = 'Mã giảm giá';
+    protected static ?string $navigationIcon = 'heroicon-o-gift';
+    protected static ?string $navigationGroup = 'Khách hàng & Tư vấn';
+    protected static ?string $navigationLabel = 'Kho quà tặng (Đổi điểm)';
+    protected static ?string $pluralLabel = 'Kho quà tặng';
+    protected static ?string $modelLabel = 'Mã quà tặng';
+    protected static ?int $navigationSort = 3;
 
     public static function getEloquentQuery(): Builder
     {
-        // Ẩn các mã voucher mẫu đổi bằng điểm để tránh trùng lặp (vì đã được quản lý trong Kho quà tặng)
+        // Chỉ lấy các mã giảm giá được thiết lập làm quà tặng đổi điểm (points_cost > 0)
+        // và chưa thuộc sở hữu của bất kỳ khách hàng cá nhân nào (user_id is null)
         return parent::getEloquentQuery()
-            ->where(function($q) {
-                $q->whereNull('points_cost')
-                  ->orWhere('points_cost', '<=', 0)
-                  ->orWhereNotNull('user_id');
-            });
+            ->whereNotNull('points_cost')
+            ->whereNull('user_id');
     }
 
     public static function form(Form $form): Form
@@ -41,8 +38,8 @@ class VoucherResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->label('Mã giảm giá')
-                    ->placeholder('Ví dụ: ECF10')
+                    ->label('Mã quà tặng')
+                    ->placeholder('Ví dụ: GIFT-100K')
                     ->maxLength(50),
                 Forms\Components\Select::make('type')
                     ->options([
@@ -50,7 +47,7 @@ class VoucherResource extends Resource
                         'fixed' => 'Số tiền cố định (đ)',
                     ])
                     ->required()
-                    ->label('Loại giảm giá'),
+                    ->label('Loại quà tặng'),
                 Forms\Components\TextInput::make('value')
                     ->numeric()
                     ->required()
@@ -61,38 +58,33 @@ class VoucherResource extends Resource
                     ->default(0)
                     ->label('Đơn hàng tối thiểu')
                     ->placeholder('Ví dụ: 100000'),
+                Forms\Components\TextInput::make('points_cost')
+                    ->numeric()
+                    ->required()
+                    ->minValue(1)
+                    ->label('Số điểm cần để đổi')
+                    ->placeholder('Ví dụ: 100'),
                 Forms\Components\TextInput::make('max_uses')
                     ->numeric()
                     ->default(100)
                     ->required()
-                    ->label('Lượt sử dụng tối đa'),
+                    ->label('Số lượng phát ra tối đa'),
                 Forms\Components\TextInput::make('uses')
                     ->numeric()
                     ->default(0)
                     ->disabled()
-                    ->label('Số lượt đã dùng'),
+                    ->label('Số lượt đã được đổi'),
                 Forms\Components\DateTimePicker::make('expires_at')
-                    ->label('Ngày hết hạn'),
+                    ->label('Hạn đổi quà'),
                 Forms\Components\Select::make('product_id')
                     ->relationship('product', 'name')
                     ->searchable()
                     ->nullable()
                     ->placeholder('Áp dụng toàn đơn hàng')
                     ->label('Sản phẩm giới hạn áp dụng'),
-                Forms\Components\TextInput::make('points_cost')
-                    ->numeric()
-                    ->nullable()
-                    ->label('Điểm tích lũy để đổi')
-                    ->placeholder('Bỏ trống nếu không cho phép đổi bằng điểm'),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->nullable()
-                    ->placeholder('Dùng chung (Công cộng)')
-                    ->label('Sở hữu bởi Khách hàng'),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true)
-                    ->label('Kích hoạt')
+                    ->label('Kích hoạt phát quà')
                     ->columnSpanFull(),
             ]);
     }
@@ -104,48 +96,45 @@ class VoucherResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->searchable()
                     ->sortable()
-                    ->label('Mã code')
+                    ->label('Mã quà')
                     ->weight('bold'),
                 Tables\Columns\TextColumn::make('type')
                     ->formatStateUsing(fn ($state) => $state === 'percent' ? 'Phần trăm (%)' : 'Số tiền cố định')
-                    ->label('Loại giảm'),
+                    ->label('Loại quà'),
                 Tables\Columns\TextColumn::make('value')
                     ->formatStateUsing(fn ($state, $record) => $record->type === 'percent' ? $state . '%' : number_format($state, 0, ',', '.') . 'đ')
                     ->label('Trị giá giảm'),
                 Tables\Columns\TextColumn::make('min_order_amount')
                     ->money('VND')
                     ->label('Đơn tối thiểu'),
-                Tables\Columns\TextColumn::make('product.name')
-                    ->label('Sản phẩm áp dụng')
-                    ->placeholder('Toàn bộ đơn hàng')
-                    ->wrap()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('points_cost')
                     ->label('Điểm đổi')
-                    ->placeholder('Không hỗ trợ')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Chủ sở hữu')
-                    ->placeholder('Công cộng')
-                    ->wrap()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable()
+                    ->weight('bold')
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('uses')
-                    ->label('Đã dùng')
+                    ->label('Đã đổi / Tổng số')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),
                 Tables\Columns\TextColumn::make('expires_at')
                     ->dateTime('d/m/Y H:i')
-                    ->label('Hạn dùng')
+                    ->label('Hạn đổi')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
-                    ->label('Trạng thái'),
+                    ->label('Đang phát'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->color('success')
+                ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -157,7 +146,7 @@ class VoucherResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageVouchers::route('/'),
+            'index' => Pages\ManageGifts::route('/'),
         ];
     }
 }
