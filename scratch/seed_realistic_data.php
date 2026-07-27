@@ -453,7 +453,7 @@ echo "Da tao xong danh sach lien he tu van.\n";
     ['slug' => 'ky-thuat-phong-tru-sau-duc-than-hai-lua-mua-thu-dong'],
     [
         'title' => 'Ky thuat phong tru sau duc than hai lua mua Thu Dong',
-        'category' => 'Ky thuat canh tac',
+        'category' => 'Quan ly sau benh hai',
         'thumbnail' => 'products/regent_spraying.png',
         'content' => '<p>Sau duc than la dich hai nguy hiem anh huong truc tiep toi nang suat bong lua. Ky su khuyen cao ba con theo doi sat buom sau duc than no ro de phun phong tru bang Regent 800WG kip thoi.</p>',
         'published_at' => now(),
@@ -475,12 +475,20 @@ echo "Da tao xong danh sach lien he tu van.\n";
     ['slug' => 'bien-phap-quan-ly-dich-ray-phan-trang-hai-san-khoai-mi'],
     [
         'title' => 'Bien phap quan ly dich ray phan trang hai san khoai mi',
-        'category' => 'Tin thi truong',
+        'category' => 'Quan ly sau benh hai',
         'thumbnail' => 'banners/banner_canhtac.png',
         'content' => '<p>Ray phan trang truyen benh kham la hai san gay that thu nghiem trong. Ba con can phun tru ray bang Chess 50WG cua Syngenta quanh vung trong de tieu diet triet de nguon benh.</p>',
         'published_at' => now(),
     ]
 );
+
+// Cap nhat cac bai viet tu DatabaseSeeder sang category moi phu hop
+\App\Models\Post::where('slug', 'giai-phap-phong-ngua-nam-benh-ri-sat-tren-cay-sau-rieng-mua-mua-lu')
+    ->update(['category' => 'Quan ly sau benh hai']);
+
+\App\Models\Post::where('slug', 'lich-xuong-giong-mua-vu-thu-dong-2026-khu-vuc-mien-tay')
+    ->update(['category' => 'Tin tuc nong nghiep']);
+
 echo "Da tao xong cam nang va tin tuc moi.\n";
 
 // 8. Tao cac ma giam gia cong cong (Vouchers)

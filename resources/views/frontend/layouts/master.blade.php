@@ -73,31 +73,42 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #f1f3f4;
-            color: #5f6368;
+            background: rgba(46, 125, 50, 0.05);
+            color: #2e7d32;
             transition: all 0.2s ease-in-out;
-            border: 1px solid transparent;
+            border: 1px solid rgba(46, 125, 50, 0.1);
         }
         .header-icon-btn:hover {
-            background: rgba(46, 125, 50, 0.08);
-            color: #2e7d32 !important;
-            transform: translateY(-1px);
+            background: #2e7d32;
+            color: #ffffff !important;
+            transform: scale(1.05);
         }
+
 
         /* 🌟 HIỆU ỨNG HOVER & GIỮ ACTIVE CHO NAV LINK */
         .navbar-nav .nav-link {
-            padding: 8px 14px !important;
-            border-radius: 20px;
-            color: #5f6368 !important;
-            font-size: 14.5px !important;
-            font-weight: 500 !important;
-            transition: all 0.25s ease;
-            margin: 0 2px;
+            position: relative;
+            color: #333333 !important;
+            transition: color 0.3s ease;
         }
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
-            background: rgba(46, 125, 50, 0.08);
             color: #2e7d32 !important;
+        }
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 2px;
+            left: 50%;
+            background-color: #2e7d32;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 70%;
         }
     </style>
 </head>
@@ -105,10 +116,10 @@
 
     @if(!request()->routeIs('login', 'register'))
     <!-- Sleek Glassmorphic Header -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm w-100 py-2.5" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); z-index: 1050;">
-        <div class="container d-flex align-items-center justify-content-between">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm w-100 py-2.5" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(46, 125, 50, 0.1); z-index: 1050;">
+        <div class="container-fluid px-3 px-md-5 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 48px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
@@ -121,11 +132,35 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Sản phẩm vật tư</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-semibold {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#" id="techDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Quy trình kỹ thuật
+                        </a>
+                        <ul class="dropdown-menu shadow border-0 rounded-3 mt-2" aria-labelledby="techDropdown" style="font-size: 13.5px; min-width: 210px; z-index: 9999;">
+                            <li>
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index') }}">
+                                    <i class="fa-solid fa-file-lines me-2 text-success opacity-75"></i>Bài viết kỹ thuật
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Quan ly sau benh hai']) }}">
+                                    <i class="fa-solid fa-bug-slash me-2 text-success opacity-75"></i>Quản lý sâu bệnh hại
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Ky thuat canh tac']) }}">
+                                    <i class="fa-solid fa-seedling me-2 text-success opacity-75"></i>Kỹ thuật canh tác
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index', ['category' => 'Tin tuc nong nghiep']) }}">
+                                    <i class="fa-solid fa-newspaper me-2 text-success opacity-75"></i>Tin tức nông nghiệp
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="{{ route('posts.index') }}">Cẩm nang nông nghiệp</a>
+                        <a class="nav-link fw-semibold {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Sản phẩm vật tư</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
@@ -238,8 +273,8 @@
                     
                     @if(auth()->check())
                         <div class="dropdown d-inline-block">
-                            <button class="btn dropdown-toggle fw-bold rounded-pill text-xs d-inline-flex align-items-center gap-1.5" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #f1f3f4; color: #333333; border: 1px solid transparent; padding: 8px 18px; font-size: 13.5px; transition: all 0.2s ease;">
-                                <i class="fa-solid fa-circle-user fs-6 text-success"></i> {{ auth()->user()->name }}
+                            <button class="btn dropdown-toggle fw-bold rounded-pill text-xs d-inline-flex align-items-center gap-1.5" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(46, 125, 50, 0.08); color: #2e7d32; border: 1px solid rgba(46, 125, 50, 0.15); padding: 8px 18px; font-size: 13.5px;">
+                                <i class="fa-solid fa-circle-user fs-6"></i> {{ auth()->user()->name }}
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">
