@@ -18,10 +18,11 @@ class VoucherResource extends Resource
     protected static ?string $model = Voucher::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
-    protected static ?string $navigationGroup = 'Quản lý bán hàng';
+    protected static ?string $navigationGroup = 'Truyền thông & Marketing';
     protected static ?string $navigationLabel = 'Mã giảm giá (Vouchers)';
     protected static ?string $pluralLabel = 'Mã giảm giá';
     protected static ?string $modelLabel = 'Mã giảm giá';
+    protected static ?int $navigationSort = 3;
 
     public static function getEloquentQuery(): Builder
     {
