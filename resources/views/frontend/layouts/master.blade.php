@@ -119,7 +119,7 @@
     <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm w-100 py-2.5" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(46, 125, 50, 0.1); z-index: 1050;">
         <div class="container-fluid px-3 px-md-5 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 48px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
