@@ -53,6 +53,30 @@ public function panel(Panel $panel): Panel
             ->assets([
                 \Filament\Support\Assets\Css::make('admin-custom', asset('css/admin-custom.css?v=' . time())),
             ])
+            ->renderHook(
+                'panels::head.end',
+                fn (): string => '<style>
+                    /* Ẩn triệt để tất cả các thanh cuộn dọc/ngang trên mọi trình duyệt */
+                    * {
+                        scrollbar-width: none !important;
+                        -ms-overflow-style: none !important;
+                    }
+                    *::-webkit-scrollbar {
+                        display: none !important;
+                        width: 0 !important;
+                        height: 0 !important;
+                    }
+                    html, body, div, section, aside, nav, table, main {
+                        scrollbar-width: none !important;
+                        -ms-overflow-style: none !important;
+                    }
+                    html::-webkit-scrollbar, body::-webkit-scrollbar, div::-webkit-scrollbar, section::-webkit-scrollbar, aside::-webkit-scrollbar, nav::-webkit-scrollbar, table::-webkit-scrollbar, main::-webkit-scrollbar {
+                        display: none !important;
+                        width: 0 !important;
+                        height: 0 !important;
+                    }
+                </style>'
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

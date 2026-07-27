@@ -205,13 +205,19 @@ class OrderResource extends Resource
                     ->label('Lọc theo tiến trình vận đơn'),
             ])
             ->actions([
-                \Filament\Tables\Actions\Action::make('print')
-                    ->label('In phiếu')
-                    ->icon('heroicon-m-printer')
-                    ->color('success')
-                    ->url(fn (Order $record): string => route('admin.orders.print', ['id' => $record->id]))
-                    ->openUrlInNewTab(),
-                EditAction::make(),
+                \Filament\Tables\Actions\ActionGroup::make([
+                    \Filament\Tables\Actions\Action::make('print')
+                        ->label('In phiếu')
+                        ->icon('heroicon-m-printer')
+                        ->color('success')
+                        ->url(fn (Order $record): string => route('admin.orders.print', ['id' => $record->id]))
+                        ->openUrlInNewTab(),
+                    EditAction::make(),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->color('success')
+                ->button(),
             ])
             ->headerActions([
                 \Filament\Tables\Actions\Action::make('export_csv')

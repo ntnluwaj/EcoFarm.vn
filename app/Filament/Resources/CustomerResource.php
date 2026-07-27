@@ -125,8 +125,14 @@ class CustomerResource extends Resource
                     ->label('Lọc theo vai trò'),
             ])
             ->actions([
-                \Filament\Tables\Actions\EditAction::make(),
-                \Filament\Tables\Actions\DeleteAction::make(),
+                \Filament\Tables\Actions\ActionGroup::make([
+                    \Filament\Tables\Actions\EditAction::make(),
+                    \Filament\Tables\Actions\DeleteAction::make(),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->color('success')
+                ->button(),
             ])
             ->bulkActions([
                 \Filament\Tables\Actions\BulkActionGroup::make([
