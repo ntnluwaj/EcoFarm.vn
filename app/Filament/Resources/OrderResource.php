@@ -337,6 +337,65 @@ class OrderResource extends Resource
 
                             return response()->stream($callback, 200, $headers);
                         }),
+                    \Filament\Tables\Actions\BulkAction::make('bulk_processing')
+                        ->label('Duyệt & Đóng gói hàng loạt')
+                        ->icon('heroicon-m-cog-6-tooth')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = 0;
+                            foreach ($records as $record) {
+                                if ($record->status === 'pending') {
+                                    $record->update(['status' => 'processing']);
+                                    $count++;
+                                }
+                            }
+                            \Filament\Notifications\Notification::make()
+                                ->title("Đã duyệt & bắt đầu đóng gói hàng loạt {$count} đơn hàng thành công!")
+                                ->success()
+                                ->send();
+                        }),
+
+                    \Filament\Tables\Actions\BulkAction::make('bulk_completed')
+                        ->label('Hoàn tất đơn hàng loạt')
+                        ->icon('heroicon-m-check-badge')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = 0;
+                            foreach ($records as $record) {
+                                if (in_array($record->status, ['processing', 'shipping'])) {
+                                    $record->update([
+                                        'status' => 'completed',
+                                        'payment_status' => 'paid',
+                                    ]);
+                                    $count++;
+                                }
+                            }
+                            \Filament\Notifications\Notification::make()
+                                ->title("Đã xác nhận hoàn tất hàng loạt {$count} đơn hàng thành công!")
+                                ->success()
+                                ->send();
+                        }),
+
+                    \Filament\Tables\Actions\BulkAction::make('bulk_cancelled')
+                        ->label('Hủy đơn hàng loạt')
+                        ->icon('heroicon-m-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = 0;
+                            foreach ($records as $record) {
+                                if (in_array($record->status, ['pending', 'processing'])) {
+                                    $record->update(['status' => 'cancelled']);
+                                    $count++;
+                                }
+                            }
+                            \Filament\Notifications\Notification::make()
+                                ->title("Đã hủy hàng loạt {$count} đơn hàng thành công!")
+                                ->warning()
+                                ->send();
+                        }),
                 ]),
             ]);
     }
