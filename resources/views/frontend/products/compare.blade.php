@@ -21,7 +21,7 @@
 
     @if(count($products) > 0)
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-            <div class="table-responsive">
+            <div class="table-responsive no-scrollbar">
                 <table class="table table-bordered align-middle mb-0 text-center" style="min-width: 750px; table-layout: fixed;">
                     <thead>
                         <tr>

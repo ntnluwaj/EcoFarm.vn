@@ -188,7 +188,7 @@
                                     <i class="fa-solid fa-gift me-1"></i> Xem mã giảm giá hiện có
                                 </a>
                                 <div class="collapse mt-1" id="available-vouchers">
-                                    <div class="card card-body p-2 border bg-light" style="max-height: 150px; overflow-y: auto;">
+                                    <div class="card card-body p-2 border bg-light no-scrollbar" style="max-height: 150px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
                                         @foreach($vouchers as $v)
                                             <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom last-border-none" style="font-size: 10.5px;">
                                                 <div class="pe-2">

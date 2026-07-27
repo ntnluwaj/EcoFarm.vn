@@ -16,6 +16,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Ẩn các thanh cuộn/trượt nhưng vẫn giữ tính năng cuộn bằng tay hoặc vuốt */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .navbar-brand { font-weight: bold; color: #2e7d32 !important; }
         .bg-green-footer { background-color: #1b5e20; color: #ffffff; }
@@ -769,7 +778,7 @@
                       <button type="button" class="btn-close" id="btn-close-compare" style="font-size: 10px;"></button>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex gap-2 align-items-center overflow-x-auto py-1" id="compare-thumbnails" style="max-width: 70%; min-height: 52px;">
+                      <div class="d-flex gap-2 align-items-center overflow-x-auto py-1 no-scrollbar" id="compare-thumbnails" style="max-width: 70%; min-height: 52px;">
                           <!-- Thumbnails -->
                       </div>
                       <a href="#" id="btn-start-compare" class="btn btn-success btn-sm px-3 py-2 fw-bold rounded-3 flex-shrink-0" style="font-size: 12px; background-color: #2e7d32; border: none;">
