@@ -44,22 +44,46 @@
             transform: scale(1.05);
         }
         
-        /* 🌟 RESPONSIVE NAVBAR: Tránh rớt dòng trên màn hình trung bình và lớn */
+        /* 🌟 RESPONSIVE NAVBAR: Tối ưu khoảng cách và kích thước chữ rộng rãi */
         @media (min-width: 992px) {
             .navbar-expand-lg .navbar-nav .nav-link {
-                padding-right: 0.65rem !important;
-                padding-left: 0.65rem !important;
-                font-size: 13.5px !important;
+                padding-right: 0.9rem !important;
+                padding-left: 0.9rem !important;
+                font-size: 14.5px !important;
             }
             .search-input-custom {
-                max-width: 155px !important;
+                width: 180px !important;
+                transition: width 0.3s ease !important;
                 font-size: 13px !important;
             }
+            .search-input-custom:focus {
+                width: 240px !important;
+            }
             .nav-btn-custom {
-                padding: 6px 12px !important;
-                font-size: 12.5px !important;
+                padding: 8px 16px !important;
+                font-size: 13px !important;
             }
         }
+
+        /* 🌟 NÚT BIỂU TƯỢNG TRÒN TRÊN HEADER */
+        .header-icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(46, 125, 50, 0.05);
+            color: #2e7d32;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+        }
+        .header-icon-btn:hover {
+            background: #2e7d32;
+            color: #ffffff !important;
+            transform: scale(1.05);
+        }
+
 
         /* 🌟 HIỆU ỨNG HOVER & GIỮ ACTIVE CHO NAV LINK */
         .navbar-nav .nav-link {
@@ -91,16 +115,15 @@
 <body>
 
     @if(!request()->routeIs('login', 'register'))
-    <!-- Floating Glassmorphic Navbar -->
-    <div class="container sticky-top px-0" style="z-index: 1050; margin-top: 15px; margin-bottom: 5px;">
-        <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
-            <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}" style="padding: 0;">
-                    <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 85px; margin-top: -18px; margin-bottom: -18px; object-fit: contain; transition: transform 0.3s ease;" class="hover-logo">
-                </a>
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <!-- Sleek Glassmorphic Header -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm w-100 py-2.5" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(46, 125, 50, 0.1); z-index: 1050;">
+        <div class="container-fluid px-3 px-md-5 d-flex align-items-center justify-content-between">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -123,9 +146,9 @@
                     </li>
                 </ul>
                 
-                <form class="d-flex me-2" action="{{ route('products.index') }}" method="GET">
-                    <input class="form-control me-2 search-input-custom" type="search" name="search" placeholder="Tìm kiếm vật tư..." aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form class="d-flex me-3 position-relative" action="{{ route('products.index') }}" method="GET">
+                    <input class="form-control rounded-pill pe-5 search-input-custom" style="padding-left: 15px; background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(0, 0, 0, 0.08); font-size: 13.5px;" type="search" name="search" placeholder="Tìm kiếm vật tư..." aria-label="Search">
+                    <button type="submit" class="position-absolute end-0 top-0 bottom-0 btn border-0 text-muted px-3" style="background: transparent;"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
                 <div class="navbar-nav align-items-center">
@@ -176,12 +199,12 @@
                             $totalCount = count($userNotifications);
                         @endphp
 
-                        <div class="dropdown me-3">
-                            <a class="nav-link text-dark position-relative" href="#" role="button" id="notificationMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="dropdown me-2">
+                            <a class="header-icon-btn position-relative" href="#" role="button" id="notificationMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-bell fs-5"></i>
                                 @if($unreadCount > 0)
-                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                                        <span class="visually-hidden">Thông báo mới</span>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 8px; padding: 2px 4px;">
+                                        {{ $unreadCount }}
                                     </span>
                                 @endif
                             </a>
@@ -217,17 +240,17 @@
                         </div>
                     @endauth
 
-                    <a class="nav-link text-dark position-relative me-3" href="{{ route('cart.index') }}">
+                    <a class="header-icon-btn position-relative me-3" href="{{ route('cart.index') }}">
                         <i class="fa-solid fa-basket-shopping fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 8px; padding: 2px 4px;">
                             {{ session()->has('cart') ? count(session()->get('cart')) : 0 }}
                         </span>
                     </a>
                     
                     @if(auth()->check())
                         <div class="dropdown d-inline-block">
-                            <button class="btn btn-success dropdown-toggle fw-bold rounded-3 text-xs d-inline-flex align-items-center gap-1" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
-                                <i class="fa-solid fa-circle-user"></i> {{ auth()->user()->name }}
+                            <button class="btn dropdown-toggle fw-bold rounded-pill text-xs d-inline-flex align-items-center gap-1.5" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(46, 125, 50, 0.08); color: #2e7d32; border: 1px solid rgba(46, 125, 50, 0.15); padding: 8px 18px; font-size: 13.5px;">
+                                <i class="fa-solid fa-circle-user fs-6"></i> {{ auth()->user()->name }}
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">
@@ -246,8 +269,6 @@
                                     @endif
                                     <li><hr class="dropdown-divider"></li>
                                 @endif
-                                
-
                                 
                                 <li>
                                     <a class="dropdown-item py-2 text-dark hover-success" href="{{ route('profile.index') }}">
@@ -277,18 +298,18 @@
                         </div>
                     @else
                         <div class="d-flex gap-2">
-                            <a href="/login" class="btn btn-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="background-color: #2e7d32; border: none; padding: 8px 16px;">
+                            <a href="/login" class="btn btn-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="background-color: #2e7d32; border: none; padding: 8px 18px; font-size: 13.5px;">
                                 <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
                             </a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-success fw-bold rounded-3 d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="border: 2px solid #2e7d32; color: #2e7d32; padding: 8px 16px; background: transparent;">
+                            <a href="{{ route('register') }}" class="btn btn-outline-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="border: 1.5px solid #2e7d32; color: #2e7d32; padding: 8px 18px; background: transparent; font-size: 13.5px;">
                                 <i class="fa-solid fa-user-plus"></i> Đăng ký
                             </a>
                         </div>
                     @endif
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
     @endif
 
     <div class="container mt-3">
