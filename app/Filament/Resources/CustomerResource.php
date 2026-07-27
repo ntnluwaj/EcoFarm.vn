@@ -72,6 +72,11 @@ class CustomerResource extends Resource
                     ])
                     ->required()
                     ->label('Phân quyền tài khoản hệ thống'),
+
+                TextInput::make('reward_points')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Điểm tích lũy'),
             ]);
     }
 
@@ -91,6 +96,9 @@ class CustomerResource extends Resource
                     ->label('Email'),
                 TextColumn::make('phone')
                     ->label('Số điện thoại'),
+                TextColumn::make('reward_points')
+                    ->sortable()
+                    ->label('Điểm tích lũy'),
                 TextColumn::make('role')
                     ->badge()
                     ->colors([

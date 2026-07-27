@@ -68,6 +68,11 @@ class VoucherResource extends Resource
                     ->nullable()
                     ->placeholder('Áp dụng toàn đơn hàng')
                     ->label('Sản phẩm giới hạn áp dụng'),
+                Forms\Components\TextInput::make('points_cost')
+                    ->numeric()
+                    ->nullable()
+                    ->label('Điểm tích lũy để đổi')
+                    ->placeholder('Bỏ trống nếu không cho phép đổi bằng điểm'),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true)
                     ->label('Kích hoạt')
@@ -97,6 +102,10 @@ class VoucherResource extends Resource
                     ->label('Sản phẩm áp dụng')
                     ->placeholder('Toàn bộ đơn hàng')
                     ->wrap(),
+                Tables\Columns\TextColumn::make('points_cost')
+                    ->label('Điểm đổi')
+                    ->placeholder('Không hỗ trợ')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('uses')
                     ->label('Đã dùng')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),

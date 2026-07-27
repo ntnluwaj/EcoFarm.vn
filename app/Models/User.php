@@ -30,6 +30,7 @@ class User extends Authenticatable implements FilamentUser // 🌟 THỰC THI CH
         'role',
         'phone',
         'address',
+        'reward_points',
     ];
 
     /**
@@ -52,6 +53,7 @@ class User extends Authenticatable implements FilamentUser // 🌟 THỰC THI CH
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'reward_points' => 'integer',
         ];
     }
 

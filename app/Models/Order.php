@@ -119,6 +119,22 @@ class Order extends Model
                     }
                 }
             }
+
+            // 🌟 LOGIC TÍCH ĐIỂM THƯỞNG KHI ĐƠN HÀNG HOÀN THÀNH
+            if ($order->isDirty('status')) {
+                $customer = $order->user;
+                if ($customer) {
+                    $points = floor($order->total_amount / 10000);
+                    // Chuyển sang completed: Cộng điểm
+                    if ($order->status === 'completed' && $order->getOriginal('status') !== 'completed') {
+                        $customer->increment('reward_points', $points);
+                    }
+                    // Chuyển từ completed sang trạng thái khác (hủy/đang xử lý): Trừ điểm
+                    elseif ($order->getOriginal('status') === 'completed' && $order->status !== 'completed') {
+                        $customer->decrement('reward_points', min($points, $customer->reward_points));
+                    }
+                }
+            }
         });
 
         // 4. LOGIC HOÀN TỒN KHO KHI XÓA ĐƠN HÀNG KHỎI HỆ THỐNG (NẾU ĐƠN CHƯA HỦY)

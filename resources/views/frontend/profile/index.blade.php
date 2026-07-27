@@ -20,6 +20,9 @@
                     <a href="{{ route('cart.history') }}" class="list-group-item list-group-item-action border-0 py-2.5 fw-semibold text-dark hover-success">
                         <i class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử đơn hàng
                     </a>
+                    <a href="{{ route('rewards.index') }}" class="list-group-item list-group-item-action border-0 py-2.5 fw-semibold text-dark hover-success">
+                        <i class="fa-solid fa-gift me-2"></i>Tích điểm đổi quà
+                    </a>
                 </div>
             </div>
         </div>

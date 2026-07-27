@@ -19,6 +19,7 @@ class Voucher extends Model
         'expires_at',
         'is_active',
         'product_id',
+        'points_cost',
     ];
 
     protected $casts = [
@@ -29,6 +30,7 @@ class Voucher extends Model
         'is_active' => 'boolean',
         'expires_at' => 'datetime',
         'product_id' => 'integer',
+        'points_cost' => 'integer',
     ];
 
     /**

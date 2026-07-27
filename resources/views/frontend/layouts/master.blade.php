@@ -246,6 +246,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item py-2 text-dark hover-success" href="{{ route('rewards.index') }}">
+                                        <i class="fa-solid fa-gift me-2 text-muted"></i>Tích điểm đổi quà
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item py-2 text-dark hover-success" href="{{ route('cart.history') }}">
                                         <i class="fa-solid fa-clock-rotate-left me-2 text-muted"></i>Đơn hàng của tôi
                                     </a>
