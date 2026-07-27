@@ -16,13 +16,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Ẩn các thanh cuộn/trượt nhưng vẫn giữ tính năng cuộn bằng tay hoặc vuốt */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        /* Ẩn toàn bộ thanh cuộn/trượt trên toàn trang nhưng vẫn giữ tính năng cuộn chuột bình thường */
+        * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        *::-webkit-scrollbar {
+            display: none !important;
         }
 
         body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -119,7 +119,7 @@
     <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm w-100 py-2.5" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(46, 125, 50, 0.1); z-index: 1050;">
         <div class="container-fluid px-3 px-md-5 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 48px; max-height: 48px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
