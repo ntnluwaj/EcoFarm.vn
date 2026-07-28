@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label text-dark small fw-bold mb-3"><i class="fa-solid fa-credit-card me-1 text-success"></i>Phương thức thanh toán dòng tiền *</label>
+                        <label class="form-label text-dark small fw-bold mb-3"><i class="fa-solid fa-credit-card me-1 text-success"></i>Phương thức thanh toán *</label>
                         
                         <div class="d-flex flex-column gap-2">
                             <label class="p-3 border rounded-3 d-flex align-items-center justify-content-between payment-option bg-light-subtle" style="cursor: pointer;">
@@ -111,7 +111,7 @@
                                     <input type="radio" name="payment_method" value="vietqr" class="form-check-input me-3 border-secondary" {{ old('payment_method') == 'vietqr' ? 'checked' : '' }}>
                                     <div>
                                         <strong class="text-dark text-sm d-block" style="font-size: 13px;">🏦 Chuyển khoản ngân hàng nhanh (VietQR)</strong>
-                                        <span class="text-muted" style="font-size: 11px;">Quét mã QR Code hiển thị ở bước tiếp theo để hoàn thành dòng tiền đầu vụ.</span>
+                                        <span class="text-muted" style="font-size: 11px;">Quét mã QR Code hiển thị ở bước tiếp theo để hoàn thành thanh toán.</span>
                                     </div>
                                 </div>
                             </label>
@@ -227,7 +227,7 @@
 </div>
 
 <style>
-    /* Hiệu ứng active đổi màu viền khi tùy chọn phương thức dòng tiền được kích hoạt */
+    /* Hiệu ứng active đổi màu viền khi tùy chọn phương thức thanh toán được kích hoạt */
     .payment-option:has(input:checked) {
         border-color: #2e7d32 !important;
         background-color: #e8f5e9 !important;

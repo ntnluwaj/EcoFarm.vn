@@ -436,6 +436,52 @@ class CartController extends Controller
     }
 
     /**
+     * KHÁCH HÀNG THAY ĐỔI PHƯƠNG THỨC THANH TOÁN VÀ ĐỊA CHỈ GIAO HÀNG (CHỈ ÁP DỤNG KHI CHƯA XÁC NHẬN PENDING)
+     */
+    public function updateOrderInfo(Request $request, $id)
+    {
+        $request->validate([
+            'shipping_address' => 'required|string|max:255',
+            'payment_method' => 'required|string|in:cod,vietqr',
+        ], [
+            'shipping_address.required' => 'Địa chỉ giao hàng không được để trống.',
+            'payment_method.required' => 'Phương thức thanh toán không hợp lệ.',
+        ]);
+
+        $order = Order::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        // Chỉ cho phép chỉnh sửa khi trạng thái đơn hàng là 'pending' (Chờ xác nhận)
+        if ($order->status !== 'pending') {
+            return redirect()->back()->with('error', 'Không thể chỉnh sửa đơn hàng này do đơn hàng đã được xác nhận hoặc đang bốc xếp!');
+        }
+
+        $order->update([
+            'shipping_address' => $request->shipping_address,
+            'payment_method' => strtoupper($request->payment_method),
+        ]);
+
+        // Gửi thông báo đến trang quản trị cho Admin & Staff
+        try {
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
+            foreach ($recipients as $recipient) {
+                $recipient->notify(new \App\Notifications\SystemNotification([
+                    'title' => 'Đơn hàng cập nhật thông tin!',
+                    'body' => "Khách hàng {$order->customer_name} vừa thay đổi thông tin thanh toán/địa chỉ của đơn hàng ECF{$order->id}.",
+                    'icon' => 'heroicon-o-check-circle',
+                    'color' => 'info',
+                    'url' => '/admin/orders'
+                ]));
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Lỗi thông báo cập nhật đơn hàng: " . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Thay đổi thông tin giao hàng và thanh toán thành công!');
+    }
+
+    /**
      * IN PHIẾU BỐC XẾP XUẤT KHO CHO ADMIN (PRD)
      */
     public function printOrder($id)

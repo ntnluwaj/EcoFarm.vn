@@ -39,11 +39,11 @@
                         <strong class="text-dark">{{ $order->customer_phone }}</strong>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="text-muted">Địa chỉ bến nhận:</span>
+                        <span class="text-muted">Địa chỉ giao hàng:</span>
                         <strong class="text-dark text-end" style="max-width: 70%;">{{ $order->shipping_address }}</strong>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="text-muted">Phương thức dòng tiền:</span>
+                        <span class="text-muted">Phương thức thanh toán:</span>
                         <strong class="text-uppercase text-success">{{ $order->payment_method }}</strong>
                     </div>
                     <hr class="my-2 text-muted opacity-25">

@@ -86,6 +86,7 @@ Route::middleware(['admin.role'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Tuyến đường cho khách tự hủy đơn hàng khi chưa xác nhận
     Route::post('/don-hang/{id}/huy-don', [CartController::class, 'cancelOrder'])->name('orders.cancel');
+    Route::post('/don-hang/{id}/cap-nhat-thong-tin', [CartController::class, 'updateOrderInfo'])->name('orders.updateInfo');
     Route::get('/thong-bao/danh-dau-da-doc', function () {
         auth()->user()->unreadNotifications->markAsRead();
         return redirect()->back()->with('success', 'Đã đánh dấu tất cả thông báo là đã đọc!');

@@ -77,7 +77,7 @@
         </div>
         <div class="col-md-6">
             <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 block-hover">
-                <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-wallet text-success me-2"></i>Thông tin dòng tiền toán học</h6>
+                <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-wallet text-success me-2"></i>Thông tin thanh toán đơn hàng</h6>
                 <div class="d-flex flex-column gap-2" style="font-size: 13.5px;">
                     <p class="text-secondary mb-0">Giải pháp thanh toán: <strong class="text-dark">{{ $order->payment_method }}</strong></p>
                     <p class="text-secondary mb-0">Tình trạng tài chính: 

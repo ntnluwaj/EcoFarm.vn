@@ -78,9 +78,60 @@
                                         </a>
 
                                         @if($order->status === 'pending')
+                                            <button type="button" class="btn btn-outline-primary btn-sm fw-bold px-3 py-1.5 rounded-3 transition-all" style="font-size: 12px;" data-bs-toggle="modal" data-bs-target="#editOrderModal{{ $order->id }}">
+                                                <i class="fa-solid fa-pen-to-square me-1"></i>Thay đổi thông tin
+                                            </button>
+
                                             <button type="button" class="btn btn-outline-danger btn-sm fw-bold px-3 py-1.5 rounded-3 transition-all" style="font-size: 12px;" data-bs-toggle="modal" data-bs-target="#cancelOrderModal{{ $order->id }}">
                                                 <i class="fa-solid fa-circle-xmark me-1"></i>Hủy đơn
                                             </button>
+
+                                            <!-- Modal Thay đổi thông tin đơn hàng -->
+                                            <div class="modal fade text-start" id="editOrderModal{{ $order->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content border-0 shadow-lg rounded-4">
+                                                        <div class="modal-header border-bottom border-light-subtle bg-light rounded-t-4 py-3">
+                                                            <h6 class="modal-title fw-bold m-0"><i class="fa-solid fa-pen-to-square me-2 text-success"></i>Thay đổi thông tin đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{ route('orders.updateInfo', $order->id) }}" method="POST">
+                                                            @csrf
+                                                            <div class="modal-body py-3">
+                                                                <p class="small text-secondary mb-3">Quý khách có thể thay đổi địa chỉ giao hàng hoặc phương thức thanh toán khi đơn hàng đang ở trạng thái <strong>Chờ xác nhận</strong>.</p>
+                                                                
+                                                                <!-- Địa chỉ giao hàng -->
+                                                                <div class="mb-3">
+                                                                    <label class="form-label small fw-bold text-dark">Địa chỉ giao hàng mới <span class="text-danger">*</span></label>
+                                                                    <input type="text" name="shipping_address" class="form-control rounded-3 text-xs" value="{{ $order->shipping_address }}" required style="font-size: 13px;">
+                                                                </div>
+
+                                                                <!-- Phương thức thanh toán -->
+                                                                <div class="mb-3">
+                                                                    <label class="form-label small fw-bold text-dark mb-2">Phương thức thanh toán <span class="text-danger">*</span></label>
+                                                                    <div class="d-flex flex-column gap-2">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="payment_method" id="pay_cod_{{ $order->id }}" value="cod" {{ strtolower($order->payment_method) === 'cod' ? 'checked' : '' }}>
+                                                                            <label class="form-check-label text-dark text-xs" for="pay_cod_{{ $order->id }}">
+                                                                                💵 Trả tiền mặt khi giao hàng (COD)
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="payment_method" id="pay_vietqr_{{ $order->id }}" value="vietqr" {{ strtolower($order->payment_method) === 'vietqr' ? 'checked' : '' }}>
+                                                                            <label class="form-check-label text-dark text-xs" for="pay_vietqr_{{ $order->id }}">
+                                                                                🏦 Chuyển khoản ngân hàng nhanh (VietQR)
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer bg-light py-2">
+                                                                <button type="button" class="btn btn-light btn-sm fw-semibold rounded-3 text-xs" data-bs-dismiss="modal">Đóng</button>
+                                                                <button type="submit" class="btn btn-success btn-sm fw-bold rounded-3 text-xs" style="background-color: #2e7d32; border: none;">LƯU THAY ĐỔI</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <!-- Modal Hủy đơn hàng -->
                                             <div class="modal fade text-start" id="cancelOrderModal{{ $order->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
@@ -88,7 +139,7 @@
                                                     <div class="modal-content border-0 shadow-lg rounded-4">
                                                         <div class="modal-header border-bottom border-light-subtle bg-light rounded-t-4 py-3">
                                                             <h6 class="modal-title fw-bold m-0"><i class="fa-solid fa-ban me-2"></i>Xác nhận hủy đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
                                                             @csrf
