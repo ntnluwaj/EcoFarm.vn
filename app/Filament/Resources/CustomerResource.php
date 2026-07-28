@@ -68,6 +68,7 @@ class CustomerResource extends Resource
                     ->options([
                         'customer' => 'Khách mua lẻ / Nông dân',
                         'staff' => 'Nhân viên bán hàng',
+                        'engineer' => 'Kỹ sư nông nghiệp',
                         'admin' => 'Quản trị viên',
                     ])
                     ->required()
@@ -106,11 +107,13 @@ class CustomerResource extends Resource
                         'warning' => 'agency',
                         'info' => 'staff',
                         'danger' => 'admin',
+                        'primary' => 'engineer',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'admin' => 'Quản trị viên',
                         'staff' => 'Nhân viên',
                         'customer' => 'Khách mua lẻ',
+                        'engineer' => 'Kỹ sư nông nghiệp',
                         default => $state,
                     })
                     ->label('Vai trò hệ thống'),
@@ -120,6 +123,7 @@ class CustomerResource extends Resource
                     ->options([
                         'customer' => 'Khách lẻ',
                         'staff' => 'Nhân viên',
+                        'engineer' => 'Kỹ sư nông nghiệp',
                         'admin' => 'Quản trị viên',
                     ])
                     ->label('Lọc theo vai trò'),
