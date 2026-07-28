@@ -269,5 +269,8 @@ class DatabaseSeeder extends Seeder
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error("Lỗi khi tạo thông báo mẫu: " . $e->getMessage());
         }
+
+        // Gọi Seeder sản phẩm Bamboo Việt Nam
+        $this->call(BambooProductSeeder::class);
     }
 }
