@@ -127,7 +127,7 @@
     
     <div class="content">
         <p>Kính chào <strong>{{ $order->customer_name }}</strong>,</p>
-        <p>Chúng tôi xin thông báo trạng thái vận đơn của bà con đã được cập nhật trên hệ thống quản lý kho.</p>
+        <p>Chúng tôi xin thông báo trạng thái vận đơn của quý khách đã được cập nhật trên hệ thống quản lý kho.</p>
 
         @php
             $formattedId = 'ECF' . str_pad($order->id, 6, '0', STR_PAD_LEFT);

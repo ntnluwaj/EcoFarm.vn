@@ -4,7 +4,7 @@
 <div class="container my-5" style="font-family: 'Plus Jakarta Sans', sans-serif;">
     <div class="text-center mb-5">
         <h2 class="fw-bold text-success mb-2">Liên hệ & Tư vấn kỹ thuật</h2>
-        <p class="text-muted mx-auto" style="max-width: 600px;">Bà con có thắc mắc về vật tư nông nghiệp, cần tư vấn quy trình canh tác hoặc chính sách đại lý? Hãy liên hệ ngay với đội ngũ kỹ sư của EcoFarm.</p>
+        <p class="text-muted mx-auto" style="max-width: 600px;">Quý khách có thắc mắc về vật tư nông nghiệp, cần tư vấn quy trình canh tác hoặc chính sách đại lý? Hãy liên hệ ngay với đội ngũ kỹ sư của EcoFarm.</p>
     </div>
 
     <div class="row g-4 justify-content-center">
@@ -75,7 +75,7 @@
                     <div class="row g-3">
                         <!-- Họ tên -->
                         <div class="col-md-6">
-                            <label for="name" class="form-label fw-semibold text-dark" style="font-size: 13px;">Họ tên của bà con <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label fw-semibold text-dark" style="font-size: 13px;">Họ tên của quý khách <span class="text-danger">*</span></label>
                             <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="Ví dụ: Trần Văn B" value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}" required>
                         </div>
 

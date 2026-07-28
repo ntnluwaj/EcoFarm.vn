@@ -13,7 +13,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         if (Auth::check()) {
-            return redirect('/')->with('info', 'Bà con đã đăng nhập tài khoản rồi.');
+            return redirect('/')->with('info', 'Quý khách đã đăng nhập tài khoản rồi.');
         }
         return view('frontend.auth.register');
     }
@@ -61,6 +61,6 @@ class RegisterController extends Controller
             \Illuminate\Support\Facades\Log::error("Lỗi thông báo đăng ký: " . $e->getMessage());
         }
 
-        return redirect('/')->with('success', 'Đăng ký tài khoản thành công! Hệ thống đã tự động đăng nhập cho bà con.');
+        return redirect('/')->with('success', 'Đăng ký tài khoản thành công! Hệ thống đã tự động đăng nhập cho quý khách.');
     }
 }

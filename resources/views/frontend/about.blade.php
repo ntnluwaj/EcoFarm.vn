@@ -69,7 +69,7 @@
                     Khởi đầu từ khát vọng giải quyết các khó khăn trong chuỗi cung ứng vật tư của nhà vườn miền Tây, <strong>EcoFarm</strong> được thành lập nhằm mang đến một nền tảng bán lẻ vật tư nông nghiệp chính hãng trực quan và uy tín nhất.
                 </p>
                 <p class="text-dark mb-4" style="line-height: 1.8;">
-                    Chúng tôi liên kết trực tiếp với các tập đoàn phân bón hàng đầu (như Bình Điền, Đầu Trâu) và các nhà sản xuất thuốc bảo vệ thực vật chính ngạch để mang lại mức giá bán lẻ cạnh tranh nhất, loại bỏ hoàn toàn rủi ro hàng giả hàng nhái gây hại mùa màng của bà con.
+                    Chúng tôi liên kết trực tiếp với các tập đoàn phân bón hàng đầu (như Bình Điền, Đầu Trâu) và các nhà sản xuất thuốc bảo vệ thực vật chính ngạch để mang lại mức giá bán lẻ cạnh tranh nhất, loại bỏ hoàn toàn rủi ro hàng giả hàng nhái gây hại mùa màng của quý khách.
                 </p>
                 <div class="row g-3">
                     <div class="col-6">

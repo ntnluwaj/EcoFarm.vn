@@ -10,7 +10,7 @@
                         <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 70px; object-fit: contain;" class="mb-3">
                     </a>
                     <h3 class="fw-bold text-success">Đăng nhập tài khoản</h3>
-                    <p class="text-muted small">Chào mừng bà con trở lại với cửa hàng vật tư EcoFarm</p>
+                    <p class="text-muted small">Chào mừng quý khách trở lại với cửa hàng vật tư EcoFarm</p>
                 </div>
 
                 @if($errors->any())
@@ -60,7 +60,7 @@
 
                     <!-- Chưa có tài khoản -->
                     <div class="text-center mt-3">
-                        <span class="text-muted small">Bà con chưa có tài khoản?</span>
+                        <span class="text-muted small">Quý khách chưa có tài khoản?</span>
                         <a href="{{ route('register') }}" class="text-success small fw-semibold text-decoration-none ms-1">Đăng ký thành viên mới</a>
                     </div>
                 </form>

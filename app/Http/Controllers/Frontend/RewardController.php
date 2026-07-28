@@ -97,7 +97,7 @@ class RewardController extends Controller
         try {
             $user->notify(new \App\Notifications\SystemNotification([
                 'title' => 'Đổi quà thành công!',
-                'body' => "Bà con vừa đổi thành công {$voucher->points_cost} điểm lấy mã giảm giá cá nhân: {$personalCode}.",
+                'body' => "Quý khách vừa đổi thành công {$voucher->points_cost} điểm lấy mã giảm giá cá nhân: {$personalCode}.",
                 'icon' => 'heroicon-o-gift',
                 'color' => 'warning',
                 'url' => route('profile.vouchers')

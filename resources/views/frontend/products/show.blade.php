@@ -265,7 +265,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label text-muted small mb-1">Nhận xét thực tế:</label>
-                                        <textarea name="comment" rows="3" class="form-control form-control-sm rounded-2" placeholder="Chia sẻ kinh nghiệm sử dụng vật tư nông nghiệp này cho bà con..." required></textarea>
+                                        <textarea name="comment" rows="3" class="form-control form-control-sm rounded-2" placeholder="Chia sẻ kinh nghiệm sử dụng vật tư nông nghiệp này cho mọi người..." required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-success btn-sm w-100 fw-bold rounded-2">Gửi nhận xét đánh giá</button>
                                 </form>

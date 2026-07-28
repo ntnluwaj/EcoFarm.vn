@@ -51,7 +51,7 @@
                                 @case('pending') <span class="text-warning fw-bold"><i class="fa-solid fa-clock me-1"></i> Khởi tạo đơn hàng - Chờ tổng đài viên xác nhận</span> @break
                                 @case('processing') <span class="text-info fw-bold"><i class="fa-solid fa-box me-1"></i> Nhân viên kho Cần Thơ đang đóng gói / Bốc xếp vật tư</span> @break
                                 @case('shipping') <span class="text-primary fw-bold"><i class="fa-solid fa-truck me-1"></i> Đơn hàng đã bàn giao xe tải vận chuyển, đang trên đường giao nhận</span> @break
-                                @case('completed') <span class="text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Hoàn tất vận đơn - Bà con đã ký nhận & thanh toán đủ</span> @break
+                                @case('completed') <span class="text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Hoàn tất vận đơn - Quý khách đã ký nhận & thanh toán đủ</span> @break
                                 @case('cancelled') <span class="text-danger fw-bold"><i class="fa-solid fa-ban me-1"></i> Đơn hàng bị hủy hệ thống</span> @break
                             @endswitch
                         </strong>

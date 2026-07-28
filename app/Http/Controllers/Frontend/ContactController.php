@@ -84,7 +84,7 @@ class ContactController extends Controller
             \Illuminate\Support\Facades\Log::error("Lỗi gửi Telegram liên hệ: " . $e->getMessage());
         }
 
-        return redirect()->back()->with('success', 'Gửi thông tin liên hệ thành công! Kỹ sư nông học sẽ phản hồi lại cho bà con sớm nhất.');
+        return redirect()->back()->with('success', 'Gửi thông tin liên hệ thành công! Kỹ sư nông học sẽ phản hồi lại cho quý khách sớm nhất.');
     }
 
     /**

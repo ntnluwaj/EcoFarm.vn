@@ -16,7 +16,7 @@
     <!-- Header Section -->
     <div class="mb-4 bg-white p-4 rounded-4 shadow-sm">
         <h3 class="fw-bold text-dark mb-1"><i class="fa-solid fa-scale-balanced text-success me-2"></i>Bàn So Sánh Kỹ Thuật Vật Tư</h3>
-        <p class="text-muted small mb-0">Phân tích chi tiết và đối chiếu trực quan các thông số kỹ thuật giữa các loại phân bón, thuốc bảo vệ thực vật để giúp bà con đưa ra quyết định mua hàng chính xác nhất.</p>
+        <p class="text-muted small mb-0">Phân tích chi tiết và đối chiếu trực quan các thông số kỹ thuật giữa các loại phân bón, thuốc bảo vệ thực vật để giúp quý khách đưa ra quyết định mua hàng chính xác nhất.</p>
     </div>
 
     @if(count($products) > 0)

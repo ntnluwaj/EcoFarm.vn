@@ -459,7 +459,7 @@
                 <!-- Welcoming message -->
                 <div class="d-flex flex-column align-items-start gap-1" style="max-width: 85%;">
                     <div class="p-2.5 rounded-3 text-dark bg-white border border-light-subtle" style="border-radius: 0 12px 12px 12px !important; line-height: 1.4;">
-                        Xin chào bà con! Tôi là Trợ lý Nông nghiệp **EcoBot**. Bà con cần tư vấn về kỹ thuật canh tác, liều lượng sử dụng hay giá sỉ vật tư nào?
+                        Xin chào quý khách! Tôi là Trợ lý Nông nghiệp **EcoBot**. Quý khách cần tư vấn về kỹ thuật canh tác, liều lượng sử dụng hay giá sỉ vật tư nào?
                     </div>
                     <span class="text-muted text-xs ms-1" style="font-size: 9px;">Vừa xong</span>
                 </div>
@@ -469,7 +469,7 @@
             <div class="card-footer p-2 bg-white border-top border-light-subtle">
                 <form id="chatbox-form" class="d-flex gap-1.5 align-items-center">
                     @csrf
-                    <input type="text" id="chatbox-input" class="form-control form-control-sm border-0 bg-light rounded-3 px-3 py-2" placeholder="Nhập câu hỏi của bà con..." autocomplete="off" style="font-size: 12.5px; box-shadow: none;">
+                    <input type="text" id="chatbox-input" class="form-control form-control-sm border-0 bg-light rounded-3 px-3 py-2" placeholder="Nhập câu hỏi của quý khách..." autocomplete="off" style="font-size: 12.5px; box-shadow: none;">
                     <button type="submit" class="btn btn-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: #2e7d32; border: none;">
                         <i class="fa-solid fa-paper-plane text-white" style="font-size: 11px;"></i>
                     </button>
@@ -578,7 +578,7 @@
                     })
                     .catch(err => {
                         removeTypingIndicator(typingId);
-                        addMessage("Rất tiếc, đã có lỗi đường truyền xảy ra. Bà con vui lòng thử lại sau ít phút!", 'bot-msg text-danger');
+                        addMessage("Rất tiếc, đã có lỗi đường truyền xảy ra. Quý khách vui lòng thử lại sau ít phút!", 'bot-msg text-danger');
                         messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     });
                 });
@@ -631,7 +631,7 @@
                       
                       <!-- Họ tên -->
                       <div class="mb-3">
-                          <label for="adviceName" class="form-label fw-semibold text-dark small">Họ tên của bà con <span class="text-danger">*</span></label>
+                          <label for="adviceName" class="form-label fw-semibold text-dark small">Họ tên của quý khách <span class="text-danger">*</span></label>
                           <input type="text" class="form-control rounded-3" id="adviceName" name="name" placeholder="Nhập họ tên" value="{{ auth()->check() ? auth()->user()->name : '' }}" required>
                       </div>
                       
@@ -764,7 +764,7 @@
                           // Bắt đầu chuỗi giả lập cuộc gọi VoIP
                           callTimer1 = setTimeout(function() {
                               callingStatus.innerText = 'Đang đổ chuông...';
-                              callingSub.innerText = 'Điện thoại của bà con đang reo...';
+                              callingSub.innerText = 'Điện thoại của quý khách đang reo...';
                               callingProgressLogs.innerText = '[Ringing]: Vui lòng sẵn sàng nhấc máy điện thoại.';
                           }, 2500);
 
@@ -772,7 +772,7 @@
                               callingStatus.innerText = 'Đã kết nối!';
                               callingSub.innerText = 'Cuộc gọi đàm thoại đang diễn ra...';
                               callingProgressLogs.style.color = '#4caf50';
-                              callingProgressLogs.innerHTML = '<i class="fa-solid fa-circle-nodes"></i> Kỹ sư Nông học đang kết nối trực tiếp với bà con.';
+                              callingProgressLogs.innerHTML = '<i class="fa-solid fa-circle-nodes"></i> Kỹ sư Nông học đang kết nối trực tiếp với quý khách.';
                               const icon = document.getElementById('callingIcon');
                               if (icon) {
                                   icon.classList.remove('fa-phone-volume');
@@ -823,7 +823,7 @@
               callingProgressLogs.style.color = '';
               callingProgressLogs.innerText = '';
               
-              alert('Cuộc gọi tư vấn đã kết thúc thành công. Thông tin của bà con đã được lưu trữ để kỹ sư tiếp tục theo dõi!');
+              alert('Cuộc gọi tư vấn đã kết thúc thành công. Thông tin của quý khách đã được lưu trữ để kỹ sư tiếp tục theo dõi!');
           }
       });
   </script>

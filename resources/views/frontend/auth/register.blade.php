@@ -30,7 +30,7 @@
 
                     <!-- Họ tên -->
                     <div class="mb-3">
-                        <label for="name" class="form-label fw-semibold text-dark" style="font-size: 13px;">Họ tên của bà con <span class="text-danger">*</span></label>
+                        <label for="name" class="form-label fw-semibold text-dark" style="font-size: 13px;">Họ tên của quý khách <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-regular fa-user"></i></span>
                             <input type="text" class="form-control bg-light border-start-0 ps-0 rounded-end-3" id="name" name="name" placeholder="Ví dụ: Nguyễn Văn A" value="{{ old('name') }}" required>
@@ -90,7 +90,7 @@
 
                     <!-- Đã có tài khoản -->
                     <div class="text-center mt-3">
-                        <span class="text-muted small">Bà con đã có tài khoản rồi?</span>
+                        <span class="text-muted small">Quý khách đã có tài khoản rồi?</span>
                         <a href="{{ route('login') }}" class="text-success small fw-semibold text-decoration-none ms-1">Đăng nhập ngay</a>
                     </div>
                 </form>
