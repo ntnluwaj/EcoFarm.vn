@@ -140,14 +140,10 @@
                         <ul class="dropdown-menu shadow border-0 rounded-3 mt-2" aria-labelledby="techDropdown" style="font-size: 13.5px; min-width: 210px; z-index: 9999;">
                             <li>
                                 <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.index') }}">
-                                    <i class="fa-solid fa-file-lines me-2 text-success opacity-75"></i>Bài viết kỹ thuật
+                                    <i class="fa-solid fa-file-lines me-2 text-success opacity-75"></i>Cẩm nang nông nghiệp
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.pestManagement') }}">
-                                    <i class="fa-solid fa-bug-slash me-2 text-success opacity-75"></i>Quản lý sâu bệnh hại
-                                </a>
-                            </li>
+
                             <li>
                                 <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.farmingTechniques') }}">
                                     <i class="fa-solid fa-seedling me-2 text-success opacity-75"></i>Kỹ thuật canh tác
@@ -158,6 +154,11 @@
                                     <i class="fa-solid fa-newspaper me-2 text-success opacity-75"></i>Tin tức nông nghiệp
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item py-2 fw-semibold text-dark hover-success" href="{{ route('posts.pestManagement') }}">
+                                    <i class="fa-solid fa-bug-slash me-2 text-success opacity-75"></i>Quản lý sâu bệnh hại
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -166,11 +167,7 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
                     </li>
-                    @if(auth()->check())
-                        <li class="nav-item">
-                            <a class="nav-link fw-semibold {{ request()->routeIs('cart.history') ? 'active' : '' }}" href="{{ route('cart.history') }}">Đơn hàng của tôi</a>
-                        </li>
-                    @else
+                    @if(!auth()->check())
                         <li class="nav-item">
                             <a class="nav-link fw-semibold {{ request()->routeIs('orders.track') ? 'active' : '' }}" href="{{ route('orders.track') }}">Tra cứu đơn hàng</a>
                         </li>
