@@ -68,6 +68,7 @@ class PostResource extends Resource
                     ->schema([
                         Select::make('category')
                             ->options([
+                                'Cẩm nang nông nghiệp' => 'Cẩm nang nông nghiệp',
                                 'Kỹ thuật canh tác' => 'Kỹ thuật canh tác',
                                 'Quản lý sâu bệnh hại' => 'Quản lý sâu bệnh hại',
                                 'Tin tức nông nghiệp' => 'Tin tức nông nghiệp',
@@ -110,6 +111,7 @@ class PostResource extends Resource
                         'success' => 'Kỹ thuật canh tác',
                         'warning' => 'Quản lý sâu bệnh hại',
                         'info' => 'Tin tức nông nghiệp',
+                        'primary' => 'Cẩm nang nông nghiệp',
                     ])
                     ->label('Chuyên mục'),
 
@@ -128,6 +130,7 @@ class PostResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('category')
                     ->options([
+                        'Cẩm nang nông nghiệp' => 'Cẩm nang nông nghiệp',
                         'Kỹ thuật canh tác' => 'Kỹ thuật canh tác',
                         'Quản lý sâu bệnh hại' => 'Quản lý sâu bệnh hại',
                         'Tin tức nông nghiệp' => 'Tin tức nông nghiệp',

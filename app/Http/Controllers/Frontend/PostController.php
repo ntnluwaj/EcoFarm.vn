@@ -13,24 +13,16 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Post::query();
-
-        // 1. Bộ lọc chuyên mục nếu có
-        if ($request->has('category') && $request->input('category') !== '') {
-            $query->where('category', $request->input('category'));
-        }
+        $query = Post::query()->where('category', 'Cẩm nang nông nghiệp');
 
         // Chỉ lấy các bài viết đã được phê duyệt xuất bản
         $query->whereNotNull('published_at')->where('published_at', '<=', now());
 
-        // 2. Lấy danh sách bài viết mới nhất phân trang 9 bản ghi/trang
+        // Lấy danh sách bài viết mới nhất phân trang 9 bản ghi/trang
         $posts = $query->orderBy('id', 'desc')->paginate(9);
 
-        // 3. Lấy động danh sách các chuyên mục hiện có để hiển thị thanh lọc
-        $categories = Post::select('category')
-            ->whereNotNull('category')
-            ->distinct()
-            ->pluck('category');
+        // Danh sách chuyên mục để tương thích hiển thị giao diện
+        $categories = ['Cẩm nang nông nghiệp', 'Kỹ thuật canh tác', 'Tin tức nông nghiệp', 'Quản lý sâu bệnh hại'];
 
         return view('frontend.posts.index', compact('posts', 'categories'));
     }
