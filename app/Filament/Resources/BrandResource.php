@@ -27,6 +27,11 @@ class BrandResource extends Resource
     
     protected static ?string $pluralModelLabel = 'Danh sách Thương hiệu';
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

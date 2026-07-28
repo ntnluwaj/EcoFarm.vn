@@ -30,6 +30,11 @@ class StockResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     public static function table(Table $table): Table
     {
         return $table

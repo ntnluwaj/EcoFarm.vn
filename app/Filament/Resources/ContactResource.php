@@ -31,6 +31,11 @@ class ContactResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'engineer', 'staff']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

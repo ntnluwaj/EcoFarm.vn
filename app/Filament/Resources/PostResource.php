@@ -34,6 +34,11 @@ class PostResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Danh sách bài viết';
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'engineer', 'staff']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

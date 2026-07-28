@@ -34,6 +34,11 @@ class ProductResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

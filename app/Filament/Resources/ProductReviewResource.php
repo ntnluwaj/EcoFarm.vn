@@ -23,6 +23,11 @@ class ProductReviewResource extends Resource
     
     protected static ?int $navigationSort = 5;
 
+    public static function canViewAny(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
