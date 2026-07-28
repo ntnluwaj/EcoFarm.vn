@@ -76,7 +76,10 @@
                                     @endphp
                                     
                                     @if($firstImg)
-                                        <img src="{{ asset('storage/' . $firstImg) }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 150px; object-fit: contain;">
+                                        <img src="{{ asset('storage/' . $firstImg) }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 150px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                        <div style="display: none;">
+                                            <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 55px;"></i>
+                                        </div>
                                     @else
                                         <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 55px;"></i>
                                     @endif

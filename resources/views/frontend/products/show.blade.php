@@ -37,7 +37,11 @@
                         <div class="carousel-inner rounded-3">
                             @foreach($gallery as $index => $img)
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }} text-center p-4">
-                                    <img src="{{ asset('storage/' . $img) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px; object-fit: contain;">
+                                    <img src="{{ asset('storage/' . $img) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <div style="display: none; padding: 20px;">
+                                        <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
+                                        <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
@@ -51,7 +55,11 @@
                     </div>
                 @elseif(!empty($product->image))
                     <div class="text-center p-4">
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded-3" style="max-height: 300px; object-fit: contain;">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded-3" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div style="display: none; padding: 20px;">
+                            <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
+                            <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
+                        </div>
                     </div>
                 @else
                     <div class="text-center text-muted p-4">
