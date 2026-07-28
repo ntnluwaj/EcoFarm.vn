@@ -15,32 +15,43 @@ class OrderOverview extends BaseWidget
     // Cài đặt thời gian tự động làm mới số liệu (sau mỗi 10 giây)
     protected static ?string $pollingInterval = '10s';
 
+    public static function canView(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     protected function getStats(): array
     {
-        // 1. Tính tổng doanh thu thực tế từ các đơn hoàn thành
-        $revenue = Order::where('status', 'completed')->sum('total_amount');
+        $role = auth()->user()?->role;
+        $stats = [];
 
-        // 2. Đếm số lượng đơn hàng đang chờ bốc xếp công tác
-        $pendingOrders = Order::where('status', 'pending')->count();
-
-        // 3. Thống kê số lượng khách hàng/nhà vườn đăng ký hệ thống
-        $customerCount = User::where('role', 'customer')->count();
-
-        return [
-            Stat::make('Doanh thu hệ thống', number_format($revenue, 0, ',', '.') . ' VND')
+        // 1. Doanh thu hệ thống - Chỉ dành cho admin
+        if ($role === 'admin') {
+            $revenue = Order::where('status', 'completed')->sum('total_amount');
+            $stats[] = Stat::make('Doanh thu hệ thống', number_format($revenue, 0, ',', '.') . ' VND')
                 ->description('Tổng tiền từ đơn hàng hoàn tất')
                 ->descriptionIcon('heroicon-m-arrow-trending-up', IconPosition::Before)
-                ->color('success'),
+                ->color('success');
+        }
 
-            Stat::make('Đơn hàng chờ duyệt', $pendingOrders . ' đơn')
+        // 2. Đơn hàng chờ duyệt - Admin và Staff đều xem được
+        if (in_array($role, ['admin', 'staff'])) {
+            $pendingOrders = Order::where('status', 'pending')->count();
+            $stats[] = Stat::make('Đơn hàng chờ duyệt', $pendingOrders . ' đơn')
                 ->description('Cần bốc xếp & đóng gói gấp')
                 ->descriptionIcon('heroicon-m-clock', IconPosition::Before)
-                ->color($pendingOrders > 0 ? 'warning' : 'gray'),
+                ->color($pendingOrders > 0 ? 'warning' : 'gray');
+        }
 
-            Stat::make('Nhà vườn đăng ký', $customerCount . ' thành viên')
+        // 3. Nhà vườn đăng ký - Chỉ dành cho admin
+        if ($role === 'admin') {
+            $customerCount = User::where('role', 'customer')->count();
+            $stats[] = Stat::make('Nhà vườn đăng ký', $customerCount . ' thành viên')
                 ->description('Hệ thống khách mua lẻ')
                 ->descriptionIcon('heroicon-m-user-group', IconPosition::Before)
-                ->color('info'),
-        ];
+                ->color('info');
+        }
+
+        return $stats;
     }
 }

@@ -7,6 +7,11 @@ use Filament\Widgets\ChartWidget;
 
 class OrderStatusChart extends ChartWidget
 {
+    public static function canView(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     protected static ?string $heading = 'Tỷ lệ trạng thái đơn hàng';
     
     protected static ?int $sort = 3;

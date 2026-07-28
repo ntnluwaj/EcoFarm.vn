@@ -10,6 +10,11 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestOrders extends BaseWidget
 {
+    public static function canView(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
     protected static ?int $sort = 4;
     
     protected static ?string $heading = 'Đơn hàng mới nhận gần đây';
