@@ -19,20 +19,6 @@
             <h4 class="fw-bold text-dark mb-1">KỸ THUẬT CANH TÁC & DINH DƯỠNG</h4>
             <p class="text-secondary small mb-0">Hướng dẫn gieo sạ, làm đất kỹ thuật cao, bón phân cân đối đa-trung-vi lượng giúp tối ưu hóa năng suất và giảm chi phí đầu tư</p>
         </div>
-    </div>    <!-- Category Filters -->
-    <div class="d-flex flex-wrap gap-2 mb-4">
-        <a href="{{ route('posts.index') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Tất cả bài viết
-        </a>
-        <a href="{{ route('posts.pestManagement') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Quản lý sâu bệnh hại
-        </a>
-        <a href="{{ route('posts.farmingTechniques') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-success" style="background-color: #2e7d32; border: none;">
-            Kỹ thuật canh tác
-        </a>
-        <a href="{{ route('posts.news') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Tin tức nông nghiệp
-        </a>
     </div>
 
     <!-- Articles Grid -->

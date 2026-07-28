@@ -19,20 +19,6 @@
             <h4 class="fw-bold text-dark mb-1">QUẢN LÝ SÂU BỆNH HẠI CÂY TRỒNG</h4>
             <p class="text-secondary small mb-0">Các giải pháp chẩn đoán nhanh, kỹ thuật đặc trị các loại dịch hại và côn trùng châm hút trên hoa màu, lúa nước và cây ăn trái</p>
         </div>
-    </div>    <!-- Category Filters -->
-    <div class="d-flex flex-wrap gap-2 mb-4">
-        <a href="{{ route('posts.index') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Tất cả bài viết
-        </a>
-        <a href="{{ route('posts.pestManagement') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-success" style="background-color: #2e7d32; border: none;">
-            Quản lý sâu bệnh hại
-        </a>
-        <a href="{{ route('posts.farmingTechniques') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Kỹ thuật canh tác
-        </a>
-        <a href="{{ route('posts.news') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
-            Tin tức nông nghiệp
-        </a>
     </div>
 
     <!-- Articles Grid -->
