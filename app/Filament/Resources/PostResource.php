@@ -36,7 +36,7 @@ class PostResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return in_array(auth()->user()?->role, ['admin', 'engineer', 'staff']);
+        return in_array(auth()->user()?->role, ['admin', 'engineer']);
     }
 
     public static function form(Form $form): Form
