@@ -190,37 +190,53 @@
                             
                             foreach ($unreadNotifications as $n) {
                                 $data = $n->data;
-                                $faIcon = match($data['icon'] ?? '') {
-                                    'heroicon-o-shopping-bag' => 'fa-box-open',
-                                    'heroicon-o-chat-bubble-left-right' => 'fa-user-doctor',
-                                    default => 'fa-bell'
-                                };
+                                $faIcon = $data['icon'] ?? 'fa-bell';
+                                if (strpos($faIcon, 'heroicon-') === 0) {
+                                    $faIcon = match($faIcon) {
+                                        'heroicon-o-shopping-bag' => 'fa-box-open',
+                                        'heroicon-o-chat-bubble-left-right' => 'fa-user-doctor',
+                                        'heroicon-o-gift' => 'fa-gift',
+                                        'heroicon-o-bell' => 'fa-bell',
+                                        'heroicon-o-check-circle' => 'fa-circle-check',
+                                        'heroicon-o-truck' => 'fa-truck',
+                                        default => 'fa-bell'
+                                    };
+                                }
                                 $userNotifications[] = [
+                                    'id' => $n->id,
                                     'icon' => $faIcon,
                                     'color' => $data['color'] ?? 'success',
                                     'title' => $data['title'] ?? 'Thông báo',
                                     'body' => $data['body'] ?? '',
                                     'time' => $n->created_at->diffForHumans(),
                                     'is_unread' => true,
-                                    'url' => route('cart.history')
+                                    'url' => $data['url'] ?? route('cart.history')
                                 ];
                             }
                             
                             foreach ($readNotifications as $n) {
                                 $data = $n->data;
-                                $faIcon = match($data['icon'] ?? '') {
-                                    'heroicon-o-shopping-bag' => 'fa-box-open',
-                                    'heroicon-o-chat-bubble-left-right' => 'fa-user-doctor',
-                                    default => 'fa-bell'
-                                };
+                                $faIcon = $data['icon'] ?? 'fa-bell';
+                                if (strpos($faIcon, 'heroicon-') === 0) {
+                                    $faIcon = match($faIcon) {
+                                        'heroicon-o-shopping-bag' => 'fa-box-open',
+                                        'heroicon-o-chat-bubble-left-right' => 'fa-user-doctor',
+                                        'heroicon-o-gift' => 'fa-gift',
+                                        'heroicon-o-bell' => 'fa-bell',
+                                        'heroicon-o-check-circle' => 'fa-circle-check',
+                                        'heroicon-o-truck' => 'fa-truck',
+                                        default => 'fa-bell'
+                                    };
+                                }
                                 $userNotifications[] = [
+                                    'id' => $n->id,
                                     'icon' => $faIcon,
                                     'color' => $data['color'] ?? 'success',
                                     'title' => $data['title'] ?? 'Thông báo',
                                     'body' => $data['body'] ?? '',
                                     'time' => $n->created_at->diffForHumans(),
                                     'is_unread' => false,
-                                    'url' => route('cart.history')
+                                    'url' => $data['url'] ?? route('cart.history')
                                 ];
                             }
                             
@@ -246,7 +262,7 @@
                                 @if($totalCount > 0)
                                     @foreach($userNotifications as $notif)
                                         <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex gap-2.5 border-bottom border-light-subtle text-wrap" href="{{ $notif['url'] }}" style="{{ $notif['is_unread'] ? 'background-color: rgba(46, 125, 50, 0.04); font-weight: 500;' : '' }}">
+                                            <a class="dropdown-item py-2 px-3 d-flex gap-2.5 border-bottom border-light-subtle text-wrap" href="{{ route('notifications.show', $notif['id']) }}" style="{{ $notif['is_unread'] ? 'background-color: rgba(46, 125, 50, 0.04); font-weight: 500;' : '' }}">
                                                 <div class="rounded-circle bg-{{ $notif['color'] }}-subtle text-{{ $notif['color'] }} d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; min-width: 32px;">
                                                     <i class="fa-solid {{ $notif['icon'] }} fs-6"></i>
                                                 </div>
@@ -387,9 +403,9 @@
                     <h5 class="text-uppercase fw-bold mb-3">Liên hệ với EcoFarm</h5>
                     <p class="small text-white-50">Hãy liên hệ với chúng tôi để được hỗ trợ kỹ thuật canh tác và tư vấn cung ứng vật tư tốt nhất:</p>
                     <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
-                        <li><i class="fa-solid fa-phone text-warning me-2"></i><strong>Hotline:</strong> 1900 888 999 - (0292) 3 888 999</li>
+                        <li><i class="fa-solid fa-phone text-warning me-2"></i><strong>Hotline:</strong> 0398 037 435</li>
                         <li><i class="fa-solid fa-envelope text-warning me-2"></i><strong>Email:</strong> contact@ecofarm.vn</li>
-                        <li><i class="fa-solid fa-clock text-warning me-2"></i><strong>Làm việc:</strong> T2 - CN (7:00 - 21:00)</li>
+                        <li><i class="fa-solid fa-clock text-warning me-2"></i><strong>Làm việc:</strong> T2 - T7 (8:00 - 17:00)</li>
                         <li class="pt-2">
                             <div class="d-flex gap-2">
                                 <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fa-brands fa-facebook-f"></i></a>

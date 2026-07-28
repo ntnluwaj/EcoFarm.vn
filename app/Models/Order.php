@@ -65,21 +65,38 @@ class Order extends Model
                     $statusText = match($order->status) {
                         'pending' => 'Chờ duyệt',
                         'processing' => 'Đang đóng gói bốc xếp',
-                        'shipping' => 'Đang giao hàng',
-                        'completed' => 'Đã giao thành công',
+                        'shipping' => 'Đang giao hàng (Đã giao cho đơn vị vận chuyển)',
+                        'completed' => 'Đã giao hàng thành công',
                         'cancelled' => 'Đã hủy',
                         default => $order->status
                     };
 
                     try {
-                        \Filament\Notifications\Notification::make()
-                            ->title("Vận đơn #DH{$order->id} cập nhật")
-                            ->body("Đơn hàng của bạn đã chuyển sang trạng thái: {$statusText}.")
-                            ->icon('heroicon-o-shopping-bag')
-                            ->color('success')
-                            ->sendToDatabase($customer);
+                        $customer->notify(new \App\Notifications\SystemNotification([
+                            'title' => "Trạng thái đơn hàng ECF{$order->id} cập nhật",
+                            'body' => "Đơn hàng của bạn đã chuyển sang trạng thái: {$statusText}.",
+                            'icon' => $order->status === 'shipping' ? 'heroicon-o-truck' : 'heroicon-o-shopping-bag',
+                            'color' => $order->status === 'cancelled' ? 'danger' : 'success',
+                            'url' => route('cart.history')
+                        ]));
                     } catch (\Exception $e) {
                         \Illuminate\Support\Facades\Log::error("Lỗi thông báo trạng thái đơn hàng tới user: " . $e->getMessage());
+                    }
+
+                    // Nếu đơn hoàn thành: Tích điểm và thông báo đổi Voucher
+                    if ($order->status === 'completed') {
+                        try {
+                            $points = floor($order->total_amount / 10000);
+                            $customer->notify(new \App\Notifications\SystemNotification([
+                                'title' => 'Bạn được cộng điểm thưởng!',
+                                'body' => "Đơn hàng ECF{$order->id} hoàn thành giúp bạn tích lũy thêm {$points} điểm thưởng. Tổng điểm hiện tại của bạn đã tăng lên, hãy vào Kho quà tặng đổi Voucher ngay nhé!",
+                                'icon' => 'heroicon-o-gift',
+                                'color' => 'warning',
+                                'url' => route('rewards.index')
+                            ]));
+                        } catch (\Exception $e) {
+                            \Illuminate\Support\Facades\Log::error("Lỗi thông báo tích điểm thưởng tới user: " . $e->getMessage());
+                        }
                     }
                 }
             }

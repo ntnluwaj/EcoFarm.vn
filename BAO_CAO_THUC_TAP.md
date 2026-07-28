@@ -559,7 +559,7 @@ Khi nhà vườn chốt đơn hàng ngoài Frontend, hệ thống tự động x
 ###### 2. Autocomplete OSM & Bản đồ Leaflet
 Tại trang Checkout, hệ thống tích hợp API của OpenStreetMap. Khi người dùng nhập địa chỉ giao nhận, danh sách gợi ý địa điểm sẽ xuất hiện tự động. Chọn địa điểm sẽ lập tức cập nhật ghim tọa độ hiển thị trực quan lên bản đồ mini Leaflet phía dưới.
 
-###### 3. Trợ lý EcoBot hỗ trợ bà con
+###### 3. Trợ lý EcoBot hỗ trợ khách hàng
 Chatbox lơ lửng lướt nhẹ góc dưới màn hình. Được trang bị bộ lọc JS client-side nhận diện từ khóa nhanh (phân bón, Anvil, đơn hàng) và tự soạn tin trả lời tư vấn kỹ thuật cũng như chính sách giao nhận. Tích hợp hiệu ứng soạn tin (typing dots) sinh động.
 
 ###### 4. Chuông thông báo 2 chiều
@@ -574,7 +574,7 @@ Hệ thống cung cấp form đăng ký dành riêng cho khách hàng ngoài Fro
 ### 2.3. Phân tích thực trạng, ưu điểm và giải pháp khắc phục
 *   **Thực trạng:** Việc ứng dụng CNTT vào kho nông nghiệp tại miền Tây còn sơ khai, dễ nhầm lẫn thông tin giao nhận hàng.
 *   **Ưu điểm đề tài:** Giải quyết trọn vẹn từ đặt hàng, in ấn xuất kho monochrome đơn sắc cho giao nhận, định vị địa chỉ giao hàng OSM cho shipper, tự động báo Telegram và thông báo chuông tức thời.
-*   **Đề xuất biện pháp:** Khi đưa vào vận hành thực tế tại các vùng sâu, cần tổ chức đào tạo ngắn hạn giúp bà con nhà vườn làm quen với việc quét mã VietQR và đặt câu hỏi Q&A trực tuyến.
+*   **Đề xuất biện pháp:** Khi đưa vào vận hành thực tế tại các vùng sâu, cần tổ chức đào tạo ngắn hạn giúp khách hàng quen với việc quét mã VietQR và đặt câu hỏi Q&A trực tuyến.
 
 ---
 
@@ -596,7 +596,7 @@ Quá trình thực tập 8 tuần tại Công ty Cổ phần Dego Holding đã m
 
 ### 3.3. Kiến nghị và hướng nghiên cứu tương lai
 *   **Kiến nghị:** Mong muốn đơn vị tiếp tục thử nghiệm rộng rãi hệ thống tại các Hợp tác xã nông nghiệp vùng Cần Thơ để lấy thêm ý kiến đóng góp của nhà vườn.
-*   **Hướng nghiên cứu tương lai:** Tích hợp thêm AI chatbot học sâu (Large Language Models) thay cho chatbot nhận diện từ khóa tĩnh hiện tại, nhằm hỗ trợ tư vấn sâu hơn về bệnh lý cây trồng thông qua phân tích hình ảnh lá cây bị nấm bệnh do bà con chụp gửi lên.
+*   **Hướng nghiên cứu tương lai:** Tích hợp thêm AI chatbot học sâu (Large Language Models) thay cho chatbot nhận diện từ khóa tĩnh hiện tại, nhằm hỗ trợ tư vấn sâu hơn về bệnh lý cây trồng thông qua phân tích hình ảnh lá cây bị nấm bệnh do khách hàng chụp gửi lên.
 
 ---
 

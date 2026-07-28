@@ -177,17 +177,35 @@ class CartController extends Controller
             \Illuminate\Support\Facades\Log::error("Lỗi khi bắn cảnh báo đơn hàng Telegram: " . $e->getMessage());
         }
 
-        // 🌟 THÔNG BÁO CHO ADMIN VÀ NHÂN VIÊN QUA FILAMENT DATABASE NOTIFICATION (PRD)
+        // 🌟 THÔNG BÁO CHO ADMIN, NHÂN VIÊN & KỸ SƯ
         try {
-            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
-            \Filament\Notifications\Notification::make()
-                ->title('Có đơn hàng mới!')
-                ->body("Khách hàng {$order->customer_name} vừa đặt đơn hàng trị giá " . number_format($order->total_amount, 0, ',', '.') . "đ.")
-                ->icon('heroicon-o-shopping-bag')
-                ->color('success')
-                ->sendToDatabase($recipients);
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff', 'engineer'])->get();
+            foreach ($recipients as $recipient) {
+                $recipient->notify(new \App\Notifications\SystemNotification([
+                    'title' => 'Có đơn hàng mới!',
+                    'body' => "Khách hàng {$order->customer_name} vừa đặt đơn hàng ECF{$order->id} trị giá " . number_format($order->total_amount, 0, ',', '.') . "đ.",
+                    'icon' => 'heroicon-o-shopping-bag',
+                    'color' => 'success',
+                    'url' => '/admin/orders'
+                ]));
+            }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo hệ thống Filament: " . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo đơn hàng mới cho admin: " . $e->getMessage());
+        }
+
+        // 🌟 THÔNG BÁO CHO KHÁCH HÀNG (NẾU ĐÃ ĐĂNG NHẬP)
+        if (Auth::check()) {
+            try {
+                Auth::user()->notify(new \App\Notifications\SystemNotification([
+                    'title' => 'Đặt hàng thành công!',
+                    'body' => "Đơn hàng ECF{$order->id} trị giá " . number_format($order->total_amount, 0, ',', '.') . "đ của bạn đã được tiếp nhận thành công. Chúng tôi đang xử lý đơn hàng.",
+                    'icon' => 'heroicon-o-check-circle',
+                    'color' => 'success',
+                    'url' => route('cart.history')
+                ]));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo đặt hàng thành công cho khách: " . $e->getMessage());
+            }
         }
 
         // 🌟 BẢO MẬT & TRẢI NGHIỆM: Dọn dẹp sạch sẽ mảng giỏ hàng Session sau khi đã chốt đơn thành công để tránh đặt trùng

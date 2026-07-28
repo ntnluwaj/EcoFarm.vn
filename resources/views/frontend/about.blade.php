@@ -100,7 +100,7 @@
             <p class="text-muted small mb-4">Các kỹ sư nông nghiệp giàu kinh nghiệm của EcoFarm luôn sẵn sàng hỗ trợ giải đáp mọi thắc mắc của bạn.</p>
             <div class="d-flex justify-content-center gap-2 flex-wrap">
                 <a href="tel:1900888999" class="btn btn-success fw-bold px-4 py-2.5 rounded-3 d-inline-flex align-items-center gap-2" style="background-color: #2e7d32; border: none;">
-                    <i class="fa-solid fa-phone"></i> Gọi ngay: 1900 888 999
+                    <i class="fa-solid fa-phone"></i> Gọi ngay: 0398037435
                 </a>
                 <a href="{{ route('posts.index') }}" class="btn btn-outline-success fw-bold px-4 py-2.5 rounded-3 d-inline-flex align-items-center gap-2">
                     <i class="fa-solid fa-book-open"></i> Xem cẩm nang kỹ thuật

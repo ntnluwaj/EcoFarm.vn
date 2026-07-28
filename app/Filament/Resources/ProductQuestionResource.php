@@ -41,7 +41,7 @@ class ProductQuestionResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('answer')
                     ->label('Câu trả lời của Kỹ sư Nông học')
-                    ->placeholder('Nhập chi tiết liều lượng bón tưới, lưu ý an toàn cho bà con nông dân...')
+                    ->placeholder('Nhập chi tiết liều lượng bón tưới, lưu ý an toàn cho khách hàng...')
                     ->required()
                     ->columnSpanFull(),
             ]);

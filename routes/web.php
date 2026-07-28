@@ -90,6 +90,8 @@ Route::middleware(['auth'])->group(function () {
         auth()->user()->unreadNotifications->markAsRead();
         return redirect()->back()->with('success', 'Đã đánh dấu tất cả thông báo là đã đọc!');
     })->name('notifications.readAll');
+    Route::get('/thong-bao/{id}', [\App\Http\Controllers\Frontend\NotificationController::class, 'show'])->name('notifications.show');
+    Route::post('/thong-bao/{id}/unread', [\App\Http\Controllers\Frontend\NotificationController::class, 'markAsUnread'])->name('notifications.markAsUnread');
     
     // Quản lý thông tin tài khoản cá nhân và lưu địa chỉ mặc định
     Route::get('/tai-khoan', [\App\Http\Controllers\Frontend\UserController::class, 'profile'])->name('profile.index');

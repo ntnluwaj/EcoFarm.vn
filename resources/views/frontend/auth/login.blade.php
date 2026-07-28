@@ -50,7 +50,7 @@
                             <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
                             <label class="form-check-label text-muted small" style="user-select: none;" for="remember">Ghi nhớ đăng nhập</label>
                         </div>
-                        <a href="#" onclick="alert('Bà con vui lòng liên hệ hotline 1900 888 999 để kỹ sư hỗ trợ cấp lại mật khẩu nhé!')" class="text-success small fw-semibold text-decoration-none">Quên mật khẩu?</a>
+                        <a href="#" onclick="alert('Vui lòng liên hệ hotline 0398037435 để kỹ sư hỗ trợ cấp lại mật khẩu nhé!')" class="text-success small fw-semibold text-decoration-none">Quên mật khẩu?</a>
                     </div>
 
                     <!-- Nút đăng nhập -->

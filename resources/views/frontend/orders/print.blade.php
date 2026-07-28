@@ -124,7 +124,7 @@
     <div class="header">
         <h1 class="logo-title">ECOFARM VIETNAM</h1>
         <p style="margin: 0; font-size: 11px;">Địa chỉ kho: KCN Trà Nóc, Quận Bình Thủy, TP. Cần Thơ</p>
-        <p style="margin: 3px 0 0 0; font-size: 11px;">Hotline: 1900 888 999 - Email: contact@ecofarm.vn</p>
+        <p style="margin: 3px 0 0 0; font-size: 11px;">Hotline: 0398 037 435 - Email: contact@ecofarm.vn</p>
         <h2 class="doc-title">PHIẾU XUẤT KHO & GIAO HÀNG VẬT TƯ</h2>
         <div class="barcode">|||| | | ||| |||| | |</div>
         <p style="margin: 0; font-size: 11px;">Mã vận đơn: ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }} | Ngày lập: {{ date('d/m/Y H:i') }}</p>

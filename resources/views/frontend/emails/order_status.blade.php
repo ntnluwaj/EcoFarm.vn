@@ -208,7 +208,7 @@
         </a>
         
         <p style="font-size: 12px; color: #6c757d; text-align: center; margin-top: 15px;">
-            Nếu cần tư vấn kỹ thuật trực tiếp, vui lòng gọi điện hotline: 1900 888 999.
+            Nếu cần tư vấn kỹ thuật trực tiếp, vui lòng gọi điện hotline: 0398 037 435.
         </p>
     </div>
     

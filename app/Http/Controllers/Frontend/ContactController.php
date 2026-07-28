@@ -38,17 +38,20 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
-        // Gửi thông báo đến trang quản trị Filament Admin
+        // Gửi thông báo đến trang quản trị cho Admin, Staff & Kỹ sư
         try {
-            $admins = \App\Models\User::where('role', 'admin')->get();
-            \Filament\Notifications\Notification::make()
-                ->title('Có yêu cầu liên hệ mới!')
-                ->body("Nông dân {$request->name} vừa gửi yêu cầu tư vấn: '{$request->subject}'")
-                ->icon('heroicon-o-chat-bubble-left-right')
-                ->color('info')
-                ->sendToDatabase($admins);
+            $recipients = \App\Models\User::whereIn('role', ['admin', 'staff', 'engineer'])->get();
+            foreach ($recipients as $recipient) {
+                $recipient->notify(new \App\Notifications\SystemNotification([
+                    'title' => 'Có yêu cầu liên hệ mới!',
+                    'body' => "Nông dân {$request->name} vừa gửi liên hệ/hỏi thông tin sản phẩm: '{$request->subject}'",
+                    'icon' => 'heroicon-o-chat-bubble-left-right',
+                    'color' => 'info',
+                    'url' => '/admin/contacts'
+                ]));
+            }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo liên hệ Filament: " . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo liên hệ cho kỹ sư: " . $e->getMessage());
         }
 
         // Gửi cảnh báo Telegram hỏa tốc
@@ -107,15 +110,18 @@ class ContactController extends Controller
                 'status' => 'pending',
             ]);
 
-            // Gửi thông báo đến trang quản trị Filament Admin & Staff
+            // Gửi thông báo đến trang quản trị cho Admin, Staff & Kỹ sư
             try {
-                $recipients = \App\Models\User::whereIn('role', ['admin', 'staff'])->get();
-                \Filament\Notifications\Notification::make()
-                    ->title('Yêu cầu gọi điện tư vấn nông học!')
-                    ->body("Nông dân {$request->name} yêu cầu tổng đài ảo kết nối cuộc gọi gấp qua SĐT: {$request->phone}")
-                    ->icon('heroicon-o-phone')
-                    ->color('warning')
-                    ->sendToDatabase($recipients);
+                $recipients = \App\Models\User::whereIn('role', ['admin', 'staff', 'engineer'])->get();
+                foreach ($recipients as $recipient) {
+                    $recipient->notify(new \App\Notifications\SystemNotification([
+                        'title' => 'Yêu cầu tư vấn khẩn cấp!',
+                        'body' => "Nông dân {$request->name} yêu cầu gọi lại tư vấn kỹ thuật qua SĐT: {$request->phone}. Nội dung: {$request->message}",
+                        'icon' => 'heroicon-o-phone',
+                        'color' => 'warning',
+                        'url' => '/admin/contacts'
+                    ]));
+                }
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error("Lỗi thông báo gọi điện Filament: " . $e->getMessage());
             }

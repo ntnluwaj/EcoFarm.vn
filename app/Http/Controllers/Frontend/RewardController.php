@@ -93,6 +93,19 @@ class RewardController extends Controller
             'description' => "Đổi điểm lấy mã giảm giá cá nhân {$personalCode}",
         ]);
 
+        // Gửi thông báo hệ thống về đổi điểm thành công
+        try {
+            $user->notify(new \App\Notifications\SystemNotification([
+                'title' => 'Đổi quà thành công!',
+                'body' => "Bà con vừa đổi thành công {$voucher->points_cost} điểm lấy mã giảm giá cá nhân: {$personalCode}.",
+                'icon' => 'heroicon-o-gift',
+                'color' => 'warning',
+                'url' => route('profile.vouchers')
+            ]));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Lỗi khi gửi thông báo đổi quà: " . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Đổi điểm tích lũy thành công!',
