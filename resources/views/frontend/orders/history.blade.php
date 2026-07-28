@@ -72,20 +72,32 @@
                                 </td>
                                 
                                 <td class="text-center py-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <a href="{{ route('orders.track', ['order_id' => $order->id, 'phone' => $order->customer_phone]) }}" class="btn btn-warning btn-sm fw-bold px-3 py-1.5 rounded-3 text-dark transition-all d-inline-flex align-items-center justify-content-center gap-1.5" style="background-color: #ffc107; border: none; font-size: 12px; height: 36px; min-width: 105px;">
-                                            <i class="fa-solid fa-route"></i> Xem tiến độ
-                                        </a>
-
-                                        @if($order->status === 'pending')
-                                            <button type="button" class="btn btn-outline-success btn-sm fw-bold px-3 py-1.5 rounded-3 transition-all d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 12px; height: 36px; min-width: 130px; border-color: #2e7d32; color: #2e7d32;" data-bs-toggle="modal" data-bs-target="#editOrderModal{{ $order->id }}">
-                                                <i class="fa-solid fa-pen-to-square"></i> Thay đổi thông tin
-                                            </button>
-
-                                            <button type="button" class="btn btn-outline-danger btn-sm fw-bold px-3 py-1.5 rounded-3 transition-all d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 12px; height: 36px; min-width: 85px;" data-bs-toggle="modal" data-bs-target="#cancelOrderModal{{ $order->id }}">
-                                                <i class="fa-solid fa-circle-xmark"></i> Hủy đơn
-                                            </button>
-                                        @endif
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-success btn-sm dropdown-toggle fw-bold px-3 py-1.5 rounded-3 d-inline-flex align-items-center justify-content-center gap-1.5" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 12px; height: 34px;">
+                                            <i class="fa-solid fa-gears"></i> Thao tác
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-1 py-1" style="font-size: 13px; z-index: 1050;">
+                                            <li>
+                                                <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" href="{{ route('orders.track', ['order_id' => $order->id, 'phone' => $order->customer_phone]) }}">
+                                                    <i class="fa-solid fa-route text-warning" style="width: 16px;"></i> Xem tiến độ
+                                                </a>
+                                            </li>
+                                            @if($order->status === 'pending')
+                                                <li>
+                                                    <button type="button" class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#editOrderModal{{ $order->id }}">
+                                                        <i class="fa-solid fa-pen-to-square text-primary" style="width: 16px;"></i> Thay đổi thông tin
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider my-1">
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="dropdown-item py-2 px-3 d-flex align-items-center gap-2 text-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal{{ $order->id }}">
+                                                        <i class="fa-solid fa-circle-xmark text-danger" style="width: 16px;"></i> Hủy đơn hàng
+                                                    </button>
+                                                </li>
+                                            @endif
+                                        </ul>
                                     </div>
 
                                     @if($order->status === 'pending')
