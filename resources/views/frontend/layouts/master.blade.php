@@ -166,9 +166,15 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold {{ request()->routeIs('orders.track') ? 'active' : '' }}" href="{{ route('orders.track') }}">Tra cứu đơn hàng</a>
-                    </li>
+                    @if(auth()->check())
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold {{ request()->routeIs('cart.history') ? 'active' : '' }}" href="{{ route('cart.history') }}">Đơn hàng của tôi</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold {{ request()->routeIs('orders.track') ? 'active' : '' }}" href="{{ route('orders.track') }}">Tra cứu đơn hàng</a>
+                        </li>
+                    @endif
                 </ul>
                 
                 <form class="d-flex me-3 position-relative" action="{{ route('products.index') }}" method="GET">
