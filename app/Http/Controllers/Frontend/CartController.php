@@ -289,12 +289,12 @@ class CartController extends Controller
      */
     public function trackOrder(Request $request)
     {
-        if (auth()->check()) {
-            return redirect()->route('cart.history');
-        }
-
         $orderIdInput = $request->input('order_id');
         $phone   = $request->input('phone');
+
+        if (auth()->check() && !$orderIdInput && !$phone) {
+            return redirect()->route('cart.history');
+        }
 
         $orderId = null;
         if ($orderIdInput) {
