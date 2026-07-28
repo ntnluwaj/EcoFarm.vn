@@ -212,7 +212,7 @@ class DatabaseSeeder extends Seeder
                 ['slug' => 'lich-xuong-giong-mua-vu-thu-dong-2026-khu-vuc-mien-tay'],
                 [
                     'title' => 'Lịch xuống giống mùa vụ Thu Đông 2026 khu vực miền Tây',
-                    'category' => 'Lịch mùa vụ',
+                    'category' => 'Tin tức nông nghiệp',
                     'thumbnail' => 'banners/banner_canhtac.png',
                     'content' => '<p>Sở Nông nghiệp và Phát triển nông thôn các tỉnh Đồng bằng sông Cửu Long vừa ban hành khung lịch thời vụ xuống giống lúa Thu Đông 2026 bám sát triều cường và hạn mặn:</p><h5>1. Đợt 1 (Từ ngày 10/08 - 25/08/2026)</h5><p>Áp dụng cho các vùng đất cao, chủ động được nguồn nước triệt tiêu và thoát nước triệt để khi mưa lũ tràn về.</p><h5>2. Đợt 2 (Từ ngày 05/09 - 20/09/2026)</h5><p>Đây là đợt xuống giống tập trung và quy mô lớn nhất cho toàn vùng Đồng bằng sông Cửu Long. Khuyến cáo bà con sạ đồng loạt để phòng tránh dịch rầy nâu truyền bệnh.</p><h5>3. Các lưu ý phòng trừ sâu hại đầu vụ</h5><p>Bà con cần làm đất kỹ, vệ sinh đồng ruộng sạch cỏ rác và sử dụng các loại thuốc bảo vệ thực vật chính hãng như Anvil 5SC để xử lý hạt giống trước khi gieo sạ.</p>',
                     'published_at' => now(),
@@ -223,7 +223,7 @@ class DatabaseSeeder extends Seeder
                 ['slug' => 'giai-phap-phong-ngua-nam-benh-ri-sat-tren-cay-sau-rieng-mua-mua-lu'],
                 [
                     'title' => 'Giải pháp phòng ngừa nấm bệnh rỉ sắt trên cây sầu riêng mùa mưa lũ',
-                    'category' => 'Tin thị trường',
+                    'category' => 'Quản lý sâu bệnh hại',
                     'thumbnail' => 'products/regent_spraying.png',
                     'content' => '<p>Bệnh rỉ sắt do nấm Phakopsora ampelopsidis gây ra là nỗi ám ảnh lớn của các nhà vườn trồng sầu riêng tại miền Tây mỗi khi bước vào mùa mưa dầm bão lũ.</p><h5>1. Triệu chứng nhận nhận biết</h5><p>On mặt lá xuất hiện các đốm nhỏ màu vàng nhạt, sau đó chuyển sang màu nâu đỏ như màu rỉ sắt ở mặt dưới lá. Bệnh nặng làm lá khô cháy và rụng đồng loạt, khiến cây suy kiệt nghiêm trọng.</p><h5>2. Biện pháp canh tác phòng ngừa</h5><p>Thường xuyên cắt tỉa cành tạo tán thông thoáng, dọn sạch cỏ dại quanh gốc để tránh đọng ẩm. Bón phân hữu cơ vi sinh kết hợp lân và kali đầy đủ để tăng sức đề kháng cho cây.</p><h5>3. Biện pháp hóa học</h5><p>Khi bệnh chớm xuất hiện, bà con cần phun ngay thuốc trừ nấm nội hấp mạnh như <strong>Anvil 5SC của Syngenta</strong>. Phun đều 2 mặt lá định kỳ 7-10 ngày/lần để bảo vệ cây toàn diện.</p>',
                     'published_at' => now(),

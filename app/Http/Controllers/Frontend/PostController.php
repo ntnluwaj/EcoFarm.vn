@@ -41,7 +41,7 @@ class PostController extends Controller
     public function pestManagement()
     {
         $posts = Post::query()
-            ->where('category', 'Quan ly sau benh hai')
+            ->where('category', 'Quản lý sâu bệnh hại')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->orderBy('id', 'desc')
@@ -56,7 +56,7 @@ class PostController extends Controller
     public function farmingTechniques()
     {
         $posts = Post::query()
-            ->where('category', 'Ky thuat canh tac')
+            ->where('category', 'Kỹ thuật canh tác')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->orderBy('id', 'desc')
@@ -71,7 +71,7 @@ class PostController extends Controller
     public function news()
     {
         $posts = Post::query()
-            ->where('category', 'Tin tuc nong nghiep')
+            ->where('category', 'Tin tức nông nghiệp')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->orderBy('id', 'desc')

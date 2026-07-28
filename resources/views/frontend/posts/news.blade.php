@@ -19,6 +19,20 @@
             <h4 class="fw-bold text-dark mb-1">TIN TỨC NÔNG NGHIỆP & THỊ TRƯỜNG</h4>
             <p class="text-secondary small mb-0">Cập nhật tin tức giá cả nông sản trong và ngoài nước, khung thời vụ khuyến cáo xuống giống và các bản tin thời tiết nông vụ</p>
         </div>
+    </div>    <!-- Category Filters -->
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <a href="{{ route('posts.index') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Tất cả bài viết
+        </a>
+        <a href="{{ route('posts.pestManagement') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Quản lý sâu bệnh hại
+        </a>
+        <a href="{{ route('posts.farmingTechniques') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Kỹ thuật canh tác
+        </a>
+        <a href="{{ route('posts.news') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-success" style="background-color: #2e7d32; border: none;">
+            Tin tức nông nghiệp
+        </a>
     </div>
 
     <!-- Articles Grid -->

@@ -449,13 +449,14 @@ foreach ($contacts as $c) {
 echo "Da tao xong danh sach lien he tu van.\n";
 
 // 7. Them cam nang va tin tuc moi
+// 7. Them cam nang va tin tuc moi
 \App\Models\Post::updateOrCreate(
     ['slug' => 'ky-thuat-phong-tru-sau-duc-than-hai-lua-mua-thu-dong'],
     [
         'title' => 'Ky thuat phong tru sau duc than hai lua mua Thu Dong',
-        'category' => 'Quan ly sau benh hai',
+        'category' => 'Quản lý sâu bệnh hại',
         'thumbnail' => 'products/regent_spraying.png',
-        'content' => '<p>Sau duc than la dich hai nguy hiem anh huong truc tiep toi nang suat bong lua. Ky su khuyen cao ba con theo doi sat buom sau duc than no ro de phun phong tru bang Regent 800WG kip thoi.</p>',
+        'content' => '<p>Sau duc than la dich hai nguy haiem anh huong truc tiep toi nang suat bong lua. Ky su khuyen cao ba con theo doi sat buom sau duc than no ro de phun phong tru bang Regent 800WG pre-season.</p>',
         'published_at' => now(),
     ]
 );
@@ -464,7 +465,7 @@ echo "Da tao xong danh sach lien he tu van.\n";
     ['slug' => 'huong-dan-bon-phan-ca-mau-cho-cay-an-trai-giai-doan-ra-hoa-ket-trai'],
     [
         'title' => 'Huong dan bon phan Ca Mau cho cay an trai giai doan ra hoa ket trai',
-        'category' => 'Ky thuat canh tac',
+        'category' => 'Kỹ thuật canh tác',
         'thumbnail' => 'products/ure_phumy_field.png',
         'content' => '<p>Bon phan NPK Ca Mau giup cay an trai ra hoa dong loat, tang ty le dau qua va nuoi duong trai to tron, han che rung qua sinh ly hieu qua.</p>',
         'published_at' => now(),
@@ -475,7 +476,7 @@ echo "Da tao xong danh sach lien he tu van.\n";
     ['slug' => 'bien-phap-quan-ly-dich-ray-phan-trang-hai-san-khoai-mi'],
     [
         'title' => 'Bien phap quan ly dich ray phan trang hai san khoai mi',
-        'category' => 'Quan ly sau benh hai',
+        'category' => 'Quản lý sâu bệnh hại',
         'thumbnail' => 'banners/banner_canhtac.png',
         'content' => '<p>Ray phan trang truyen benh kham la hai san gay that thu nghiem trong. Ba con can phun tru ray bang Chess 50WG cua Syngenta quanh vung trong de tieu diet triet de nguon benh.</p>',
         'published_at' => now(),
@@ -484,10 +485,10 @@ echo "Da tao xong danh sach lien he tu van.\n";
 
 // Cap nhat cac bai viet tu DatabaseSeeder sang category moi phu hop
 \App\Models\Post::where('slug', 'giai-phap-phong-ngua-nam-benh-ri-sat-tren-cay-sau-rieng-mua-mua-lu')
-    ->update(['category' => 'Quan ly sau benh hai']);
+    ->update(['category' => 'Quản lý sâu bệnh hại']);
 
 \App\Models\Post::where('slug', 'lich-xuong-giong-mua-vu-thu-dong-2026-khu-vuc-mien-tay')
-    ->update(['category' => 'Tin tuc nong nghiep']);
+    ->update(['category' => 'Tin tức nông nghiệp']);
 
 echo "Da tao xong cam nang va tin tuc moi.\n";
 

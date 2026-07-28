@@ -63,10 +63,9 @@ class PostResource extends Resource
                     ->schema([
                         Select::make('category')
                             ->options([
-                                'Ky thuat canh tac' => 'Kỹ thuật canh tác',
-                                'Quan ly sau benh hai' => 'Quản lý sâu bệnh hại',
-                                'Tin tuc nong nghiep' => 'Tin tức nông nghiệp',
-                                'Lich mua vu' => 'Lịch mùa vụ',
+                                'Kỹ thuật canh tác' => 'Kỹ thuật canh tác',
+                                'Quản lý sâu bệnh hại' => 'Quản lý sâu bệnh hại',
+                                'Tin tức nông nghiệp' => 'Tin tức nông nghiệp',
                             ])
                             ->required()
                             ->label('Chuyên mục bài viết'),
@@ -102,18 +101,10 @@ class PostResource extends Resource
 
                 TextColumn::make('category')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'Ky thuat canh tac' => 'Kỹ thuật canh tác',
-                        'Quan ly sau benh hai' => 'Quản lý sâu bệnh hại',
-                        'Tin tuc nong nghiep' => 'Tin tức nông nghiệp',
-                        'Lich mua vu' => 'Lịch mùa vụ',
-                        default => $state,
-                    })
                     ->colors([
-                        'success' => 'Ky thuat canh tac',
-                        'warning' => 'Quan ly sau benh hai',
-                        'info' => 'Tin tuc nong nghiep',
-                        'primary' => 'Lich mua vu',
+                        'success' => 'Kỹ thuật canh tác',
+                        'warning' => 'Quản lý sâu bệnh hại',
+                        'info' => 'Tin tức nông nghiệp',
                     ])
                     ->label('Chuyên mục'),
 
@@ -132,10 +123,9 @@ class PostResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('category')
                     ->options([
-                        'Ky thuat canh tac' => 'Kỹ thuật canh tác',
-                        'Quan ly sau benh hai' => 'Quản lý sâu bệnh hại',
-                        'Tin tuc nong nghiep' => 'Tin tức nông nghiệp',
-                        'Lich mua vu' => 'Lịch mùa vụ',
+                        'Kỹ thuật canh tác' => 'Kỹ thuật canh tác',
+                        'Quản lý sâu bệnh hại' => 'Quản lý sâu bệnh hại',
+                        'Tin tức nông nghiệp' => 'Tin tức nông nghiệp',
                     ])
                     ->label('Lọc theo chuyên mục'),
             ])

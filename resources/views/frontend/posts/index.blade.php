@@ -23,14 +23,18 @@
 
     <!-- Category Filters -->
     <div class="d-flex flex-wrap gap-2 mb-4">
-        <a href="{{ route('posts.index') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold {{ !request('category') ? 'btn-success' : 'btn-light text-secondary border' }}" style="{{ !request('category') ? 'background-color: #2e7d32; border: none;' : '' }}">
+        <a href="{{ route('posts.index') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-success" style="background-color: #2e7d32; border: none;">
             Tất cả bài viết
         </a>
-        @foreach($categories as $cat)
-            <a href="{{ route('posts.index', ['category' => $cat]) }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold {{ request('category') === $cat ? 'btn-success' : 'btn-light text-secondary border' }}" style="{{ request('category') === $cat ? 'background-color: #2e7d32; border: none;' : '' }}">
-                {{ $cat }}
-            </a>
-        @endforeach
+        <a href="{{ route('posts.pestManagement') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Quản lý sâu bệnh hại
+        </a>
+        <a href="{{ route('posts.farmingTechniques') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Kỹ thuật canh tác
+        </a>
+        <a href="{{ route('posts.news') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold btn-light text-secondary border">
+            Tin tức nông nghiệp
+        </a>
     </div>
 
     <!-- Articles Grid -->
