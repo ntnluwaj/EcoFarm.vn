@@ -27,6 +27,7 @@ class LatestOrders extends BaseWidget
             ->query(
                 Order::query()->latest()->limit(5)
             )
+            ->paginated(false)
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã đơn')

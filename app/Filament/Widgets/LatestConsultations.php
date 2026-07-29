@@ -27,6 +27,7 @@ class LatestConsultations extends BaseWidget
             ->query(
                 Contact::query()->latest()->limit(5)
             )
+            ->paginated(false)
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')

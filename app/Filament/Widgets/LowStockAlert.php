@@ -30,6 +30,7 @@ class LowStockAlert extends BaseWidget
                     ->orWhereHas('variants', fn ($q) => $q->where('stock', '<=', 10))
                     ->limit(5)
             )
+            ->paginated(false)
             ->columns([
                 TextColumn::make('name')
                     ->label('Tên vật tư')
