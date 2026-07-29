@@ -35,8 +35,6 @@ class LatestOrders extends BaseWidget
                 TextColumn::make('customer_name')
                     ->label('Khách hàng')
                     ->wrap(),
-                TextColumn::make('customer_phone')
-                    ->label('Số điện thoại'),
                 TextColumn::make('total_amount')
                     ->label('Tổng tiền')
                     ->formatStateUsing(fn ($state) => number_format($state, 0, ',', '.') . ' VND'),
