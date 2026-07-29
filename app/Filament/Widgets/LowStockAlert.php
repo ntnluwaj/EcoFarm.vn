@@ -19,7 +19,7 @@ class LowStockAlert extends BaseWidget
     
     protected static ?string $heading = 'Cảnh báo tồn kho sắp hết (Tồn <= 10)';
     
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 1;
 
     public function table(Tables\Table $table): Tables\Table
     {

@@ -19,7 +19,7 @@ class LatestOrders extends BaseWidget
     
     protected static ?string $heading = 'Đơn hàng mới nhận gần đây';
     
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 2;
 
     public function table(Tables\Table $table): Tables\Table
     {
