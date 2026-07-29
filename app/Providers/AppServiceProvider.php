@@ -19,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (config('app.env') === 'production' || env('FORCE_HTTPS', false)) {
+        // Tự động ép buộc sử dụng giao thức HTTPS khi chạy trên môi trường Cloud (Render)
+        if (request() && !str_contains(request()->getHost(), 'localhost') && !str_contains(request()->getHost(), '127.0.0.1')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }

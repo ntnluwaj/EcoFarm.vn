@@ -5,6 +5,8 @@ mkdir -p /var/www/html/storage/app/public/products
 mkdir -p /var/www/html/storage/app/public/banners
 mkdir -p /var/www/html/storage/app/public/agency_licenses
 mkdir -p /var/www/html/storage/app/public/uploads
+mkdir -p /var/www/html/storage/app/livewire-tmp
+mkdir -p /var/www/html/storage/app/public/livewire-tmp
 
 # Khôi phục các tệp ảnh mẫu từ thư mục backup vào ổ đĩa mount
 cp -R /var/www/html/storage_backup/* /var/www/html/storage/app/public/
