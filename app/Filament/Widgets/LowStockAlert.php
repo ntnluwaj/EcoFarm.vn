@@ -15,7 +15,7 @@ class LowStockAlert extends BaseWidget
         return in_array(auth()->user()?->role, ['admin', 'staff']);
     }
 
-    protected static ?int $sort = 5;
+    protected static ?int $sort = 7;
     
     protected static ?string $heading = 'Cảnh báo tồn kho sắp hết (Tồn <= 10)';
     
