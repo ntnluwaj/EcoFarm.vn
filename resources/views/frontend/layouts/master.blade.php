@@ -136,7 +136,7 @@
                 <span class="text-white-50">|</span>
                 <a href="{{ route('rewards.index') }}" class="topbar-link"><i class="fa-solid fa-gift me-1 text-warning"></i>Tích điểm đổi quà</a>
                 <span class="text-white-50">|</span>
-                <a href="#" class="topbar-link" data-bs-toggle="modal" data-bs-target="#aiAdvisorModal"><i class="fa-solid fa-robot me-1 text-warning"></i>Trợ lý AI Ecobot</a>
+                <a href="#" class="topbar-link" id="topbar-ecobot-link"><i class="fa-solid fa-robot me-1 text-warning"></i>Trợ lý AI Ecobot</a>
             </div>
         </div>
     </div>
@@ -565,6 +565,21 @@
                         messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     } else {
                         toggleIcon.className = 'fa-solid fa-comments text-white fs-4';
+                    }
+                });
+            }
+
+            // Handle Topbar Link Click to open chatbox
+            const topbarLink = document.getElementById('topbar-ecobot-link');
+            if (topbarLink) {
+                topbarLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (windowEl) {
+                        windowEl.classList.remove('d-none');
+                        if (toggleIcon) toggleIcon.className = 'fa-solid fa-xmark text-white fs-4';
+                        if (unreadDot) unreadDot.style.display = 'none';
+                        if (input) input.focus();
+                        if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     }
                 });
             }
