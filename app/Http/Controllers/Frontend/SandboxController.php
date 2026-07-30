@@ -121,4 +121,45 @@ class SandboxController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Giả lập thanh toán chuyển khoản thủ công với dữ liệu tùy chỉnh (SePay Webhook)
+     */
+    public function payCustomSimulate(Request $request)
+    {
+        $content = $request->input('content');
+        $amount = floatval($request->input('amount', 0));
+        
+        try {
+            $apiUrl = url('/api/payment/sepay-webhook');
+            
+            Log::info("Simulating Custom Bank Webhook request to: {$apiUrl}");
+
+            $response = Http::post($apiUrl, [
+                'id' => rand(100000, 999999),
+                'gateway' => 'Vietcombank',
+                'transactionDate' => now()->format('Y-m-d H:i:s'),
+                'amountIn' => $amount,
+                'amountOut' => 0,
+                'content' => $content,
+                'transferType' => 'in',
+                'referenceCode' => 'FT' . rand(10000000, 99999999),
+                'subAccount' => '1029384756',
+            ]);
+
+            if ($response->successful()) {
+                $resData = $response->json();
+                if ($resData['success'] ?? false) {
+                    return redirect()->back()->with('success', 'Giả lập thủ công thành công! ' . $resData['message']);
+                }
+                return redirect()->back()->with('error', 'Giả lập thất bại từ Webhook: ' . ($resData['message'] ?? 'Lỗi không xác định.'));
+            }
+
+            return redirect()->back()->with('error', 'Không thể kết nối đến Webhook cục bộ! Mã lỗi HTTP: ' . $response->status());
+
+        } catch (\Exception $e) {
+            Log::error("Lỗi Sandbox payCustomSimulate: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
 }

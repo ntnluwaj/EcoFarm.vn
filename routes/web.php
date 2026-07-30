@@ -71,6 +71,7 @@ Route::middleware(['admin.role'])->group(function () {
     // 🌟 PHÂN HỆ GIẢ LẬP SANDBOX (KIỂM THỬ TỰ ĐỘNG HÓA LOCAL - CHỈ ADMIN TRUY CẬP)
     Route::get('/sandbox/debug', [\App\Http\Controllers\Frontend\SandboxController::class, 'index'])->name('sandbox.index');
     Route::post('/sandbox/pay-simulate', [\App\Http\Controllers\Frontend\SandboxController::class, 'paySimulate'])->name('sandbox.paySimulate');
+    Route::post('/sandbox/pay-custom-simulate', [\App\Http\Controllers\Frontend\SandboxController::class, 'payCustomSimulate'])->name('sandbox.payCustomSimulate');
     Route::post('/sandbox/ship-simulate', [\App\Http\Controllers\Frontend\SandboxController::class, 'shipSimulate'])->name('sandbox.shipSimulate');
 });
 
