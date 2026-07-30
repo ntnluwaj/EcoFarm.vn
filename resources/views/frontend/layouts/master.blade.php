@@ -110,11 +110,37 @@
         .navbar-nav .nav-link.active::after {
             width: 70%;
         }
+        .topbar-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .topbar-link:hover {
+            color: #ffc107 !important;
+        }
     </style>
 </head>
 <body>
 
     @if(!request()->routeIs('login', 'register'))
+    <!-- Premium Branded Topbar -->
+    <div class="w-100 py-2 text-white shadow-sm" style="background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); font-size: 12.5px; font-weight: 500;">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 gap-md-0">
+            <div class="d-flex align-items-center gap-3">
+                <span><i class="fa-solid fa-phone me-1.5 text-warning"></i>Hotline: <strong>0398 037 435</strong></span>
+                <span class="d-none d-md-inline"><i class="fa-solid fa-envelope me-1.5 text-warning"></i>Email: <strong>contact@ecofarm.vn</strong></span>
+                <span class="d-none d-lg-inline"><i class="fa-solid fa-clock me-1.5 text-warning"></i>Giờ làm việc: <strong>T2 - T7 (8:00 - 17:00)</strong></span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ route('orders.track') }}" class="topbar-link"><i class="fa-solid fa-truck-fast me-1 text-warning"></i>Tra cứu đơn hàng</a>
+                <span class="text-white-50">|</span>
+                <a href="{{ route('rewards.index') }}" class="topbar-link"><i class="fa-solid fa-gift me-1 text-warning"></i>Tích điểm đổi quà</a>
+                <span class="text-white-50">|</span>
+                <a href="#" class="topbar-link" data-bs-toggle="modal" data-bs-target="#aiAdvisorModal"><i class="fa-solid fa-robot me-1 text-warning"></i>Trợ lý AI Ecobot</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Glassmorphic Navbar -->
     <div class="container sticky-top px-0" style="z-index: 1050; margin-top: 15px; margin-bottom: 5px;">
         <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
