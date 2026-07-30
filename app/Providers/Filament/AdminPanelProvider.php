@@ -79,8 +79,9 @@ public function panel(Panel $panel): Panel
                     /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
                     .fi-topbar {
                         background-color: #ffffff !important;
+                        border-top: 3px solid #10b981 !important; /* Branded green top indicator line */
                         border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.01) !important;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01) !important;
                     }
 
                     /* 🌟 MODERN SEARCH BAR STYLE */
@@ -100,69 +101,42 @@ public function panel(Panel $panel): Panel
                         box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
                     }
 
-                    /* 🌟 DEEP FOREST DARK SIDEBAR STYLE */
+                    /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
                     .fi-sidebar {
-                        background-color: #0b110f !important; /* Deep forest dark charcoal */
-                        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+                        background-color: #ffffff !important;
+                        border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
                     }
                     .fi-sidebar-header {
-                        background-color: #070d0b !important; /* Slightly darker top section */
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+                        background-color: #ffffff !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
                     }
 
-                    /* Sidebar Brand Name text */
-                    .fi-sidebar-header a span {
-                        color: #ffffff !important;
-                    }
-
-                    /* Sidebar Section Headers (Group titles) */
-                    .fi-sidebar-group-label {
-                        color: #4b5e57 !important; /* Muted greenish gray */
-                        font-weight: 700 !important;
-                        font-size: 11px !important;
-                        text-transform: uppercase !important;
-                        letter-spacing: 0.05em !important;
-                    }
-
-                    /* Sidebar Navigation Links */
-                    .fi-sidebar-item-button {
-                        color: #8fa099 !important; /* Soft gray-green */
-                        transition: all 0.2s ease-in-out !important;
-                        border-radius: 0.5rem !important;
-                        margin: 2px 0 !important;
-                    }
-                    .fi-sidebar-item-button svg {
-                        color: #62776f !important;
-                        transition: all 0.2s ease-in-out !important;
-                    }
-
-                    /* Sidebar Link Hover */
-                    .fi-sidebar-item-button:not(.fi-active):hover {
-                        background-color: rgba(255, 255, 255, 0.03) !important;
-                        color: #ffffff !important;
-                    }
-                    .fi-sidebar-item-button:not(.fi-active):hover svg {
-                        color: #10b981 !important;
-                    }
-
-                    /* 🌟 ACTIVE SIDEBAR MENU ITEM STYLE (STUNNING EMERALD GRADIENT) */
+                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (SOFT GREEN + LEFT BORDER) */
                     .fi-sidebar-item-button.fi-active,
                     .fi-sidebar-item-button[data-active="1"],
                     .fi-active,
                     [data-active="1"],
                     .fi-sidebar-item-active > a,
                     .fi-sidebar-item-active > div {
-                        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                        color: #ffffff !important;
+                        background-color: rgba(16, 185, 129, 0.08) !important;
+                        color: #047857 !important;
+                        border-left: 4px solid #10b981 !important;
+                        border-radius: 0 0.5rem 0.5rem 0 !important;
                         font-weight: 600 !important;
-                        border-radius: 0.5rem !important;
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
-                        border-left: none !important;
+                        box-shadow: none !important;
                     }
+
+                    /* Keep icons green in active items */
                     .fi-sidebar-item-button.fi-active svg,
                     .fi-active svg,
                     .fi-sidebar-item-active svg {
-                        color: #ffffff !important;
+                        color: #10b981 !important;
+                    }
+
+                    /* Inactive items hover styling */
+                    .fi-sidebar-item-button:not(.fi-active):hover {
+                        background-color: rgba(0, 0, 0, 0.02) !important;
+                        border-radius: 0.5rem !important;
                     }
 
                     /* 🌟 STATS OVERVIEW CARDS */
@@ -205,39 +179,30 @@ public function panel(Panel $panel): Panel
             ->renderHook(
                 'panels::user-menu.before',
                 fn (): string => '
-                    <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm me-3">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Xem trang chủ</span>
-                    </a>
-                '
-            )
-            ->renderHook(
-                'panels::sidebar.nav.start',
-                fn (): string => '
-                    <div class="px-4 py-2 mx-3 mb-2 rounded-lg bg-amber-950/20 border border-amber-900/30 flex items-center gap-x-2 text-[11px] font-semibold text-amber-300 shadow-sm">
-                        <i class="fa-solid fa-wheat-awn text-amber-500 text-xs"></i>
-                        <span>Vụ Hè Thu 2026</span>
-                        <span class="ml-auto w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    </div>
-                '
-            )
-            ->renderHook(
-                'panels::sidebar.footer',
-                fn (): string => '
-                    <div class="px-4 py-3.5 border-t border-white/5 bg-black/20 flex items-center gap-x-3">
-                        ' . (auth()->user()?->avatar ? 
-                            '<img src="' . asset('storage/' . auth()->user()->avatar) . '" alt="' . auth()->user()->name . '" class="w-9 h-9 rounded-full object-cover border border-emerald-500/30 shadow-sm">' : 
-                            '<div class="w-9 h-9 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center font-bold text-sm border border-emerald-800/30">
-                                ' . substr(auth()->user()?->name ?? 'U', 0, 1) . '
-                            </div>'
-                        ) . '
-                        <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-white truncate" style="margin-bottom: 2px;">' . auth()->user()?->name . '</p>
-                            <span class="inline-flex items-center gap-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-800/30">
-                                <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
-                                ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
-                            </span>
-                        </div>
+                    <div class="flex items-center gap-x-2 me-3">
+                        <!-- Seasonal Badge (Agriculture signature) -->
+                        <span class="hidden xl:inline-flex items-center gap-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/60 shadow-sm">
+                            <i class="fa-solid fa-wheat-awn text-amber-600"></i>
+                            <span>Vụ Hè Thu 2026</span>
+                        </span>
+
+                        <!-- Sync Status Badge -->
+                        <span class="hidden md:inline-flex items-center gap-x-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/50 shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></span>
+                            <span>Đã đồng bộ</span>
+                        </span>
+
+                        <!-- User Role Badge -->
+                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50 shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                            ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
+                        </span>
+
+                        <!-- View Frontend Website Button -->
+                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Xem trang chủ</span>
+                        </a>
                     </div>
                 '
             )

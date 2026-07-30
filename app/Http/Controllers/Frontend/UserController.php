@@ -25,15 +25,15 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:6|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => 'nullable|string|min:6|confirmed',
         ], [
             'name.required' => 'Họ và tên không được để trống.',
+            'avatar.image' => 'Ảnh đại diện phải là một tệp hình ảnh.',
+            'avatar.mimes' => 'Chấp nhận các định dạng ảnh: jpeg, png, jpg, gif.',
+            'avatar.max' => 'Dung lượng ảnh đại diện không quá 2MB.',
             'password.min' => 'Mật khẩu mới phải từ 6 ký tự trở lên.',
             'password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
-            'avatar.image' => 'Tệp tải lên phải là hình ảnh.',
-            'avatar.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif.',
-            'avatar.max' => 'Dung lượng hình ảnh không được vượt quá 2MB.',
         ]);
 
         $user->name = $request->name;
@@ -41,11 +41,12 @@ class UserController extends Controller
         $user->address = $request->address;
 
         if ($request->hasFile('avatar')) {
-            // Xóa ảnh cũ nếu có
-            if ($user->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            // Xóa ảnh cũ để tiết kiệm không gian
+            if ($user->avatar && file_exists(public_path('storage/' . $user->avatar))) {
+                @unlink(public_path('storage/' . $user->avatar));
             }
-            // Lưu ảnh mới
+
+            // Lưu tệp ảnh đại diện mới vào disk public
             $path = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $path;
         }
