@@ -160,7 +160,7 @@ class Voucher extends Model
                                 ->actions([
                                     \Filament\Notifications\Actions\Action::make('view')
                                         ->label('Duyệt ngay')
-                                        ->url(\App\Filament\Resources\GiftResource::getUrl('edit', ['record' => $voucher]))
+                                        ->url(\App\Filament\Resources\GiftResource::getUrl('index'))
                                         ->button(),
                                 ])
                                 ->sendToDatabase($admin);
@@ -172,7 +172,7 @@ class Voucher extends Model
                                 ->actions([
                                     \Filament\Notifications\Actions\Action::make('view')
                                         ->label('Duyệt ngay')
-                                        ->url(\App\Filament\Resources\VoucherResource::getUrl('edit', ['record' => $voucher]))
+                                        ->url(\App\Filament\Resources\VoucherResource::getUrl('index'))
                                         ->button(),
                                 ])
                                 ->sendToDatabase($admin);
