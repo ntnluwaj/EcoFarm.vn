@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser; // 🌟 IMPORT CHÍNH XÁC INTERFACE BẢO MẬT CỦA FILAMENT
+use Filament\Models\Contracts\HasAvatar; // 🌟 IMPORT CONTRACT HIỂN THỊ AVATAR CỦA FILAMENT
 use Filament\Panel;
 
-class User extends Authenticatable implements FilamentUser // 🌟 THỰC THI CHÍNH XÁC FILAMENTUSER INTERFACE
+class User extends Authenticatable implements FilamentUser, HasAvatar // 🌟 THỰC THI CẢ FILAMENTUSER VÀ HASAVATAR
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -81,5 +82,13 @@ class User extends Authenticatable implements FilamentUser // 🌟 THỰC THI CH
     {
         // Chỉnh chính xác tại đây: Cho phép mọi tài khoản (admin, agency, user) đi qua form đăng nhập
         return true;
+    }
+
+    /**
+     * Lấy URL ảnh đại diện của người dùng hiển thị trên Filament Admin Topbar
+     */
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
 }

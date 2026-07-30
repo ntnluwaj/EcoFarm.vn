@@ -5,6 +5,7 @@ mkdir -p /var/www/html/storage/app/public/products
 mkdir -p /var/www/html/storage/app/public/banners
 mkdir -p /var/www/html/storage/app/public/agency_licenses
 mkdir -p /var/www/html/storage/app/public/uploads
+mkdir -p /var/www/html/storage/app/public/avatars
 mkdir -p /var/www/html/storage/app/livewire-tmp
 mkdir -p /var/www/html/storage/app/public/livewire-tmp
 
