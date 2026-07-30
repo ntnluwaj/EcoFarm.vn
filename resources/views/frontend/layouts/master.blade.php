@@ -45,16 +45,31 @@
         }
         
         /* 🌟 RESPONSIVE NAVBAR: Tối ưu khoảng cách và kích thước chữ rộng rãi */
-        @media (min-width: 992px) {
+        @media (min-width: 992px) and (max-width: 1199.98px) {
             .navbar-expand-lg .navbar-nav .nav-link {
-                padding-right: 0.9rem !important;
-                padding-left: 0.9rem !important;
+                padding-right: 0.4rem !important;
+                padding-left: 0.4rem !important;
+                font-size: 13.5px !important;
+            }
+            .search-input-custom {
+                width: 140px !important;
+                font-size: 12px !important;
+            }
+            .nav-btn-custom {
+                padding: 6px 12px !important;
+                font-size: 12px !important;
+            }
+        }
+        @media (min-width: 1200px) {
+            .navbar-expand-lg .navbar-nav .nav-link {
+                padding-right: 0.8rem !important;
+                padding-left: 0.8rem !important;
                 font-size: 14.5px !important;
             }
             .search-input-custom {
                 width: 180px !important;
                 transition: width 0.3s ease !important;
-                font-size: 13px !important;
+                font-size: 13.0px !important;
             }
             .search-input-custom:focus {
                 width: 240px !important;
@@ -193,11 +208,6 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('contact.*') ? 'active' : '' }}" href="{{ route('contact.index') }}">Liên hệ tư vấn</a>
                     </li>
-                    @if(!auth()->check())
-                        <li class="nav-item">
-                            <a class="nav-link fw-semibold {{ request()->routeIs('orders.track') ? 'active' : '' }}" href="{{ route('orders.track') }}">Tra cứu đơn hàng</a>
-                        </li>
-                    @endif
                 </ul>
                 
                 <form class="d-flex me-3 position-relative" action="{{ route('products.index') }}" method="GET">
