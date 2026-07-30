@@ -204,22 +204,8 @@
                                 </div>
                             </div>
 
-                            <!-- Glassmorphism Signature testimonial -->
-                            <div class="glass-card p-4 rounded-4 mt-4">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="badge bg-warning text-dark fw-bold" style="font-size: 11px;"><i class="fa-solid fa-star me-1"></i>Tin cậy</span>
-                                    <span class="text-white-50" style="font-size: 11px;">Chứng nhận Nông nghiệp Xanh</span>
-                                </div>
-                                <p class="mb-0 text-white font-italic small" style="line-height: 1.6; opacity: 0.9;">
-                                    "Từ khi mua phân bón hữu cơ tại EcoFarm, vườn nhãn của tôi đạt năng suất tăng 35% mà chi phí lại tối ưu rõ rệt."
-                                </p>
-                                <div class="mt-3 d-flex align-items-center gap-2">
-                                    <div class="avatar-circle">B</div>
-                                    <div>
-                                        <div class="text-white fw-bold small">Chú Bảy Sông Hậu</div>
-                                        <div class="text-white-50" style="font-size: 10px;">HTX Cây ăn quả Cần Thơ</div>
-                                    </div>
-                                </div>
+                            <div class="mt-5 pt-3 border-top border-white-50 text-white-50 small">
+                                <i class="fa-solid fa-shield-halved me-1"></i> Hệ thống bảo mật thông tin tối cao.
                             </div>
                         </div>
 
