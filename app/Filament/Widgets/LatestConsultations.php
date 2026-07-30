@@ -12,7 +12,7 @@ class LatestConsultations extends BaseWidget
 {
     public static function canView(): bool
     {
-        return in_array(auth()->user()?->role, ['admin', 'staff']);
+        return in_array(auth()->user()?->role, ['admin', 'staff', 'engineer']);
     }
 
     protected static ?int $sort = 6;
