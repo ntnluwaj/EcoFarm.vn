@@ -7,15 +7,26 @@
         <div class="col-lg-3 mb-4">
             <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
                 <div class="text-center py-3 border-bottom mb-3">
-                    @if($user->avatar)
-                        <img src="{{ asset('storage/' . $user->avatar) }}" class="rounded-circle mx-auto mb-2.5 shadow-sm border border-2 border-success-subtle" style="width: 65px; height: 65px; object-fit: cover;">
-                    @else
-                        <div class="rounded-circle bg-success-subtle text-success mx-auto d-flex align-items-center justify-content-center mb-2.5" style="width: 60px; height: 60px;">
-                            <i class="fa-solid fa-circle-user fs-1"></i>
-                        </div>
-                    @endif
+                    <div class="position-relative d-inline-block mx-auto mb-3" style="width: 75px; height: 75px;">
+                        @if($user->avatar)
+                            <img id="avatar-preview" src="{{ asset('storage/' . $user->avatar) }}" class="rounded-circle shadow-sm border border-2 border-success-subtle" style="width: 75px; height: 75px; object-fit: cover;">
+                        @else
+                            <div id="avatar-placeholder" class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center" style="width: 75px; height: 75px;">
+                                <i class="fa-solid fa-circle-user fs-1"></i>
+                            </div>
+                        @endif
+                        <!-- Small camera button overlay to trigger file input -->
+                        <button type="button" class="position-absolute bottom-0 end-0 btn btn-success p-0 rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 26px; height: 26px; border: 2px solid white;" onclick="document.getElementById('avatar').click()">
+                            <i class="fa-solid fa-camera" style="font-size: 10px;"></i>
+                        </button>
+                    </div>
                     <h6 class="fw-bold mb-1">{{ $user->name }}</h6>
                     <span class="badge bg-success-subtle text-success text-xs px-2.5 py-1">{{ strtoupper($user->role) }}</span>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-xs btn-outline-success rounded-pill px-2.5 py-1 fw-bold text-xs" style="font-size: 11px;" onclick="document.getElementById('avatar').click()">
+                            Thay đổi ảnh
+                        </button>
+                    </div>
                 </div>
                 <div class="list-group list-group-flush" style="font-size: 14px;">
                     <a href="{{ route('profile.index') }}" class="list-group-item list-group-item-action border-0 py-2.5 fw-semibold text-success bg-success-subtle rounded-3">
@@ -130,4 +141,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('avatar').addEventListener('change', function(event) {
+        const [file] = this.files;
+        if (file) {
+            const preview = document.getElementById('avatar-preview');
+            const placeholder = document.getElementById('avatar-placeholder');
+            const objectUrl = URL.createObjectURL(file);
+            
+            if (preview) {
+                preview.src = objectUrl;
+            } else if (placeholder) {
+                // If placeholder is showing, replace it with an img element
+                const parent = placeholder.parentNode;
+                const img = document.createElement('img');
+                img.id = 'avatar-preview';
+                img.src = objectUrl;
+                img.className = 'rounded-circle shadow-sm border border-2 border-success-subtle';
+                img.style.width = '75px';
+                img.style.height = '75px';
+                img.style.objectFit = 'cover';
+                parent.replaceChild(img, placeholder);
+            }
+        }
+    });
+</script>
 @endsection
