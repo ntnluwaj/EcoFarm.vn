@@ -76,88 +76,97 @@ public function panel(Panel $panel): Panel
                         height: 0 !important;
                     }
 
-                    /* 🌟 TOPBAR GLASSMORPHISM STYLE */
+                    /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
                     .fi-topbar {
-                        background: rgba(255, 255, 255, 0.85) !important;
-                        backdrop-filter: blur(12px) !important;
-                        -webkit-backdrop-filter: blur(12px) !important;
-                        border-bottom: 1px solid rgba(16, 185, 129, 0.15) !important;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+                        background-color: #ffffff !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+                        box-shadow: none !important;
                     }
 
-                    /* 🌟 SIDEBAR PREMIUM STYLE */
+                    /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
                     .fi-sidebar {
-                        border-right: 1px solid rgba(16, 185, 129, 0.1) !important;
-                        background-color: #f7faf8 !important;
+                        background-color: #ffffff !important;
+                        border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
                     }
                     .fi-sidebar-header {
-                        border-bottom: 1px solid rgba(16, 185, 129, 0.08) !important;
+                        background-color: #ffffff !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
                     }
 
-                    /* 🌟 ACTIVE SIDEBAR ITEMS GRADIENT */
+                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (SOFT GREEN + LEFT BORDER) */
+                    .fi-sidebar-item-button.fi-active,
+                    .fi-sidebar-item-button[data-active="1"],
+                    .fi-active,
+                    [data-active="1"],
                     .fi-sidebar-item-active > a,
                     .fi-sidebar-item-active > div {
-                        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                        color: #ffffff !important;
+                        background-color: rgba(16, 185, 129, 0.08) !important;
+                        color: #047857 !important;
+                        border-left: 4px solid #10b981 !important;
+                        border-radius: 0 0.5rem 0.5rem 0 !important;
                         font-weight: 600 !important;
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
-                        border-radius: 0.75rem !important;
-                    }
-                    .fi-sidebar-item-active svg {
-                        color: #ffffff !important;
+                        box-shadow: none !important;
                     }
 
-                    /* 🌟 PREMIUM STATS OVERVIEW CARDS */
+                    /* Keep icons green in active items */
+                    .fi-sidebar-item-button.fi-active svg,
+                    .fi-active svg,
+                    .fi-sidebar-item-active svg {
+                        color: #10b981 !important;
+                    }
+
+                    /* Inactive items hover styling */
+                    .fi-sidebar-item-button:not(.fi-active):hover {
+                        background-color: rgba(0, 0, 0, 0.02) !important;
+                        border-radius: 0.5rem !important;
+                    }
+
+                    /* 🌟 STATS OVERVIEW CARDS */
                     .fi-wi-stats-overview-stat {
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
-                        border-radius: 1rem !important;
+                        transition: all 0.2s ease-in-out !important;
+                        border: 1px solid rgba(0, 0, 0, 0.04) !important;
+                        border-radius: 0.75rem !important;
                         background: #ffffff !important;
-                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.005) !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
                     }
                     .fi-wi-stats-overview-stat:hover {
-                        transform: translateY(-5px) !important;
-                        border-color: rgba(16, 185, 129, 0.35) !important;
-                        box-shadow: 0 16px 24px -8px rgba(16, 185, 129, 0.18) !important;
+                        transform: translateY(-2px) !important;
+                        border-color: rgba(16, 185, 129, 0.2) !important;
+                        box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.08) !important;
                     }
 
                     /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
                     .fi-ta-ctn {
-                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
-                        border-radius: 1rem !important;
+                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        border-radius: 0.75rem !important;
                         overflow: hidden !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
                     }
                     .fi-ta-header-cell {
-                        background-color: rgba(16, 185, 129, 0.03) !important;
-                    }
-                    .fi-ta-row {
-                        transition: all 0.2s ease !important;
+                        background-color: #fafafa !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: rgba(16, 185, 129, 0.02) !important;
+                        background-color: #fdfdfd !important;
                     }
 
                     /* 🌟 CHARTS CARD STYLING */
                     .fi-wi-widget > .fi-section {
-                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
-                        border-radius: 1rem !important;
-                        transition: all 0.3s ease !important;
-                    }
-                    .fi-wi-widget > .fi-section:hover {
-                        border-color: rgba(16, 185, 129, 0.2) !important;
-                        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.05) !important;
+                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        border-radius: 0.75rem !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
                     }
                 </style>'
             )
             ->renderHook(
                 'panels::user-menu.before',
                 fn (): string => '
-                    <div class="flex items-center gap-x-3 me-3">
-                        <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <div class="flex items-center gap-x-2 me-3">
+                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
                             Vai trò: ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
                         </span>
-                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-lg border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold shadow-sm bg-white">
+                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
                             <i class="fa-solid fa-house"></i>
                             <span>Xem trang chủ</span>
                         </a>
