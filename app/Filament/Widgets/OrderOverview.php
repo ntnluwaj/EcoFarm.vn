@@ -109,6 +109,19 @@ class OrderOverview extends BaseWidget
                     ->url(\App\Filament\Resources\VoucherResource::getUrl('index'));
             }
 
+            // 4d. Doanh thu COD chờ đối soát - Chỉ dành cho admin
+            if ($role === 'admin') {
+                $pendingCodAmount = Order::where('payment_method', 'COD')
+                    ->where('status', 'completed')
+                    ->where('cod_reconciled', false)
+                    ->sum('total_amount');
+                $stats[] = Stat::make('COD chờ đối soát', number_format($pendingCodAmount, 0, ',', '.') . ' VND')
+                    ->description('Tiền thu hộ chưa nhận')
+                    ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
+                    ->color($pendingCodAmount > 0 ? 'warning' : 'success')
+                    ->url(\App\Filament\Resources\OrderResource::getUrl('index'));
+            }
+
             // 5. Cảnh báo tồn kho thấp - Chỉ dành cho staff
             if ($role === 'staff') {
                 $lowStockCount = \App\Models\Product::where('stock', '<=', 10)

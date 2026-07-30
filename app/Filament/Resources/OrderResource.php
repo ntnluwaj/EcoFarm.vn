@@ -197,6 +197,21 @@ class OrderResource extends Resource
                     ->label('Trạng thái vận đơn'),
 
                 TextColumn::make('created_at')->dateTime('H:i d/m/Y')->sortable()->label('Thời gian chốt đơn'),
+                TextColumn::make('cod_reconciled')
+                    ->badge()
+                    ->state(fn (Order $record): string => $record->payment_method !== 'COD' ? 'N/A' : ($record->cod_reconciled ? 'reconciled' : 'pending'))
+                    ->colors([
+                        'success' => 'reconciled',
+                        'warning' => 'pending',
+                        'gray' => 'N/A',
+                    ])
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'reconciled' => 'Đã đối soát',
+                        'pending' => 'Chờ đối soát',
+                        'N/A' => 'Không có (VietQR)',
+                        default => $state,
+                    })
+                    ->label('Đối soát COD'),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -208,6 +223,12 @@ class OrderResource extends Resource
                         'cancelled' => 'Đơn đã hủy',
                     ])
                     ->label('Lọc theo tiến trình vận đơn'),
+                Tables\Filters\Filter::make('pending_cod')
+                    ->label('Chờ đối soát COD')
+                    ->query(fn ($query) => $query->where('payment_method', 'COD')->where('cod_reconciled', false)),
+                Tables\Filters\Filter::make('reconciled_cod')
+                    ->label('Đã đối soát COD')
+                    ->query(fn ($query) => $query->where('payment_method', 'COD')->where('cod_reconciled', true)),
             ])
             ->actions([
                 \Filament\Tables\Actions\ActionGroup::make([
@@ -295,6 +316,34 @@ class OrderResource extends Resource
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    \Filament\Tables\Actions\BulkAction::make('reconcile_cod')
+                        ->label('Xác nhận đối soát COD')
+                        ->icon('heroicon-m-check-badge')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = 0;
+                            foreach ($records as $record) {
+                                if ($record->payment_method === 'COD' && $record->status === 'completed' && !$record->cod_reconciled) {
+                                    $record->update(['cod_reconciled' => true]);
+                                    $count++;
+                                }
+                            }
+                            if ($count > 0) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title("Đối soát thành công!")
+                                    ->body("Đã xác nhận đối soát hoàn tất cho {$count} đơn hàng COD.")
+                                    ->success()
+                                    ->send();
+                            } else {
+                                \Filament\Notifications\Notification::make()
+                                    ->title("Không có đơn hàng nào hợp lệ!")
+                                    ->body("Chỉ các đơn hàng COD đã hoàn tất ('completed') và chưa đối soát mới có thể chọn đối soát.")
+                                    ->warning()
+                                    ->send();
+                            }
+                        })
+                        ->deselectRecordsAfterCompletion(),
                     \Filament\Tables\Actions\BulkAction::make('export_selected_csv')
                         ->label('Xuất đơn hàng đã chọn (CSV)')
                         ->icon('heroicon-m-arrow-down-tray')

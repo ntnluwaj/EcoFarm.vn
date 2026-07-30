@@ -29,6 +29,11 @@ class Order extends Model
         'shipping_address',
         'coupon_code',
         'discount_amount',
+        'cod_reconciled',
+    ];
+
+    protected $casts = [
+        'cod_reconciled' => 'boolean',
     ];
 
     /**
