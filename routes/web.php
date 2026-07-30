@@ -53,14 +53,6 @@ Route::get('/lich-su-don-hang', [CartController::class, 'orderHistory'])->name('
 Route::get('/lien-he', [\App\Http\Controllers\Frontend\ContactController::class, 'index'])->name('contact.index');
 Route::post('/lien-he/gui', [\App\Http\Controllers\Frontend\ContactController::class, 'store'])->name('contact.store');
 
-// 🌟 6. TUYẾN ĐƯỜNG ĐĂNG XUẤT AN TOÀN CHO FRONTEND
-Route::post('/logout-frontend', function (\Illuminate\Http\Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect('/')->with('success', 'Đã đăng xuất tài khoản an toàn!');
-})->name('frontend.logout');
-
 // 🌟 7. KHỐI BẢO MẬT: CHỈ TÀI KHOẢN ADMIN ĐƯỢC PHÉP TRUY CẬP (UC-09)
 Route::middleware(['admin.role'])->group(function () {
     // Trang xem báo cáo tổng hợp nội bộ bãi kho của Admin
