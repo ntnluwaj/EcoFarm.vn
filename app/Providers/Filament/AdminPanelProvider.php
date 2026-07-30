@@ -75,6 +75,78 @@ public function panel(Panel $panel): Panel
                         width: 0 !important;
                         height: 0 !important;
                     }
+
+                    /* 🌟 TOPBAR GLASSMORPHISM STYLE */
+                    .fi-topbar {
+                        background: rgba(255, 255, 255, 0.85) !important;
+                        backdrop-filter: blur(12px) !important;
+                        -webkit-backdrop-filter: blur(12px) !important;
+                        border-bottom: 1px solid rgba(16, 185, 129, 0.15) !important;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+                    }
+
+                    /* 🌟 SIDEBAR PREMIUM STYLE */
+                    .fi-sidebar {
+                        border-right: 1px solid rgba(16, 185, 129, 0.1) !important;
+                        background-color: #f7faf8 !important;
+                    }
+                    .fi-sidebar-header {
+                        border-bottom: 1px solid rgba(16, 185, 129, 0.08) !important;
+                    }
+
+                    /* 🌟 ACTIVE SIDEBAR ITEMS GRADIENT */
+                    .fi-sidebar-item-active > a,
+                    .fi-sidebar-item-active > div {
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                        color: #ffffff !important;
+                        font-weight: 600 !important;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+                        border-radius: 0.75rem !important;
+                    }
+                    .fi-sidebar-item-active svg {
+                        color: #ffffff !important;
+                    }
+
+                    /* 🌟 PREMIUM STATS OVERVIEW CARDS */
+                    .fi-wi-stats-overview-stat {
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
+                        border-radius: 1rem !important;
+                        background: #ffffff !important;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.005) !important;
+                    }
+                    .fi-wi-stats-overview-stat:hover {
+                        transform: translateY(-5px) !important;
+                        border-color: rgba(16, 185, 129, 0.35) !important;
+                        box-shadow: 0 16px 24px -8px rgba(16, 185, 129, 0.18) !important;
+                    }
+
+                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
+                    .fi-ta-ctn {
+                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
+                        border-radius: 1rem !important;
+                        overflow: hidden !important;
+                    }
+                    .fi-ta-header-cell {
+                        background-color: rgba(16, 185, 129, 0.03) !important;
+                    }
+                    .fi-ta-row {
+                        transition: all 0.2s ease !important;
+                    }
+                    .fi-ta-row:hover {
+                        background-color: rgba(16, 185, 129, 0.02) !important;
+                    }
+
+                    /* 🌟 CHARTS CARD STYLING */
+                    .fi-wi-widget > .fi-section {
+                        border: 1px solid rgba(16, 185, 129, 0.08) !important;
+                        border-radius: 1rem !important;
+                        transition: all 0.3s ease !important;
+                    }
+                    .fi-wi-widget > .fi-section:hover {
+                        border-color: rgba(16, 185, 129, 0.2) !important;
+                        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.05) !important;
+                    }
                 </style>'
             )
             ->renderHook(
