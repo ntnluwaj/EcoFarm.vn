@@ -115,9 +115,10 @@ class VoucherResource extends Resource
                     ->sortable()
                     ->label('Mã code')
                     ->weight('bold'),
-                Tables\Columns\TextColumn::make('type')
-                    ->formatStateUsing(fn ($state) => $state === 'percent' ? 'Phần trăm (%)' : 'Số tiền cố định')
-                    ->label('Loại giảm'),
+                Tables\Columns\TextColumn::make('expires_at')
+                    ->dateTime('d/m/Y H:i')
+                    ->label('Ngày hết hạn')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('value')
                     ->formatStateUsing(fn ($state, $record) => $record->type === 'percent' ? $state . '%' : number_format($state, 0, ',', '.') . 'đ')
                     ->label('Trị giá giảm'),
@@ -141,10 +142,6 @@ class VoucherResource extends Resource
                 Tables\Columns\TextColumn::make('uses')
                     ->label('Đã dùng')
                     ->formatStateUsing(fn ($state, $record) => $state . ' / ' . $record->max_uses),
-                Tables\Columns\TextColumn::make('expires_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->label('Hạn dùng')
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
                     ->label('Trạng thái'),
