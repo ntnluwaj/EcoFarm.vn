@@ -97,8 +97,11 @@ class VoucherResource extends Resource
                     ->placeholder('Dùng chung (Công cộng)')
                     ->label('Sở hữu bởi Khách hàng'),
                 Forms\Components\Toggle::make('is_active')
-                    ->default(true)
-                    ->label('Kích hoạt')
+                    ->default(fn () => auth()->user()?->role === 'admin')
+                    ->disabled(fn () => auth()->user()?->role !== 'admin')
+                    ->dehydrated(true)
+                    ->label('Kích hoạt hoạt động (Chỉ Admin phê duyệt)')
+                    ->helperText(fn () => auth()->user()?->role !== 'admin' ? 'Mã giảm giá mới do nhân viên tạo sẽ mặc định ở trạng thái Chờ duyệt.' : null)
                     ->columnSpanFull(),
             ]);
     }

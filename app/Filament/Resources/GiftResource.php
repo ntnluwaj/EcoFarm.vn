@@ -88,8 +88,11 @@ class GiftResource extends Resource
                     ->placeholder('Áp dụng toàn đơn hàng')
                     ->label('Sản phẩm giới hạn áp dụng'),
                 Forms\Components\Toggle::make('is_active')
-                    ->default(true)
-                    ->label('Kích hoạt phát quà')
+                    ->default(fn () => auth()->user()?->role === 'admin')
+                    ->disabled(fn () => auth()->user()?->role !== 'admin')
+                    ->dehydrated(true)
+                    ->label('Kích hoạt phát quà (Chỉ Admin phê duyệt)')
+                    ->helperText(fn () => auth()->user()?->role !== 'admin' ? 'Quà tặng mới do nhân viên tạo sẽ mặc định ở trạng thái Chờ duyệt.' : null)
                     ->columnSpanFull(),
             ]);
     }

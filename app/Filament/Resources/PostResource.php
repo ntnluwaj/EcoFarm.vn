@@ -83,7 +83,9 @@ class PostResource extends Resource
                             ->label('Ảnh đại diện bài viết'),
 
                         DateTimePicker::make('published_at')
-                            ->placeholder('Nhấp chọn để phê duyệt xuất bản')
+                            ->placeholder('Chờ quản trị viên phê duyệt xuất bản')
+                            ->disabled(fn () => auth()->user()?->role !== 'admin')
+                            ->dehydrated(fn () => auth()->user()?->role === 'admin')
                             ->label('Thời gian xuất bản công khai'),
                     ])->columnSpan(1),
             ])->columns(3);
