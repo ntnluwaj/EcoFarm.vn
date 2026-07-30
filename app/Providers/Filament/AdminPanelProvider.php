@@ -79,8 +79,23 @@ public function panel(Panel $panel): Panel
                     /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
                     .fi-topbar {
                         background-color: #ffffff !important;
+                        border-top: 3px solid #10b981 !important; /* Branded green top indicator line */
                         border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-                        box-shadow: none !important;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+                    }
+
+                    /* 🌟 MODERN SEARCH BAR STYLE */
+                    .fi-global-search input {
+                        border-radius: 9999px !important;
+                        background-color: #f3f4f6 !important;
+                        border: 1px solid transparent !important;
+                        transition: all 0.2s ease-in-out !important;
+                        font-size: 13px !important;
+                    }
+                    .fi-global-search input:focus {
+                        background-color: #ffffff !important;
+                        border-color: #10b981 !important;
+                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
                     }
 
                     /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
@@ -162,10 +177,25 @@ public function panel(Panel $panel): Panel
                 'panels::user-menu.before',
                 fn (): string => '
                     <div class="flex items-center gap-x-2 me-3">
-                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                            Vai trò: ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
+                        <!-- Seasonal Badge (Agriculture signature) -->
+                        <span class="hidden xl:inline-flex items-center gap-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/60 shadow-sm">
+                            <i class="fa-solid fa-wheat-awn text-amber-600"></i>
+                            <span>Vụ Hè Thu 2026</span>
                         </span>
+
+                        <!-- Sync Status Badge -->
+                        <span class="hidden md:inline-flex items-center gap-x-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/50 shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></span>
+                            <span>Đã đồng bộ</span>
+                        </span>
+
+                        <!-- User Role Badge -->
+                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50 shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                            ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
+                        </span>
+
+                        <!-- View Frontend Website Button -->
                         <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
                             <i class="fa-solid fa-house"></i>
                             <span>Xem trang chủ</span>
