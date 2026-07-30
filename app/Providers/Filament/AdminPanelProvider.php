@@ -85,14 +85,17 @@ public function panel(Panel $panel): Panel
                     }
 
                     /* 🌟 MODERN SEARCH BAR STYLE */
-                    .fi-global-search input {
-                        border-radius: 9999px !important;
-                        background-color: #f3f4f6 !important;
-                        border: 1px solid transparent !important;
+                    .fi-global-search input,
+                    .fi-global-search-input input {
+                        border-radius: 0.5rem !important;
+                        background-color: #f9fafb !important;
+                        border: 1px solid rgba(0, 0, 0, 0.08) !important;
                         transition: all 0.2s ease-in-out !important;
                         font-size: 13px !important;
+                        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01) !important;
                     }
-                    .fi-global-search input:focus {
+                    .fi-global-search input:focus,
+                    .fi-global-search-input input:focus {
                         background-color: #ffffff !important;
                         border-color: #10b981 !important;
                         box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
