@@ -64,13 +64,33 @@ class OrderOverview extends BaseWidget
                     ->color($pendingOrders > 0 ? 'warning' : 'gray');
             }
 
-            // 3. Nhà vườn đăng ký - Chỉ dành cho admin
+            // 3. Đơn hàng đang giao - Chỉ dành cho staff
+            if ($role === 'staff') {
+                $shippingOrders = Order::where('status', 'shipping')->count();
+                $stats[] = Stat::make('Đơn hàng đang giao', $shippingOrders . ' đơn')
+                    ->description('Đang vận chuyển đến khách')
+                    ->descriptionIcon('heroicon-m-truck', IconPosition::Before)
+                    ->color('info');
+            }
+
+            // 4. Nhà vườn đăng ký - Chỉ dành cho admin
             if ($role === 'admin') {
                 $customerCount = User::where('role', 'customer')->count();
                 $stats[] = Stat::make('Nhà vườn đăng ký', $customerCount . ' thành viên')
                     ->description('Hệ thống khách mua lẻ')
                     ->descriptionIcon('heroicon-m-user-group', IconPosition::Before)
                     ->color('info');
+            }
+
+            // 5. Cảnh báo tồn kho thấp - Chỉ dành cho staff
+            if ($role === 'staff') {
+                $lowStockCount = \App\Models\Product::where('stock', '<=', 10)
+                    ->orWhereHas('variants', fn($q) => $q->where('stock', '<=', 10))
+                    ->count();
+                $stats[] = Stat::make('Sản phẩm sắp hết hàng', $lowStockCount . ' mặt hàng')
+                    ->description('Cần bổ sung kho bãi gấp')
+                    ->descriptionIcon('heroicon-m-exclamation-triangle', IconPosition::Before)
+                    ->color($lowStockCount > 0 ? 'danger' : 'success');
             }
         }
 

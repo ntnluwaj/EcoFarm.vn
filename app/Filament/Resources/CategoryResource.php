@@ -31,7 +31,7 @@ class CategoryResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return in_array(auth()->user()?->role, ['admin', 'staff']);
+        return auth()->user()?->role === 'admin';
     }
 
     public static function form(Form $form): Form
