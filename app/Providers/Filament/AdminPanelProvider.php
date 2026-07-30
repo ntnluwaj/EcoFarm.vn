@@ -79,9 +79,8 @@ public function panel(Panel $panel): Panel
                     /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
                     .fi-topbar {
                         background-color: #ffffff !important;
-                        border-top: 3px solid #10b981 !important; /* Branded green top indicator line */
                         border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.01) !important;
                     }
 
                     /* 🌟 MODERN SEARCH BAR STYLE */
@@ -179,30 +178,39 @@ public function panel(Panel $panel): Panel
             ->renderHook(
                 'panels::user-menu.before',
                 fn (): string => '
-                    <div class="flex items-center gap-x-2 me-3">
-                        <!-- Seasonal Badge (Agriculture signature) -->
-                        <span class="hidden xl:inline-flex items-center gap-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/60 shadow-sm">
-                            <i class="fa-solid fa-wheat-awn text-amber-600"></i>
-                            <span>Vụ Hè Thu 2026</span>
-                        </span>
-
-                        <!-- Sync Status Badge -->
-                        <span class="hidden md:inline-flex items-center gap-x-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/50 shadow-sm">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></span>
-                            <span>Đã đồng bộ</span>
-                        </span>
-
-                        <!-- User Role Badge -->
-                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50 shadow-sm">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                            ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
-                        </span>
-
-                        <!-- View Frontend Website Button -->
-                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
-                            <i class="fa-solid fa-house"></i>
-                            <span>Xem trang chủ</span>
-                        </a>
+                    <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm me-3">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Xem trang chủ</span>
+                    </a>
+                '
+            )
+            ->renderHook(
+                'panels::sidebar.nav.start',
+                fn (): string => '
+                    <div class="px-4 py-2 mx-3 mb-2 rounded-lg bg-amber-50/60 border border-amber-200/50 flex items-center gap-x-2 text-[11px] font-semibold text-amber-800 shadow-sm">
+                        <i class="fa-solid fa-wheat-awn text-amber-600 text-xs"></i>
+                        <span>Vụ Hè Thu 2026</span>
+                        <span class="ml-auto w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    </div>
+                '
+            )
+            ->renderHook(
+                'panels::sidebar.footer',
+                fn (): string => '
+                    <div class="px-4 py-3.5 border-t border-gray-100 bg-gray-50/70 flex items-center gap-x-3">
+                        ' . (auth()->user()?->avatar ? 
+                            '<img src="' . asset('storage/' . auth()->user()->avatar) . '" alt="' . auth()->user()->name . '" class="w-9 h-9 rounded-full object-cover border border-emerald-500/30 shadow-sm">' : 
+                            '<div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm border border-emerald-200/30">
+                                ' . substr(auth()->user()?->name ?? 'U', 0, 1) . '
+                            </div>'
+                        ) . '
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-800 truncate" style="margin-bottom: 2px;">' . auth()->user()?->name . '</p>
+                            <span class="inline-flex items-center gap-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/30">
+                                <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
+                                ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
+                            </span>
+                        </div>
                     </div>
                 '
             )
