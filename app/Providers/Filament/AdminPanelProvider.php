@@ -77,6 +77,21 @@ public function panel(Panel $panel): Panel
                     }
                 </style>'
             )
+            ->renderHook(
+                'panels::user-menu.before',
+                fn (): string => '
+                    <div class="flex items-center gap-x-3 me-3">
+                        <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                            Vai trò: ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
+                        </span>
+                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-lg border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold shadow-sm bg-white">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Xem trang chủ</span>
+                        </a>
+                    </div>
+                '
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
