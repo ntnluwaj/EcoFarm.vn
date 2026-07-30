@@ -82,6 +82,24 @@ class OrderOverview extends BaseWidget
                     ->color('info');
             }
 
+            // 4b. Bài viết cẩm nang nông nghiệp chờ duyệt - Chỉ dành cho admin
+            if ($role === 'admin') {
+                $pendingPostsCount = \App\Models\Post::whereNull('published_at')->count();
+                $stats[] = Stat::make('Cẩm nang chờ duyệt', $pendingPostsCount . ' bài viết')
+                    ->description('Bài viết kỹ thuật đang đợi duyệt')
+                    ->descriptionIcon('heroicon-m-document-text', IconPosition::Before)
+                    ->color($pendingPostsCount > 0 ? 'warning' : 'success');
+            }
+
+            // 4c. Mã giảm giá / Quà tặng chờ duyệt - Chỉ dành cho admin
+            if ($role === 'admin') {
+                $pendingVouchersCount = \App\Models\Voucher::where('is_active', false)->count();
+                $stats[] = Stat::make('Ưu đãi chờ duyệt', $pendingVouchersCount . ' mã/quà')
+                    ->description('Mã giảm giá & Quà tích điểm')
+                    ->descriptionIcon('heroicon-m-ticket', IconPosition::Before)
+                    ->color($pendingVouchersCount > 0 ? 'warning' : 'success');
+            }
+
             // 5. Cảnh báo tồn kho thấp - Chỉ dành cho staff
             if ($role === 'staff') {
                 $lowStockCount = \App\Models\Product::where('stock', '<=', 10)

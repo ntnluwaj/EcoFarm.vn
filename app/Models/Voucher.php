@@ -140,4 +140,42 @@ class Voucher extends Model
         }
         return min(floatval($this->value), floatval($totalAmount));
     }
+
+    protected static function booted()
+    {
+        static::created(function ($voucher) {
+            if (!$voucher->is_active) {
+                $admins = \App\Models\User::where('role', 'admin')->get();
+                $isGift = !is_null($voucher->points_cost) && $voucher->points_cost > 0 && is_null($voucher->user_id);
+                
+                foreach ($admins as $admin) {
+                    if ($isGift) {
+                        \Filament\Notifications\Notification::make()
+                            ->title('Quà tặng mới chờ phê duyệt')
+                            ->body("Quà tặng tích điểm \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
+                            ->warning()
+                            ->actions([
+                                \Filament\Notifications\Actions\Action::make('view')
+                                    ->label('Duyệt ngay')
+                                    ->url(\App\Filament\Resources\GiftResource::getUrl('edit', ['record' => $voucher]))
+                                    ->button(),
+                            ])
+                            ->sendToDatabase($admin);
+                    } else {
+                        \Filament\Notifications\Notification::make()
+                            ->title('Mã giảm giá mới chờ phê duyệt')
+                            ->body("Mã giảm giá \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
+                            ->warning()
+                            ->actions([
+                                \Filament\Notifications\Actions\Action::make('view')
+                                    ->label('Duyệt ngay')
+                                    ->url(\App\Filament\Resources\VoucherResource::getUrl('edit', ['record' => $voucher]))
+                                    ->button(),
+                            ])
+                            ->sendToDatabase($admin);
+                    }
+                }
+            }
+        });
+    }
 }
