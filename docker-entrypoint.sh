@@ -1,4 +1,5 @@
 #!/bin/sh
+# Force clean redeploy on Render
 
 # Đảm bảo các thư mục đích tồn tại trong ổ đĩa mount
 mkdir -p /var/www/html/storage/app/public/products
