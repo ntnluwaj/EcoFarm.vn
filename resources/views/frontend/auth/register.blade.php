@@ -4,17 +4,67 @@
 <style>
     .auth-container {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        background: #f8fafc;
-        min-height: 70vh;
+        background: #f1f5f9;
+        min-height: 75vh;
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
     }
+    /* 🌟 BACKGROUND FLOATING ORGANIC BLOBS */
+    .auth-bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        z-index: 1;
+        pointer-events: none;
+    }
+    .auth-shape-1 {
+        width: 300px;
+        height: 300px;
+        background: #81c784;
+        top: -50px;
+        left: -50px;
+        opacity: 0.25;
+        animation: float-blob-1 15s ease-in-out infinite;
+    }
+    .auth-shape-2 {
+        width: 450px;
+        height: 450px;
+        background: #2e7d32;
+        bottom: -100px;
+        right: -100px;
+        opacity: 0.18;
+        animation: float-blob-2 20s ease-in-out infinite;
+    }
+    .auth-shape-3 {
+        width: 250px;
+        height: 250px;
+        background: #a5d6a7;
+        top: 35%;
+        right: 15%;
+        opacity: 0.2;
+        animation: float-blob-1 18s ease-in-out infinite;
+    }
+
+    @keyframes float-blob-1 {
+        0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+        50% { transform: translateY(-30px) scale(1.1) rotate(15deg); }
+    }
+    @keyframes float-blob-2 {
+        0%, 100% { transform: translateY(0px) scale(1.1) rotate(0deg); }
+        50% { transform: translateY(30px) scale(0.9) rotate(-15deg); }
+    }
+
     .auth-card {
         border: none;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
         overflow: hidden;
         background: #ffffff;
+        position: relative;
+        z-index: 10;
     }
     .auth-banner {
         background: linear-gradient(135deg, #1b5e20, #2e7d32, #4caf50);
@@ -22,7 +72,7 @@
         padding: 48px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         position: relative;
     }
     .auth-banner::before {
@@ -30,7 +80,7 @@
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="none" opacity="0.05"/></svg>');
-        background-size: 40px 40px;
+        background-size: 45px 45px;
         pointer-events: none;
     }
     .auth-form-side {
@@ -39,8 +89,8 @@
     .form-control-custom {
         border: 1px solid #e2e8f0;
         background-color: #f8fafc;
-        padding: 12px 16px;
-        border-radius: 10px;
+        padding: 14px 16px;
+        border-radius: 12px;
         font-size: 14px;
         transition: all 0.3s ease;
     }
@@ -53,50 +103,79 @@
         background-color: #f8fafc;
         border: 1px solid #e2e8f0;
         border-right: none;
-        border-radius: 10px 0 0 10px;
+        border-radius: 12px 0 0 12px;
         color: #64748b;
+        padding-left: 18px;
+        padding-right: 18px;
     }
     .form-control-custom-right {
-        border-radius: 0 10px 10px 0 !important;
+        border-radius: 0 12px 12px 0 !important;
         border-left: none !important;
     }
     .btn-auth-submit {
         background: linear-gradient(135deg, #2e7d32, #1b5e20);
         border: none;
-        padding: 12px;
+        padding: 14px;
         font-weight: 700;
-        border-radius: 10px;
+        border-radius: 12px;
         color: #ffffff;
         font-size: 14.5px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        letter-spacing: 0.5px;
     }
     .btn-auth-submit:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
-        opacity: 0.95;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(46, 125, 50, 0.45);
+        background: linear-gradient(135deg, #1b5e20, #0f3d11);
     }
     .benefit-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 20px;
-        font-size: 14.5px;
+        margin-bottom: 16px;
+        font-size: 14px;
     }
     .benefit-icon {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.15);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 12px;
         flex-shrink: 0;
+    }
+
+    /* 🌟 GLASSMORPHISM TESTIMONIAL CARD */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+    }
+    .avatar-circle {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffc107;
+        color: #1b5e20;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 13px;
     }
 </style>
 
 <div class="auth-container py-5">
+    <!-- Floating background circles -->
+    <div class="auth-bg-shape auth-shape-1"></div>
+    <div class="auth-bg-shape auth-shape-2"></div>
+    <div class="auth-bg-shape auth-shape-3"></div>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-11 col-lg-12">
@@ -104,28 +183,43 @@
                     <div class="row g-0">
                         <!-- Left side: Marketing Banner -->
                         <div class="col-md-5 d-none d-md-flex auth-banner">
-                            <div class="mb-5">
+                            <div>
                                 <a href="{{ route('home') }}">
-                                    <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 60px; filter: brightness(0) invert(1);" class="mb-2">
+                                    <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 55px; filter: brightness(0) invert(1);" class="mb-2">
                                 </a>
-                                <h4 class="fw-bold mt-2">Nền tảng Vật tư & Kỹ thuật Nông nghiệp số</h4>
+                                <h5 class="fw-bold mt-2">Nền tảng Vật tư & Kỹ thuật Nông nghiệp số</h5>
+                                <div class="mt-4">
+                                    <div class="benefit-item">
+                                        <div class="benefit-icon"><i class="fa-solid fa-leaf"></i></div>
+                                        <span>Vật tư nông nghiệp chính hãng 100%</span>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <div class="benefit-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                                        <span>Kỹ sư hỗ trợ canh tác trực tuyến 24/7</span>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <div class="benefit-icon"><i class="fa-solid fa-qrcode"></i></div>
+                                        <span>Thanh toán thông minh VietQR tiện lợi</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="my-auto">
-                                <div class="benefit-item">
-                                    <div class="benefit-icon"><i class="fa-solid fa-leaf"></i></div>
-                                    <span>Vật tư nông nghiệp chính hãng 100% từ đối tác lớn.</span>
+
+                            <!-- Glassmorphism Signature testimonial -->
+                            <div class="glass-card p-4 rounded-4 mt-4">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-warning text-dark fw-bold" style="font-size: 11px;"><i class="fa-solid fa-star me-1"></i>Tin cậy</span>
+                                    <span class="text-white-50" style="font-size: 11px;">Chứng nhận Nông nghiệp Xanh</span>
                                 </div>
-                                <div class="benefit-item">
-                                    <div class="benefit-icon"><i class="fa-solid fa-user-doctor"></i></div>
-                                    <span>Đội ngũ kỹ sư nông nghiệp sẵn sàng hỗ trợ 24/7.</span>
+                                <p class="mb-0 text-white font-italic small" style="line-height: 1.6; opacity: 0.9;">
+                                    "Từ khi mua phân bón hữu cơ tại EcoFarm, vườn nhãn của tôi đạt năng suất tăng 35% mà chi phí lại tối ưu rõ rệt."
+                                </p>
+                                <div class="mt-3 d-flex align-items-center gap-2">
+                                    <div class="avatar-circle">B</div>
+                                    <div>
+                                        <div class="text-white fw-bold small">Chú Bảy Sông Hậu</div>
+                                        <div class="text-white-50" style="font-size: 10px;">HTX Cây ăn quả Cần Thơ</div>
+                                    </div>
                                 </div>
-                                <div class="benefit-item">
-                                    <div class="benefit-icon"><i class="fa-solid fa-qrcode"></i></div>
-                                    <span>Thanh toán thông minh, đối soát dòng tiền tự động.</span>
-                                </div>
-                            </div>
-                            <div class="mt-5 pt-3 border-top border-white-50 text-white-50 small">
-                                <i class="fa-solid fa-shield-halved me-1"></i> Hệ thống bảo mật thông tin tối cao.
                             </div>
                         </div>
 
