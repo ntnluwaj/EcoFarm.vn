@@ -144,36 +144,43 @@ class Voucher extends Model
     protected static function booted()
     {
         static::created(function ($voucher) {
+            \Illuminate\Support\Facades\Log::info("Voucher model created observer triggered for Voucher ID: {$voucher->id}");
             if (!$voucher->is_active) {
-                $admins = \App\Models\User::where('role', 'admin')->get();
-                $isGift = !is_null($voucher->points_cost) && $voucher->points_cost > 0 && is_null($voucher->user_id);
-                
-                foreach ($admins as $admin) {
-                    if ($isGift) {
-                        \Filament\Notifications\Notification::make()
-                            ->title('Quà tặng mới chờ phê duyệt')
-                            ->body("Quà tặng tích điểm \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
-                            ->warning()
-                            ->actions([
-                                \Filament\Notifications\Actions\Action::make('view')
-                                    ->label('Duyệt ngay')
-                                    ->url(\App\Filament\Resources\GiftResource::getUrl('edit', ['record' => $voucher]))
-                                    ->button(),
-                            ])
-                            ->sendToDatabase($admin);
-                    } else {
-                        \Filament\Notifications\Notification::make()
-                            ->title('Mã giảm giá mới chờ phê duyệt')
-                            ->body("Mã giảm giá \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
-                            ->warning()
-                            ->actions([
-                                \Filament\Notifications\Actions\Action::make('view')
-                                    ->label('Duyệt ngay')
-                                    ->url(\App\Filament\Resources\VoucherResource::getUrl('edit', ['record' => $voucher]))
-                                    ->button(),
-                            ])
-                            ->sendToDatabase($admin);
+                try {
+                    $admins = \App\Models\User::where('role', 'admin')->get();
+                    \Illuminate\Support\Facades\Log::info("Found " . $admins->count() . " admins to notify for Voucher.");
+                    $isGift = !is_null($voucher->points_cost) && $voucher->points_cost > 0 && is_null($voucher->user_id);
+                    
+                    foreach ($admins as $admin) {
+                        if ($isGift) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Quà tặng mới chờ phê duyệt')
+                                ->body("Quà tặng tích điểm \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
+                                ->warning()
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label('Duyệt ngay')
+                                        ->url(\App\Filament\Resources\GiftResource::getUrl('edit', ['record' => $voucher]))
+                                        ->button(),
+                                ])
+                                ->sendToDatabase($admin);
+                        } else {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Mã giảm giá mới chờ phê duyệt')
+                                ->body("Mã giảm giá \"{$voucher->code}\" vừa được tạo bởi nhân viên và đang chờ kích hoạt.")
+                                ->warning()
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label('Duyệt ngay')
+                                        ->url(\App\Filament\Resources\VoucherResource::getUrl('edit', ['record' => $voucher]))
+                                        ->button(),
+                                ])
+                                ->sendToDatabase($admin);
+                        }
                     }
+                    \Illuminate\Support\Facades\Log::info("Notifications sent successfully for Voucher ID: {$voucher->id}");
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Error sending voucher/gift notification: " . $e->getMessage());
                 }
             }
         });
