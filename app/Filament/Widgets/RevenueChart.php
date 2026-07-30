@@ -12,7 +12,26 @@ class RevenueChart extends ChartWidget
         return auth()->user()?->role === 'admin';
     }
 
-    protected static ?string $heading = 'Biểu đồ doanh thu hoàn tất (6 tháng qua)';
+    public ?string $filter = '6months';
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hôm nay',
+            'week' => '7 ngày qua',
+            'month' => '30 ngày qua',
+            '6months' => '6 tháng qua',
+            'year' => 'Năm nay',
+        ];
+    }
+
+    public function getHeading(): ?string
+    {
+        $filters = $this->getFilters();
+        $activeFilter = $this->filter;
+        
+        return 'Biểu đồ doanh thu hoàn tất (' . ($filters[$activeFilter] ?? '6 tháng qua') . ')';
+    }
     
     protected static string $color = 'success';
     
@@ -22,19 +41,62 @@ class RevenueChart extends ChartWidget
 
     protected function getData(): array
     {
+        $activeFilter = $this->filter;
         $data = [];
         $labels = [];
         
-        for ($i = 5; $i >= 0; $i--) {
-            $month = now()->subMonths($i);
-            $labels[] = 'Tháng ' . $month->format('m/Y');
-            
-            $revenue = Order::where('status', 'completed')
-                ->whereMonth('created_at', $month->month)
-                ->whereYear('created_at', $month->year)
-                ->sum('total_amount');
+        if ($activeFilter === 'today') {
+            for ($hour = 0; $hour <= 23; $hour += 3) {
+                $start = now()->startOfDay()->addHours($hour);
+                $end = now()->startOfDay()->addHours($hour + 3);
+                $labels[] = $start->format('H:i') . ' - ' . $end->format('H:i');
                 
-            $data[] = (float)$revenue;
+                $revenue = Order::where('status', 'completed')
+                    ->whereBetween('created_at', [$start, $end])
+                    ->sum('total_amount');
+                $data[] = (float)$revenue;
+            }
+        } elseif ($activeFilter === 'week') {
+            for ($i = 6; $i >= 0; $i--) {
+                $day = now()->subDays($i);
+                $labels[] = $day->format('d/m');
+                
+                $revenue = Order::where('status', 'completed')
+                    ->whereDate('created_at', $day->toDateString())
+                    ->sum('total_amount');
+                $data[] = (float)$revenue;
+            }
+        } elseif ($activeFilter === 'month') {
+            for ($i = 5; $i >= 0; $i--) {
+                $start = now()->subDays(($i + 1) * 5)->startOfDay();
+                $end = now()->subDays($i * 5)->endOfDay();
+                $labels[] = $start->format('d/m') . ' - ' . $end->format('d/m');
+                
+                $revenue = Order::where('status', 'completed')
+                    ->whereBetween('created_at', [$start, $end])
+                    ->sum('total_amount');
+                $data[] = (float)$revenue;
+            }
+        } elseif ($activeFilter === 'year') {
+            for ($i = 1; $i <= 12; $i++) {
+                $labels[] = 'Tháng ' . $i;
+                $revenue = Order::where('status', 'completed')
+                    ->whereMonth('created_at', $i)
+                    ->whereYear('created_at', now()->year)
+                    ->sum('total_amount');
+                $data[] = (float)$revenue;
+            }
+        } else {
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i);
+                $labels[] = 'Tháng ' . $month->format('m/Y');
+                
+                $revenue = Order::where('status', 'completed')
+                    ->whereMonth('created_at', $month->month)
+                    ->whereYear('created_at', $month->year)
+                    ->sum('total_amount');
+                $data[] = (float)$revenue;
+            }
         }
 
         return [

@@ -34,17 +34,20 @@ class OrderOverview extends BaseWidget
             $stats[] = Stat::make('Câu hỏi chưa trả lời', $unansweredQuestions . ' câu hỏi')
                 ->description('Giải đáp kỹ thuật sản phẩm')
                 ->descriptionIcon('heroicon-m-question-mark-circle', IconPosition::Before)
-                ->color($unansweredQuestions > 0 ? 'warning' : 'success');
+                ->color($unansweredQuestions > 0 ? 'warning' : 'success')
+                ->url(\App\Filament\Resources\ProductQuestionResource::getUrl('index'));
 
             $stats[] = Stat::make('Yêu cầu tư vấn mới', $pendingConsultations . ' cuộc gọi')
                 ->description('Cần liên hệ hỗ trợ nông dân')
                 ->descriptionIcon('heroicon-m-phone', IconPosition::Before)
-                ->color($pendingConsultations > 0 ? 'danger' : 'success');
+                ->color($pendingConsultations > 0 ? 'danger' : 'success')
+                ->url(\App\Filament\Resources\ContactResource::getUrl('index'));
 
             $stats[] = Stat::make('Bài viết cẩm nang', $publishedPosts . ' bài viết')
                 ->description('Đã xuất bản trên EcoFarm')
                 ->descriptionIcon('heroicon-m-book-open', IconPosition::Before)
-                ->color('success');
+                ->color('success')
+                ->url(\App\Filament\Resources\PostResource::getUrl('index'));
         } else {
             // 1. Doanh thu hệ thống - Chỉ dành cho admin
             if ($role === 'admin') {
@@ -52,7 +55,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Doanh thu hệ thống', number_format($revenue, 0, ',', '.') . ' VND')
                     ->description('Tổng tiền từ đơn hàng hoàn tất')
                     ->descriptionIcon('heroicon-m-arrow-trending-up', IconPosition::Before)
-                    ->color('success');
+                    ->color('success')
+                    ->url('/admin/bao-cao-doanh-thu');
             }
 
             // 2. Đơn hàng chờ duyệt - Admin và Staff đều xem được
@@ -61,7 +65,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Đơn hàng chờ duyệt', $pendingOrders . ' đơn')
                     ->description('Cần bốc xếp & đóng gói gấp')
                     ->descriptionIcon('heroicon-m-clock', IconPosition::Before)
-                    ->color($pendingOrders > 0 ? 'warning' : 'gray');
+                    ->color($pendingOrders > 0 ? 'warning' : 'gray')
+                    ->url(\App\Filament\Resources\OrderResource::getUrl('index'));
             }
 
             // 3. Đơn hàng đang giao - Chỉ dành cho staff
@@ -70,7 +75,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Đơn hàng đang giao', $shippingOrders . ' đơn')
                     ->description('Đang vận chuyển đến khách')
                     ->descriptionIcon('heroicon-m-truck', IconPosition::Before)
-                    ->color('info');
+                    ->color('info')
+                    ->url(\App\Filament\Resources\OrderResource::getUrl('index'));
             }
 
             // 4. Nhà vườn đăng ký - Chỉ dành cho admin
@@ -79,7 +85,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Nhà vườn đăng ký', $customerCount . ' thành viên')
                     ->description('Hệ thống khách mua lẻ')
                     ->descriptionIcon('heroicon-m-user-group', IconPosition::Before)
-                    ->color('info');
+                    ->color('info')
+                    ->url(\App\Filament\Resources\CustomerResource::getUrl('index'));
             }
 
             // 4b. Bài viết cẩm nang nông nghiệp chờ duyệt - Chỉ dành cho admin
@@ -88,7 +95,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Cẩm nang chờ duyệt', $pendingPostsCount . ' bài viết')
                     ->description('Bài viết kỹ thuật đang đợi duyệt')
                     ->descriptionIcon('heroicon-m-document-text', IconPosition::Before)
-                    ->color($pendingPostsCount > 0 ? 'warning' : 'success');
+                    ->color($pendingPostsCount > 0 ? 'warning' : 'success')
+                    ->url(\App\Filament\Resources\PostResource::getUrl('index'));
             }
 
             // 4c. Mã giảm giá / Quà tặng chờ duyệt - Chỉ dành cho admin
@@ -97,7 +105,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Ưu đãi chờ duyệt', $pendingVouchersCount . ' mã/quà')
                     ->description('Mã giảm giá & Quà tích điểm')
                     ->descriptionIcon('heroicon-m-ticket', IconPosition::Before)
-                    ->color($pendingVouchersCount > 0 ? 'warning' : 'success');
+                    ->color($pendingVouchersCount > 0 ? 'warning' : 'success')
+                    ->url(\App\Filament\Resources\VoucherResource::getUrl('index'));
             }
 
             // 5. Cảnh báo tồn kho thấp - Chỉ dành cho staff
@@ -108,7 +117,8 @@ class OrderOverview extends BaseWidget
                 $stats[] = Stat::make('Sản phẩm sắp hết hàng', $lowStockCount . ' mặt hàng')
                     ->description('Cần bổ sung kho bãi gấp')
                     ->descriptionIcon('heroicon-m-exclamation-triangle', IconPosition::Before)
-                    ->color($lowStockCount > 0 ? 'danger' : 'success');
+                    ->color($lowStockCount > 0 ? 'danger' : 'success')
+                    ->url(\App\Filament\Resources\StockResource::getUrl('index'));
             }
         }
 

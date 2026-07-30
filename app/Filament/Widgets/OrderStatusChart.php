@@ -12,7 +12,26 @@ class OrderStatusChart extends ChartWidget
         return in_array(auth()->user()?->role, ['admin', 'staff']);
     }
 
-    protected static ?string $heading = 'Tỷ lệ trạng thái đơn hàng';
+    public ?string $filter = 'all';
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'all' => 'Tất cả thời gian',
+            'today' => 'Hôm nay',
+            'week' => '7 ngày qua',
+            'month' => '30 ngày qua',
+            'year' => 'Năm nay',
+        ];
+    }
+
+    public function getHeading(): ?string
+    {
+        $filters = $this->getFilters();
+        $activeFilter = $this->filter;
+        
+        return 'Tỷ lệ trạng thái đơn hàng (' . ($filters[$activeFilter] ?? 'Tất cả') . ')';
+    }
     
     protected static ?int $sort = 3;
     
@@ -20,11 +39,24 @@ class OrderStatusChart extends ChartWidget
 
     protected function getData(): array
     {
-        $pending = Order::where('status', 'pending')->count();
-        $processing = Order::where('status', 'processing')->count();
-        $shipping = Order::where('status', 'shipping')->count();
-        $completed = Order::where('status', 'completed')->count();
-        $cancelled = Order::where('status', 'cancelled')->count();
+        $activeFilter = $this->filter;
+        $query = Order::query();
+
+        if ($activeFilter === 'today') {
+            $query->whereDate('created_at', now()->toDateString());
+        } elseif ($activeFilter === 'week') {
+            $query->where('created_at', '>=', now()->subDays(7)->startOfDay());
+        } elseif ($activeFilter === 'month') {
+            $query->where('created_at', '>=', now()->subDays(30)->startOfDay());
+        } elseif ($activeFilter === 'year') {
+            $query->whereYear('created_at', now()->year);
+        }
+
+        $pending = (clone $query)->where('status', 'pending')->count();
+        $processing = (clone $query)->where('status', 'processing')->count();
+        $shipping = (clone $query)->where('status', 'shipping')->count();
+        $completed = (clone $query)->where('status', 'completed')->count();
+        $cancelled = (clone $query)->where('status', 'cancelled')->count();
 
         return [
             'datasets' => [
