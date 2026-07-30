@@ -37,7 +37,7 @@ class VoucherResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()?->role === 'admin';
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
     }
 
     public static function form(Form $form): Form
