@@ -75,6 +75,9 @@
                     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         
+                        <!-- Hidden input for avatar upload -->
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="d-none">
+
                         <div class="row g-3">
                             <!-- Họ và tên -->
                             <div class="col-md-6">
@@ -87,13 +90,6 @@
                                 <label for="email" class="form-label fw-semibold text-dark" style="font-size: 13px;">Địa chỉ Email</label>
                                 <input type="email" class="form-control rounded-3 bg-light" id="email" value="{{ $user->email }}" disabled>
                                 <div class="form-text text-muted text-xs">Email dùng để đăng nhập và không thể thay đổi.</div>
-                            </div>
-
-                            <!-- Ảnh đại diện -->
-                            <div class="col-md-6">
-                                <label for="avatar" class="form-label fw-semibold text-dark" style="font-size: 13px;">Ảnh đại diện (Avatar)</label>
-                                <input type="file" class="form-control rounded-3" id="avatar" name="avatar" accept="image/*">
-                                <div class="form-text text-muted text-xs">Chấp nhận JPG, PNG, JPEG, GIF. Tối đa 2MB.</div>
                             </div>
 
                             <!-- Số điện thoại -->
