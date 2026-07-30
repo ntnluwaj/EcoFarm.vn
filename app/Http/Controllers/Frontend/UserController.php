@@ -26,15 +26,29 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:6|confirmed',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'name.required' => 'Họ và tên không được để trống.',
             'password.min' => 'Mật khẩu mới phải từ 6 ký tự trở lên.',
             'password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
+            'avatar.image' => 'Tệp tải lên phải là hình ảnh.',
+            'avatar.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif.',
+            'avatar.max' => 'Dung lượng hình ảnh không được vượt quá 2MB.',
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->address = $request->address;
+
+        if ($request->hasFile('avatar')) {
+            // Xóa ảnh cũ nếu có
+            if ($user->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            }
+            // Lưu ảnh mới
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $path;
+        }
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

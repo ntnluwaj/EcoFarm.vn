@@ -319,8 +319,14 @@
                     
                     @if(auth()->check())
                         <div class="dropdown d-inline-block">
-                            <button class="header-icon-btn d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0;">
-                                <i class="fa-solid fa-circle-user fs-5"></i>
+                            <button class="d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0; border: none; background: transparent;">
+                                @if(auth()->user()->avatar)
+                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="rounded-circle border border-success shadow-sm" style="width: 38px; height: 38px; object-fit: cover;">
+                                @else
+                                    <span class="header-icon-btn d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px; border-radius: 50%;">
+                                        <i class="fa-solid fa-circle-user fs-5"></i>
+                                    </span>
+                                @endif
                             </button>
                             
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userMenu" style="font-size: 13px; min-width: 195px; z-index: 9999;">
