@@ -111,7 +111,7 @@
                     </div>
                     <div class="d-flex justify-content-between mb-3 small text-secondary">
                         <span>Thuế VAT nông nghiệp:</span>
-                        <span class="text-success fw-bold">Miễn thuế (0%)</span>
+                        <span class="text-success fw-bold">Không chịu thuế GTGT</span>
                     </div>
 
                     <hr class="border-light-subtle my-3">

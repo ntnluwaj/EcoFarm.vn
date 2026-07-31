@@ -213,9 +213,6 @@
                             <span id="final-total" class="text-danger fw-bold fs-4">{{ number_format($finalTotal, 0, ',', '.') }} VND</span>
                         </div>
                     </div>
-                    <span class="text-muted d-block text-center" style="font-size: 11px;">
-                        <i class="fa-solid fa-circle-info text-warning me-1"></i>Vật tư nông nghiệp được miễn thuế VAT đầu vụ.
-                    </span>
                 @else
                     <div class="text-center py-4 text-muted small">
                         <p class="mb-0">Giỏ hàng rỗng, không có dữ liệu đặt mua.</p>
