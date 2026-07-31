@@ -190,6 +190,39 @@
                 max-height: 110px !important;
             }
         }
+
+        /* 🌟 STICKY TRANSLUCENT SCROLL EFFECT */
+        .header-scroller {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.3s ease-in-out !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01) !important;
+        }
+        .header-scroller.scrolled {
+            background-color: rgba(255, 255, 255, 0.82) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05) !important;
+        }
+        .hover-logo {
+            transition: all 0.3s ease-in-out !important;
+        }
+        @media (min-width: 992px) {
+            .header-scroller.scrolled .hover-logo {
+                height: 78px !important;
+                max-height: 78px !important;
+            }
+            .header-scroller.scrolled nav.navbar {
+                padding-top: 2px !important;
+                padding-bottom: 2px !important;
+            }
+        }
+        @media (max-width: 991.98px) {
+            .header-scroller.scrolled .hover-logo {
+                height: 52px !important;
+                max-height: 52px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -214,7 +247,7 @@
     </div>
 
     <!-- Main Branded Header (Standard Flat Layout like BambooVietnam) -->
-    <div class="w-100 sticky-top bg-white border-bottom shadow-sm" style="z-index: 1050; transition: all 0.3s ease;">
+    <div id="main-header" class="w-100 sticky-top header-scroller" style="z-index: 1050;">
         <nav class="navbar navbar-expand-lg navbar-light container py-2 px-3" style="background: transparent;">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
@@ -1058,6 +1091,25 @@
               compareList = JSON.parse(localStorage.getItem(compareKey)) || [];
               updateCompareUI();
           });
+      });
+  </script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const header = document.getElementById('main-header');
+          if (header) {
+              window.addEventListener('scroll', function () {
+                  if (window.scrollY > 40) {
+                      header.classList.add('scrolled');
+                  } else {
+                      header.classList.remove('scrolled');
+                  }
+              });
+              
+              // Run once on load to cover page refreshes/loads halfway scrolled
+              if (window.scrollY > 40) {
+                  header.classList.add('scrolled');
+              }
+          }
       });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
