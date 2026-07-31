@@ -153,3 +153,19 @@ Route::get('/debug-logs', function () {
     $lastLines = array_slice($lines, -100);
     return response("<pre>" . implode("", $lastLines) . "</pre>");
 });
+
+Route::get('/debug-locks', function () {
+    try {
+        if (config('database.default') === 'pgsql') {
+            $results = \Illuminate\Support\Facades\DB::select("
+                SELECT pid, query, state, age(clock_timestamp(), query_start) AS age
+                FROM pg_stat_activity
+                WHERE query NOT LIKE '%pg_stat_activity%'
+            ");
+            return response()->json($results);
+        }
+        return "Not using PostgreSQL.";
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
