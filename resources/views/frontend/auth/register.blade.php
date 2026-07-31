@@ -1,6 +1,8 @@
 @extends('frontend.layouts.master')
 
 @section('content')
+<!-- Leaflet Map CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
     .auth-container {
         font-family: 'Plus Jakarta Sans', sans-serif;
@@ -279,7 +281,15 @@
                                             <span class="input-group-text input-group-custom-text"><i class="fa-solid fa-location-dot"></i></span>
                                             <input type="text" class="form-control form-control-custom form-control-custom-right" id="address" name="address" placeholder="Ví dụ: 123 Đường 3/2, Cần Thơ" value="{{ old('address') }}">
                                         </div>
-                                        <div class="form-text text-muted" style="font-size: 11px;">Giúp tiết kiệm thời gian nhập khi thanh toán hóa đơn.</div>
+                                        <div class="form-text text-muted mb-2" style="font-size: 11px;">Giúp tiết kiệm thời gian nhập khi thanh toán hóa đơn. Bạn cũng có thể kéo ghim/click bản đồ dưới đây để định vị địa chỉ tự động:</div>
+                                        
+                                        <!-- Map container -->
+                                        <div class="position-relative overflow-hidden rounded-3 border" style="border-color: #e2e8f0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 260px;">
+                                            <div id="map" style="height: 100%; z-index: 1;"></div>
+                                            <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 text-white p-2 text-center" style="z-index: 1000; font-size: 11px; backdrop-filter: blur(4px);">
+                                                <i class="fa-solid fa-circle-info text-warning me-1"></i> Kéo ghim hoặc click chọn điểm trên bản đồ để tự động dịch thành địa chỉ chữ.
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Xác nhận mật khẩu -->
@@ -310,4 +320,77 @@
         </div>
     </div>
 </div>
+
+<!-- Leaflet Map JS and Logic -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Tọa độ mặc định: Cần Thơ, Việt Nam (10.0356, 105.7801)
+        var defaultLat = 10.0356;
+        var defaultLng = 105.7801;
+
+        // Khởi tạo bản đồ
+        var map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+        // Nạp các ô bản đồ từ OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Tạo marker có thể kéo thả
+        var marker = L.marker([defaultLat, defaultLng], {
+            draggable: true
+        }).addTo(map);
+
+        // Hàm gọi API Reverse Geocoding của Nominatim (OpenStreetMap)
+        function updateAddressFromCoords(lat, lng) {
+            var addressInput = document.getElementById('address');
+            addressInput.placeholder = "Đang định vị địa chỉ từ bản đồ...";
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=vi`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        var cleanAddress = data.display_name;
+                        addressInput.value = cleanAddress;
+                    } else {
+                        addressInput.value = lat.toFixed(6) + ", " + lng.toFixed(6);
+                    }
+                    addressInput.placeholder = "Ví dụ: 123 Đường 3/2, Cần Thơ";
+                })
+                .catch(error => {
+                    console.error("Lỗi reverse geocoding:", error);
+                    addressInput.value = lat.toFixed(6) + ", " + lng.toFixed(6);
+                    addressInput.placeholder = "Ví dụ: 123 Đường 3/2, Cần Thơ";
+                });
+        }
+
+        // Tự động lấy GPS trình duyệt của người dùng khi load trang
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+                map.setView([userLat, userLng], 16);
+                marker.setLatLng([userLat, userLng]);
+                updateAddressFromCoords(userLat, userLng);
+            }, function (error) {
+                console.log("Quyền truy cập vị trí bị từ chối hoặc lỗi GPS, sử dụng vị trí mặc định.");
+            });
+        }
+
+        // Sự kiện khi người dùng click trực tiếp lên bản đồ
+        map.on('click', function (e) {
+            var coords = e.latlng;
+            marker.setLatLng(coords);
+            updateAddressFromCoords(coords.lat, coords.lng);
+        });
+
+        // Sự kiện khi người dùng kéo thả marker xong
+        marker.on('dragend', function (e) {
+            var coords = marker.getLatLng();
+            updateAddressFromCoords(coords.lat, coords.lng);
+        });
+    });
+</script>
 @endsection
