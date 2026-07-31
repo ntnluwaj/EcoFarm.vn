@@ -341,11 +341,16 @@
         let map = null;
         let marker = null;
         let debounceTimer = null;
+        
+        // Cờ chống vòng lặp vô tận giữa map update và input change listeners
+        let isUpdatingFromMap = false;
+        let formGeocodeTimer = null;
 
         // 🌟 Tích hợp nạp dữ liệu Tỉnh/Thành, Quận/Huyện, Xã/Phường qua API
         const provinceSelect = document.getElementById('address_province');
         const districtSelect = document.getElementById('address_district');
         const wardSelect = document.getElementById('address_ward');
+        const streetInput = document.getElementById('address_street');
 
         if (provinceSelect && districtSelect && wardSelect) {
             // Nạp Tỉnh/Thành phố
@@ -426,6 +431,69 @@
             });
         }
 
+        // Tự động tìm kiếm tọa độ từ thông tin trong form và chuyển tâm bản đồ tới đó
+        function geocodeFormAddress() {
+            if (isUpdatingFromMap) return;
+
+            const street = streetInput ? streetInput.value.trim() : '';
+            const ward = wardSelect ? wardSelect.value : '';
+            const district = districtSelect ? districtSelect.value : '';
+            const province = provinceSelect ? provinceSelect.value : '';
+
+            if (!province) return; // Bắt buộc phải chọn Tỉnh/Thành phố trước
+
+            const queryParts = [];
+            if (street) queryParts.push(street);
+            if (ward) queryParts.push(ward);
+            if (district) queryParts.push(district);
+            if (province) queryParts.push(province);
+
+            const query = queryParts.join(', ');
+
+            clearTimeout(formGeocodeTimer);
+            formGeocodeTimer = setTimeout(() => {
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=vn&q=${encodeURIComponent(query)}`;
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            const lat = parseFloat(data[0].lat);
+                            const lon = parseFloat(data[0].lon);
+                            
+                            // Cập nhật bản đồ mà không kích hoạt reverse geocoding ngược lại
+                            isUpdatingFromMap = true;
+                            initMap(lat, lon, query);
+                            setTimeout(() => {
+                                isUpdatingFromMap = false;
+                            }, 500);
+                        }
+                    })
+                    .catch(err => console.error('Geocoding form error:', err));
+            }, 1000); // Debounce 1 giây để tránh spam API khi gõ chữ
+        }
+
+        // Đăng ký sự kiện lắng nghe thay đổi thông tin trên form
+        if (provinceSelect) {
+            provinceSelect.addEventListener('change', () => {
+                if (!isUpdatingFromMap) geocodeFormAddress();
+            });
+        }
+        if (districtSelect) {
+            districtSelect.addEventListener('change', () => {
+                if (!isUpdatingFromMap) geocodeFormAddress();
+            });
+        }
+        if (wardSelect) {
+            wardSelect.addEventListener('change', () => {
+                if (!isUpdatingFromMap) geocodeFormAddress();
+            });
+        }
+        if (streetInput) {
+            streetInput.addEventListener('input', () => {
+                if (!isUpdatingFromMap) geocodeFormAddress();
+            });
+        }
+
         function initMap(lat, lon, displayName) {
             mapContainer.style.display = 'block';
             
@@ -435,9 +503,22 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
                 
-                marker = L.marker([lat, lon]).addTo(map)
+                marker = L.marker([lat, lon], { draggable: true }).addTo(map)
                     .bindPopup(displayName)
                     .openPopup();
+
+                // Lắng nghe sự kiện kéo ghim thủ công
+                marker.on('dragend', function() {
+                    const coords = marker.getLatLng();
+                    updateAddressFromCoords(coords.lat, coords.lng);
+                });
+
+                // Lắng nghe sự kiện click trên bản đồ
+                map.on('click', function(e) {
+                    const coords = e.latlng;
+                    marker.setLatLng(coords);
+                    updateAddressFromCoords(coords.lat, coords.lng);
+                });
             } else {
                 const latLng = new L.LatLng(lat, lon);
                 map.setView(latLng, 15);
@@ -458,6 +539,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data) {
+                        isUpdatingFromMap = true;
                         if (addressInput && data.display_name) {
                             addressInput.value = data.display_name;
                         }
@@ -478,17 +560,26 @@
                             setTimeout(() => {
                                 const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
                                 selectOptionByFuzzyText(wardSelect, ward);
+                                
+                                setTimeout(() => {
+                                    isUpdatingFromMap = false;
+                                }, 200);
                             }, 350);
                         }, 350);
 
                         const road = addr.road || '';
                         const houseNumber = addr.house_number || '';
                         const street = houseNumber ? `${houseNumber} ${road}` : road;
-                        document.getElementById('address_street').value = street || data.display_name.split(',')[0];
+                        if (streetInput) {
+                            streetInput.value = street || data.display_name.split(',')[0];
+                        }
+                    } else {
+                        isUpdatingFromMap = false;
                     }
                     if (addressInput) addressInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
                 })
                 .catch(error => {
+                    isUpdatingFromMap = false;
                     console.error("Lỗi reverse geocoding:", error);
                     if (addressInput) addressInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
                 });
@@ -526,6 +617,8 @@
                                     addressInput.value = item.display_name;
                                     suggestionsBox.style.display = 'none';
                                     
+                                    isUpdatingFromMap = true;
+                                    
                                     // Phân tách địa chỉ từ đối tượng address của Nominatim
                                     const addr = item.address || {};
                                     const province = addr.city || addr.state || addr.province || '';
@@ -542,13 +635,19 @@
                                         setTimeout(() => {
                                             const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
                                             selectOptionByFuzzyText(wardSelect, ward);
+                                            
+                                            setTimeout(() => {
+                                                isUpdatingFromMap = false;
+                                            }, 200);
                                         }, 350);
                                     }, 350);
 
                                     const road = addr.road || '';
                                     const houseNumber = addr.house_number || '';
                                     const street = houseNumber ? `${houseNumber} ${road}` : road;
-                                    document.getElementById('address_street').value = street || item.display_name.split(',')[0];
+                                    if (streetInput) {
+                                        streetInput.value = street || item.display_name.split(',')[0];
+                                    }
                                     
                                     initMap(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
                                 });
