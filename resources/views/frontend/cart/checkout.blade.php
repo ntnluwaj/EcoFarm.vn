@@ -163,6 +163,10 @@
                             <span>Tạm tính:</span>
                             <span class="fw-bold text-dark">{{ number_format($totalAmount, 0, ',', '.') }}đ</span>
                         </div>
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 13px;">
+                            <span>Trong đó Thuế VAT:</span>
+                            <span class="fw-semibold text-success" id="vat-val">{{ $totalVat > 0 ? number_format($totalVat, 0, ',', '.') . 'đ' : 'Không chịu thuế GTGT' }}</span>
+                        </div>
                         <div id="discount-row" class="d-flex justify-content-between text-success {{ $discountAmount > 0 ? '' : 'd-none' }}" style="font-size: 13px;">
                             <span>Chiết khấu (<span id="applied-code" class="fw-bold">{{ session('applied_voucher.code') }}</span>):</span>
                             <span class="fw-bold" id="discount-val">-{{ number_format($discountAmount, 0, ',', '.') }}đ</span>
@@ -360,6 +364,7 @@
         const appliedCode = document.getElementById('applied-code');
         const discountVal = document.getElementById('discount-val');
         const finalTotal = document.getElementById('final-total');
+        const vatVal = document.getElementById('vat-val');
 
         if (btnApply) {
             btnApply.addEventListener('click', function() {
@@ -423,6 +428,7 @@
                         btnApply.className = 'btn btn-success btn-sm';
                         discountRow.classList.add('d-none');
                         finalTotal.textContent = data.new_total_formatted + ' VND';
+                        if (vatVal && data.new_vat_formatted) { vatVal.textContent = data.new_vat_formatted; }
                         showVoucherMessage('Đã hủy áp dụng mã giảm giá.', 'text-muted');
                         
                         // Kích hoạt lại nút chọn voucher
@@ -436,6 +442,7 @@
                         discountVal.textContent = '-' + data.discount_amount_formatted;
                         discountRow.classList.remove('d-none');
                         finalTotal.textContent = data.new_total_formatted + ' VND';
+                        if (vatVal && data.new_vat_formatted) { vatVal.textContent = data.new_vat_formatted; }
                         showVoucherMessage(data.message, 'text-success');
 
                         // Vô hiệu hóa nút chọn voucher khác khi đã áp mã thành công

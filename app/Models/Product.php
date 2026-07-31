@@ -49,4 +49,18 @@ class Product extends Model
     {
         return $this->hasMany(ProductQuestion::class, 'product_id');
     }
+
+    // Lấy thuế suất GTGT thực tế của sản phẩm theo quy định thuế vật tư nông nghiệp
+    public function getVatRate(): int
+    {
+        $categorySlug = $this->category?->slug ?? '';
+        
+        // Theo biểu thuế: Thuốc BVTV chịu thuế 10%
+        if (str_contains($categorySlug, 'thuoc') || $this->category_id == 1) {
+            return 10;
+        }
+        
+        // Phân bón và các vật tư nông nghiệp khác đa số không chịu thuế (0% / Không chịu thuế)
+        return 0;
+    }
 }

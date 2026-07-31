@@ -17,11 +17,19 @@ class CartController extends Controller
     {
         $cartItems = session()->get('cart', []);
         $totalAmount = 0;
+        $totalVat = 0;
         foreach ($cartItems as $item) {
-            $totalAmount += $item['price'] * $item['quantity'];
+            $itemTotal = $item['price'] * $item['quantity'];
+            $totalAmount += $itemTotal;
+            
+            $product = Product::find($item['product_id']);
+            $vatRate = $product ? $product->getVatRate() : 0;
+            if ($vatRate > 0) {
+                $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+            }
         }
 
-        return view('frontend.cart.index', compact('cartItems', 'totalAmount'));
+        return view('frontend.cart.index', compact('cartItems', 'totalAmount', 'totalVat'));
     }
 
     /**
@@ -39,8 +47,16 @@ class CartController extends Controller
 
         // 3. Tính toán động tổng số tiền thực tế của toàn bộ các mặt hàng trong giỏ Session
         $totalAmount = 0;
+        $totalVat = 0;
         foreach ($cartItems as $item) {
-            $totalAmount += $item['price'] * $item['quantity'];
+            $itemTotal = $item['price'] * $item['quantity'];
+            $totalAmount += $itemTotal;
+            
+            $product = Product::find($item['product_id']);
+            $vatRate = $product ? $product->getVatRate() : 0;
+            if ($vatRate > 0) {
+                $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+            }
         }
 
         $user = Auth::user();
@@ -55,6 +71,11 @@ class CartController extends Controller
                 $discountAmount = $voucher->calculateDiscountForCart($cartItems, $totalAmount);
                 session()->put('applied_voucher.discount', $discountAmount);
                 $finalTotal = $totalAmount - $discountAmount;
+                
+                // Điều chỉnh thuế VAT tương ứng sau khi áp voucher giảm giá
+                if ($totalAmount > 0) {
+                    $totalVat = $totalVat * ($finalTotal / $totalAmount);
+                }
             } else {
                 session()->forget('applied_voucher');
             }
@@ -76,7 +97,7 @@ class CartController extends Controller
             ->get();
 
         // 4. ĐỒNG BỘ BIẾN: Khớp hoàn hảo với vòng lặp @foreach($cartItems) ngoài giao diện Checkout View
-        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'user', 'discountAmount', 'finalTotal', 'vouchers'));
+        return view('frontend.cart.checkout', compact('cartItems', 'totalAmount', 'totalVat', 'user', 'discountAmount', 'finalTotal', 'vouchers'));
     }
 
     /**
@@ -542,21 +563,10 @@ class CartController extends Controller
         ));
     }
 
-    /**
-     * API ÁP DỤNG MÃ GIẢM GIÁ (VOUCHER)
-     */
     public function applyVoucher(Request $request)
     {
         $code = $request->input('code');
         
-        if (empty($code)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng nhập mã giảm giá!'
-            ]);
-        }
-
-        // Tái bốc tách giỏ hàng từ Session để tính tổng tiền
         $cartItems = session()->get('cart', []);
         if (empty($cartItems)) {
             return response()->json([
@@ -566,8 +576,31 @@ class CartController extends Controller
         }
 
         $subtotal = 0;
+        $totalVat = 0;
         foreach ($cartItems as $item) {
-            $subtotal += $item['price'] * $item['quantity'];
+            $itemTotal = $item['price'] * $item['quantity'];
+            $subtotal += $itemTotal;
+            
+            $product = Product::find($item['product_id']);
+            $vatRate = $product ? $product->getVatRate() : 0;
+            if ($vatRate > 0) {
+                $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+            }
+        }
+
+        // HỦY MÃ GIẢM GIÁ
+        if (empty($code)) {
+            session()->forget('applied_voucher');
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã hủy áp dụng mã giảm giá.',
+                'code' => '',
+                'discount_amount' => 0,
+                'discount_amount_formatted' => '0đ',
+                'new_total' => $subtotal,
+                'new_total_formatted' => number_format($subtotal, 0, ',', '.') . 'đ',
+                'new_vat_formatted' => $totalVat > 0 ? number_format($totalVat, 0, ',', '.') . 'đ' : 'Không chịu thuế GTGT'
+            ]);
         }
 
         // Tìm kiếm voucher
@@ -597,14 +630,20 @@ class CartController extends Controller
             'discount' => $discount
         ]);
 
+        $newTotal = $subtotal - $discount;
+        if ($subtotal > 0) {
+            $totalVat = $totalVat * ($newTotal / $subtotal);
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Áp dụng mã giảm giá thành công!',
             'code' => $voucher->code,
             'discount_amount' => $discount,
             'discount_amount_formatted' => number_format($discount, 0, ',', '.') . 'đ',
-            'new_total' => $subtotal - $discount,
-            'new_total_formatted' => number_format($subtotal - $discount, 0, ',', '.') . 'đ'
+            'new_total' => $newTotal,
+            'new_total_formatted' => number_format($newTotal, 0, ',', '.') . 'đ',
+            'new_vat_formatted' => $totalVat > 0 ? number_format($totalVat, 0, ',', '.') . 'đ' : 'Không chịu thuế GTGT'
         ]);
     }
 }
