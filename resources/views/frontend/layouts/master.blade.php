@@ -133,6 +133,60 @@
         .topbar-link:hover {
             color: #ffc107 !important;
         }
+
+        /* 🌟 MOBILE RESPONSIVE NAV IMPROVEMENTS */
+        @media (max-width: 991.98px) {
+            nav.navbar {
+                border-radius: 20px !important;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            .navbar-nav {
+                padding-top: 15px;
+                gap: 5px;
+            }
+            .navbar-nav .nav-link {
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            }
+            .navbar-nav .nav-link::after {
+                display: none !important;
+            }
+            form.d-flex {
+                margin-right: 0 !important;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            .search-input-custom {
+                width: 100% !important;
+            }
+            .navbar-nav.align-items-center {
+                align-items: flex-start !important;
+                width: 100%;
+                padding-top: 10px;
+                border-top: 1px solid rgba(0, 0, 0, 0.08);
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .nav-btn-custom {
+                width: 100% !important;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            .hover-logo {
+                height: 44px !important;
+                max-height: 44px !important;
+            }
+        }
+        @media (min-width: 992px) {
+            .hover-logo {
+                height: 56px !important;
+                max-height: 56px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -161,7 +215,7 @@
         <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 48px; max-height: 48px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 56px; max-height: 56px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
@@ -175,8 +229,9 @@
                         <a class="nav-link fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fw-semibold {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#" id="techDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle-custom fw-semibold d-inline-flex align-items-center {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#" id="techDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Quy trình kỹ thuật
+                            <i class="fa-solid fa-chevron-down ms-1.5 text-success opacity-75" style="font-size: 10px;"></i>
                         </a>
                         <ul class="dropdown-menu shadow border-0 rounded-3 mt-2" aria-labelledby="techDropdown" style="font-size: 13.5px; min-width: 210px; z-index: 9999;">
                             <li>
