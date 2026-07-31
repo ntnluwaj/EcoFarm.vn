@@ -131,6 +131,19 @@ Route::get('/debug-db', function () {
     }
 });
 
+Route::get('/run-migration', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        return response("<pre>Migration output:\n" . $output . "</pre>");
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
 Route::get('/debug-logs', function () {
     $logPath = storage_path('logs/laravel.log');
     if (!file_exists($logPath)) {
