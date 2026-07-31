@@ -177,14 +177,14 @@
                 margin-bottom: 5px;
             }
             .hover-logo {
-                height: 48px !important;
-                max-height: 48px !important;
+                height: 52px !important;
+                max-height: 52px !important;
             }
         }
         @media (min-width: 992px) {
             .hover-logo {
-                height: 68px !important;
-                max-height: 68px !important;
+                height: 82px !important;
+                max-height: 82px !important;
             }
         }
     </style>
@@ -193,19 +193,19 @@
 
     @if(!request()->routeIs('login', 'register'))
     <!-- Premium Branded Topbar -->
-    <div class="w-100 py-2 text-white shadow-sm" style="background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); font-size: 12.5px; font-weight: 500;">
+    <div class="w-100 py-2.5 text-white shadow-sm" style="background: #0d3c16; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px; font-weight: 400; letter-spacing: 0.2px;">
         <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 gap-md-0">
-            <div class="d-flex align-items-center gap-3">
-                <span><i class="fa-solid fa-phone me-1.5 text-warning"></i>Hotline: <strong>0398 037 435</strong></span>
-                <span class="d-none d-md-inline"><i class="fa-solid fa-envelope me-1.5 text-warning"></i>Email: <strong>contact@ecofarm.vn</strong></span>
-                <span class="d-none d-lg-inline"><i class="fa-solid fa-clock me-1.5 text-warning"></i>Giờ làm việc: <strong>T2 - T7 (8:00 - 17:00)</strong></span>
+            <div class="d-flex align-items-center gap-4">
+                <span class="d-inline-flex align-items-center"><i class="fa-solid fa-phone me-2" style="color: #ffd700; font-size: 12px;"></i>Hotline:<strong class="ms-1 fw-semibold text-white">0398 037 435</strong></span>
+                <span class="d-none d-md-inline-flex align-items-center"><i class="fa-solid fa-envelope me-2" style="color: #ffd700; font-size: 12px;"></i>Email:<strong class="ms-1 fw-semibold text-white">contact@ecofarm.vn</strong></span>
+                <span class="d-none d-lg-inline-flex align-items-center"><i class="fa-solid fa-clock me-2" style="color: #ffd700; font-size: 12px;"></i>Giờ mở cửa:<strong class="ms-1 fw-semibold text-white">8:00 - 17:00 (T2 - T7)</strong></span>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <a href="{{ route('orders.track') }}" class="topbar-link"><i class="fa-solid fa-truck-fast me-1 text-warning"></i>Tra cứu đơn hàng</a>
-                <span class="text-white-50">|</span>
-                <a href="{{ route('rewards.index') }}" class="topbar-link"><i class="fa-solid fa-gift me-1 text-warning"></i>Tích điểm đổi quà</a>
-                <span class="text-white-50">|</span>
-                <a href="#" class="topbar-link" id="topbar-ecobot-link"><i class="fa-solid fa-robot me-1 text-warning"></i>Trợ lý AI Ecobot</a>
+            <div class="d-flex align-items-center gap-4">
+                <a href="{{ route('orders.track') }}" class="topbar-link d-inline-flex align-items-center"><i class="fa-solid fa-truck-fast me-2" style="color: #ffd700; font-size: 12px;"></i>Tra cứu đơn hàng</a>
+                <span class="text-white-50 opacity-25">|</span>
+                <a href="{{ route('rewards.index') }}" class="topbar-link d-inline-flex align-items-center"><i class="fa-solid fa-gift me-2" style="color: #ffd700; font-size: 12px;"></i>Tích điểm đổi quà</a>
+                <span class="text-white-50 opacity-25">|</span>
+                <a href="#" class="topbar-link d-inline-flex align-items-center" id="topbar-ecobot-link"><i class="fa-solid fa-robot me-2" style="color: #ffd700; font-size: 12px;"></i>Trợ lý AI Ecobot</a>
             </div>
         </div>
     </div>
@@ -215,7 +215,7 @@
         <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 68px; max-height: 68px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 82px; max-height: 82px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
