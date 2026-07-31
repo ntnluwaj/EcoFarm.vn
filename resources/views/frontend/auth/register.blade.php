@@ -170,6 +170,36 @@
         font-weight: bold;
         font-size: 13px;
     }
+    /* 🌟 SUGGESTION DROPDOWN STYLES */
+    #address-suggestions {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        margin-top: 4px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden;
+    }
+    .suggestion-item {
+        padding: 12px 16px;
+        font-size: 13.5px;
+        color: #334155;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .suggestion-item:last-child {
+        border-bottom: none;
+    }
+    .suggestion-item:hover {
+        background-color: #f1f8f5;
+        color: #1b5e20;
+    }
+    .suggestion-item i {
+        color: #94a3b8;
+    }
 </style>
 
 <div class="auth-container py-5">
@@ -277,11 +307,15 @@
                                     <!-- Địa chỉ nhận hàng mặc định -->
                                     <div class="col-12">
                                         <label for="address" class="form-label fw-bold text-dark small">Địa chỉ nhận hàng mặc định</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text input-group-custom-text"><i class="fa-solid fa-location-dot"></i></span>
-                                            <input type="text" class="form-control form-control-custom form-control-custom-right" id="address" name="address" placeholder="Ví dụ: 123 Đường 3/2, Cần Thơ" value="{{ old('address') }}">
+                                        <div class="position-relative">
+                                            <div class="input-group">
+                                                <span class="input-group-text input-group-custom-text"><i class="fa-solid fa-location-dot"></i></span>
+                                                <input type="text" class="form-control form-control-custom form-control-custom-right" id="address" name="address" placeholder="Ví dụ: 123 Đường 3/2, Cần Thơ" value="{{ old('address') }}" autocomplete="off">
+                                            </div>
+                                            <!-- Container gợi ý địa chỉ -->
+                                            <div id="address-suggestions" class="list-group position-absolute w-100 shadow" style="display: none; z-index: 9999; max-height: 250px; overflow-y: auto; top: 100%;"></div>
                                         </div>
-                                        <div class="form-text text-muted mb-2" style="font-size: 11px;">Giúp tiết kiệm thời gian nhập khi thanh toán hóa đơn. Bạn cũng có thể kéo ghim/click bản đồ dưới đây để định vị địa chỉ tự động:</div>
+                                        <div class="form-text text-muted mb-2 mt-1" style="font-size: 11px;">Gõ địa chỉ để tìm kiếm hoặc click/kéo ghim bản đồ bên dưới để tinh chỉnh vị trí chính xác:</div>
                                         
                                         <!-- Map container -->
                                         <div class="position-relative overflow-hidden rounded-3 border" style="border-color: #e2e8f0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 260px;">
@@ -390,6 +424,72 @@
         marker.on('dragend', function (e) {
             var coords = marker.getLatLng();
             updateAddressFromCoords(coords.lat, coords.lng);
+        });
+
+        // 🌟 TÌM KIẾM ĐỊA CHỈ GỢI Ý & TỰ ĐỘNG BAY BẢN ĐỒ (AUTO-PAN & AUTOCONFIRM)
+        var addressInput = document.getElementById('address');
+        var suggestionsContainer = document.getElementById('address-suggestions');
+
+        // Hàm chống rung (Debounce) để hạn chế gửi quá nhiều request
+        function debounce(func, wait) {
+            var timeout;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    func.apply(context, args);
+                }, wait);
+            };
+        }
+
+        var fetchSuggestions = debounce(function (query) {
+            if (!query || query.trim().length < 3) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=5&countrycodes=vn&accept-language=vi`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsContainer.innerHTML = '';
+                    if (data && data.length > 0) {
+                        data.forEach(item => {
+                            var div = document.createElement('div');
+                            div.className = 'suggestion-item';
+                            div.innerHTML = `<i class="fa-solid fa-location-dot"></i> <span>${item.display_name}</span>`;
+                            div.addEventListener('click', function () {
+                                addressInput.value = item.display_name;
+                                var lat = parseFloat(item.lat);
+                                var lon = parseFloat(item.lon);
+                                
+                                // Di chuyển bản đồ & ghim
+                                map.setView([lat, lon], 16);
+                                marker.setLatLng([lat, lon]);
+                                
+                                suggestionsContainer.style.display = 'none';
+                            });
+                            suggestionsContainer.appendChild(div);
+                        });
+                        suggestionsContainer.style.display = 'block';
+                    } else {
+                        suggestionsContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi lấy gợi ý địa chỉ:", error);
+                });
+        }, 400);
+
+        // Lắng nghe sự kiện gõ địa chỉ
+        addressInput.addEventListener('input', function () {
+            fetchSuggestions(this.value);
+        });
+
+        // Ẩn dropdown gợi ý khi click ra ngoài
+        document.addEventListener('click', function (e) {
+            if (e.target !== addressInput && e.target !== suggestionsContainer) {
+                suggestionsContainer.style.display = 'none';
+            }
         });
     });
 </script>
