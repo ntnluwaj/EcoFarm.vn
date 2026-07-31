@@ -105,6 +105,9 @@
             position: relative;
             color: #333333 !important;
             transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-size: 13px;
         }
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
@@ -177,14 +180,14 @@
                 margin-bottom: 5px;
             }
             .hover-logo {
-                height: 60px !important;
-                max-height: 60px !important;
+                height: 70px !important;
+                max-height: 70px !important;
             }
         }
         @media (min-width: 992px) {
             .hover-logo {
-                height: 96px !important;
-                max-height: 96px !important;
+                height: 110px !important;
+                max-height: 110px !important;
             }
         }
     </style>
@@ -215,7 +218,7 @@
         <nav class="navbar navbar-expand-lg navbar-light container py-2 px-3" style="background: transparent;">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 96px; max-height: 96px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 110px; max-height: 110px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>

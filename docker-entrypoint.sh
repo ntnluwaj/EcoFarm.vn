@@ -20,6 +20,9 @@ chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache |
 # 1. Tạo liên kết thư mục chứa ảnh
 php artisan storage:link --force || true
 
+# 1.5 Tự động loại bỏ background trắng của logo
+php scratch/make_transparent.php || true
+
 # 2. Xóa và tối ưu hóa bộ nhớ cache cấu hình
 php artisan config:clear
 php artisan route:clear
