@@ -44,24 +44,30 @@
             transform: scale(1.05);
         }
         
+        /* 🌟 ACCESSIBILITY FOCUS STYLES & OUTLINES */
+        a:focus, button:focus, input:focus, select:focus, textarea:focus {
+            outline: 2px solid #2e7d32 !important;
+            outline-offset: 2px !important;
+        }
+
         /* 🌟 RESPONSIVE NAVBAR: Tối ưu khoảng cách và kích thước chữ rộng rãi */
-        @media (min-width: 992px) and (max-width: 1199.98px) {
-            .navbar-expand-lg .navbar-nav .nav-link {
+        @media (min-width: 1200px) and (max-width: 1399.98px) {
+            .navbar-expand-xl .navbar-nav .nav-link {
                 padding-right: 0.4rem !important;
                 padding-left: 0.4rem !important;
                 font-size: 13.5px !important;
             }
             .search-input-custom {
-                width: 140px !important;
-                font-size: 12px !important;
+                width: 130px !important;
+                font-size: 12.5px !important;
             }
             .nav-btn-custom {
                 padding: 6px 12px !important;
-                font-size: 12px !important;
+                font-size: 12.5px !important;
             }
         }
-        @media (min-width: 1200px) {
-            .navbar-expand-lg .navbar-nav .nav-link {
+        @media (min-width: 1400px) {
+            .navbar-expand-xl .navbar-nav .nav-link {
                 padding-right: 0.8rem !important;
                 padding-left: 0.8rem !important;
                 font-size: 14.5px !important;
@@ -234,7 +240,7 @@
             <div class="d-flex align-items-center gap-4">
                 <span class="d-inline-flex align-items-center"><i class="fa-solid fa-phone me-2" style="color: #ffd700; font-size: 12px;"></i>Hotline:<strong class="ms-1 fw-semibold text-white">0398 037 435</strong></span>
                 <span class="d-none d-md-inline-flex align-items-center"><i class="fa-solid fa-envelope me-2" style="color: #ffd700; font-size: 12px;"></i>Email:<strong class="ms-1 fw-semibold text-white">contact@ecofarm.vn</strong></span>
-                <span class="d-none d-lg-inline-flex align-items-center"><i class="fa-solid fa-clock me-2" style="color: #ffd700; font-size: 12px;"></i>Giờ mở cửa:<strong class="ms-1 fw-semibold text-white">8:00 - 17:00 (T2 - T7)</strong></span>
+                <span class="d-none d-lg-inline-flex align-items-center"><i class="fa-solid fa-clock me-2" style="color: #ffd700; font-size: 12px;"></i>Hỗ trợ kỹ thuật & Đặt hàng:<strong class="ms-1 fw-semibold text-white">24/7 (Cả ngày lễ)</strong></span>
             </div>
             <div class="d-flex align-items-center gap-4">
                 <a href="{{ route('orders.track') }}" class="topbar-link d-inline-flex align-items-center"><i class="fa-solid fa-truck-fast me-2" style="color: #ffd700; font-size: 12px;"></i>Tra cứu đơn hàng</a>
@@ -248,12 +254,12 @@
 
     <!-- Main Branded Header (Standard Flat Layout like BambooVietnam) -->
     <div id="main-header" class="w-100 sticky-top header-scroller" style="z-index: 1050;">
-        <nav class="navbar navbar-expand-lg navbar-light container py-2 px-3" style="background: transparent;">
+        <nav class="navbar navbar-expand-xl navbar-light container py-2 px-3" style="background: transparent;">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
                 <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 110px; max-height: 110px; width: auto; object-fit: contain;">
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;" aria-label="Bật tắt menu điều hướng">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -301,8 +307,8 @@
                 </ul>
                 
                 <form class="d-flex me-3 position-relative" action="{{ route('products.index') }}" method="GET">
-                    <input class="form-control rounded-pill pe-5 search-input-custom" style="padding-left: 15px; background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(0, 0, 0, 0.08); font-size: 13.5px;" type="search" name="search" placeholder="Tìm kiếm vật tư..." aria-label="Search">
-                    <button type="submit" class="position-absolute end-0 top-0 bottom-0 btn border-0 text-muted px-3" style="background: transparent;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input class="form-control rounded-pill pe-5 search-input-custom" style="padding-left: 15px; background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(0, 0, 0, 0.08); font-size: 13.5px;" type="search" name="search" placeholder="Tìm kiếm vật tư..." aria-label="Tìm kiếm sản phẩm">
+                    <button type="submit" class="position-absolute end-0 top-0 bottom-0 btn border-0 text-muted px-3" style="background: transparent;" aria-label="Tìm kiếm sản phẩm"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
                 <div class="navbar-nav align-items-center">
@@ -410,7 +416,7 @@
                         </div>
                     @endauth
 
-                    <a class="header-icon-btn position-relative me-3" href="{{ route('cart.index') }}">
+                    <a class="header-icon-btn position-relative me-3" href="{{ route('cart.index') }}" aria-label="Xem giỏ hàng hàng hóa">
                         <i class="fa-solid fa-basket-shopping fs-5"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 8px; padding: 2px 4px;">
                             {{ session()->has('cart') ? count(session()->get('cart')) : 0 }}
@@ -419,7 +425,7 @@
                     
                     @if(auth()->check())
                         <div class="dropdown d-inline-block">
-                            <button class="header-icon-btn d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0; width: 38px; height: 38px; overflow: hidden;">
+                            <button class="header-icon-btn d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0; width: 38px; height: 38px; overflow: hidden;" aria-label="Menu người dùng đăng nhập">
                                 @if(auth()->user()->avatar)
                                     <img src="{{ asset('storage/' . auth()->user()->avatar) }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
@@ -510,7 +516,7 @@
     <footer class="bg-green-footer pt-5 pb-4 mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 mb-4">
+                <div class="col-md-4 mb-4">
                     <h5 class="text-uppercase fw-bold mb-3 d-flex align-items-center gap-2">
                         <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" style="height: 75px; filter: brightness(0) invert(1); margin-top: -10px; margin-bottom: -10px; object-fit: contain;"> 
                     </h5>
@@ -519,9 +525,9 @@
                 </div>
                 <div class="col-md-3 mb-4">
                     <h5 class="text-uppercase fw-bold mb-3">Liên kết nhanh</h5>
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
                         <li><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none small">Danh mục vật tư</a></li>
-                        <li><a href="{{ route('posts.index') }}" class="text-white-50 text-decoration-none small">Bài viết kỹ thuật canh tác</a></li>
+                        <li><a href="{{ route('posts.index') }}" class="text-white-50 text-decoration-none small">Cẩm nang nông nghiệp</a></li>
                         <li><a href="{{ route('contact.index') }}" class="text-white-50 text-decoration-none small">Liên hệ tư vấn</a></li>
                         <li><a href="{{ route('orders.track') }}" class="text-white-50 text-decoration-none small">Tra cứu đơn hàng</a></li>
                         @if(auth()->check() && auth()->user()->role === 'admin')
@@ -529,18 +535,27 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-2 mb-4">
+                    <h5 class="text-uppercase fw-bold mb-3">Chính sách</h5>
+                    <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
+                        <li><a href="{{ route('policies.shipping') }}" class="text-white-50 text-decoration-none small">Chính sách giao hàng</a></li>
+                        <li><a href="{{ route('policies.returns') }}" class="text-white-50 text-decoration-none small">Chính sách đổi trả</a></li>
+                        <li><a href="{{ route('policies.privacy') }}" class="text-white-50 text-decoration-none small">Bảo mật thông tin</a></li>
+                        <li><a href="{{ route('policies.terms') }}" class="text-white-50 text-decoration-none small">Điều khoản dịch vụ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
                     <h5 class="text-uppercase fw-bold mb-3">Liên hệ với EcoFarm</h5>
                     <p class="small text-white-50">Hãy liên hệ với chúng tôi để được hỗ trợ kỹ thuật canh tác và tư vấn cung ứng vật tư tốt nhất:</p>
                     <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
                         <li><i class="fa-solid fa-phone text-warning me-2"></i><strong>Hotline:</strong> 0398 037 435</li>
                         <li><i class="fa-solid fa-envelope text-warning me-2"></i><strong>Email:</strong> contact@ecofarm.vn</li>
-                        <li><i class="fa-solid fa-clock text-warning me-2"></i><strong>Làm việc:</strong> T2 - T7 (8:00 - 17:00)</li>
+                        <li><i class="fa-solid fa-clock text-warning me-2"></i><strong>Hỗ trợ:</strong> 24/7 (Cả ngày lễ)</li>
                         <li class="pt-2">
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fa-brands fa-youtube"></i></a>
-                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fa-solid fa-comment-dots"></i></a>
+                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" aria-label="Liên kết Fanpage Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" aria-label="Liên kết kênh Youtube chính thức"><i class="fa-brands fa-youtube"></i></a>
+                                <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" aria-label="Nhắn tin trò chuyện với tư vấn viên"><i class="fa-solid fa-comment-dots"></i></a>
                             </div>
                         </li>
                     </ul>
@@ -560,7 +575,7 @@
     <!-- ========================================== -->
     <div id="ecofarm-chatbox-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'Plus Jakarta Sans', sans-serif;">
         <!-- Chat Toggle Button -->
-        <button id="chatbox-toggle-btn" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center" style="width: 56px; height: 56px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); border: none; transition: all 0.3s ease-in-out; position: relative;">
+        <button id="chatbox-toggle-btn" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center" style="width: 56px; height: 56px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); border: none; transition: all 0.3s ease-in-out; position: relative;" aria-label="Mở khung trò chuyện EcoBot">
             <i class="fa-solid fa-comments text-white fs-4" id="chatbox-toggle-icon"></i>
             <span class="position-absolute p-1 bg-danger border border-light rounded-circle" style="top: 0; right: 0; display: block;" id="chatbox-unread-dot"></span>
         </button>
@@ -581,7 +596,7 @@
                         <span style="font-size: 10px; opacity: 0.85;">Đang trực tuyến (Hỗ trợ 24/7)</span>
                     </div>
                 </div>
-                <button type="button" class="btn-close btn-close-white btn-sm" id="chatbox-close-btn" style="box-shadow: none;"></button>
+                <button type="button" class="btn-close btn-close-white btn-sm" id="chatbox-close-btn" style="box-shadow: none;" aria-label="Đóng khung trò chuyện"></button>
             </div>
 
             <!-- Chat Messages -->

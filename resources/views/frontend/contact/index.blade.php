@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <strong class="d-block text-dark" style="font-size: 14px;">Đường dây nóng</strong>
-                        <span class="text-muted" style="font-size: 13.5px;">0398037435</span>
+                        <span class="text-muted" style="font-size: 13.5px;">0398 037 435</span>
                     </div>
                 </div>
 

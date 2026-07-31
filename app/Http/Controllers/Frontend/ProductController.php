@@ -18,8 +18,20 @@ class ProductController extends Controller
     {
         $query = Product::where('status', 1);
 
-        // Lọc theo danh mục slug nếu có
-        if ($request->has('category')) {
+        // 🌟 Lọc theo từ khóa tìm kiếm (Tên, mô tả, hướng dẫn sử dụng)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('usage_guide', 'like', "%{$search}%");
+            });
+        }
+
+        // 🌟 Lọc theo danh mục (ID hoặc Slug)
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        } elseif ($request->filled('category')) {
             $category = Category::where('slug', $request->category)->first();
             if ($category) {
                 $query->where('category_id', $category->id);

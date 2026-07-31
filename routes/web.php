@@ -114,3 +114,9 @@ Route::post('/lien-he/yeu-cau-goi-dien', [\App\Http\Controllers\Frontend\Contact
 
 // 🌟 12. ĐƯỜNG DẪN TRỢ LÝ ẢO AI ECOBOT TƯ VẤN NÔNG HỌC
 Route::post('/api/ai/chat', [\App\Http\Controllers\Frontend\AIAdvisorController::class, 'chat'])->name('ai.chat');
+
+// 🌟 13. CÁC TRANG CHÍNH SÁCH VÀ ĐIỀU KHOẢN
+Route::view('/chinh-sach-giao-hang', 'frontend.policies.shipping')->name('policies.shipping');
+Route::view('/chinh-sach-doi-tra', 'frontend.policies.returns')->name('policies.returns');
+Route::view('/chinh-sach-bao-mat', 'frontend.policies.privacy')->name('policies.privacy');
+Route::view('/dieu-khoan-dich-vu', 'frontend.policies.terms')->name('policies.terms');

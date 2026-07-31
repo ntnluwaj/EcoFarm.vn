@@ -319,14 +319,10 @@
 
                                         <!-- 4 trường địa chỉ bắt buộc và phân tách rõ ràng -->
                                         <div class="row g-2 mb-2 p-2 bg-light rounded-3 border border-light-subtle">
-                                            <div class="col-12">
-                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
-                                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám" required style="font-size: 13px;" value="{{ old('address_street') }}">
-                                            </div>
                                             <div class="col-md-4">
-                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Xã / Phường / Thị trấn *</label>
-                                                <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
-                                                    <option value="">Chọn Xã / Phường</option>
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Tỉnh / Thành phố *</label>
+                                                <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                                    <option value="">Chọn Tỉnh / Thành</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -336,10 +332,14 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Tỉnh / Thành phố *</label>
-                                                <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
-                                                    <option value="">Chọn Tỉnh / Thành</option>
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Xã / Phường / Thị trấn *</label>
+                                                <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                                    <option value="">Chọn Xã / Phường</option>
                                                 </select>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
+                                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám" required style="font-size: 13px;" value="{{ old('address_street') }}">
                                             </div>
                                         </div>
 
@@ -537,25 +537,56 @@
             }, 1000);
         }
 
+        // Tự động cập nhật chuỗi địa chỉ đầy đủ vào ô input chính
+        function updateFullAddressInput() {
+            if (isUpdatingFromMap) return;
+            const street = streetInput ? streetInput.value.trim() : '';
+            const ward = wardSelect ? wardSelect.value : '';
+            const district = districtSelect ? districtSelect.value : '';
+            const province = provinceSelect ? provinceSelect.value : '';
+            
+            const parts = [];
+            if (street) parts.push(street);
+            if (ward) parts.push(ward);
+            if (district) parts.push(district);
+            if (province) parts.push(province);
+            
+            if (addressInput) {
+                addressInput.value = parts.join(', ');
+            }
+        }
+
         // Đăng ký sự kiện lắng nghe thay đổi thông tin trên form
         if (provinceSelect) {
             provinceSelect.addEventListener('change', () => {
-                if (!isUpdatingFromMap) geocodeFormAddress();
+                if (!isUpdatingFromMap) {
+                    updateFullAddressInput();
+                    geocodeFormAddress();
+                }
             });
         }
         if (districtSelect) {
             districtSelect.addEventListener('change', () => {
-                if (!isUpdatingFromMap) geocodeFormAddress();
+                if (!isUpdatingFromMap) {
+                    updateFullAddressInput();
+                    geocodeFormAddress();
+                }
             });
         }
         if (wardSelect) {
             wardSelect.addEventListener('change', () => {
-                if (!isUpdatingFromMap) geocodeFormAddress();
+                if (!isUpdatingFromMap) {
+                    updateFullAddressInput();
+                    geocodeFormAddress();
+                }
             });
         }
         if (streetInput) {
             streetInput.addEventListener('input', () => {
-                if (!isUpdatingFromMap) geocodeFormAddress();
+                if (!isUpdatingFromMap) {
+                    updateFullAddressInput();
+                    geocodeFormAddress();
+                }
             });
         }
 
