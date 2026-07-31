@@ -223,10 +223,10 @@ class OrderResource extends Resource
                         'cancelled' => 'Đơn đã hủy',
                     ])
                     ->label('Lọc theo tiến trình vận đơn'),
-                Tables\Filters\Filter::make('pending_cod')
+                \Filament\Tables\Filters\Filter::make('pending_cod')
                     ->label('Chờ đối soát COD')
                     ->query(fn ($query) => $query->where('payment_method', 'COD')->where('cod_reconciled', false)),
-                Tables\Filters\Filter::make('reconciled_cod')
+                \Filament\Tables\Filters\Filter::make('reconciled_cod')
                     ->label('Đã đối soát COD')
                     ->query(fn ($query) => $query->where('payment_method', 'COD')->where('cod_reconciled', true)),
             ])
