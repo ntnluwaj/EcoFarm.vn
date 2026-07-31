@@ -55,9 +55,9 @@ class Product extends Model
     {
         $categorySlug = $this->category?->slug ?? '';
         
-        // Theo biểu thuế: Thuốc BVTV chịu thuế 10%
+        // Theo biểu thuế mới: Thuốc BVTV chịu thuế 5%
         if (str_contains($categorySlug, 'thuoc') || $this->category_id == 1) {
-            return 10;
+            return 5;
         }
         
         // Phân bón và các vật tư nông nghiệp khác đa số không chịu thuế (0% / Không chịu thuế)
