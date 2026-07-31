@@ -32,9 +32,8 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# 3. Tự động chạy di cư CSDL và nạp dữ liệu mẫu vật tư
-php artisan migrate --force
-php artisan db:seed --force
+# 3. Tự động chạy di cư CSDL và nạp dữ liệu mẫu vật tư dưới nền (non-blocking) để tránh nghẽn cổng mạng
+(php artisan migrate --force && php artisan db:seed --force) > /var/www/html/storage/logs/migration.log 2>&1 &
 
 # 4. Khởi động Apache Web Server ở tiền cảnh (chế độ tiêu chuẩn của Docker)
 exec apache2-foreground
