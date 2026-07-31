@@ -107,17 +107,21 @@ class CartController extends Controller
     {
         // 1. Kiểm tra tính hợp lệ của dữ liệu (Validation) khớp 100% với các thuộc tính 'name' ở giao diện HTML
         $rules = [
-            'name'            => 'required|string|max:100',
-            'phone'           => 'required|string|max:15',
-            'email'           => 'required|email|max:100',
-            'address'         => 'required|string',
-            'payment_method'  => 'required|in:cod,vietqr',
+            'name'             => 'required|string|max:100',
+            'phone'            => 'required|string|max:15',
+            'email'            => 'required|email|max:100',
+            'address_street'   => 'required|string|min:4|max:255',
+            'address_ward'     => 'required|string|min:2|max:100',
+            'address_district' => 'required|string|min:2|max:100',
+            'address_province' => 'required|string|min:2|max:100',
+            'payment_method'   => 'required|in:cod,vietqr',
         ];
 
-        // Nếu khách hàng/đại lý tích chọn "Yêu cầu xuất hóa đơn đỏ công ty", bắt buộc điền MST và Tên doanh nghiệp ngoài View
+        // Nếu khách hàng/đại lý tích chọn "Yêu cầu xuất hóa đơn điện tử công ty", bắt buộc điền MST, tên DN và địa chỉ công ty
         if ($request->has('vat_required')) {
-            $rules['company_name'] = 'required|string|max:150';
-            $rules['tax_code']     = 'required|string|max:20';
+            $rules['company_name']    = 'required|string|max:150';
+            $rules['tax_code']        = 'required|string|max:20';
+            $rules['company_address'] = 'required|string|max:255';
         }
 
         $request->validate($rules);
@@ -148,13 +152,16 @@ class CartController extends Controller
             }
         }
 
+        // Ghép địa chỉ có cấu trúc chặt chẽ
+        $shippingAddress = $request->address_street . ", " . $request->address_ward . ", " . $request->address_district . ", " . $request->address_province;
+
         // 3. Tiến hành khởi tạo bản ghi đơn hàng mới trong bảng `orders` dưới MySQL bằng các biến đã đồng bộ
         $order = Order::create([
             'user_id'          => Auth::id(), // Sẽ lưu NULL nếu là nông dân vãng lai chưa đăng nhập tài khoản
             'customer_name'    => $request->name,
             'customer_phone'   => $request->phone,
             'customer_email'   => $request->email,
-            'shipping_address' => $request->address . ($request->has('vat_required') ? " [Xuất HĐ: " . $request->company_name . " - MST: " . $request->tax_code . "]" : ""),
+            'shipping_address' => $shippingAddress . ($request->has('vat_required') ? " [Xuất HĐĐT: " . $request->company_name . " - MST: " . $request->tax_code . " - ĐC: " . $request->company_address . "]" : ""),
             'total_amount'     => max(0, $totalAmount - $discountAmount),
             'coupon_code'      => $couponCode,
             'discount_amount'  => $discountAmount,

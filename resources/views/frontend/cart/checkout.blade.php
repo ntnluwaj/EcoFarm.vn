@@ -54,20 +54,45 @@
 
                     <div class="mb-4 position-relative">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-location-dot me-1 text-success"></i>Địa chỉ giao nhận hàng *</label>
+                            <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-location-dot me-1 text-success"></i>Địa chỉ giao nhận hàng *</label>
                             @if(auth()->check() && auth()->user()->address)
                                 <button type="button" class="btn btn-outline-success btn-xs py-0.5 px-2 rounded-pill fw-semibold border-success" style="font-size: 11px; background: transparent;" onclick="useSavedAddress()">
                                     <i class="fa-house-user fa-solid me-1"></i>Dùng địa chỉ đã lưu
                                 </button>
                             @endif
                         </div>
-                        <textarea name="address" id="address-input" class="form-control rounded-3 border-light-subtle text-sm p-2.5" rows="3" placeholder="Ghi rõ số nhà, tên đường, xã/phường, quận/huyện, tỉnh thành..." required style="font-size: 13px; resize: none;" autocomplete="off">{{ old('address', auth()->check() ? auth()->user()->address : '') }}</textarea>
+                        
+                        <!-- Ô tìm kiếm nhanh tự động phân tách địa chỉ -->
+                        <div class="input-group mb-2 shadow-xs">
+                            <span class="input-group-text bg-light border-light-subtle text-muted" style="font-size: 12.5px;"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
+                            <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Gõ để tìm kiếm địa chỉ nhanh hoặc tự điền bên dưới..." style="font-size: 13px;" autocomplete="off">
+                        </div>
                         
                         <!-- Dropdown gợi ý địa chỉ -->
-                        <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 100%; left: 0;"></div>
+                        <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 75px; left: 0;"></div>
+
+                        <!-- 4 trường địa chỉ bắt buộc và phân tách rõ ràng -->
+                        <div class="row g-2 mb-2 p-2 bg-light rounded-3 border border-light-subtle">
+                            <div class="col-12">
+                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
+                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám" required style="font-size: 13px;" value="{{ old('address_street') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Xã / Phường / Thị trấn *</label>
+                                <input type="text" name="address_ward" id="address_ward" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Phường Bùi Hữu Nghĩa" required style="font-size: 13px;" value="{{ old('address_ward') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Quận / Huyện *</label>
+                                <input type="text" name="address_district" id="address_district" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Quận Bình Thủy" required style="font-size: 13px;" value="{{ old('address_district') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Tỉnh / Thành phố *</label>
+                                <input type="text" name="address_province" id="address_province" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Cần Thơ" required style="font-size: 13px;" value="{{ old('address_province') }}">
+                            </div>
+                        </div>
 
                         <!-- Khung chứa bản đồ mini Leaflet -->
-                        <div id="map-container" class="mt-3 rounded-3 overflow-hidden border border-light-subtle" style="height: 220px; display: none;">
+                        <div id="map-container" class="mt-2 rounded-3 overflow-hidden border border-light-subtle" style="height: 220px; display: none;">
                             <div id="map" class="w-100 h-100"></div>
                         </div>
                     </div>
@@ -76,7 +101,7 @@
                         <div class="form-check d-flex align-items-center mb-0">
                             <input class="form-check-input me-2 border-secondary" type="checkbox" name="vat_required" id="vatCheck" value="1" {{ old('vat_required') ? 'checked' : '' }} onchange="toggleVatFields()">
                             <label class="form-check-label text-dark small fw-semibold" style="cursor: pointer;" for="vatCheck">
-                                <i class="fa-solid fa-file-invoice-dollar text-success me-1"></i>Yêu cầu xuất hóa đơn đỏ công ty (VAT)
+                                <i class="fa-solid fa-file-invoice-dollar text-success me-1"></i>Yêu cầu xuất hóa đơn điện tử (VAT)
                             </label>
                         </div>
 
@@ -85,9 +110,13 @@
                                 <label class="form-label text-dark small fw-bold">Tên công ty / Doanh nghiệp *</label>
                                 <input type="text" name="company_name" id="company_name" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Nhập tên doanh nghiệp đăng ký kinh doanh" value="{{ old('company_name') }}" style="font-size: 13px;">
                             </div>
-                            <div class="mb-0">
+                            <div class="mb-2">
                                 <label class="form-label text-dark small fw-bold">Mã số thuế doanh nghiệp *</label>
                                 <input type="text" name="tax_code" id="tax_code" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Nhập chính xác mã số thuế công ty" value="{{ old('tax_code') }}" style="font-size: 13px;">
+                            </div>
+                            <div class="mb-0">
+                                <label class="form-label text-dark small fw-bold">Địa chỉ công ty *</label>
+                                <input type="text" name="company_address" id="company_address" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Nhập địa chỉ công ty đăng ký thuế" value="{{ old('company_address') }}" style="font-size: 13px;">
                             </div>
                         </div>
                     </div>
@@ -250,17 +279,21 @@
         const vatFields = document.getElementById('vatFields');
         const companyName = document.getElementById('company_name');
         const taxCode = document.getElementById('tax_code');
+        const companyAddress = document.getElementById('company_address');
 
         if (vatCheck.checked) {
             vatFields.style.display = 'block';
             companyName.setAttribute('required', 'required');
             taxCode.setAttribute('required', 'required');
+            companyAddress.setAttribute('required', 'required');
         } else {
             vatFields.style.display = 'none';
             companyName.removeAttribute('required');
             taxCode.removeAttribute('required');
+            companyAddress.removeAttribute('required');
             companyName.value = '';
             taxCode.value = '';
+            companyAddress.value = '';
         }
     }
 
@@ -269,12 +302,13 @@
         if(document.getElementById('vatCheck').checked) {
             document.getElementById('company_name').setAttribute('required', 'required');
             document.getElementById('tax_code').setAttribute('required', 'required');
+            document.getElementById('company_address').setAttribute('required', 'required');
         }
     });
 
     // Bản đồ mini Leaflet & Autocomplete gợi ý địa chỉ OpenStreetMap
     document.addEventListener("DOMContentLoaded", function() {
-        const addressInput = document.getElementById('address-input');
+        const addressInput = document.getElementById('address-search');
         const suggestionsBox = document.getElementById('address-suggestions');
         const mapContainer = document.getElementById('map-container');
         
@@ -306,53 +340,70 @@
             }, 200);
         }
 
-        addressInput.addEventListener('input', function() {
-            const query = this.value.trim();
-            
-            clearTimeout(debounceTimer);
-            if (query.length < 3) {
-                suggestionsBox.style.display = 'none';
-                return;
-            }
-
-            debounceTimer = setTimeout(() => {
-                const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=vn&limit=5&q=${encodeURIComponent(query)}`;
+        if (addressInput) {
+            addressInput.addEventListener('input', function() {
+                const query = this.value.trim();
                 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        suggestionsBox.innerHTML = '';
-                        if (data.length === 0) {
-                            suggestionsBox.style.display = 'none';
-                            return;
-                        }
+                clearTimeout(debounceTimer);
+                if (query.length < 3) {
+                    suggestionsBox.style.display = 'none';
+                    return;
+                }
 
-                        data.forEach(item => {
-                            const btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.className = 'dropdown-item text-wrap border-bottom text-start py-2 small';
-                            btn.style.fontSize = '12.5px';
-                            btn.innerHTML = `<i class="fa-solid fa-location-dot text-success me-2"></i>${item.display_name}`;
-                            btn.addEventListener('click', function() {
-                                addressInput.value = item.display_name;
+                debounceTimer = setTimeout(() => {
+                    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&countrycodes=vn&limit=5&q=${encodeURIComponent(query)}`;
+                    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionsBox.innerHTML = '';
+                            if (data.length === 0) {
                                 suggestionsBox.style.display = 'none';
-                                initMap(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
-                            });
-                            suggestionsBox.appendChild(btn);
-                        });
-                        suggestionsBox.style.display = 'block';
-                    })
-                    .catch(err => {
-                        console.error('Error fetching suggestions:', err);
-                    });
-            }, 450);
-        });
+                                return;
+                            }
 
-        document.addEventListener('click', function(e) {
-            if (e.target !== addressInput && e.target !== suggestionsBox) {
-                suggestionsBox.style.display = 'none';
-            }
-        });
+                            data.forEach(item => {
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'dropdown-item text-wrap border-bottom text-start py-2 small';
+                                btn.style.fontSize = '12.5px';
+                                btn.innerHTML = `<i class="fa-solid fa-location-dot text-success me-2"></i>${item.display_name}`;
+                                btn.addEventListener('click', function() {
+                                    addressInput.value = item.display_name;
+                                    suggestionsBox.style.display = 'none';
+                                    
+                                    // Phân tách địa chỉ từ đối tượng address của Nominatim
+                                    const addr = item.address || {};
+                                    const province = addr.city || addr.state || addr.province || '';
+                                    const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
+                                    const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                    const road = addr.road || '';
+                                    const houseNumber = addr.house_number || '';
+                                    const street = houseNumber ? `${houseNumber} ${road}` : road;
+
+                                    document.getElementById('address_province').value = province;
+                                    document.getElementById('address_district').value = district;
+                                    document.getElementById('address_ward').value = ward;
+                                    document.getElementById('address_street').value = street || item.display_name.split(',')[0];
+                                    
+                                    initMap(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
+                                });
+                                suggestionsBox.appendChild(btn);
+                            });
+                            suggestionsBox.style.display = 'block';
+                        })
+                        .catch(err => {
+                            console.error('Error fetching suggestions:', err);
+                        });
+                }, 450);
+            });
+
+            document.addEventListener('click', function(e) {
+                if (e.target !== addressInput && e.target !== suggestionsBox) {
+                    suggestionsBox.style.display = 'none';
+                }
+            });
+        }
     });
 
     // 🌟 XỬ LÝ ÁP DỤNG MÃ GIẢM GIÁ (VOUCHER) BẰNG AJAX
@@ -462,10 +513,27 @@
 
     window.useSavedAddress = function() {
         const savedAddress = @json(auth()->check() ? auth()->user()->address : '');
-        const addressInput = document.getElementById('address-input');
-        if (addressInput && savedAddress) {
-            addressInput.value = savedAddress;
-            addressInput.dispatchEvent(new Event('input'));
+        if (savedAddress) {
+            const parts = savedAddress.split(',').map(p => p.trim());
+            if (parts.length >= 4) {
+                document.getElementById('address_street').value = parts[0];
+                document.getElementById('address_ward').value = parts[1];
+                document.getElementById('address_district').value = parts[2];
+                document.getElementById('address_province').value = parts[3];
+            } else if (parts.length === 3) {
+                document.getElementById('address_street').value = parts[0];
+                document.getElementById('address_ward').value = parts[0];
+                document.getElementById('address_district').value = parts[1];
+                document.getElementById('address_province').value = parts[2];
+            } else {
+                document.getElementById('address_street').value = savedAddress;
+            }
+            
+            const searchInput = document.getElementById('address-search');
+            if (searchInput) {
+                searchInput.value = savedAddress;
+                searchInput.dispatchEvent(new Event('input'));
+            }
         }
     };
 </script>
