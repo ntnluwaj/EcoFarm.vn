@@ -137,9 +137,9 @@
         /* 🌟 MOBILE RESPONSIVE NAV IMPROVEMENTS */
         @media (max-width: 991.98px) {
             nav.navbar {
-                border-radius: 20px !important;
-                padding-left: 20px !important;
-                padding-right: 20px !important;
+                border-radius: 0 !important;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
             }
             .navbar-nav {
                 padding-top: 15px;
@@ -177,14 +177,14 @@
                 margin-bottom: 5px;
             }
             .hover-logo {
-                height: 52px !important;
-                max-height: 52px !important;
+                height: 60px !important;
+                max-height: 60px !important;
             }
         }
         @media (min-width: 992px) {
             .hover-logo {
-                height: 82px !important;
-                max-height: 82px !important;
+                height: 96px !important;
+                max-height: 96px !important;
             }
         }
     </style>
@@ -210,12 +210,12 @@
         </div>
     </div>
 
-    <!-- Floating Glassmorphic Navbar -->
-    <div class="container sticky-top px-0" style="z-index: 1050; margin-top: 15px; margin-bottom: 5px;">
-        <nav class="navbar navbar-expand-lg navbar-light mx-2 mx-md-0 px-4 py-2.5 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5);">
+    <!-- Main Branded Header (Standard Flat Layout like BambooVietnam) -->
+    <div class="w-100 sticky-top bg-white border-bottom shadow-sm" style="z-index: 1050; transition: all 0.3s ease;">
+        <nav class="navbar navbar-expand-lg navbar-light container py-2 px-3" style="background: transparent;">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 82px; max-height: 82px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 96px; max-height: 96px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;">
                 <span class="navbar-toggler-icon"></span>
