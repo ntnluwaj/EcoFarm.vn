@@ -114,3 +114,29 @@ Route::post('/lien-he/yeu-cau-goi-dien', [\App\Http\Controllers\Frontend\Contact
 
 // 🌟 12. ĐƯỜNG DẪN TRỢ LÝ ẢO AI ECOBOT TƯ VẤN NÔNG HỌC
 Route::post('/api/ai/chat', [\App\Http\Controllers\Frontend\AIAdvisorController::class, 'chat'])->name('ai.chat');
+
+// 🌟 13. DEVELOPER DEBUG ROUTES (TEMPORARY FOR DIAGNOSING 500 IN PRODUCTION)
+Route::get('/debug-db', function () {
+    try {
+        $columns = \Illuminate\Support\Facades\Schema::getColumnListing('orders');
+        return response()->json([
+            'columns' => $columns,
+            'has_cod_reconciled' => \Illuminate\Support\Facades\Schema::hasColumn('orders', 'cod_reconciled'),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
+Route::get('/debug-logs', function () {
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return "Log file not found.";
+    }
+    $lines = file($logPath);
+    $lastLines = array_slice($lines, -100);
+    return response("<pre>" . implode("", $lastLines) . "</pre>");
+});
