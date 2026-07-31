@@ -79,15 +79,21 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Xã / Phường / Thị trấn *</label>
-                                <input type="text" name="address_ward" id="address_ward" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Phường Bùi Hữu Nghĩa" required style="font-size: 13px;" value="{{ old('address_ward') }}">
+                                <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                    <option value="">Chọn Xã / Phường</option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Quận / Huyện *</label>
-                                <input type="text" name="address_district" id="address_district" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Quận Bình Thủy" required style="font-size: 13px;" value="{{ old('address_district') }}">
+                                <select name="address_district" id="address_district" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                    <option value="">Chọn Quận / Huyện</option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Tỉnh / Thành phố *</label>
-                                <input type="text" name="address_province" id="address_province" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: Cần Thơ" required style="font-size: 13px;" value="{{ old('address_province') }}">
+                                <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                    <option value="">Chọn Tỉnh / Thành</option>
+                                </select>
                             </div>
                         </div>
 
@@ -306,6 +312,26 @@
         }
     });
 
+    // Hàm khớp tương đối để tự chọn option trong select theo tên địa phương
+    function selectOptionByFuzzyText(selectEl, text) {
+        if (!selectEl || !text) return false;
+        const cleanText = text.toLowerCase()
+            .replace(/^(tỉnh|thành phố|quận|huyện|thị xã|thị trấn|phường|xã|tp|q|h)\s+/g, '')
+            .trim();
+            
+        for (let i = 0; i < selectEl.options.length; i++) {
+            const opt = selectEl.options[i];
+            const cleanOptText = opt.textContent.toLowerCase()
+                .replace(/^(tỉnh|thành phố|quận|huyện|thị xã|thị trấn|phường|xã|tp|q|h)\s+/g, '')
+                .trim();
+            if (cleanOptText === cleanText || opt.value.toLowerCase().includes(cleanText) || cleanText.includes(cleanOptText)) {
+                selectEl.selectedIndex = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Bản đồ mini Leaflet & Autocomplete gợi ý địa chỉ OpenStreetMap
     document.addEventListener("DOMContentLoaded", function() {
         const addressInput = document.getElementById('address-search');
@@ -315,6 +341,90 @@
         let map = null;
         let marker = null;
         let debounceTimer = null;
+
+        // 🌟 Tích hợp nạp dữ liệu Tỉnh/Thành, Quận/Huyện, Xã/Phường qua API
+        const provinceSelect = document.getElementById('address_province');
+        const districtSelect = document.getElementById('address_district');
+        const wardSelect = document.getElementById('address_ward');
+
+        if (provinceSelect && districtSelect && wardSelect) {
+            // Nạp Tỉnh/Thành phố
+            fetch('https://provinces.open-api.vn/api/p/')
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p.name;
+                        opt.textContent = p.name;
+                        opt.setAttribute('data-code', p.code);
+                        provinceSelect.appendChild(opt);
+                    });
+                    
+                    // Khôi phục giá trị cũ (old state) nếu có
+                    const oldProvince = "{{ old('address_province') }}";
+                    if (oldProvince) {
+                        provinceSelect.value = oldProvince;
+                        provinceSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+
+            // Lắng nghe đổi Tỉnh/Thành
+            provinceSelect.addEventListener('change', function() {
+                const selectedOpt = this.options[this.selectedIndex];
+                const code = selectedOpt.getAttribute('data-code');
+                
+                districtSelect.innerHTML = '<option value="">Chọn Quận / Huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn Xã / Phường</option>';
+
+                if (!code) return;
+
+                fetch(`https://provinces.open-api.vn/api/p/${code}?depth=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const districts = data.districts || [];
+                        districts.forEach(d => {
+                            const opt = document.createElement('option');
+                            opt.value = d.name;
+                            opt.textContent = d.name;
+                            opt.setAttribute('data-code', d.code);
+                            districtSelect.appendChild(opt);
+                        });
+                        
+                        const oldDistrict = "{{ old('address_district') }}";
+                        if (oldDistrict) {
+                            districtSelect.value = oldDistrict;
+                            districtSelect.dispatchEvent(new Event('change'));
+                        }
+                    });
+            });
+
+            // Lắng nghe đổi Quận/Huyện
+            districtSelect.addEventListener('change', function() {
+                const selectedOpt = this.options[this.selectedIndex];
+                const code = selectedOpt.getAttribute('data-code');
+                
+                wardSelect.innerHTML = '<option value="">Chọn Xã / Phường</option>';
+
+                if (!code) return;
+
+                fetch(`https://provinces.open-api.vn/api/d/${code}?depth=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const wards = data.wards || [];
+                        wards.forEach(w => {
+                            const opt = document.createElement('option');
+                            opt.value = w.name;
+                            opt.textContent = w.name;
+                            wardSelect.appendChild(opt);
+                        });
+                        
+                        const oldWard = "{{ old('address_ward') }}";
+                        if (oldWard) {
+                            wardSelect.value = oldWard;
+                        }
+                    });
+            });
+        }
 
         function initMap(lat, lon, displayName) {
             mapContainer.style.display = 'block';
@@ -338,6 +448,50 @@
             setTimeout(() => {
                 map.invalidateSize();
             }, 200);
+        }
+
+        // Hàm gọi API Reverse Geocoding của Nominatim (OpenStreetMap)
+        function updateAddressFromCoords(lat, lng) {
+            if (addressInput) addressInput.placeholder = "Đang định vị địa chỉ từ bản đồ...";
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&addressdetails=1&accept-language=vi`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        if (addressInput && data.display_name) {
+                            addressInput.value = data.display_name;
+                        }
+                        
+                        // Phân tách địa chỉ
+                        const addr = data.address || {};
+                        const province = addr.city || addr.state || addr.province || '';
+                        selectOptionByFuzzyText(provinceSelect, province);
+                        
+                        provinceSelect.dispatchEvent(new Event('change'));
+                        
+                        setTimeout(() => {
+                            const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
+                            selectOptionByFuzzyText(districtSelect, district);
+                            
+                            districtSelect.dispatchEvent(new Event('change'));
+                            
+                            setTimeout(() => {
+                                const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                selectOptionByFuzzyText(wardSelect, ward);
+                            }, 350);
+                        }, 350);
+
+                        const road = addr.road || '';
+                        const houseNumber = addr.house_number || '';
+                        const street = houseNumber ? `${houseNumber} ${road}` : road;
+                        document.getElementById('address_street').value = street || data.display_name.split(',')[0];
+                    }
+                    if (addressInput) addressInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
+                })
+                .catch(error => {
+                    console.error("Lỗi reverse geocoding:", error);
+                    if (addressInput) addressInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
+                });
         }
 
         if (addressInput) {
@@ -375,15 +529,25 @@
                                     // Phân tách địa chỉ từ đối tượng address của Nominatim
                                     const addr = item.address || {};
                                     const province = addr.city || addr.state || addr.province || '';
-                                    const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
-                                    const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                    selectOptionByFuzzyText(provinceSelect, province);
+                                    
+                                    provinceSelect.dispatchEvent(new Event('change'));
+                                    
+                                    setTimeout(() => {
+                                        const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
+                                        selectOptionByFuzzyText(districtSelect, district);
+                                        
+                                        districtSelect.dispatchEvent(new Event('change'));
+                                        
+                                        setTimeout(() => {
+                                            const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                            selectOptionByFuzzyText(wardSelect, ward);
+                                        }, 350);
+                                    }, 350);
+
                                     const road = addr.road || '';
                                     const houseNumber = addr.house_number || '';
                                     const street = houseNumber ? `${houseNumber} ${road}` : road;
-
-                                    document.getElementById('address_province').value = province;
-                                    document.getElementById('address_district').value = district;
-                                    document.getElementById('address_ward').value = ward;
                                     document.getElementById('address_street').value = street || item.display_name.split(',')[0];
                                     
                                     initMap(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
@@ -515,16 +679,38 @@
         const savedAddress = @json(auth()->check() ? auth()->user()->address : '');
         if (savedAddress) {
             const parts = savedAddress.split(',').map(p => p.trim());
+            const pSel = document.getElementById('address_province');
+            const dSel = document.getElementById('address_district');
+            const wSel = document.getElementById('address_ward');
+
             if (parts.length >= 4) {
                 document.getElementById('address_street').value = parts[0];
-                document.getElementById('address_ward').value = parts[1];
-                document.getElementById('address_district').value = parts[2];
-                document.getElementById('address_province').value = parts[3];
+                
+                selectOptionByFuzzyText(pSel, parts[3]);
+                pSel.dispatchEvent(new Event('change'));
+                
+                setTimeout(() => {
+                    selectOptionByFuzzyText(dSel, parts[2]);
+                    dSel.dispatchEvent(new Event('change'));
+                    
+                    setTimeout(() => {
+                        selectOptionByFuzzyText(wSel, parts[1]);
+                    }, 350);
+                }, 350);
             } else if (parts.length === 3) {
                 document.getElementById('address_street').value = parts[0];
-                document.getElementById('address_ward').value = parts[0];
-                document.getElementById('address_district').value = parts[1];
-                document.getElementById('address_province').value = parts[2];
+                
+                selectOptionByFuzzyText(pSel, parts[2]);
+                pSel.dispatchEvent(new Event('change'));
+                
+                setTimeout(() => {
+                    selectOptionByFuzzyText(dSel, parts[1]);
+                    dSel.dispatchEvent(new Event('change'));
+                    
+                    setTimeout(() => {
+                        selectOptionByFuzzyText(wSel, parts[0]);
+                    }, 350);
+                }, 350);
             } else {
                 document.getElementById('address_street').value = savedAddress;
             }
@@ -532,7 +718,6 @@
             const searchInput = document.getElementById('address-search');
             if (searchInput) {
                 searchInput.value = savedAddress;
-                searchInput.dispatchEvent(new Event('input'));
             }
         }
     };

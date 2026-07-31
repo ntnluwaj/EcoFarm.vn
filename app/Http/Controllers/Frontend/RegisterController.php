@@ -25,7 +25,10 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:100|unique:users,email',
             'phone' => 'required|string|max:15',
             'password' => 'required|string|min:6|confirmed',
-            'address' => 'nullable|string|max:255',
+            'address_street'   => 'required|string|min:4|max:255',
+            'address_ward'     => 'required|string|min:2|max:100',
+            'address_district' => 'required|string|min:2|max:100',
+            'address_province' => 'required|string|min:2|max:100',
         ], [
             'name.required' => 'Họ và tên là bắt buộc.',
             'email.required' => 'Địa chỉ Email là bắt buộc.',
@@ -35,14 +38,20 @@ class RegisterController extends Controller
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải từ 6 ký tự trở lên.',
             'password.confirmed' => 'Xác nhận mật khẩu không trùng khớp.',
+            'address_street.required' => 'Số nhà, tên đường là bắt buộc.',
+            'address_ward.required' => 'Xã/Phường/Thị trấn là bắt buộc.',
+            'address_district.required' => 'Quận/Huyện là bắt buộc.',
+            'address_province.required' => 'Tỉnh/Thành phố là bắt buộc.',
         ]);
+
+        $fullAddress = $request->address_street . ", " . $request->address_ward . ", " . $request->address_district . ", " . $request->address_province;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'role' => 'customer',
-            'address' => $request->address,
+            'address' => $fullAddress,
             'password' => Hash::make($request->password),
         ]);
 

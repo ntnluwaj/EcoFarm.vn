@@ -306,16 +306,44 @@
 
                                     <!-- Địa chỉ nhận hàng mặc định -->
                                     <div class="col-12">
-                                        <label for="address" class="form-label fw-bold text-dark small">Địa chỉ nhận hàng mặc định</label>
-                                        <div class="position-relative">
-                                            <div class="input-group">
-                                                <span class="input-group-text input-group-custom-text"><i class="fa-solid fa-location-dot"></i></span>
-                                                <input type="text" class="form-control form-control-custom form-control-custom-right" id="address" name="address" placeholder="Ví dụ: 123 Đường 3/2, Cần Thơ" value="{{ old('address') }}" autocomplete="off">
-                                            </div>
-                                            <!-- Container gợi ý địa chỉ -->
-                                            <div id="address-suggestions" class="list-group position-absolute w-100 shadow" style="display: none; z-index: 9999; max-height: 250px; overflow-y: auto; top: 100%;"></div>
+                                        <label class="form-label fw-bold text-dark small">Địa chỉ nhận hàng mặc định <span class="text-danger">*</span></label>
+                                        
+                                        <!-- Ô tìm kiếm nhanh tự động phân tách địa chỉ -->
+                                        <div class="input-group mb-2 shadow-xs">
+                                            <span class="input-group-text bg-light border-light-subtle text-muted" style="font-size: 12.5px;"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
+                                            <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Gõ để tìm kiếm địa chỉ nhanh hoặc tự điền bên dưới..." style="font-size: 13px;" autocomplete="off">
                                         </div>
-                                        <div class="form-text text-muted mb-2 mt-1" style="font-size: 11px;">Gõ địa chỉ để tìm kiếm hoặc click/kéo ghim bản đồ bên dưới để tinh chỉnh vị trí chính xác:</div>
+                                        
+                                        <!-- Dropdown gợi ý địa chỉ -->
+                                        <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 75px; left: 0;"></div>
+
+                                        <!-- 4 trường địa chỉ bắt buộc và phân tách rõ ràng -->
+                                        <div class="row g-2 mb-2 p-2 bg-light rounded-3 border border-light-subtle">
+                                            <div class="col-12">
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
+                                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám" required style="font-size: 13px;" value="{{ old('address_street') }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Xã / Phường / Thị trấn *</label>
+                                                <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                                    <option value="">Chọn Xã / Phường</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Quận / Huyện *</label>
+                                                <select name="address_district" id="address_district" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                                    <option value="">Chọn Quận / Huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label text-dark mb-0 fw-semibold" style="font-size: 11px;">Tỉnh / Thành phố *</label>
+                                                <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
+                                                    <option value="">Chọn Tỉnh / Thành</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-text text-muted mb-2 mt-1" style="font-size: 11px;">Kéo ghim hoặc click chọn điểm trên bản đồ bên dưới để tự động điền địa chỉ:</div>
                                         
                                         <!-- Map container -->
                                         <div class="position-relative overflow-hidden rounded-3 border" style="border-color: #e2e8f0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 260px;">
@@ -358,6 +386,26 @@
 <!-- Leaflet Map JS and Logic -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+    // Hàm khớp tương đối để tự chọn option trong select theo tên địa phương
+    function selectOptionByFuzzyText(selectEl, text) {
+        if (!selectEl || !text) return false;
+        const cleanText = text.toLowerCase()
+            .replace(/^(tỉnh|thành phố|quận|huyện|thị xã|thị trấn|phường|xã|tp|q|h)\s+/g, '')
+            .trim();
+            
+        for (let i = 0; i < selectEl.options.length; i++) {
+            const opt = selectEl.options[i];
+            const cleanOptText = opt.textContent.toLowerCase()
+                .replace(/^(tỉnh|thành phố|quận|huyện|thị xã|thị trấn|phường|xã|tp|q|h)\s+/g, '')
+                .trim();
+            if (cleanOptText === cleanText || opt.value.toLowerCase().includes(cleanText) || cleanText.includes(cleanOptText)) {
+                selectEl.selectedIndex = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         // Tọa độ mặc định: Cần Thơ, Việt Nam (10.0356, 105.7801)
         var defaultLat = 10.0356;
@@ -377,26 +425,114 @@
             draggable: true
         }).addTo(map);
 
+        // 🌟 Tích hợp nạp dữ liệu Tỉnh/Thành, Quận/Huyện, Xã/Phường qua API
+        const provinceSelect = document.getElementById('address_province');
+        const districtSelect = document.getElementById('address_district');
+        const wardSelect = document.getElementById('address_ward');
+
+        if (provinceSelect && districtSelect && wardSelect) {
+            // Nạp Tỉnh/Thành phố
+            fetch('https://provinces.open-api.vn/api/p/')
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p.name;
+                        opt.textContent = p.name;
+                        opt.setAttribute('data-code', p.code);
+                        provinceSelect.appendChild(opt);
+                    });
+                });
+
+            // Lắng nghe đổi Tỉnh/Thành
+            provinceSelect.addEventListener('change', function() {
+                const selectedOpt = this.options[this.selectedIndex];
+                const code = selectedOpt.getAttribute('data-code');
+                
+                districtSelect.innerHTML = '<option value="">Chọn Quận / Huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn Xã / Phường</option>';
+
+                if (!code) return;
+
+                fetch(`https://provinces.open-api.vn/api/p/${code}?depth=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const districts = data.districts || [];
+                        districts.forEach(d => {
+                            const opt = document.createElement('option');
+                            opt.value = d.name;
+                            opt.textContent = d.name;
+                            opt.setAttribute('data-code', d.code);
+                            districtSelect.appendChild(opt);
+                        });
+                    });
+            });
+
+            // Lắng nghe đổi Quận/Huyện
+            districtSelect.addEventListener('change', function() {
+                const selectedOpt = this.options[this.selectedIndex];
+                const code = selectedOpt.getAttribute('data-code');
+                
+                wardSelect.innerHTML = '<option value="">Chọn Xã / Phường</option>';
+
+                if (!code) return;
+
+                fetch(`https://provinces.open-api.vn/api/d/${code}?depth=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const wards = data.wards || [];
+                        wards.forEach(w => {
+                            const opt = document.createElement('option');
+                            opt.value = w.name;
+                            opt.textContent = w.name;
+                            wardSelect.appendChild(opt);
+                        });
+                    });
+            });
+        }
+
         // Hàm gọi API Reverse Geocoding của Nominatim (OpenStreetMap)
         function updateAddressFromCoords(lat, lng) {
-            var addressInput = document.getElementById('address');
-            addressInput.placeholder = "Đang định vị địa chỉ từ bản đồ...";
+            var searchInput = document.getElementById('address-search');
+            if (searchInput) searchInput.placeholder = "Đang định vị địa chỉ từ bản đồ...";
 
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=vi`)
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&addressdetails=1&accept-language=vi`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.display_name) {
-                        var cleanAddress = data.display_name;
-                        addressInput.value = cleanAddress;
-                    } else {
-                        addressInput.value = lat.toFixed(6) + ", " + lng.toFixed(6);
+                    if (data) {
+                        if (searchInput && data.display_name) {
+                            searchInput.value = data.display_name;
+                        }
+                        
+                        // Phân tách địa chỉ
+                        const addr = data.address || {};
+                        const province = addr.city || addr.state || addr.province || '';
+                        selectOptionByFuzzyText(provinceSelect, province);
+                        
+                        provinceSelect.dispatchEvent(new Event('change'));
+                        
+                        setTimeout(() => {
+                            const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
+                            selectOptionByFuzzyText(districtSelect, district);
+                            
+                            districtSelect.dispatchEvent(new Event('change'));
+                            
+                            setTimeout(() => {
+                                const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                selectOptionByFuzzyText(wardSelect, ward);
+                            }, 350);
+                        }, 350);
+
+                        const road = addr.road || '';
+                        const houseNumber = addr.house_number || '';
+                        const street = houseNumber ? `${houseNumber} ${road}` : road;
+                        document.getElementById('address_street').value = street || data.display_name.split(',')[0];
                     }
-                    addressInput.placeholder = "Ví dụ: 123 Đường 3/2, Cần Thơ";
+                    if (searchInput) searchInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
                 })
                 .catch(error => {
                     console.error("Lỗi reverse geocoding:", error);
-                    addressInput.value = lat.toFixed(6) + ", " + lng.toFixed(6);
-                    addressInput.placeholder = "Ví dụ: 123 Đường 3/2, Cần Thơ";
+                    if (searchInput) searchInput.placeholder = "Gõ để tìm kiếm địa chỉ nhanh...";
                 });
         }
 
@@ -427,7 +563,7 @@
         });
 
         // 🌟 TÌM KIẾM ĐỊA CHỈ GỢI Ý & TỰ ĐỘNG BAY BẢN ĐỒ (AUTO-PAN & AUTOCONFIRM)
-        var addressInput = document.getElementById('address');
+        var addressInput = document.getElementById('address-search');
         var suggestionsContainer = document.getElementById('address-suggestions');
 
         // Hàm chống rung (Debounce) để hạn chế gửi quá nhiều request
@@ -448,15 +584,17 @@
                 return;
             }
 
-            fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=5&countrycodes=vn&accept-language=vi`)
+            fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=vn&accept-language=vi`)
                 .then(response => response.json())
                 .then(data => {
                     suggestionsContainer.innerHTML = '';
                     if (data && data.length > 0) {
                         data.forEach(item => {
                             var div = document.createElement('div');
-                            div.className = 'suggestion-item';
-                            div.innerHTML = `<i class="fa-solid fa-location-dot"></i> <span>${item.display_name}</span>`;
+                            div.className = 'dropdown-item text-wrap border-bottom text-start py-2 small';
+                            div.style.fontSize = '12.5px';
+                            div.style.cursor = 'pointer';
+                            div.innerHTML = `<i class="fa-solid fa-location-dot text-success me-2"></i> <span>${item.display_name}</span>`;
                             div.addEventListener('click', function () {
                                 addressInput.value = item.display_name;
                                 var lat = parseFloat(item.lat);
@@ -465,6 +603,30 @@
                                 // Di chuyển bản đồ & ghim
                                 map.setView([lat, lon], 16);
                                 marker.setLatLng([lat, lon]);
+                                
+                                // Điền địa chỉ
+                                const addr = item.address || {};
+                                const province = addr.city || addr.state || addr.province || '';
+                                selectOptionByFuzzyText(provinceSelect, province);
+                                
+                                provinceSelect.dispatchEvent(new Event('change'));
+                                
+                                setTimeout(() => {
+                                    const district = addr.subdistrict || addr.district || addr.city_district || addr.county || '';
+                                    selectOptionByFuzzyText(districtSelect, district);
+                                    
+                                    districtSelect.dispatchEvent(new Event('change'));
+                                    
+                                    setTimeout(() => {
+                                        const ward = addr.suburb || addr.quarter || addr.village || addr.commune || addr.town || '';
+                                        selectOptionByFuzzyText(wardSelect, ward);
+                                    }, 350);
+                                }, 350);
+
+                                const road = addr.road || '';
+                                const houseNumber = addr.house_number || '';
+                                const street = houseNumber ? `${houseNumber} ${road}` : road;
+                                document.getElementById('address_street').value = street || item.display_name.split(',')[0];
                                 
                                 suggestionsContainer.style.display = 'none';
                             });
@@ -480,17 +642,19 @@
                 });
         }, 400);
 
-        // Lắng nghe sự kiện gõ địa chỉ
-        addressInput.addEventListener('input', function () {
-            fetchSuggestions(this.value);
-        });
+        if (addressInput) {
+            // Lắng nghe sự kiện gõ địa chỉ
+            addressInput.addEventListener('input', function () {
+                fetchSuggestions(this.value);
+            });
 
-        // Ẩn dropdown gợi ý khi click ra ngoài
-        document.addEventListener('click', function (e) {
-            if (e.target !== addressInput && e.target !== suggestionsContainer) {
-                suggestionsContainer.style.display = 'none';
-            }
-        });
+            // Ẩn dropdown gợi ý khi click ra ngoài
+            document.addEventListener('click', function (e) {
+                if (e.target !== addressInput && e.target !== suggestionsContainer) {
+                    suggestionsContainer.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
 @endsection
