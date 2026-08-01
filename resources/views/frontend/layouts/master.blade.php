@@ -53,35 +53,35 @@
         /* 🌟 RESPONSIVE NAVBAR: Tối ưu khoảng cách và kích thước chữ rộng rãi */
         @media (min-width: 1200px) and (max-width: 1399.98px) {
             .navbar-expand-xl .navbar-nav .nav-link {
-                padding-right: 0.4rem !important;
-                padding-left: 0.4rem !important;
-                font-size: 13.5px !important;
+                padding-right: 0.35rem !important;
+                padding-left: 0.35rem !important;
+                font-size: 13px !important;
             }
             .search-input-custom {
-                width: 130px !important;
-                font-size: 12.5px !important;
+                width: 110px !important;
+                font-size: 12px !important;
             }
             .nav-btn-custom {
-                padding: 6px 12px !important;
-                font-size: 12.5px !important;
+                padding: 6px 10px !important;
+                font-size: 12px !important;
             }
         }
         @media (min-width: 1400px) {
             .navbar-expand-xl .navbar-nav .nav-link {
-                padding-right: 0.8rem !important;
-                padding-left: 0.8rem !important;
-                font-size: 14.5px !important;
+                padding-right: 0.7rem !important;
+                padding-left: 0.7rem !important;
+                font-size: 14px !important;
             }
             .search-input-custom {
-                width: 180px !important;
+                width: 160px !important;
                 transition: width 0.3s ease !important;
-                font-size: 13.0px !important;
+                font-size: 13px !important;
             }
             .search-input-custom:focus {
-                width: 240px !important;
+                width: 220px !important;
             }
             .nav-btn-custom {
-                padding: 8px 16px !important;
+                padding: 8px 14px !important;
                 font-size: 13px !important;
             }
         }
@@ -186,14 +186,14 @@
                 margin-bottom: 5px;
             }
             .hover-logo {
-                height: 70px !important;
-                max-height: 70px !important;
+                height: 60px !important;
+                max-height: 60px !important;
             }
         }
         @media (min-width: 992px) {
             .hover-logo {
-                height: 110px !important;
-                max-height: 110px !important;
+                height: 75px !important;
+                max-height: 75px !important;
             }
         }
 
@@ -210,13 +210,10 @@
             -webkit-backdrop-filter: blur(14px) !important;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05) !important;
         }
-        .hover-logo {
-            transition: all 0.3s ease-in-out !important;
-        }
         @media (min-width: 992px) {
             .header-scroller.scrolled .hover-logo {
-                height: 78px !important;
-                max-height: 78px !important;
+                height: 56px !important;
+                max-height: 56px !important;
             }
             .header-scroller.scrolled nav.navbar {
                 padding-top: 2px !important;
@@ -225,8 +222,8 @@
         }
         @media (max-width: 991.98px) {
             .header-scroller.scrolled .hover-logo {
-                height: 52px !important;
-                max-height: 52px !important;
+                height: 48px !important;
+                max-height: 48px !important;
             }
         }
     </style>
@@ -257,7 +254,7 @@
         <nav class="navbar navbar-expand-xl navbar-light container py-2 px-3" style="background: transparent;">
             <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" style="padding: 0;">
-                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 110px; max-height: 110px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="EcoFarm Logo" class="hover-logo" style="height: 75px; max-height: 75px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="padding: 0;" aria-label="Bật tắt menu điều hướng">
                 <span class="navbar-toggler-icon"></span>
@@ -477,11 +474,11 @@
                             </ul>
                         </div>
                     @else
-                        <div class="d-flex gap-2">
-                            <a href="/login" class="btn btn-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="background-color: #2e7d32; border: none; padding: 8px 18px; font-size: 13.5px;">
+                        <div class="d-flex gap-1 gap-xxl-2">
+                            <a href="/login" class="btn btn-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom" style="background-color: #2e7d32; border: none;">
                                 <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
                             </a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom text-xs" style="border: 1.5px solid #2e7d32; color: #2e7d32; padding: 8px 18px; background: transparent; font-size: 13.5px;">
+                            <a href="{{ route('register') }}" class="btn btn-outline-success fw-bold rounded-pill d-inline-flex align-items-center gap-1 nav-btn-custom" style="border: 1.5px solid #2e7d32; color: #2e7d32; background: transparent;">
                                 <i class="fa-solid fa-user-plus"></i> Đăng ký
                             </a>
                         </div>
