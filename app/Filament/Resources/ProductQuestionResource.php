@@ -19,6 +19,10 @@ class ProductQuestionResource extends Resource
 
     protected static ?string $navigationLabel = 'Hỏi đáp kỹ thuật';
 
+    protected static ?string $modelLabel = 'Hỏi đáp kỹ thuật';
+
+    protected static ?string $pluralLabel = 'Danh sách Hỏi đáp kỹ thuật';
+
     protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
 
     protected static ?int $navigationSort = 4;

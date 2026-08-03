@@ -19,6 +19,10 @@ class ProductReviewResource extends Resource
 
     protected static ?string $navigationLabel = 'Đánh giá từ khách';
 
+    protected static ?string $modelLabel = 'Đánh giá từ khách';
+
+    protected static ?string $pluralLabel = 'Danh sách Đánh giá từ khách';
+
     protected static ?string $navigationGroup = 'Danh mục & Sản phẩm';
     
     protected static ?int $navigationSort = 5;
