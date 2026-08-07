@@ -32,6 +32,11 @@ class StockResource extends Resource
 
     public static function canViewAny(): bool
     {
+        return in_array(auth()->user()?->role, ['admin', 'staff', 'engineer']);
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
         return in_array(auth()->user()?->role, ['admin', 'staff']);
     }
 

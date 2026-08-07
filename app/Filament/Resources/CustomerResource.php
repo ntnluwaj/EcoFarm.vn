@@ -32,6 +32,21 @@ class CustomerResource extends Resource
 
     public static function canViewAny(): bool
     {
+        return in_array(auth()->user()?->role, ['admin', 'staff']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->role === 'admin';
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->role === 'admin';
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
         return auth()->user()?->role === 'admin';
     }
 
