@@ -120,3 +120,21 @@ Route::view('/chinh-sach-giao-hang', 'frontend.policies.shipping')->name('polici
 Route::view('/chinh-sach-doi-tra', 'frontend.policies.returns')->name('policies.returns');
 Route::view('/chinh-sach-bao-mat', 'frontend.policies.privacy')->name('policies.privacy');
 Route::view('/dieu-khoan-dich-vu', 'frontend.policies.terms')->name('policies.terms');
+
+Route::get('/debug-log', function() {
+    $logPath = storage_path('logs/laravel.log');
+    if (file_exists($logPath)) {
+        $content = file_get_contents($logPath);
+        return response('<pre>' . htmlspecialchars(substr($content, -15000)) . '</pre>');
+    }
+    return 'Log file not found';
+});
+
+Route::get('/debug-migration', function() {
+    $logPath = storage_path('logs/migration.log');
+    if (file_exists($logPath)) {
+        $content = file_get_contents($logPath);
+        return response('<pre>' . htmlspecialchars(substr($content, -15000)) . '</pre>');
+    }
+    return 'Migration log file not found';
+});
