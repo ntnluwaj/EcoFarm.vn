@@ -120,3 +120,19 @@ Route::view('/chinh-sach-giao-hang', 'frontend.policies.shipping')->name('polici
 Route::view('/chinh-sach-doi-tra', 'frontend.policies.returns')->name('policies.returns');
 Route::view('/chinh-sach-bao-mat', 'frontend.policies.privacy')->name('policies.privacy');
 Route::view('/dieu-khoan-dich-vu', 'frontend.policies.terms')->name('policies.terms');
+
+// 🌟 14. KHÔI PHỤC BẢNG SESSIONS NẾU BỊ THIẾU
+Route::get('/fix-database-sessions', function () {
+    if (!\Illuminate\Support\Facades\Schema::hasTable('sessions')) {
+        \Illuminate\Support\Facades\Schema::create('sessions', function ($table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+        return "Bảng sessions đã được tạo lại thành công!";
+    }
+    return "Bảng sessions đã tồn tại sẵn!";
+});
