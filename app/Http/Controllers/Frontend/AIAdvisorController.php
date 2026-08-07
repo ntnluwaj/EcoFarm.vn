@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AIChatLog;
 
 class AIAdvisorController extends Controller
 {
@@ -98,8 +99,19 @@ Không được tự chế các liên kết khác.";
             }
         }
 
-        // 4. Ghi nhật ký chat AI ra hệ thống log file thay vì CSDL
-        Log::info("EcoBot Session: {$sessionId} | User: {$userId} | Topic: {$topic} | Sentiment: {$sentiment} | Message: {$message} | Response: {$responseContent}");
+        // 4. Lưu nhật ký chat vào CSDL phục vụ phân tích dữ liệu ở Dashboard DSS
+        try {
+            AIChatLog::create([
+                'user_id' => $userId,
+                'session_id' => $sessionId,
+                'message' => $message,
+                'response' => $responseContent,
+                'detected_topic' => $topic,
+                'sentiment' => $sentiment,
+            ]);
+        } catch (\Exception $e) {
+            Log::error("Lỗi ghi nhật ký chat AI: " . $e->getMessage());
+        }
 
         return response()->json([
             'success' => true,
