@@ -39,7 +39,7 @@
                                     </div>
                                 @endif
                                 <span class="position-absolute top-2 start-2 badge bg-dark text-white text-xs px-2 py-1 rounded-2">
-                                    {{ $post->category ?? 'Hướng dẫn B2B' }}
+                                    {{ $post->category ?? 'Hướng dẫn nông nghiệp' }}
                                 </span>
                             </div>
 

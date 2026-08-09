@@ -35,15 +35,7 @@ class Dashboard extends BaseDashboard
             ->whereYear('created_at', Carbon::now()->year)
             ->count();
 
-        // 3. Cơ cấu B2C vs B2B & Giá trị trung bình đơn
-        $b2cRevenue = Order::where('status', 'completed')
-            ->whereHas('user', fn($q) => $q->where('role', 'customer'))
-            ->sum('total_amount');
-
-        $b2bRevenue = Order::where('status', 'completed')
-            ->whereHas('user', fn($q) => $q->where('role', 'agency'))
-            ->sum('total_amount');
-
+        // 3. Giá trị trung bình đơn hàng
         $avgOrderValue = Order::where('status', 'completed')->avg('total_amount') ?? 0;
 
         // 4. Biểu đồ doanh thu 6 tháng gần nhất (Line Area Chart)
@@ -123,8 +115,6 @@ class Dashboard extends BaseDashboard
             'usersCount' => $usersCount,
             'currentMonthRevenue' => $currentMonthRevenue,
             'currentMonthSales' => $currentMonthSales,
-            'b2cRevenue' => $b2cRevenue,
-            'b2bRevenue' => $b2bRevenue,
             'avgOrderValue' => $avgOrderValue,
             'chartMonths' => $chartMonths,
             'chartRevenueData' => $chartRevenueData,

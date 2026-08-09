@@ -100,7 +100,7 @@ class ProductResource extends Resource
                     ->numeric()
                     ->required()
                     ->prefix('VND')
-                    ->label('Giá bán lẻ niêm yết (B2C)'),
+                    ->label('Giá bán niêm yết'),
 
 
 
