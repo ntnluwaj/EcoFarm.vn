@@ -13,13 +13,8 @@
     <meta property="og:title" content="@yield('og_title', 'EcoFarm - Hệ Thống Vật Tư Nông Nghiệp Chất Lượng Cao')">
     <meta property="og:description" content="@yield('og_description', 'Đại lý phân phối vật tư nông nghiệp chính hãng, thuốc bảo vệ thực vật, hỗ trợ kỹ thuật và tư vấn nông nghiệp 24/7.')">
     <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/ecofarm-design-system.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/crm-tables.css') }}?v={{ time() }}">
     <style>
         /* Ẩn toàn bộ thanh cuộn/trượt trên toàn trang nhưng vẫn giữ tính năng cuộn chuột bình thường */
         * {
@@ -445,7 +440,7 @@
                                     </li>
                                     @if(auth()->user()->role === 'admin')
                                     <li>
-                                        <a class="dropdown-item py-2 text-dark fw-semibold" href="{{ route('admin.reports') }}">
+                                        <a class="dropdown-item py-2 text-dark fw-semibold" href="/admin/stock-report-page">
                                             <i class="fa-solid fa-chart-line me-2 text-success"></i>Báo cáo bãi kho
                                         </a>
                                     </li>

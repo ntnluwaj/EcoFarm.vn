@@ -10,10 +10,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\FileUpload; // 🌟 Thư viện FileUpload
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
 
 class ProductResource extends Resource
 {
@@ -101,6 +102,8 @@ class ProductResource extends Resource
                     ->prefix('VND')
                     ->label('Giá bán lẻ niêm yết (B2C)'),
 
+
+
                 TextInput::make('unit')
                     ->required()
                     ->maxLength(20)
@@ -162,49 +165,30 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 \Filament\Tables\Columns\ImageColumn::make('images')
-                    ->label('HÌNH ẢNH')
+                    ->label('Hình ảnh')
+                    ->stacked()
                     ->square()
-                    ->size(42)
-                    ->circular(false)
-                    ->extraImgAttributes(['style' => 'border-radius: 6px; border: 1px solid #e2e8f0; object-fit: contain; background-color: #f8fafc; padding: 2px;']),
-
+                    ->size(50)
+                    ->limit(3),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->weight('bold')
-                    ->description(fn (Product $record): string => ($record->packaging ?? 'Tiêu chuẩn') . ' • ĐVT: ' . $record->unit)
-                    ->label('TÊN VẬT TƯ & QUY CÁCH'),
-
+                    ->label('Tên vật tư'),
                 TextColumn::make('category.name')
-                    ->label('DANH MỤC')
-                    ->badge()
-                    ->color('success')
-                    ->sortable(),
-
-                TextColumn::make('stock_status')
-                    ->label('TRẠNG THÁI KHO')
-                    ->html()
-                    ->state(function (Product $record): string {
-                        if ($record->stock > 50) {
-                            return '<span style="background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>🟢 Sẵn kho (' . number_format($record->stock) . ')</span>';
-                        } elseif ($record->stock > 0) {
-                            return '<span style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>🟡 Sắp hết (' . number_format($record->stock) . ')</span>';
-                        } else {
-                            return '<span style="background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>🔴 Hết hàng (0)</span>';
-                        }
-                    }),
-
+                    ->label('Danh mục'),
                 TextColumn::make('price')
                     ->money('VND')
                     ->sortable()
-                    ->weight('extrabold')
-                    ->color('success')
-                    ->alignEnd()
-                    ->label('GIÁ BÁN LẺ'),
+                    ->label('Giá bán lẻ'),
 
+                TextColumn::make('stock')
+                    ->sortable()
+                    ->label('Tồn kho'),
+                TextColumn::make('unit')
+                    ->label('ĐVT'),
                 \Filament\Tables\Columns\ToggleColumn::make('status')
-                    ->label('ĐANG BÁN'),
+                    ->label('Đang bán'),
             ])
             ->filters([
                 \Filament\Tables\Filters\SelectFilter::make('category_id')
@@ -212,8 +196,14 @@ class ProductResource extends Resource
                     ->label('Lọc theo danh mục'),
             ])
             ->actions([
-                \Filament\Tables\Actions\EditAction::make()->iconButton(),
-                \Filament\Tables\Actions\DeleteAction::make()->iconButton(),
+                \Filament\Tables\Actions\ActionGroup::make([
+                    \Filament\Tables\Actions\EditAction::make(),
+                    \Filament\Tables\Actions\DeleteAction::make(),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->color('success')
+                ->button(),
             ])
             ->bulkActions([
                 \Filament\Tables\Actions\BulkActionGroup::make([
@@ -229,9 +219,11 @@ class ProductResource extends Resource
         ];
     }
 
+
     public static function getPages(): array
     {
         return [
+            // Cấu hình các trang điều phối của Filament
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),

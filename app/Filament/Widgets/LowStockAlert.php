@@ -33,25 +33,22 @@ class LowStockAlert extends BaseWidget
             ->paginated(false)
             ->columns([
                 TextColumn::make('name')
-                    ->label('TÊN VẬT TƯ')
-                    ->weight('bold')
-                    ->description(fn (Product $record) => 'Quy cách: ' . $record->packaging),
-
+                    ->label('Tên vật tư')
+                    ->wrap(),
                 TextColumn::make('category.name')
-                    ->label('NGÀNH HÀNG')
-                    ->badge()
-                    ->color('success'),
-
-                TextColumn::make('stock_status')
-                    ->label('TỒN KHO GỐC')
-                    ->html()
-                    ->state(function (Product $record): string {
-                        if ($record->stock <= 0) {
-                            return '<span style="background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; border-radius: 9999px; padding: 2px 8px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>Hết hàng (0)</span>';
-                        } else {
-                            return '<span style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 9999px; padding: 2px 8px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>Còn ' . $record->stock . ' ' . $record->unit . '</span>';
+                    ->label('Ngành hàng'),
+                TextColumn::make('stock')
+                    ->label('Tồn kho gốc')
+                    ->alignCenter(),
+                TextColumn::make('variants_stock')
+                    ->label('Chi tiết biến thể')
+                    ->state(function (Product $record) {
+                        if ($record->variants->count() > 0) {
+                            return $record->variants->map(fn($v) => "{$v->capacity}: {$v->stock}")->join(' | ');
                         }
-                    }),
+                        return 'Không có biến thể';
+                    })
+                    ->wrap(),
             ])
             ->actions([
                 Tables\Actions\Action::make('adjust')

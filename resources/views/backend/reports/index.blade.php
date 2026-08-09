@@ -1,451 +1,288 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'CRM Dashboard - EcoFarm System')
+@section('title', 'Báo Cáo Doanh Thu Bãi Kho EcoFarm')
 
 @section('content')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-
-<style>
-    .crm-wrapper {
-        background-color: #e2eafd;
-        min-height: 95vh;
-        padding: 24px;
-        font-family: 'Outfit', sans-serif;
-    }
-    .crm-header-card {
-        background: transparent;
-        margin-bottom: 20px;
-    }
-    .crm-nav-pill-box {
-        background: #1e3a8a;
-        border-radius: 9999px;
-        padding: 6px 10px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .crm-nav-btn {
-        color: #ffffff;
-        font-size: 13px;
-        font-weight: 600;
-        padding: 8px 18px;
-        border-radius: 9999px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    .crm-nav-btn.active {
-        background: #3b82f6;
-        color: #ffffff;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-    }
-    .crm-nav-btn-white {
-        background: #ffffff;
-        color: #1e3a8a;
-        font-size: 13px;
-        font-weight: 700;
-        padding: 8px 18px;
-        border-radius: 9999px;
-        text-decoration: none;
-    }
-
-    /* 8 Vibrant Metric Solid Block Cards */
-    .metric-card {
-        border-radius: 16px;
-        padding: 16px 20px;
-        color: #ffffff;
-        min-height: 105px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-        transition: transform 0.2s ease;
-    }
-    .metric-card:hover {
-        transform: translateY(-2px);
-    }
-    .metric-purple { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
-    .metric-darkblue { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
-    .metric-lightblue { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); }
-    .metric-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-
-    .metric-title {
-        font-size: 12px;
-        font-weight: 500;
-        opacity: 0.9;
-        text-transform: capitalize;
-    }
-    .metric-value {
-        font-size: 26px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        margin: 0;
-        line-height: 1.1;
-    }
-
-    /* White Panel Cards */
-    .crm-panel-card {
-        background: #ffffff;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        border: 1px solid #e2e8f0;
-        height: 100%;
-    }
-    .crm-panel-title {
-        font-size: 15px;
-        font-weight: 700;
-        color: #0f172a;
-        margin-bottom: 12px;
-    }
-
-    /* Filter Column Inputs */
-    .crm-filter-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: #64748b;
-        margin-bottom: 4px;
-        display: block;
-    }
-    .crm-filter-select {
-        background-color: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 10px;
-        padding: 8px 12px;
-        font-size: 13px;
-        color: #334155;
-        width: 100%;
-    }
-
-    /* Bottom Banner */
-    .crm-footer-banner {
-        background: #3730a3;
-        color: #ffffff;
-        border-radius: 12px;
-        padding: 12px 24px;
-        text-center: center;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-    }
-</style>
-
-<div class="crm-wrapper">
-    <!-- Header Top Row (Matching Reference Image) -->
-    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between crm-header-card">
-        <div class="d-flex align-items-center gap-3">
-            <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-circle shadow-sm" style="width: 46px; height: 46px; font-weight: 800; font-size: 22px; background-color: #0284c7 !important;">
-                C
-            </div>
-            <div>
-                <h3 class="fw-extrabold text-dark mb-0 fs-4" style="color: #0f172a;">CRM dashboard</h3>
-                <span class="text-uppercase text-muted text-xs fw-bold" style="letter-spacing: 1px;">COUPLER.IO / ECOFARM.VN</span>
-            </div>
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1">
+                <i class="fa-solid fa-chart-line text-success me-2"></i>BÁO CÁO DOANH THU & KHO VẬN NỘI BỘ
+            </h4>
+            <p class="text-secondary small mb-0">Theo dõi dòng tiền bán lẻ B2C và hiệu suất vận hành bến bãi EcoFarm</p>
         </div>
-
-        <div class="crm-nav-pill-box mt-3 mt-md-0">
-            <a href="{{ route('admin.reports') }}" class="crm-nav-btn active">Overview</a>
-            <a href="/admin/customers" class="crm-nav-btn">Agents</a>
-            <a href="/admin/orders" class="crm-nav-btn">Deals</a>
-            <a href="/admin" class="crm-nav-btn-white">Setup dashboard</a>
+        <div>
+            <a href="/admin" class="btn btn-outline-success btn-sm fw-bold px-3 py-2 rounded-3">
+                <i class="fa-solid fa-gauge me-1"></i>Vào Filament Admin
+            </a>
         </div>
     </div>
 
-    <!-- Main Grid Layout (Matching Reference Image Exact Grid) -->
-    <div class="row g-3 mb-4">
-        
-        <!-- LEFT COLUMN (55% width): 8 Metric Cards Grid + 2 Area Charts -->
-        <div class="col-lg-7">
-            <!-- 8 Solid Color Metric Cards (2 Rows x 4 Columns) -->
-            <div class="row g-2 mb-3">
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-purple">
-                        <span class="metric-title">Total sales</span>
-                        <h4 class="metric-value">{{ number_format($revenue / 1000000, 1) }}M</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-darkblue">
-                        <span class="metric-title">Win rate</span>
-                        <h4 class="metric-value">{{ $totalOrdersCount > 0 ? round(($completedOrdersCount / $totalOrdersCount) * 100, 2) : 0 }}%</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-lightblue">
-                        <span class="metric-title">Close rate</span>
-                        <h4 class="metric-value">{{ $totalOrdersCount > 0 ? round(($pendingOrdersCount / $totalOrdersCount) * 100, 2) : 0 }}%</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-emerald">
-                        <span class="metric-title">Avg days to close</span>
-                        <h4 class="metric-value">1.50</h4>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-purple">
-                        <span class="metric-title">Pipeline value</span>
-                        <h4 class="metric-value">{{ number_format($pendingCodAmount / 1000000, 1) }}M</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-darkblue">
-                        <span class="metric-title">Open deals</span>
-                        <h4 class="metric-value">{{ $pendingOrdersCount + $processingOrdersCount + $shippingOrdersCount }}</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-lightblue">
-                        <span class="metric-title">Weighted value</span>
-                        <h4 class="metric-value">{{ number_format($avgOrderValue / 1000, 1) }}K</h4>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="metric-card metric-emerald">
-                        <span class="metric-title">Avg open deal age</span>
-                        <h4 class="metric-value">{{ $customerCount }}</h4>
-                    </div>
-                </div>
+    <!-- Date Filter Card -->
+    <form method="GET" action="{{ route('admin.reports') }}" class="card border-0 shadow-sm p-4 rounded-4 mb-4 bg-white">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary small"><i class="fa-regular fa-calendar me-1"></i>Từ ngày</label>
+                <input type="date" name="start_date" class="form-control rounded-3" value="{{ $startDate->format('Y-m-d') }}">
             </div>
-
-            <!-- Chart 1: Won deals (last 12 months) -->
-            <div class="crm-panel-card mb-3" style="height: 230px;">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <h6 class="crm-panel-title m-0">Won deals (last 12 months)</h6>
-                    <span class="text-xs text-muted"><span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #0284c7;"></span>Closed value <span class="d-inline-block rounded-circle ms-2 me-1" style="width: 8px; height: 8px; background: #38bdf8;"></span>Won deals</span>
-                </div>
-                <div style="height: 170px; position: relative;">
-                    <canvas id="chartWonDeals"></canvas>
-                </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary small"><i class="fa-regular fa-calendar me-1"></i>Đến ngày</label>
+                <input type="date" name="end_date" class="form-control rounded-3" value="{{ $endDate->format('Y-m-d') }}">
             </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success w-100 fw-bold rounded-3 py-2" style="background-color: #2e7d32; border: none;">
+                    <i class="fa-solid fa-filter me-2"></i>Lọc dữ liệu báo cáo
+                </button>
+            </div>
+        </div>
+    </form>
 
-            <!-- Chart 2: Deals projection (future 12 months) -->
-            <div class="crm-panel-card" style="height: 230px;">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <h6 class="crm-panel-title m-0">Deals projection (future 12 months)</h6>
-                    <span class="text-xs text-muted"><span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #0284c7;"></span>Projected value <span class="d-inline-block rounded-circle ms-2 me-1" style="width: 8px; height: 8px; background: #38bdf8;"></span>Deals due</span>
+    <!-- Stat Cards -->
+    <div class="row g-4 mb-4">
+        <!-- Revenue Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 position-relative overflow-hidden">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="text-secondary fw-semibold small text-uppercase">Doanh thu thực tế</span>
+                    <div class="p-2 bg-success-subtle text-success rounded-3"><i class="fa-solid fa-sack-dollar fs-5"></i></div>
                 </div>
-                <div style="height: 170px; position: relative;">
-                    <canvas id="chartDealsProjection"></canvas>
+                <h3 class="fw-bold text-success mb-1">{{ number_format($revenue, 0, ',', '.') }}đ</h3>
+                <p class="text-muted small mb-0">Từ các đơn hàng hoàn tất</p>
+                <div class="position-absolute" style="right: -10px; bottom: -20px; opacity: 0.05;">
+                    <i class="fa-solid fa-money-bill-wave" style="font-size: 80px;"></i>
                 </div>
             </div>
         </div>
 
-        <!-- MIDDLE COLUMN (27% width): 2 Donut Charts Stacked -->
-        <div class="col-lg-3">
-            <!-- Donut 1: Sales pipeline -->
-            <div class="crm-panel-card mb-3" style="height: 335px;">
-                <h6 class="crm-panel-title mb-2">Sales pipeline</h6>
-                <div style="height: 260px; position: relative;" class="d-flex align-items-center justify-content-center">
-                    <canvas id="chartSalesPipeline"></canvas>
+        <!-- Orders Count Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 position-relative overflow-hidden">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="text-secondary fw-semibold small text-uppercase">Tổng số đơn hàng</span>
+                    <div class="p-2 bg-primary-subtle text-primary rounded-3"><i class="fa-solid fa-boxes-stacked fs-5"></i></div>
                 </div>
-            </div>
-
-            <!-- Donut 2: Deal loss reasons -->
-            <div class="crm-panel-card" style="height: 335px;">
-                <h6 class="crm-panel-title mb-2">Deal loss reasons</h6>
-                <div style="height: 260px; position: relative;" class="d-flex align-items-center justify-content-center">
-                    <canvas id="chartDealLossReasons"></canvas>
+                <h3 class="fw-bold text-primary mb-1">{{ $totalOrdersCount }} đơn</h3>
+                <p class="text-muted small mb-0">Chốt trong khoảng thời gian lọc</p>
+                <div class="position-absolute" style="right: -10px; bottom: -20px; opacity: 0.05;">
+                    <i class="fa-solid fa-cart-shopping" style="font-size: 80px;"></i>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN (18% width): Filter Sidebar & Contact Card -->
-        <div class="col-lg-2">
-            <div class="crm-panel-card d-flex flex-column justify-content-between">
-                <div>
-                    <!-- Date Picker Filter -->
-                    <form method="GET" action="{{ route('admin.reports') }}">
-                        <div class="mb-3">
-                            <label class="crm-filter-label">Report date</label>
-                            <input type="date" name="start_date" class="crm-filter-select mb-1 text-xs" value="{{ $startDate->format('Y-m-d') }}">
-                            <input type="date" name="end_date" class="crm-filter-select text-xs" value="{{ $endDate->format('Y-m-d') }}">
-                            <button type="submit" class="btn btn-primary btn-sm w-100 rounded-3 mt-2 fw-bold text-xs" style="background-color: #0284c7; border: none;">Lọc ngày</button>
-                        </div>
-                    </form>
-
-                    <!-- Filter Dropdowns (Matching Image UI) -->
-                    <div class="mb-2.5">
-                        <label class="crm-filter-label">Deal Owner</label>
-                        <select class="crm-filter-select">
-                            <option>All</option>
-                            <option>Kỹ sư Nguyễn Văn A</option>
-                            <option>Nhân viên Trần B</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-2.5">
-                        <label class="crm-filter-label">Deal Stage</label>
-                        <select class="crm-filter-select">
-                            <option>All</option>
-                            <option>Chờ duyệt</option>
-                            <option>Đang đóng gói</option>
-                            <option>Đang giao</option>
-                            <option>Hoàn thành</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-2.5">
-                        <label class="crm-filter-label">Pipeline</label>
-                        <select class="crm-filter-select">
-                            <option>All</option>
-                            <option>Thuốc trừ sâu & bệnh</option>
-                            <option>Phân bón hữu cơ & NPK</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="crm-filter-label">Deal Label</label>
-                        <select class="crm-filter-select">
-                            <option>All</option>
-                            <option>B2C Khách mua lẻ</option>
-                            <option>B2B Đại lý lớn</option>
-                        </select>
-                    </div>
+        <!-- Average Order Value Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 position-relative overflow-hidden">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="text-secondary fw-semibold small text-uppercase">Giá trị TB đơn</span>
+                    <div class="p-2 bg-info-subtle text-info rounded-3"><i class="fa-solid fa-scale-balanced fs-5"></i></div>
                 </div>
-
-                <!-- Support Box at bottom of filter panel -->
-                <div class="p-3 bg-light rounded-4 border mt-2">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center font-bold" style="width: 28px; height: 28px; font-size: 11px;">
-                            EC
-                        </div>
-                        <span class="fw-bold text-dark text-xs">Have questions?</span>
-                    </div>
-                    <a href="/admin/contacts" class="d-block text-xs text-primary fw-bold text-decoration-none mb-1">Dashboard setup guide</a>
-                    <a href="tel:0398037435" class="d-block text-xs text-primary fw-bold text-decoration-none">Contact support</a>
+                <h3 class="fw-bold text-info mb-1">{{ number_format($avgOrderValue, 0, ',', '.') }}đ</h3>
+                <p class="text-muted small mb-0">Tính trên đơn hoàn thành</p>
+                <div class="position-absolute" style="right: -10px; bottom: -20px; opacity: 0.05;">
+                    <i class="fa-solid fa-calculator" style="font-size: 80px;"></i>
                 </div>
             </div>
         </div>
 
+        <!-- Completion Rate Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 position-relative overflow-hidden">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="text-secondary fw-semibold small text-uppercase">Tỷ lệ hủy đơn</span>
+                    <div class="p-2 bg-danger-subtle text-danger rounded-3"><i class="fa-solid fa-ban fs-5"></i></div>
+                </div>
+                <h3 class="fw-bold text-danger mb-1">
+                    {{ $totalOrdersCount > 0 ? round(($cancelledOrdersCount / $totalOrdersCount) * 100, 1) : 0 }}%
+                </h3>
+                <p class="text-muted small mb-0">Tổng cộng {{ $cancelledOrdersCount }} đơn bị hủy</p>
+                <div class="position-absolute" style="right: -10px; bottom: -20px; opacity: 0.05;">
+                    <i class="fa-solid fa-trash-can" style="font-size: 80px;"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Bottom Sticky Banner (Matching Reference Image Footer) -->
-    <div class="crm-footer-banner">
-        Connect 70+ data sources with Coupler.io & EcoFarm Agricultural CRM System
+    <!-- Main Content Grid -->
+    <div class="row g-4 mb-4">
+        <!-- Left Column: Business Breakdown & Top Products -->
+        <div class="col-lg-8">
+            <!-- B2B vs B2C and Payments -->
+            <div class="row g-4 mb-4">
+                <!-- Payment Methods -->
+                <div class="col-md-12">
+                    <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100">
+                        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-wallet text-success me-2"></i>Phương thức thanh toán</h6>
+                        <div class="d-flex flex-column gap-2.5">
+                            @forelse($paymentMethodStats as $stat)
+                                <div class="d-flex align-items-center justify-content-between p-2 rounded bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-2 text-secondary">
+                                            @if($stat->payment_method === 'COD')
+                                                <i class="fa-solid fa-hand-holding-dollar text-warning"></i>
+                                            @elseif($stat->payment_method === 'VIETQR')
+                                                <i class="fa-solid fa-qrcode text-primary"></i>
+                                            @else
+                                                <i class="fa-solid fa-credit-card text-success"></i>
+                                            @endif
+                                        </div>
+                                        <span class="small fw-semibold">{{ $stat->payment_method }}</span>
+                                    </div>
+                                    <span class="small fw-bold text-secondary">{{ number_format($stat->total, 0, ',', '.') }}đ ({{ $stat->count }} đơn)</span>
+                                </div>
+                            @empty
+                                <div class="text-center text-muted small py-3">Chưa phát sinh giao dịch thanh toán thành công</div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Selling Products -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="p-4 border-bottom bg-white">
+                    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-star text-warning me-2"></i>Top 5 vật tư bán chạy nhất vụ này</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" style="font-size: 14px;">
+                        <thead class="table-light text-secondary fw-semibold">
+                            <tr>
+                                <th class="ps-4">Tên mặt hàng vật tư</th>
+                                <th>Quy cách đóng gói</th>
+                                <th class="text-center">Số lượng bán</th>
+                                <th class="pe-4 text-end">Doanh thu thu về</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($topProducts as $prod)
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">{{ $prod->name }}</td>
+                                    <td>{{ $prod->packaging }} ({{ $prod->unit }})</td>
+                                    <td class="text-center fw-semibold text-secondary">{{ number_format($prod->total_qty) }}</td>
+                                    <td class="pe-4 text-end fw-bold text-success">{{ number_format($prod->total_revenue, 0, ',', '.') }}đ</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted small">Không phát sinh sản phẩm bán ra trong thời gian lọc.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Warehouse Order Status Timeline -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100">
+                <h6 class="fw-bold text-dark mb-4"><i class="fa-solid fa-truck-ramp-box text-success me-2"></i>Trạng thái kho bãi (Timeline)</h6>
+                
+                <!-- Status List -->
+                <div class="d-flex flex-column gap-3.5 position-relative">
+                    <!-- Pending Orders -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-warning bg-warning-subtle text-warning-emphasis">
+                        <div>
+                            <span class="d-block fw-bold mb-0.5">Chờ duyệt xuất kho</span>
+                            <span class="small text-muted opacity-75">Cần bốc xếp khẩn trương</span>
+                        </div>
+                        <span class="fs-4 fw-bold">{{ $pendingOrdersCount }}</span>
+                    </div>
+
+                    <!-- Processing Orders -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-info bg-info-subtle text-info-emphasis">
+                        <div>
+                            <span class="d-block fw-bold mb-0.5">Đang đóng gói hàng</span>
+                            <span class="small text-muted opacity-75">Chuẩn bị hạ tải lên xe</span>
+                        </div>
+                        <span class="fs-4 fw-bold">{{ $processingOrdersCount }}</span>
+                    </div>
+
+                    <!-- Shipping Orders -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-primary bg-primary-subtle text-primary-emphasis">
+                        <div>
+                            <span class="d-block fw-bold mb-0.5">Đang trung chuyển</span>
+                            <span class="small text-muted opacity-75">Xe đang chạy khu vực miền Tây</span>
+                        </div>
+                        <span class="fs-4 fw-bold">{{ $shippingOrdersCount }}</span>
+                    </div>
+
+                    <!-- Completed Orders -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-success bg-success-subtle text-success-emphasis">
+                        <div>
+                            <span class="d-block fw-bold mb-0.5">Đã hoàn thành</span>
+                            <span class="small text-muted opacity-75">Bàn giao & ký phiếu biên nhận</span>
+                        </div>
+                        <span class="fs-4 fw-bold">{{ $completedOrdersCount }}</span>
+                    </div>
+
+                    <!-- Cancelled Orders -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-danger bg-danger-subtle text-danger-emphasis">
+                        <div>
+                            <span class="d-block fw-bold mb-0.5">Đơn hàng bị hủy</span>
+                            <span class="small text-muted opacity-75">Sai thông tin / hết tồn kho</span>
+                        </div>
+                        <span class="fs-4 fw-bold">{{ $cancelledOrdersCount }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="p-4 border-bottom bg-white">
+            <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-clock-rotate-left text-secondary me-2"></i>Lịch sử 10 đơn hàng phát sinh gần nhất</h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" style="font-size: 14px;">
+                <thead class="table-light text-secondary fw-semibold">
+                    <tr>
+                        <th class="ps-4">Mã đơn</th>
+                        <th>Họ tên người nhận</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Đối tượng</th>
+                        <th>Trạng thái</th>
+                        <th class="pe-4 text-end">Tổng thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentOrders as $order)
+                        <tr>
+                            <td class="ps-4 fw-bold text-secondary">#{{ $order->id }}</td>
+                            <td>{{ $order->customer_name }}</td>
+                            <td>{{ $order->customer_phone }}</td>
+                            <td><span class="text-truncate d-inline-block" style="max-width: 250px;">{{ $order->shipping_address }}</span></td>
+                            <td>
+                                @if($order->user && $order->user->role === 'agency')
+                                    <span class="badge bg-primary text-white">Đại lý B2B</span>
+                                @else
+                                    <span class="badge bg-light text-secondary border">Nhà vườn</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($order->status === 'pending')
+                                    <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                @elseif($order->status === 'processing')
+                                    <span class="badge bg-info text-dark">Đóng gói</span>
+                                @elseif($order->status === 'shipping')
+                                    <span class="badge bg-primary text-white">Đang giao</span>
+                                @elseif($order->status === 'completed')
+                                    <span class="badge bg-success text-white">Hoàn thành</span>
+                                @else
+                                    <span class="badge bg-danger text-white">Đã hủy</span>
+                                @endif
+                            </td>
+                            <td class="pe-4 text-end fw-bold text-danger">{{ number_format($order->total_amount, 0, ',', '.') }}đ</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">Không tìm thấy đơn hàng nào phát sinh trong khoảng thời gian đã lọc.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Chart 1: Won deals (last 12 months)
-        const ctxWon = document.getElementById('chartWonDeals').getContext('2d');
-        new Chart(ctxWon, {
-            type: 'line',
-            data: {
-                labels: ['May 2024', 'Jul 2024', 'Sep 2024', 'Nov 2024', 'Jan 2025', 'Mar 2025', 'May 2025'],
-                datasets: [
-                    {
-                        label: 'Closed value',
-                        data: [100, 250, 900, 200, 800, 100, 600],
-                        borderColor: '#0284c7',
-                        borderWidth: 2.5,
-                        fill: false,
-                        tension: 0.3,
-                        pointRadius: 2
-                    },
-                    {
-                        label: 'Won deals',
-                        data: [200, 500, 150, 450, 700, 400, 400],
-                        borderColor: '#38bdf8',
-                        borderWidth: 2.5,
-                        fill: false,
-                        tension: 0.3,
-                        pointRadius: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: '#f1f5f9' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // Chart 2: Deals projection (future 12 months)
-        const ctxProj = document.getElementById('chartDealsProjection').getContext('2d');
-        new Chart(ctxProj, {
-            type: 'line',
-            data: {
-                labels: ['May 2025', 'Jul 2025', 'Sep 2025', 'Nov 2025', 'Jan 2026', 'Mar 2026', 'May 2026'],
-                datasets: [
-                    {
-                        label: 'Projected value',
-                        data: [1000, 3000, 2500, 4000, 2000, 2500, 2000],
-                        borderColor: '#0284c7',
-                        borderWidth: 2.5,
-                        fill: false,
-                        tension: 0.3,
-                        pointRadius: 2
-                    },
-                    {
-                        label: 'Deals due',
-                        data: [800, 2500, 2000, 2500, 2200, 2400, 1800],
-                        borderColor: '#38bdf8',
-                        borderWidth: 2.5,
-                        fill: false,
-                        tension: 0.3,
-                        pointRadius: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: '#f1f5f9' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // Chart 3: Donut Sales Pipeline
-        const ctxPipeline = document.getElementById('chartSalesPipeline').getContext('2d');
-        new Chart(ctxPipeline, {
-            type: 'doughnut',
-            data: {
-                labels: ['Lead In 26.85%', 'Closed Lost 21.32%', 'Contact Made 18.46%', 'Interview 14.85%', 'Proposal 9.84%', 'Negotiation 5.06%'],
-                datasets: [{
-                    data: [26.85, 21.32, 18.46, 14.85, 9.84, 5.06],
-                    backgroundColor: ['#0284c7', '#38bdf8', '#6366f1', '#a855f7', '#f43f5e', '#10b981'],
-                    borderWidth: 3,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        // Chart 4: Donut Deal Loss Reasons
-        const ctxLoss = document.getElementById('chartDealLossReasons').getContext('2d');
-        new Chart(ctxLoss, {
-            type: 'doughnut',
-            data: {
-                labels: ['Feature limitations 32.97%', 'Budget constraints 21.1%', 'Price too high 18.46%', 'Better alternative 14.07%', 'Lack of urgency 13.41%'],
-                datasets: [{
-                    data: [32.97, 21.1, 18.46, 14.07, 13.41],
-                    backgroundColor: ['#0284c7', '#38bdf8', '#6366f1', '#64748b', '#f43f5e'],
-                    borderWidth: 3,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: { legend: { display: false } }
-            }
-        });
-    });
-</script>
 @endsection

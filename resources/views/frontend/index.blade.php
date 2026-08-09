@@ -83,11 +83,11 @@
         @foreach($categories as $cat)
             <div class="col-md-6">
                 <a href="{{ route('products.index', ['category_id' => $cat->id]) }}" class="text-decoration-none">
-                    <div class="ecofarm-card p-4 h-100 border-start border-4 border-success">
+                    <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 transition-all border-start border-4 border-success hover-shadow">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
                                 <div class="bg-light p-3 rounded-3 text-success me-3">
-                                    <i class="fa-solid @if(str_contains(strtolower($cat->name), 'sâu') || str_contains(strtolower($cat->name), 'bệnh')) fa-flask-vial @else fa-mound @endif fs-4"></i>
+                                    <i class="fa-solid @if($cat->id == 1) fa-flask-vial @else fa-mound @endif fs-4"></i>
                                 </div>
                                 <div>
                                     <h5 class="fw-bold text-dark mb-1">{{ $cat->name }}</h5>
@@ -109,18 +109,18 @@
             <div class="p-2 bg-success-subtle text-success rounded-3 me-3"><i class="fa-solid fa-star fs-5"></i></div>
             <h4 class="fw-bold text-dark mb-0">Sản phẩm vật tư nổi bật đầu vụ</h4>
         </div>
-        <a href="{{ route('products.index') }}" class="btn btn-ecofarm-outline py-2">
+        <a href="{{ route('products.index') }}" class="btn btn-outline-success btn-sm fw-bold px-3 py-2 rounded-3">
             Xem tất cả hàng hóa <i class="fa-solid fa-arrow-right ms-1"></i>
         </a>
     </div>
 
     @if(isset($featuredProducts) && $featuredProducts->count() > 0)
-        <div class="row g-3">
+        <div class="row g-4">
             @foreach($featuredProducts as $prod)
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="ecofarm-product-card">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white d-flex flex-column justify-content-between product-card transition-all">
                         
-                        <div class="ecofarm-product-image-wrapper">
+                        <div class="position-relative p-3 bg-light text-center d-flex align-items-center justify-content-center" style="height: 200px; overflow: hidden;">
                             @php
                                 $imgArray = is_array($prod->images) ? $prod->images : [];
                                 $firstImg = count($imgArray) > 0 ? $imgArray[0] : null;
@@ -128,43 +128,37 @@
                             @endphp
                             
                             @if($loop->iteration <= 2)
-                                <span class="position-absolute ecofarm-badge ecofarm-badge-warning" style="top: 8px; right: 8px; font-size: 10px; z-index: 10;">
-                                    <i class="fa-solid fa-fire text-warning"></i>Bán chạy
+                                <span class="position-absolute badge text-white text-xs px-2.5 py-1 rounded-pill" style="top: 8px; right: 8px; font-size: 9px; background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%) !important; border: 1px solid rgba(255,255,255,0.3); z-index: 10;">
+                                    <i class="fa-solid fa-fire me-1 text-warning"></i>Bán chạy
                                 </span>
                             @endif
                             
                             @if($imgUrl)
-                                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div style="display: none; height: 100%; width: 100%; align-items: center; justify-content: center; background: #f8fafc;">
-                                    <i class="fa-solid fa-prescription-bottle-medical text-success opacity-50" style="font-size: 50px;"></i>
+                                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" class="img-fluid product-img" style="max-height: 160px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div style="display: none;">
+                                    <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 60px;"></i>
                                 </div>
                             @else
-                                <div style="display: flex; height: 100%; width: 100%; align-items: center; justify-content: center; background: #f8fafc;">
-                                    <i class="fa-solid fa-prescription-bottle-medical text-success opacity-50" style="font-size: 50px;"></i>
-                                </div>
+                                <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 60px;"></i>
                             @endif
                         </div>
 
-                        <div class="ecofarm-product-body">
-                            <span class="ecofarm-badge ecofarm-badge-info mb-1.5" style="font-size: 10px; padding: 2px 8px;">
-                                {{ $prod->category->name ?? 'Vật tư EcoFarm' }}
-                            </span>
-                            
-                            <h6 class="ecofarm-product-title">{{ $prod->name }}</h6>
-                            
-                            <p class="text-xs text-muted mb-2" style="font-size: 11.5px;">
-                                <i class="fa-solid fa-box text-success me-1"></i>Quy cách: {{ $prod->packaging }}
-                            </p>
+                        <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
+                            <div>
+                                <span class="text-muted text-xs d-block mb-1">{{ $prod->category->name ?? 'Vật tư EcoFarm' }}</span>
+                                <h6 class="fw-bold text-dark mb-2 text-truncate-2" style="min-height: 44px; line-height: 1.4;">{{ $prod->name }}</h6>
+                                <p class="text-xs text-muted mb-3"><i class="fa-solid fa-box me-1"></i>Quy cách: {{ $prod->packaging }}</p>
+                            </div>
 
-                            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-auto">
-                                <div>
-                                    <span class="ecofarm-product-price d-block p-0">
-                                        {{ number_format($prod->price, 0, ',', '.') }}đ
-                                    </span>
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                    <div>
+                                        <span class="text-success fw-bold fs-6">{{ number_format($prod->price, 0, ',', '.') }}đ</span>
+                                    </div>
+                                    <a href="{{ route('products.show', $prod->slug) }}" class="btn btn-success btn-sm px-2.5 py-1.5 rounded-3 fw-bold text-xs shadow-xs" style="background-color: #2e7d32; border: none;">
+                                        Xem chi tiết <i class="fa-solid fa-angle-right ms-0.5"></i>
+                                    </a>
                                 </div>
-                                <a href="{{ route('products.show', $prod->slug) }}" class="btn btn-ecofarm-primary py-1.5 px-3">
-                                    Chi tiết <i class="fa-solid fa-arrow-right ms-1"></i>
-                                </a>
                             </div>
                         </div>
 
@@ -173,7 +167,7 @@
             @endforeach
         </div>
     @else
-        <div class="ecofarm-card p-4 text-center text-muted">
+        <div class="alert alert-info border-0 rounded-3 shadow-sm p-4 text-center small text-muted">
             <i class="fa-solid fa-folder-open d-block fs-3 mb-2 opacity-50"></i> Hệ thống hiện tại đang cập nhật kho hàng hóa mới!
         </div>
     @endif

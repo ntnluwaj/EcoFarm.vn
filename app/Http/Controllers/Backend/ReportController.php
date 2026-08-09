@@ -62,12 +62,6 @@ class ReportController extends Controller
 
         $avgOrderValue = $completedOrdersCount > 0 ? ($revenue / $completedOrdersCount) : 0;
 
-        $customerCount = \App\Models\User::where('role', 'customer')->count();
-        $pendingCodAmount = Order::where('payment_method', 'COD')
-            ->where('status', 'completed')
-            ->where('cod_reconciled', false)
-            ->sum('total_amount');
-
         // 3. Phân cơ cấu doanh thu (Bản chỉ bán lẻ B2C)
         $b2bRevenue = 0;
         $b2cRevenue = $revenue;
@@ -108,8 +102,6 @@ class ReportController extends Controller
             'shippingOrdersCount',
             'cancelledOrdersCount',
             'avgOrderValue',
-            'customerCount',
-            'pendingCodAmount',
             'b2bRevenue',
             'b2cRevenue',
             'paymentMethodStats',

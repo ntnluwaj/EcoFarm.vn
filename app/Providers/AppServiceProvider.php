@@ -20,9 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Tự động ép buộc sử dụng giao thức HTTPS khi chạy trên môi trường Cloud (Render)
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
-        } elseif (request() && !str_contains(request()->getHost(), 'localhost') && !str_contains(request()->getHost(), '127.0.0.1')) {
+        if (request() && !str_contains(request()->getHost(), 'localhost') && !str_contains(request()->getHost(), '127.0.0.1')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }

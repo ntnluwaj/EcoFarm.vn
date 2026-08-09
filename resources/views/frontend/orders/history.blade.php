@@ -1,148 +1,96 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Lịch sử đặt hàng vật tư cá nhân')
+@section('title', 'Lịch sử đặt hàng vật tư')
 
 @section('content')
 <div class="container py-5" style="min-height: 80vh;">
-    <!-- Page Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
-        <div class="d-flex align-items-center">
-            <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
-                <i class="fa-solid fa-clock-rotate-left fs-4"></i>
-            </div>
-            <div>
-                <h3 class="fw-bold text-dark mb-1">Lịch sử đặt hàng vật tư cá nhân</h3>
-                <p class="text-muted small mb-0">Theo dõi danh sách hóa đơn, trạng thái thanh toán và hành trình giao nhận vật tư của bạn.</p>
-            </div>
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+        <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
+            <i class="fa-solid fa-clock-rotate-left fs-4"></i>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <span class="badge badge-status-green font-semibold">
-                <span class="status-dot-pulse dot-green"></span>Tổng cộng {{ $orders->count() }} đơn hàng
-            </span>
+        <div>
+            <h3 class="fw-bold text-dark mb-1">Lịch sử đặt hàng vật tư cá nhân</h3>
+            <p class="text-muted small mb-0">Theo dõi danh sách hóa đơn và trục đồ họa tiến độ giao nhận vật tư của bạn.</p>
         </div>
     </div>
 
     @if($orders->count() > 0)
-        <!-- 🌟 CRM TABLE CARD WRAPPER MATCHING SCREENSHOT DESIGN -->
-        <div class="crm-table-card-wrapper">
-            <!-- Filter Bar above table (Search + Pill filters matching screenshot 1) -->
-            <div class="crm-table-filter-bar">
-                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
-                    <div class="position-relative flex-grow-1">
-                        <i class="fa-solid fa-magnifying-glass crm-search-icon-inside"></i>
-                        <input type="text" id="orderSearchInput" class="crm-table-search-input" placeholder="Tìm theo mã đơn ECF..., địa chỉ giao hàng, SĐT...">
-                    </div>
-                </div>
-
-                <!-- Quick Filter Pills -->
-                <div class="crm-filter-pill-group">
-                    <button type="button" class="crm-filter-pill active" onclick="filterTable('all')">Tất cả <span class="pill-count">{{ $orders->count() }}</span></button>
-                    <button type="button" class="crm-filter-pill" onclick="filterTable('paid')">Đã thanh toán <span class="pill-count">{{ $orders->where('payment_status', 'paid')->count() }}</span></button>
-                    <button type="button" class="crm-filter-pill" onclick="filterTable('unpaid')">Chưa thanh toán <span class="pill-count">{{ $orders->where('payment_status', '!=', 'paid')->count() }}</span></button>
-                    <button type="button" class="crm-filter-pill" onclick="filterTable('shipping')">Đang giao hàng <span class="pill-count">{{ $orders->where('status', 'shipping')->count() }}</span></button>
-                    <button type="button" class="crm-filter-pill" onclick="filterTable('completed')">Đã hoàn thành <span class="pill-count">{{ $orders->where('status', 'completed')->count() }}</span></button>
-                </div>
-            </div>
-
-            <!-- Table -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
             <div class="table-responsive">
-                <table class="table crm-data-table align-middle mb-0" id="ordersDataTable">
-                    <thead>
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-secondary small text-uppercase" style="border-bottom: 2px solid #eef2f3; font-size: 12px;">
                         <tr>
-                            <th class="ps-4 py-3" style="width: 40px;"><input class="form-check-input" type="checkbox"></th>
-                            <th class="py-3" style="width: 22%;">MÃ ĐƠN & KHÁCH HÀNG</th>
-                            <th class="py-3" style="width: 16%;">MỨC ƯU TIÊN</th>
-                            <th class="py-3 text-center" style="width: 16%;">THANH TOÁN</th>
-                            <th class="py-3 text-center" style="width: 16%;">VẬN ĐƠN</th>
-                            <th class="py-3 text-center" style="width: 15%;">NGÀY ĐẶT</th>
-                            <th class="py-3 text-end" style="width: 15%;">TỔNG TIỀN</th>
-                            <th class="pe-4 py-3 text-center" style="width: 10%;">THAO TÁC</th>
+                            <th class="fw-bold text-center py-3" style="width: 12%;">Mã đơn</th>
+                            <th class="fw-bold py-3" style="width: 22%;">Thời gian đặt đơn</th>
+                            <th class="fw-bold text-end py-3" style="width: 18%;">Tổng tiền</th>
+                            <th class="fw-bold text-center py-3" style="width: 16%;">Thanh toán</th>
+                            <th class="fw-bold text-center py-3" style="width: 16%;">Trạng thái vận đơn</th>
+                            <th class="fw-bold text-center py-3" style="width: 16%;">Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-dark small">
                         @foreach($orders as $order)
-                            <tr class="order-row-item" data-status="{{ $order->status }}" data-payment="{{ $order->payment_status }}">
-                                <!-- Checkbox -->
-                                <td class="ps-4"><input class="form-check-input" type="checkbox"></td>
-
-                                <!-- Mã đơn & Khách hàng -->
-                                <td>
-                                    <span class="crm-cell-title text-success">ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</span>
-                                    <span class="crm-cell-subtext"><i class="fa-solid fa-user me-1 text-muted"></i>{{ $order->customer_name }} &bull; {{ $order->customer_phone }}</span>
+                            <tr style="border-bottom: 1px solid #f1f4f5;">
+                                <td class="text-center py-3">
+                                    <span class="badge bg-danger-subtle text-danger fw-bold px-2.5 py-1.5 rounded-3" style="font-size: 12px;">
+                                        ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
+                                    </span>
                                 </td>
-
-                                <!-- Mức ưu tiên (Flame badges matching screenshots) -->
-                                <td>
-                                    @if($order->status === 'shipping')
-                                        <span class="badge-flame-orange"><i class="fa-solid fa-fire"></i>🔥 5 Cháy Rực</span>
-                                    @elseif($order->status === 'processing')
-                                        <span class="badge-flame-yellow"><i class="fa-solid fa-fire"></i>🔥 3 Bén Lửa</span>
-                                    @elseif($order->status === 'pending')
-                                        <span class="badge-flame-red"><i class="fa-solid fa-fire"></i>🔥 Khẩn cấp</span>
-                                    @elseif($order->status === 'completed')
-                                        <span class="badge-tag-blue"><i class="fa-solid fa-check me-1"></i>Đã xong</span>
-                                    @else
-                                        <span class="badge-tag-gray">🔥 Tắt Ngấm</span>
-                                    @endif
+                                
+                                <td class="text-secondary py-3">
+                                    <i class="fa-regular fa-calendar me-1.5 opacity-75"></i>{{ $order->created_at->format('H:i - d/m/Y') }}
                                 </td>
-
-                                <!-- Thanh toán -->
-                                <td class="text-center">
-                                    @if($order->payment_status === 'paid')
-                                        <span class="badge-status-green">
-                                            <span class="status-dot-pulse dot-green"></span>Đã trả tiền ({{ strtoupper($order->payment_method) }})
-                                        </span>
-                                    @else
-                                        <span class="badge-flame-yellow">
-                                            <span class="status-dot-pulse dot-yellow"></span>Chưa thanh toán
-                                        </span>
-                                    @endif
-                                </td>
-
-                                <!-- Trạng thái vận đơn -->
-                                <td class="text-center">
-                                    @if($order->status === 'pending')
-                                        <span class="badge-tag-gray"><span class="status-dot-pulse dot-yellow"></span>Chờ xác nhận</span>
-                                    @elseif($order->status === 'processing')
-                                        <span class="badge-tag-blue"><span class="status-dot-pulse dot-blue"></span>Đang bốc xếp</span>
-                                    @elseif($order->status === 'shipping')
-                                        <span class="badge-flame-orange"><span class="status-dot-pulse dot-blue"></span>Xe đang giao</span>
-                                    @elseif($order->status === 'completed')
-                                        <span class="badge-status-green"><span class="status-dot-pulse dot-green"></span>Đã nhận hàng</span>
-                                    @else
-                                        <span class="badge-flame-red"><span class="status-dot-pulse dot-red"></span>Đã hủy đơn</span>
-                                    @endif
-                                </td>
-
-                                <!-- Ngày đặt -->
-                                <td class="text-center text-secondary text-xs">
-                                    {{ $order->created_at->format('H:i d/m/Y') }}
-                                </td>
-
-                                <!-- Tổng tiền -->
-                                <td class="text-end fw-bold text-success fs-6">
+                                
+                                <td class="text-end fw-bold text-success py-3 fs-6">
                                     {{ number_format($order->total_amount, 0, ',', '.') }}đ
                                 </td>
-
-                                <!-- Action Buttons -->
-                                <td class="pe-4 text-center">
+                                
+                                <td class="text-center py-3">
+                                    @if($order->payment_status === 'paid')
+                                        <span class="badge bg-success-subtle text-success fw-semibold px-2.5 py-1.5 rounded-pill border border-success-subtle" style="font-size: 11px;">
+                                            <i class="fa-solid fa-circle-check me-1"></i>Đã trả tiền
+                                        </span>
+                                    @else
+                                        <span class="badge bg-warning-subtle text-warning-emphasis fw-semibold px-2.5 py-1.5 rounded-pill border border-warning-subtle" style="font-size: 11px;">
+                                            <i class="fa-solid fa-clock me-1"></i>Chưa thanh toán
+                                        </span>
+                                    @endif
+                                </td>
+                                
+                                <td class="text-center py-3">
+                                    @if($order->status === 'pending')
+                                        <span class="badge bg-light text-dark border fw-medium px-2.5 py-1.5 rounded-3" style="font-size: 11px;">Chờ xác nhận</span>
+                                    @elseif($order->status === 'processing')
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-medium px-2.5 py-1.5 rounded-3" style="font-size: 11px;">Đang bốc xếp</span>
+                                    @elseif($order->status === 'shipping')
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle fw-medium px-2.5 py-1.5 rounded-3" style="font-size: 11px;">Xe đang vận chuyển</span>
+                                    @elseif($order->status === 'completed')
+                                        <span class="badge bg-success text-white fw-medium px-2.5 py-1.5 rounded-3" style="font-size: 11px;">Đã nhận hàng</span>
+                                    @else
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle fw-medium px-2.5 py-1.5 rounded-3" style="font-size: 11px;">Đã hủy đơn</span>
+                                    @endif
+                                </td>
+                                
+                                <td class="text-center py-3">
                                     <div class="dropdown">
-                                        <button class="btn btn-light btn-sm rounded-circle border p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 32px; height: 32px;">
-                                            <i class="fa-solid fa-ellipsis-vertical text-secondary"></i>
+                                        <button class="btn btn-outline-success btn-sm dropdown-toggle fw-bold px-3 py-1.5 rounded-3 d-inline-flex align-items-center justify-content-center gap-1.5" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 12px; height: 34px;">
+                                            <i class="fa-solid fa-gears"></i> Thao tác
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-1 py-1" style="font-size: 13px; z-index: 1050;">
                                             <li>
                                                 <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" href="{{ route('orders.track', ['order_id' => $order->id, 'phone' => $order->customer_phone]) }}">
-                                                    <i class="fa-solid fa-route text-warning" style="width: 16px;"></i> Xem hành trình
+                                                    <i class="fa-solid fa-route text-warning" style="width: 16px;"></i> Xem tiến độ
                                                 </a>
                                             </li>
                                             @if($order->status === 'pending')
                                                 <li>
                                                     <button type="button" class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#editOrderModal{{ $order->id }}">
-                                                        <i class="fa-solid fa-pen-to-square text-primary" style="width: 16px;"></i> Sửa thông tin
+                                                        <i class="fa-solid fa-pen-to-square text-primary" style="width: 16px;"></i> Thay đổi thông tin
                                                     </button>
                                                 </li>
-                                                <li><hr class="dropdown-divider my-1"></li>
+                                                <li>
+                                                    <hr class="dropdown-divider my-1">
+                                                </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item py-2 px-3 d-flex align-items-center gap-2 text-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal{{ $order->id }}">
                                                         <i class="fa-solid fa-circle-xmark text-danger" style="width: 16px;"></i> Hủy đơn hàng
@@ -153,31 +101,40 @@
                                     </div>
 
                                     @if($order->status === 'pending')
-                                        <!-- Modal Sửa thông tin -->
+                                        <!-- Modal Thay đổi thông tin đơn hàng -->
                                         <div class="modal fade text-start" id="editOrderModal{{ $order->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content border-0 shadow-lg rounded-4">
-                                                    <div class="modal-header border-bottom bg-light py-3">
-                                                        <h6 class="modal-title fw-bold m-0 text-success"><i class="fa-solid fa-pen-to-square me-2"></i>Thay đổi thông tin ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
+                                                    <div class="modal-header border-bottom border-light-subtle bg-light rounded-t-4 py-3">
+                                                        <h6 class="modal-title fw-bold m-0 text-success"><i class="fa-solid fa-pen-to-square me-2"></i>Thay đổi thông tin đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <form action="{{ route('orders.updateInfo', $order->id) }}" method="POST">
                                                         @csrf
                                                         <div class="modal-body py-3">
+                                                            <p class="small text-secondary mb-3">Quý khách có thể thay đổi địa chỉ giao hàng hoặc phương thức thanh toán khi đơn hàng đang ở trạng thái <strong>Chờ xác nhận</strong>.</p>
+                                                            
+                                                            <!-- Địa chỉ giao hàng -->
                                                             <div class="mb-3">
                                                                 <label class="form-label small fw-bold text-dark">Địa chỉ giao hàng mới <span class="text-danger">*</span></label>
                                                                 <input type="text" name="shipping_address" class="form-control rounded-3 text-xs" value="{{ $order->shipping_address }}" required style="font-size: 13px;">
                                                             </div>
+
+                                                            <!-- Phương thức thanh toán -->
                                                             <div class="mb-3">
                                                                 <label class="form-label small fw-bold text-dark mb-2">Phương thức thanh toán <span class="text-danger">*</span></label>
                                                                 <div class="d-flex flex-column gap-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio" name="payment_method" id="pay_cod_{{ $order->id }}" value="cod" {{ strtolower($order->payment_method) === 'cod' ? 'checked' : '' }}>
-                                                                        <label class="form-check-label text-dark text-xs" for="pay_cod_{{ $order->id }}">💵 Trả tiền mặt khi giao hàng (COD)</label>
+                                                                        <label class="form-check-label text-dark text-xs" for="pay_cod_{{ $order->id }}">
+                                                                            💵 Trả tiền mặt khi giao hàng (COD)
+                                                                        </label>
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio" name="payment_method" id="pay_vietqr_{{ $order->id }}" value="vietqr" {{ strtolower($order->payment_method) === 'vietqr' ? 'checked' : '' }}>
-                                                                        <label class="form-check-label text-dark text-xs" for="pay_vietqr_{{ $order->id }}">🏦 Chuyển khoản ngân hàng (VietQR)</label>
+                                                                        <label class="form-check-label text-dark text-xs" for="pay_vietqr_{{ $order->id }}">
+                                                                            🏦 Chuyển khoản ngân hàng nhanh (VietQR)
+                                                                        </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -191,19 +148,22 @@
                                             </div>
                                         </div>
 
-                                        <!-- Modal Hủy đơn -->
+                                        <!-- Modal Hủy đơn hàng -->
                                         <div class="modal fade text-start" id="cancelOrderModal{{ $order->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content border-0 shadow-lg rounded-4">
-                                                    <div class="modal-header border-bottom bg-light py-3">
-                                                        <h6 class="modal-title fw-bold m-0 text-danger"><i class="fa-solid fa-ban me-2"></i>Hủy đơn ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
+                                                    <div class="modal-header border-bottom border-light-subtle bg-light rounded-t-4 py-3">
+                                                        <h6 class="modal-title fw-bold m-0"><i class="fa-solid fa-ban me-2"></i>Xác nhận hủy đơn hàng ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
                                                         @csrf
                                                         <div class="modal-body py-3">
-                                                            <label class="form-label small fw-bold text-dark">Lý do hủy đơn hàng <span class="text-danger">*</span></label>
-                                                            <textarea name="cancel_reason" rows="3" class="form-control rounded-3 text-xs" placeholder="Nhập lý do hủy..." required style="font-size: 12px; resize: none;"></textarea>
+                                                            <p class="small text-secondary mb-3">Bạn có chắc chắn muốn hủy đơn hàng này? Vui lòng điền lý do hủy đơn bên dưới:</p>
+                                                            <div class="mb-3">
+                                                                <label class="form-label small fw-bold text-dark">Lý do hủy đơn hàng <span class="text-danger">*</span></label>
+                                                                <textarea name="cancel_reason" rows="3" class="form-control rounded-3 text-xs" placeholder="Ví dụ: Thay đổi địa điểm nhận hàng, muốn chọn sản phẩm khác, đặt trùng đơn..." required style="font-size: 12px; resize: none;"></textarea>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer bg-light py-2">
                                                             <button type="button" class="btn btn-light btn-sm fw-semibold rounded-3 text-xs" data-bs-dismiss="modal">Đóng</button>
@@ -235,45 +195,19 @@
     @endif
 </div>
 
-<script>
-    // Live Search Filter
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('orderSearchInput');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const q = this.value.toLowerCase();
-                const rows = document.querySelectorAll('.order-row-item');
-                rows.forEach(r => {
-                    r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
-                });
-            });
-        }
-    });
-
-    // Quick Pill Filter Function
-    function filterTable(filter) {
-        // Toggle Active Pill Button Style
-        const buttons = document.querySelectorAll('.crm-filter-pill');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-
-        const rows = document.querySelectorAll('.order-row-item');
-        rows.forEach(row => {
-            const status = row.getAttribute('data-status');
-            const payment = row.getAttribute('data-payment');
-            
-            if (filter === 'all') {
-                row.style.display = '';
-            } else if (filter === 'paid') {
-                row.style.display = payment === 'paid' ? '' : 'none';
-            } else if (filter === 'unpaid') {
-                row.style.display = payment !== 'paid' ? '' : 'none';
-            } else if (filter === 'shipping') {
-                row.style.display = status === 'shipping' ? '' : 'none';
-            } else if (filter === 'completed') {
-                row.style.display = status === 'completed' ? '' : 'none';
-            }
-        });
+<style>
+    /* 🌟 ĐÃ VÁ LỖI: Sửa bộ chọn .table hover thành .table-hover */
+    .table-hover tbody tr {
+        transition: background-color 0.2s ease;
     }
-</script>
+    .transition-all {
+        transition: all 0.2s ease-in-out;
+    }
+    /* Nút xem tiến độ đổi màu mượt khi di chuột */
+    .btn:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+    }
+    .text-xs { font-size: 13px !important; }
+</style>
 @endsection

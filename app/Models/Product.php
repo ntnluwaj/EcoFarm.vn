@@ -74,9 +74,6 @@ class Product extends Model
         }
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            if (str_starts_with($path, 'http://')) {
-                return 'https://' . substr($path, 7);
-            }
             return $path;
         }
 
@@ -85,14 +82,7 @@ class Product extends Model
             $cleanPath = substr($cleanPath, 8);
         }
 
-        $url = asset('storage/' . $cleanPath);
-
-        // Ép buộc giao thức HTTPS trên môi trường Cloud/Render tránh lỗi Mixed Content
-        if (str_starts_with($url, 'http://') && !str_contains($url, 'localhost') && !str_contains($url, '127.0.0.1')) {
-            $url = 'https://' . substr($url, 7);
-        }
-
-        return $url;
+        return asset('storage/' . $cleanPath);
     }
 
     /**

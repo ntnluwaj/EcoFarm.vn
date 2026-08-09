@@ -101,184 +101,78 @@ public function panel(Panel $panel): Panel
                         box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
                     }
 
-                    /* 🌟 DARK SLEEK SIDEBAR STYLE (MATCHING USER SCREENSHOTS) */
+                    /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
                     .fi-sidebar {
-                        background-color: #111827 !important;
-                        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+                        background-color: #ffffff !important;
+                        border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
                     }
                     .fi-sidebar-header {
-                        background-color: #111827 !important;
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-                    }
-                    .fi-sidebar-group,
-                    .fi-sidebar-nav-group {
-                        border: none !important;
-                        box-shadow: none !important;
-                        outline: none !important;
-                        background: transparent !important;
-                    }
-                    .fi-sidebar-nav-group-label,
-                    .fi-sidebar-group-label,
-                    .fi-sidebar-header * {
-                        color: #9ca3af !important;
-                    }
-                    .fi-sidebar-group-label {
-                        color: #6b7280 !important;
-                        font-size: 10.5px !important;
-                        font-weight: 700 !important;
-                        letter-spacing: 0.8px !important;
-                        text-transform: uppercase !important;
-                    }
-                    .fi-sidebar-item-button {
-                        color: #9ca3af !important;
-                        border-radius: 0.5rem !important;
-                        border: 1px solid transparent !important;
-                        transition: all 0.15s ease-in-out !important;
-                    }
-                    .fi-sidebar-item-button:hover {
-                        color: #ffffff !important;
-                        background-color: rgba(255, 255, 255, 0.05) !important;
+                        background-color: #ffffff !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
                     }
 
-                    /* 🌟 ACTIVE NAVIGATION BUTTON (STRICTLY APPLIED TO INNER ITEM BUTTON ONLY) */
-                    a.fi-sidebar-item-button.fi-active,
-                    a.fi-sidebar-item-button[aria-current="page"],
-                    li.fi-sidebar-item-active > a.fi-sidebar-item-button {
-                        background-color: #1f2937 !important;
-                        color: #ffffff !important;
-                        border: 1.5px solid #f97316 !important;
-                        box-shadow: 0 0 10px rgba(249, 115, 22, 0.25) !important;
+                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (SOFT GREEN + LEFT BORDER) */
+                    .fi-sidebar-item-button.fi-active,
+                    .fi-sidebar-item-button[data-active="1"],
+                    .fi-active,
+                    [data-active="1"],
+                    .fi-sidebar-item-active > a,
+                    .fi-sidebar-item-active > div {
+                        background-color: rgba(16, 185, 129, 0.08) !important;
+                        color: #047857 !important;
+                        border-left: 4px solid #10b981 !important;
+                        border-radius: 0 0.5rem 0.5rem 0 !important;
                         font-weight: 600 !important;
+                        box-shadow: none !important;
+                    }
+
+                    /* Keep icons green in active items */
+                    .fi-sidebar-item-button.fi-active svg,
+                    .fi-active svg,
+                    .fi-sidebar-item-active svg {
+                        color: #10b981 !important;
+                    }
+
+                    /* Inactive items hover styling */
+                    .fi-sidebar-item-button:not(.fi-active):hover {
+                        background-color: rgba(0, 0, 0, 0.02) !important;
                         border-radius: 0.5rem !important;
                     }
 
-                    a.fi-sidebar-item-button.fi-active svg,
-                    a.fi-sidebar-item-button[aria-current="page"] svg,
-                    li.fi-sidebar-item-active > a.fi-sidebar-item-button svg {
-                        color: #f97316 !important;
-                    }
-
-                    /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
-                    .fi-topbar {
-                        background-color: #ffffff !important;
-                        border-bottom: 1px solid #e5e7eb !important;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
-                    }
-
-                    /* 🌟 MODERN SEARCH BAR STYLE */
-                    .fi-global-search input,
-                    .fi-global-search-input input {
-                        border-radius: 0.5rem !important;
-                        background-color: #f9fafb !important;
-                        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-                        transition: all 0.2s ease-in-out !important;
-                        font-size: 13px !important;
-                    }
-                    .fi-global-search input:focus,
-                    .fi-global-search-input input:focus {
-                        background-color: #ffffff !important;
-                        border-color: #f97316 !important;
-                        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15) !important;
-                    }
-
-                    /* 🌟 STATS OVERVIEW CARDS (MODERN DASHBOARD CRM STYLE) */
+                    /* 🌟 STATS OVERVIEW CARDS */
                     .fi-wi-stats-overview-stat {
-                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                        border: 1px solid #e2e8f0 !important;
-                        border-radius: 1rem !important;
+                        transition: all 0.2s ease-in-out !important;
+                        border: 1px solid rgba(0, 0, 0, 0.04) !important;
+                        border-radius: 0.75rem !important;
                         background: #ffffff !important;
-                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
-                        padding: 18px 20px !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
                     }
                     .fi-wi-stats-overview-stat:hover {
-                        transform: translateY(-3px) !important;
-                        border-color: #10b981 !important;
-                        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1) !important;
-                    }
-                    .fi-wi-widget {
-                        border-radius: 1rem !important;
-                    }
-                    .fi-wi-widget > div,
-                    .fi-wi-widget > section {
-                        border-radius: 1rem !important;
-                        border: 1px solid #e2e8f0 !important;
-                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
-                        background-color: #ffffff !important;
-                        overflow: hidden !important;
+                        transform: translateY(-2px) !important;
+                        border-color: rgba(16, 185, 129, 0.2) !important;
+                        box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.08) !important;
                     }
 
-                    /* 🌟 TABLE HOVER EFFECTS & COMPACT RESPONSIVE CELL PADDING FOR PERFECT FIT */
+                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
                     .fi-ta-ctn {
-                        border: 1px solid #e5e7eb !important;
-                        border-radius: 1rem !important;
-                        overflow-x: auto !important;
-                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
-                        background-color: #ffffff !important;
-                    }
-                    .fi-ta-table {
-                        table-layout: auto !important;
-                        width: 100% !important;
-                    }
-                    .fi-ta-cell,
-                    .fi-ta-header-cell {
-                        padding-top: 10px !important;
-                        padding-bottom: 10px !important;
-                        padding-left: 10px !important;
-                        padding-right: 10px !important;
+                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        border-radius: 0.75rem !important;
+                        overflow: hidden !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
                     }
                     .fi-ta-header-cell {
-                        background-color: #f8fafc !important;
-                        border-bottom: 1px solid #e2e8f0 !important;
-                        font-size: 11px !important;
-                        font-weight: 700 !important;
-                        text-transform: uppercase !important;
-                        letter-spacing: 0.5px !important;
-                        color: #475569 !important;
-                    }
-                    .fi-ta-row {
-                        transition: all 0.15s ease-in-out !important;
+                        background-color: #fafafa !important;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: #f8fafc !important;
-                    }
-                    /* 🌟 QUICK FILTER PILLS TABS STYLING (MATCHING SCREENSHOT 2 EXACTLY) */
-                    .fi-tabs {
-                        border-bottom: none !important;
-                        margin-bottom: 1rem !important;
-                        gap: 0.5rem !important;
-                    }
-                    .fi-tabs-item {
-                        border-radius: 9999px !important;
-                        padding: 6px 16px !important;
-                        font-size: 12.5px !important;
-                        font-weight: 600 !important;
-                        border: 1px solid #e2e8f0 !important;
-                        background-color: #ffffff !important;
-                        color: #475569 !important;
-                        transition: all 0.15s ease-in-out !important;
-                    }
-                    .fi-tabs-item:hover {
-                        background-color: #f8fafc !important;
-                    }
-                    .fi-tabs-item[aria-selected="true"],
-                    .fi-tabs-item.fi-active,
-                    .fi-tabs-item[data-active="1"] {
-                        background-color: #111827 !important;
-                        color: #ffffff !important;
-                        border-color: #111827 !important;
-                        box-shadow: 0 2px 8px rgba(17, 24, 39, 0.2) !important;
-                    }
-                    .fi-tabs-item-badge {
-                        border-radius: 9999px !important;
-                        font-size: 11px !important;
-                        font-weight: 700 !important;
+                        background-color: #fdfdfd !important;
                     }
 
                     /* 🌟 CHARTS CARD STYLING */
                     .fi-wi-widget > .fi-section {
-                        border: 1px solid #e5e7eb !important;
-                        border-radius: 0.85rem !important;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        border-radius: 0.75rem !important;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
                     }
                 </style>'
             )

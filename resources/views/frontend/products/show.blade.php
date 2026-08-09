@@ -19,9 +19,10 @@
 
     <div class="row g-4 mb-5">
         <div class="col-md-5">
-            <div class="ecofarm-card p-4 d-flex flex-column justify-content-center" style="min-height: 420px; height: 100%;">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-column justify-content-center" style="min-height: 420px; height: 100%;">
                 
                 @php
+                    // Do đã cast array trong Model nên $product->images đã là mảng PHP thuần
                     $gallery = is_array($product->images) ? $product->images : [];
                 @endphp
 
@@ -38,7 +39,7 @@
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }} text-center p-4">
                                     <img src="{{ \App\Models\Product::formatImageUrl($img) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                     <div style="display: none; padding: 20px;">
-                                        <i class="fa-solid fa-prescription-bottle-medical text-success opacity-50 mb-3" style="font-size: 80px;"></i>
+                                        <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
                                         <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
                                     </div>
                                 </div>
@@ -47,7 +48,7 @@
 
                         <button class="carousel-control-prev" type="button" data-bs-target="#productImagesCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
+                        </</button>
                         <button class="carousel-control-next" type="button" data-bs-target="#productImagesCarousel" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         </button>
@@ -56,13 +57,13 @@
                     <div class="text-center p-4">
                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded-3" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div style="display: none; padding: 20px;">
-                            <i class="fa-solid fa-prescription-bottle-medical text-success opacity-50 mb-3" style="font-size: 80px;"></i>
+                            <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
                             <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
                         </div>
                     </div>
                 @else
                     <div class="text-center text-muted p-4">
-                        <i class="fa-solid fa-prescription-bottle-medical text-success opacity-50 mb-3" style="font-size: 80px;"></i>
+                        <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
                         <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
                     </div>
                 @endif
@@ -71,24 +72,24 @@
         </div>
 
         <div class="col-md-7">
-            <div class="ecofarm-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 d-flex flex-column justify-content-between">
                 <div>
-                    <span class="ecofarm-badge ecofarm-badge-success mb-2">
-                        <span class="ecofarm-dot ecofarm-dot-green"></span>{{ $product->category->name ?? 'Vật tư nông nghiệp EcoFarm' }}
+                    <span class="badge bg-success mb-2 px-2.5 py-1.5 text-uppercase fw-semibold" style="font-size: 11px;">
+                        {{ $product->category->name ?? 'Vật tư nông nghiệp EcoFarm' }}
                     </span>
                     <h2 class="fw-bold text-dark mb-1 fs-3">{{ $product->name }}</h2>
-                    <p class="small text-muted mb-4">Nhà sản xuất: <span class="text-success fw-bold">{{ $product->brand->name ?? 'Chính hãng cung ứng' }}</span></p>
+                    <p class="small text-muted mb-4">Nhà sản xuất: <span class="text-success fw-semibold">{{ $product->brand->name ?? 'Chính hãng cung ứng' }}</span></p>
 
-                    <div class="bg-light border-0 p-4 rounded-4 mb-4">
-                        <span class="text-muted small d-block mb-1 font-semibold">
+                    <div class="card bg-light border-0 p-4 rounded-3 mb-4">
+                        <span class="text-muted small d-block mb-1 fw-medium">
                             <i class="fa-solid fa-tags me-1 text-success"></i> Giá bán lẻ niêm yết công khai:
                         </span>
-                        <span id="display-price" class="text-success fw-extrabold fs-2">{{ number_format($product->price, 0, ',', '.') }} VND</span>
+                        <span id="display-price" class="text-success fw-bold fs-2">{{ number_format($product->price, 0, ',', '.') }} VND</span>
                     </div>
 
                     <div class="row g-3 mb-4 small text-dark">
                         <div class="col-6">
-                            <div class="p-3 bg-light rounded-3 d-flex align-items-center">
+                            <div class="p-2.5 bg-light rounded-3 d-flex align-items-center">
                                 <i class="fa-solid fa-scale-balanced text-success fs-5 me-3" style="width: 24px;"></i>
                                 <div>
                                     <span class="text-muted d-block text-xs">Đơn vị cơ sở</span>
@@ -97,7 +98,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="p-3 bg-light rounded-3 d-flex align-items-center">
+                            <div class="p-2.5 bg-light rounded-3 d-flex align-items-center">
                                 <i class="fa-solid fa-box text-success fs-5 me-3" style="width: 24px;"></i>
                                 <div>
                                     <span class="text-muted d-block text-xs">Quy cách đóng gói</span>
@@ -112,7 +113,7 @@
                             <label class="form-label text-muted small fw-bold text-uppercase d-block mb-2">Chọn dung tích / trọng lượng:</label>
                             <div class="d-flex flex-wrap gap-2" id="variant-selector">
                                 @foreach($product->variants as $var)
-                                    <button type="button" class="btn btn-ecofarm-outline btn-sm px-3 py-2 variant-btn" data-id="{{ $var->id }}" data-price="{{ $var->price }}" data-stock="{{ $var->stock }}" data-capacity="{{ $var->capacity }}">
+                                    <button type="button" class="btn btn-outline-success btn-sm px-3 py-2 rounded-3 fw-bold variant-btn" data-id="{{ $var->id }}" data-price="{{ $var->price }}" data-stock="{{ $var->stock }}" data-capacity="{{ $var->capacity }}">
                                         {{ $var->capacity }}
                                     </button>
                                 @endforeach
@@ -128,25 +129,22 @@
                     <div class="row g-2 align-items-center" id="buy-buttons-row">
                         @if($product->stock > 0)
                             <div class="col-3 col-lg-2" id="quantity-col">
-                                <input type="number" name="quantity" id="quantity-input" class="form-control form-control-lg text-center fw-bold rounded-pill border-2" value="1" min="1" max="{{ $product->stock }}" style="height: 48px;">
+                                <input type="number" name="quantity" id="quantity-input" class="form-control form-control-lg text-center fw-bold border-2" value="1" min="1" max="{{ $product->stock }}" style="height: 48px;">
                             </div>
                             <div class="col-9 col-lg-5">
-                                <button type="submit" name="action" value="add_to_cart" class="btn btn-ecofarm-outline w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="height: 48px;">
-                                    <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ
+                                <button type="submit" name="action" value="add_to_cart" class="btn btn-outline-success btn-lg w-100 fw-bold d-flex align-items-center justify-content-center gap-2 fs-6" style="height: 48px;">
+                                    <i class="fa-solid fa-cart-plus"></i> Đưa vào giỏ hàng
                                 </button>
                             </div>
                             <div class="col-12 col-lg-5">
-                                <button type="submit" name="action" value="buy_now" class="btn btn-ecofarm-primary w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="height: 48px;">
+                                <button type="submit" name="action" value="buy_now" class="btn btn-success btn-lg w-100 fw-bold d-flex align-items-center justify-content-center gap-2 fs-6 shadow-sm" style="height: 48px; background-color: #1b5e20; border: none;">
                                     <i class="fa-solid fa-bolt"></i> Mua ngay & Thanh toán
                                 </button>
                             </div>
                         @else
                             <div class="col-12">
-                                <button type="button" class="btn btn-secondary btn-lg w-100 fw-bold d-flex align-items-center justify-content-center gap-2 rounded-pill" style="height: 48px;" disabled>
+                                <button type="button" class="btn btn-secondary btn-lg w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="height: 48px;" disabled>
                                     <i class="fa-solid fa-circle-xmark"></i> Tạm hết hàng / Chờ nhập thêm kho bãi
-                                </button>
-                            </div>
-                        @endifho bãi
                                 </button>
                             </div>
                         @endif
