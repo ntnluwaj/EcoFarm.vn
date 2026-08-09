@@ -11,7 +11,7 @@
         .eco-card {
             background: #ffffff;
             border-radius: 20px;
-            padding: 20px;
+            padding: 22px;
             box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
             border: 1px solid #e2e8f0;
             display: flex;
@@ -180,13 +180,13 @@
             </div>
         </div>
 
-        <!-- 🌟 3. TOP ROW (Biểu đồ doanh thu 6 tháng & Tỷ lệ trạng thái đơn hàng - CÂN ĐỐI 100%) -->
+        <!-- 🌟 3. TOP ROW (Biểu đồ doanh thu 6 tháng & Tỷ lệ trạng thái đơn hàng) -->
         <div class="eco-grid-65-35">
             <!-- Widget 1: Biểu đồ doanh thu hoàn tất (6 tháng qua) -->
             <div class="eco-card">
                 <div>
                     <div class="flex items-center justify-between gap-2 mb-3">
-                        <h3 class="text-sm font-black text-slate-900 dark:text-slate-100 truncate">
+                        <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
                             Biểu đồ doanh thu hoàn tất (6 tháng qua)
                         </h3>
                         <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 text-xs font-bold border border-slate-200 shrink-0">
@@ -194,7 +194,7 @@
                         </span>
                     </div>
 
-                    <div class="relative h-60 w-full">
+                    <div style="height: 250px; width: 100%; position: relative;">
                         <canvas id="ecoRevenueLineChart"></canvas>
                     </div>
                 </div>
@@ -204,33 +204,33 @@
             <div class="eco-card">
                 <div class="flex flex-col justify-between h-full">
                     <div>
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <h3 class="text-sm font-black text-slate-900 dark:text-slate-100 truncate">
-                                Tỷ lệ trạng thái đơn hàng
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
+                                Tỷ lệ trạng thái đơn hàng (Tất cả thời gian)
                             </h3>
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 text-xs font-bold border border-slate-200 shrink-0">
-                                Tất cả v
+                            <span class="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 text-[11px] font-bold border border-slate-200 shrink-0">
+                                Tất cả thời gian v
                             </span>
                         </div>
 
-                        <div class="relative h-48 w-full flex items-center justify-center my-1">
+                        <div style="height: 200px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                             <canvas id="ecoStatusDoughnutChart"></canvas>
                         </div>
                     </div>
 
                     <!-- Status Legend matching exact colors -->
-                    <div class="flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Chờ duyệt</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-sky-400"></span> Đóng gói</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Đang giao</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Hoàn tất</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500"></span> Đã hủy</span>
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Chờ duyệt</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-sky-400"></span> Đóng gói</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Đang giao</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Hoàn tất</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500"></span> Đã hủy</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🌟 4. BOTTOM ROW (Đơn hàng mới nhận gần đây & Tỷ lệ doanh số theo Ngành hàng - CÂN ĐỐI 100%) -->
+        <!-- 🌟 4. BOTTOM ROW (Đơn hàng mới nhận gần đây & Tỷ lệ doanh số theo Ngành hàng) -->
         <div class="eco-grid-65-35">
             <!-- Widget 3: Đơn hàng mới nhận gần đây -->
             <div class="eco-card">
@@ -304,16 +304,16 @@
                             <i class="fa-solid fa-ellipsis text-slate-300"></i>
                         </div>
 
-                        <div class="relative h-48 w-full flex items-center justify-center my-1">
+                        <div style="height: 200px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                             <canvas id="ecoCategoryPolarChart"></canvas>
                         </div>
                     </div>
 
                     <!-- Category Color Legend -->
                     <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Hạt Giống</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Phân Bón Hữu Cơ & NPK</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Hạt Giống</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Phân Bón Hữu Cơ & NPK</span>
                     </div>
                 </div>
             </div>
@@ -354,6 +354,9 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: { top: 25, right: 20, left: 10, bottom: 10 }
+                    },
                     plugins: {
                         legend: {
                             display: true,
@@ -371,6 +374,7 @@
                     scales: {
                         x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 10 }, color: '#64748B' } },
                         y: {
+                            grace: '15%',
                             grid: { color: 'rgba(0,0,0,0.04)' },
                             ticks: {
                                 font: { family: 'Plus Jakarta Sans', size: 10 },
@@ -403,8 +407,12 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '68%',
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.3,
+                    layout: {
+                        padding: { top: 15, bottom: 15, left: 15, right: 15 }
+                    },
+                    cutout: '65%',
                     plugins: { legend: { display: false } }
                 }
             });
@@ -430,7 +438,11 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.3,
+                    layout: {
+                        padding: { top: 15, bottom: 15, left: 15, right: 15 }
+                    },
                     plugins: { legend: { display: false } },
                     scales: {
                         r: { ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.05)' } }
