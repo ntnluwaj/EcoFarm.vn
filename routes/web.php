@@ -57,11 +57,6 @@ Route::post('/lien-he/gui', [\App\Http\Controllers\Frontend\ContactController::c
 Route::middleware(['admin.role'])->group(function () {
     // Trang xem báo cáo tổng hợp nội bộ bãi kho của Admin
     Route::get('/admin/bao-cao-doanh-thu', [\App\Http\Controllers\Backend\ReportController::class, 'index'])->name('admin.reports');
-
-    // 🌟 PHÂN HỆ HỆ THỐNG QUẢN LÝ CRM CAO CẤP (KHỚP 100% ẢNH MẪU 1, 2, 3)
-    Route::get('/admin/crm/tong-quan', [\App\Http\Controllers\Backend\CRMManagementController::class, 'dashboard'])->name('admin.crm.dashboard');
-    Route::get('/admin/crm/khach-hang', [\App\Http\Controllers\Backend\CRMManagementController::class, 'customers'])->name('admin.crm.customers');
-    Route::get('/admin/crm/deal-da-chot', [\App\Http\Controllers\Backend\CRMManagementController::class, 'deals'])->name('admin.crm.deals');
     Route::get('/admin/orders/{id}/print', [\App\Http\Controllers\Frontend\CartController::class, 'printOrder'])->name('admin.orders.print');
     Route::get('/admin/orders/report/print', [\App\Http\Controllers\Frontend\CartController::class, 'printRevenueReport'])->name('admin.reports.print');
     Route::get('/admin/debug/logs', function() {
