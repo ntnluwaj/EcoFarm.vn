@@ -164,16 +164,16 @@ class ProductResource extends Resource
                 \Filament\Tables\Columns\ImageColumn::make('images')
                     ->label('HÌNH ẢNH')
                     ->square()
-                    ->size(54)
+                    ->size(42)
                     ->circular(false)
-                    ->extraImgAttributes(['style' => 'border-radius: 8px; border: 1px solid #e2e8f0; object-fit: contain; background-color: #f8fafc; padding: 2px;']),
+                    ->extraImgAttributes(['style' => 'border-radius: 6px; border: 1px solid #e2e8f0; object-fit: contain; background-color: #f8fafc; padding: 2px;']),
 
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->wrap()
                     ->weight('bold')
-                    ->description(fn (Product $record): string => 'Quy cách: ' . ($record->packaging ?? 'Tiêu chuẩn') . ' | ĐVT: ' . $record->unit)
+                    ->description(fn (Product $record): string => ($record->packaging ?? 'Tiêu chuẩn') . ' • ĐVT: ' . $record->unit)
                     ->label('TÊN VẬT TƯ & QUY CÁCH'),
 
                 TextColumn::make('category.name')
@@ -187,11 +187,11 @@ class ProductResource extends Resource
                     ->html()
                     ->state(function (Product $record): string {
                         if ($record->stock > 50) {
-                            return '<span style="background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>Tồn kho dồi dào (' . number_format($record->stock) . ' ' . $record->unit . ')</span>';
+                            return '<span style="background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>🟢 Sẵn kho (' . number_format($record->stock) . ')</span>';
                         } elseif ($record->stock > 0) {
-                            return '<span style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>Sắp hết hàng (' . number_format($record->stock) . ' ' . $record->unit . ')</span>';
+                            return '<span style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>🟡 Sắp hết (' . number_format($record->stock) . ')</span>';
                         } else {
-                            return '<span style="background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>Hết hàng (0)</span>';
+                            return '<span style="background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; border-radius: 9999px; padding: 3px 10px; font-weight: 600; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>🔴 Hết hàng (0)</span>';
                         }
                     }),
 
@@ -203,11 +203,6 @@ class ProductResource extends Resource
                     ->alignEnd()
                     ->label('GIÁ BÁN LẺ'),
 
-                TextColumn::make('unit')
-                    ->label('ĐVT')
-                    ->badge()
-                    ->color('gray'),
-
                 \Filament\Tables\Columns\ToggleColumn::make('status')
                     ->label('ĐANG BÁN'),
             ])
@@ -217,14 +212,8 @@ class ProductResource extends Resource
                     ->label('Lọc theo danh mục'),
             ])
             ->actions([
-                \Filament\Tables\Actions\ActionGroup::make([
-                    \Filament\Tables\Actions\EditAction::make(),
-                    \Filament\Tables\Actions\DeleteAction::make(),
-                ])
-                ->label('Thao tác')
-                ->icon('heroicon-m-ellipsis-vertical')
-                ->color('success')
-                ->button(),
+                \Filament\Tables\Actions\EditAction::make()->iconButton(),
+                \Filament\Tables\Actions\DeleteAction::make()->iconButton(),
             ])
             ->bulkActions([
                 \Filament\Tables\Actions\BulkActionGroup::make([

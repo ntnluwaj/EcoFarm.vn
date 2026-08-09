@@ -195,21 +195,32 @@ public function panel(Panel $panel): Panel
                         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
                     }
 
-                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
+                    /* 🌟 TABLE HOVER EFFECTS & COMPACT RESPONSIVE CELL PADDING FOR PERFECT FIT */
                     .fi-ta-ctn {
                         border: 1px solid #e5e7eb !important;
                         border-radius: 1rem !important;
-                        overflow: hidden !important;
+                        overflow-x: auto !important;
                         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
                         background-color: #ffffff !important;
+                    }
+                    .fi-ta-table {
+                        table-layout: auto !important;
+                        width: 100% !important;
+                    }
+                    .fi-ta-cell,
+                    .fi-ta-header-cell {
+                        padding-top: 10px !important;
+                        padding-bottom: 10px !important;
+                        padding-left: 10px !important;
+                        padding-right: 10px !important;
                     }
                     .fi-ta-header-cell {
                         background-color: #f8fafc !important;
                         border-bottom: 1px solid #e2e8f0 !important;
-                        font-size: 11.5px !important;
+                        font-size: 11px !important;
                         font-weight: 700 !important;
                         text-transform: uppercase !important;
-                        letter-spacing: 0.6px !important;
+                        letter-spacing: 0.5px !important;
                         color: #475569 !important;
                     }
                     .fi-ta-row {
