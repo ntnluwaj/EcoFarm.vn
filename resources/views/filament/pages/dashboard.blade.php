@@ -110,13 +110,9 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <a href="/admin/stocks" class="px-4 py-2.5 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 font-extrabold text-xs shadow-md transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-boxes-stacked text-emerald-600"></i>
-                    <span>Quản lý kho bãi</span>
-                </a>
-                <a href="/" class="px-4 py-2.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-900 text-white font-extrabold text-xs backdrop-blur-md shadow-md transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Xem trang chủ</span>
+                <a href="/" class="px-4 py-2.5 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 font-extrabold text-xs shadow-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-house text-emerald-600"></i>
+                    <span>Xem trang chủ EcoFarm</span>
                 </a>
             </div>
         </div>
