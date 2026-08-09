@@ -40,34 +40,36 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Thông tin liên hệ từ khách hàng')
+                Section::make('THÔNG TIN YÊU CẦU TƯ VẤN TỪ NHÀ VƯỜN')
+                    ->description('Chi tiết thông tin liên hệ và nội dung cần tư vấn hỗ trợ kỹ thuật của bà con')
                     ->schema([
                         TextInput::make('name')
-                            ->label('Họ và tên')
+                            ->label('Họ và tên nhà vườn')
                             ->disabled(),
                         TextInput::make('phone')
-                            ->label('Số điện thoại')
+                            ->label('Số điện thoại liên hệ')
                             ->disabled(),
                         TextInput::make('email')
-                            ->label('Email')
+                            ->label('Địa chỉ Email')
                             ->disabled()
                             ->placeholder('Không cung cấp'),
                         TextInput::make('subject')
-                            ->label('Tiêu đề cần hỗ trợ')
+                            ->label('Tiêu đề thắc mắc kỹ thuật')
                             ->disabled()
                             ->columnSpanFull(),
                         Textarea::make('message')
-                            ->label('Nội dung cần hỗ trợ')
+                            ->label('Nội dung mô tả thắc mắc của nhà vườn')
                             ->disabled()
                             ->columnSpanFull()
                             ->rows(4),
                     ])->columns(3),
 
-                Section::make('Nội dung phản hồi của Kỹ sư Nông học')
+                Section::make('NỘI DUNG PHẢN HỒI KỸ THUẬT NÔNG HỌC')
+                    ->description('Nhập nội dung tư vấn kỹ thuật bón tưới hoặc phản hồi giải pháp cho nhà vườn')
                     ->schema([
                         Textarea::make('reply_content')
-                            ->label('Nội dung phản hồi')
-                            ->placeholder('Nhập nội dung tư vấn kỹ thuật hoặc phản hồi cho nhà vườn tại đây...')
+                            ->label('Nội dung phản hồi kỹ thuật *')
+                            ->placeholder('Nhập chi tiết liều lượng, giải pháp tư vấn kỹ thuật nông học tại đây...')
                             ->required()
                             ->columnSpanFull()
                             ->rows(5),

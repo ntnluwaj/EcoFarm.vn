@@ -36,23 +36,32 @@ class BrandResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(100)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
-                    ->label('Tên thương hiệu vật tư'),
+                \Filament\Forms\Components\Section::make('THÔNG TIN THƯƠNG HIỆU / NHÀ SẢN XUẤT')
+                    ->description('Nhập tên thương hiệu vật tư chính hãng và thông tin giới thiệu năng lực nhà sản xuất')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(2)->schema([
+                            TextInput::make('name')
+                                ->required()
+                                ->maxLength(100)
+                                ->placeholder('Ví dụ: Syngenta, Bayer, Phân Bón Đầu Trâu')
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                                ->label('Tên thương hiệu vật tư *'),
 
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true)
-                    ->label('Đường dẫn định danh SEO'),
+                            TextInput::make('slug')
+                                ->required()
+                                ->maxLength(100)
+                                ->unique(ignoreRecord: true)
+                                ->label('Đường dẫn Slug (SEO tự động) *'),
+                        ]),
 
-                Textarea::make('description')
-                    ->nullable()
-                    ->columnSpanFull()
-                    ->label('Thông tin giới thiệu nhà sản xuất'),
+                        Textarea::make('description')
+                            ->nullable()
+                            ->rows(3)
+                            ->placeholder('Nhập lịch sử thương hiệu, chứng nhận ISO, quốc gia xuất xứ...')
+                            ->columnSpanFull()
+                            ->label('Thông tin giới thiệu nhà sản xuất'),
+                    ]),
             ]);
     }
 

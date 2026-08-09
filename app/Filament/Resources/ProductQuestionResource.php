@@ -36,23 +36,32 @@ class ProductQuestionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
-                    ->label('Sản phẩm vật tư')
-                    ->disabled()
-                    ->required(),
-                Forms\Components\TextInput::make('asker_name')
-                    ->label('Họ tên nông dân hỏi')
-                    ->disabled(),
-                Forms\Components\Textarea::make('question')
-                    ->label('Câu hỏi kỹ thuật đặt ra')
-                    ->disabled()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('answer')
-                    ->label('Câu trả lời của Kỹ sư Nông học')
-                    ->placeholder('Nhập chi tiết liều lượng bón tưới, lưu ý an toàn cho khách hàng...')
-                    ->required()
-                    ->columnSpanFull(),
+                \Filament\Forms\Components\Section::make('THÔNG TIN HỎI ĐÁP SẢN PHẨM VẬT TƯ')
+                    ->description('Xem chi tiết thắc mắc từ nhà vườn và nhập câu trả lời hướng dẫn kỹ thuật từ Kỹ sư')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(2)->schema([
+                            Forms\Components\Select::make('product_id')
+                                ->relationship('product', 'name')
+                                ->label('Sản phẩm vật tư liên quan')
+                                ->disabled(),
+
+                            Forms\Components\TextInput::make('asker_name')
+                                ->label('Họ tên nhà vườn đặt câu hỏi')
+                                ->disabled(),
+                        ]),
+
+                        Forms\Components\Textarea::make('question')
+                            ->label('Nội dung thắc mắc kỹ thuật của nhà vườn')
+                            ->disabled()
+                            ->columnSpanFull(),
+
+                        Forms\Components\Textarea::make('answer')
+                            ->label('Câu trả lời giải đáp của Kỹ sư Nông học *')
+                            ->placeholder('Nhập chi tiết liều lượng bón tưới, lưu ý an toàn cho nhà vườn tại đây...')
+                            ->required()
+                            ->rows(4)
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

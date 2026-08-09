@@ -54,45 +54,58 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(100)
-                    ->label('Họ và tên người dùng'),
+                \Filament\Forms\Components\Section::make('THÔNG TIN TÀI KHOẢN NÔNG DÂN')
+                    ->description('Nhập thông tin định danh cá nhân, email và phân quyền sử dụng hệ thống EcoFarm')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            TextInput::make('name')
+                                ->required()
+                                ->maxLength(100)
+                                ->placeholder('Ví dụ: Nguyễn Văn A')
+                                ->label('Họ và tên người dùng *'),
 
-                TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true)
-                    ->label('Địa chỉ Email (Tài khoản đăng nhập)'),
+                            TextInput::make('email')
+                                ->email()
+                                ->required()
+                                ->maxLength(100)
+                                ->placeholder('nguyenvana@gmail.com')
+                                ->unique(ignoreRecord: true)
+                                ->label('Địa chỉ Email (Đăng nhập) *'),
 
-                TextInput::make('password')
-                    ->password()
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->maxLength(255)
-                    ->label('Mật khẩu đăng nhập'),
+                            TextInput::make('phone')
+                                ->tel()
+                                ->nullable()
+                                ->placeholder('09xx xxx xxx')
+                                ->maxLength(15)
+                                ->label('Số điện thoại liên hệ'),
+                        ]),
 
-                TextInput::make('phone')
-                    ->tel()
-                    ->nullable()
-                    ->maxLength(15)
-                    ->label('Số điện thoại liên hệ'),
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            TextInput::make('password')
+                                ->password()
+                                ->dehydrated(fn ($state) => filled($state))
+                                ->required(fn (string $context): bool => $context === 'create')
+                                ->maxLength(255)
+                                ->placeholder('••••••••')
+                                ->label('Mật khẩu đăng nhập *'),
 
-                Select::make('role')
-                    ->options([
-                        'customer' => 'Khách mua lẻ / Nông dân',
-                        'staff' => 'Nhân viên bán hàng',
-                        'engineer' => 'Kỹ sư nông nghiệp',
-                        'admin' => 'Quản trị viên',
-                    ])
-                    ->required()
-                    ->label('Phân quyền tài khoản hệ thống'),
+                            Select::make('role')
+                                ->options([
+                                    'customer' => 'Khách mua lẻ / Nông dân',
+                                    'staff' => 'Nhân viên bán hàng',
+                                    'engineer' => 'Kỹ sư nông nghiệp',
+                                    'admin' => 'Quản trị viên',
+                                ])
+                                ->required()
+                                ->label('Phân quyền tài khoản *'),
 
-                TextInput::make('reward_points')
-                    ->numeric()
-                    ->default(0)
-                    ->label('Điểm tích lũy'),
+                            TextInput::make('reward_points')
+                                ->numeric()
+                                ->default(0)
+                                ->suffix('Điểm')
+                                ->label('Điểm tích lũy thành viên'),
+                        ]),
+                    ]),
             ]);
     }
 

@@ -45,7 +45,8 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Thông tin giao nhận hàng vật tư')
+                Section::make('THÔNG TIN GIAO NHẬN VẬT TƯ KHO BÃI')
+                    ->description('Quản lý thông tin nhà vườn, số điện thoại liên hệ và địa chỉ giao hàng thực tế')
                     ->schema([
                         Grid::make(2)->schema([
                             TextInput::make('customer_name')

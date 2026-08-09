@@ -36,28 +36,37 @@ class ProductReviewResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
-                    ->label('Sản phẩm vật tư')
-                    ->disabled()
-                    ->required(),
-                Forms\Components\TextInput::make('reviewer_name')
-                    ->label('Họ tên người đánh giá')
-                    ->disabled(),
-                Forms\Components\Select::make('rating')
-                    ->options([
-                        1 => '1 sao',
-                        2 => '2 sao',
-                        3 => '3 sao',
-                        4 => '4 sao',
-                        5 => '5 sao',
-                    ])
-                    ->label('Đánh giá')
-                    ->required(),
-                Forms\Components\Textarea::make('comment')
-                    ->label('Nội dung nhận xét')
-                    ->required()
-                    ->columnSpanFull(),
+                \Filament\Forms\Components\Section::make('THÔNG TIN ĐÁNH GIÁ VẬT TƯ TỪ NHÀ VƯỜN')
+                    ->description('Kiểm duyệt và chỉnh sửa đánh giá phản hồi chất lượng vật tư từ khách hàng')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            Forms\Components\Select::make('product_id')
+                                ->relationship('product', 'name')
+                                ->label('Sản phẩm vật tư')
+                                ->disabled(),
+
+                            Forms\Components\TextInput::make('reviewer_name')
+                                ->label('Họ tên khách đánh giá')
+                                ->disabled(),
+
+                            Forms\Components\Select::make('rating')
+                                ->options([
+                                    1 => '⭐ 1 sao (Rất kém)',
+                                    2 => '⭐⭐ 2 sao (Kém)',
+                                    3 => '⭐⭐⭐ 3 sao (Bình thường)',
+                                    4 => '⭐⭐⭐⭐ 4 sao (Hài lòng)',
+                                    5 => '⭐⭐⭐⭐⭐ 5 sao (Xuất sắc)',
+                                ])
+                                ->label('Số sao xếp hạng *')
+                                ->required(),
+                        ]),
+
+                        Forms\Components\Textarea::make('comment')
+                            ->label('Nội dung bình luận nhận xét *')
+                            ->rows(4)
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

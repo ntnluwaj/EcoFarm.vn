@@ -38,29 +38,36 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(100)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
-                    ->label('Tên danh mục phân loại'),
+                \Filament\Forms\Components\Section::make('THÔNG TIN DANH MỤC PHÂN LOẠI VẬT TƯ')
+                    ->description('Thiết lập tên danh mục phân loại vật tư nông nghiệp và liên kết phân cấp')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            TextInput::make('name')
+                                ->required()
+                                ->maxLength(100)
+                                ->placeholder('Ví dụ: Thuốc Trừ Sâu & Bệnh')
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                                ->label('Tên danh mục phân loại *'),
 
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true)
-                    ->label('Đường dẫn Slug (SEO)'),
+                            TextInput::make('slug')
+                                ->required()
+                                ->maxLength(100)
+                                ->unique(ignoreRecord: true)
+                                ->label('Đường dẫn Slug (SEO tự động) *'),
 
-                Select::make('parent_id')
-                    ->relationship('parent', 'name')
-                    ->placeholder('Chọn danh mục gốc nếu có')
-                    ->label('Danh mục cấp cha'),
+                            Select::make('parent_id')
+                                ->relationship('parent', 'name')
+                                ->placeholder('— Danh mục gốc (Mặc định) —')
+                                ->label('Danh mục cấp cha'),
+                        ]),
 
-                FileUpload::make('image_url')
-                    ->image()
-                    ->directory('uploads/categories')
-                    ->disk('public')
-                    ->label('Hình ảnh đại diện danh mục'),
+                        FileUpload::make('image_url')
+                            ->image()
+                            ->directory('uploads/categories')
+                            ->disk('public')
+                            ->label('Hình ảnh đại diện biểu tượng danh mục'),
+                    ]),
             ]);
     }
 

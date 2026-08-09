@@ -43,28 +43,31 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Nội dung bài viết')
+                Section::make('NỘI DUNG BÀI VIẾT CẨM NANG NÔNG NGHIỆP')
+                    ->description('Soạn thảo tiêu đề, đường dẫn SEO và nội dung bài viết kỹ thuật nông nghiệp')
                     ->schema([
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255)
+                            ->placeholder('Ví dụ: Kỹ thuật bón phân NPK cho lúa vụ Đông Xuân')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
-                            ->label('Tiêu đề cẩm nang'),
+                            ->label('Tiêu đề cẩm nang *'),
 
                         TextInput::make('slug')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
-                            ->label('Đường dẫn Slug (SEO)'),
+                            ->label('Đường dẫn Slug (SEO tự động) *'),
 
                         RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->label('Nội dung cẩm nang'),
+                            ->label('Nội dung chi tiết cẩm nang *'),
                     ])->columnSpan(2),
 
-                Section::make('Thông tin xuất bản & Kiểm duyệt')
+                Section::make('CHUYÊN MỤC & THỜI GIAN XUẤT BẢN')
+                    ->description('Cấu hình chuyên mục bài viết, ảnh bìa đại diện và ngày phê duyệt công khai')
                     ->schema([
                         Select::make('category')
                             ->options([
@@ -74,13 +77,13 @@ class PostResource extends Resource
                                 'Tin tức nông nghiệp' => 'Tin tức nông nghiệp',
                             ])
                             ->required()
-                            ->label('Chuyên mục bài viết'),
+                            ->label('Chuyên mục bài viết *'),
 
                         FileUpload::make('thumbnail')
                             ->image()
                             ->directory('posts')
                             ->disk('public')
-                            ->label('Ảnh đại diện bài viết'),
+                            ->label('Ảnh bìa đại diện bài viết'),
 
                         DateTimePicker::make('published_at')
                             ->placeholder('Chờ quản trị viên phê duyệt xuất bản')

@@ -42,7 +42,8 @@ class BannerResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Thông tin Banner Slide')
+                Section::make('THÔNG TIN BANNER SLIDE QUẢNG CÁO')
+                    ->description('Tải lên hình ảnh banner chất lượng cao và liên kết quảng bá trang chủ')
                     ->schema([
                         TextInput::make('title')
                             ->maxLength(150)
@@ -64,20 +65,21 @@ class BannerResource extends Resource
                             ->image()
                             ->directory('banners')
                             ->disk('public')
-                            ->label('Hình ảnh Banner Slide (Khuyến nghị: 1200x400px)'),
+                            ->label('Hình ảnh Banner Slide (Khuyến nghị: 1200x400px) *'),
                     ])->columnSpan(2),
 
-                Section::make('Cài đặt hiển thị')
+                Section::make('CÀI ĐẶT HIỂN THỊ & THỨ TỰ')
+                    ->description('Cấu hình thứ tự ưu tiên và trạng thái bật/tắt hiển thị')
                     ->schema([
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0)
                             ->required()
-                            ->label('Thứ tự hiển thị (Nhỏ xếp trước)'),
+                            ->label('Thứ tự hiển thị (Ưu tiên số nhỏ) *'),
 
                         Toggle::make('is_active')
                             ->default(true)
-                            ->label('Trạng thái mở hiển thị'),
+                            ->label('Trạng thái mở hiển thị công khai'),
                     ])->columnSpan(1),
             ])->columns(3);
     }

@@ -44,65 +44,81 @@ class VoucherResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->label('Mã giảm giá')
-                    ->placeholder('Ví dụ: ECF10')
-                    ->maxLength(50),
-                Forms\Components\Select::make('type')
-                    ->options([
-                        'percent' => 'Phần trăm (%)',
-                        'fixed' => 'Số tiền cố định (đ)',
-                    ])
-                    ->required()
-                    ->label('Loại giảm giá'),
-                Forms\Components\TextInput::make('value')
-                    ->numeric()
-                    ->required()
-                    ->label('Giá trị giảm')
-                    ->placeholder('Ví dụ: 10 hoặc 50000'),
-                Forms\Components\TextInput::make('min_order_amount')
-                    ->numeric()
-                    ->default(0)
-                    ->label('Đơn hàng tối thiểu')
-                    ->placeholder('Ví dụ: 100000'),
-                Forms\Components\TextInput::make('max_uses')
-                    ->numeric()
-                    ->default(100)
-                    ->required()
-                    ->label('Lượt sử dụng tối đa'),
-                Forms\Components\TextInput::make('uses')
-                    ->numeric()
-                    ->default(0)
-                    ->disabled()
-                    ->label('Số lượt đã dùng'),
-                Forms\Components\DateTimePicker::make('expires_at')
-                    ->label('Ngày hết hạn'),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
-                    ->searchable()
-                    ->nullable()
-                    ->placeholder('Áp dụng toàn đơn hàng')
-                    ->label('Sản phẩm giới hạn áp dụng'),
-                Forms\Components\TextInput::make('points_cost')
-                    ->numeric()
-                    ->nullable()
-                    ->label('Điểm tích lũy để đổi')
-                    ->placeholder('Bỏ trống nếu không cho phép đổi bằng điểm'),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->nullable()
-                    ->placeholder('Dùng chung (Công cộng)')
-                    ->label('Sở hữu bởi Khách hàng'),
-                Forms\Components\Toggle::make('is_active')
-                    ->default(fn () => auth()->user()?->role === 'admin')
-                    ->disabled(fn () => auth()->user()?->role !== 'admin')
-                    ->dehydrated(true)
-                    ->label('Kích hoạt hoạt động (Chỉ Admin phê duyệt)')
-                    ->helperText(fn () => auth()->user()?->role !== 'admin' ? 'Mã giảm giá mới do nhân viên tạo sẽ mặc định ở trạng thái Chờ duyệt.' : null)
-                    ->columnSpanFull(),
+                \Filament\Forms\Components\Section::make('CẤU HÌNH MÃ GIẢM GIÁ & CHIẾT KHẤU')
+                    ->description('Cấu hình mã code khuyến mãi, mức chiết khấu và giới hạn lượt sử dụng')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            Forms\Components\TextInput::make('code')
+                                ->required()
+                                ->unique(ignoreRecord: true)
+                                ->label('Mã giảm giá *')
+                                ->placeholder('Ví dụ: ECF10')
+                                ->maxLength(50),
+
+                            Forms\Components\Select::make('type')
+                                ->options([
+                                    'percent' => 'Phần trăm (%)',
+                                    'fixed' => 'Số tiền cố định (đ)',
+                                ])
+                                ->required()
+                                ->label('Loại giảm giá *'),
+
+                            Forms\Components\TextInput::make('value')
+                                ->numeric()
+                                ->required()
+                                ->label('Giá trị giảm *')
+                                ->placeholder('Ví dụ: 10 hoặc 50000'),
+                        ]),
+
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            Forms\Components\TextInput::make('min_order_amount')
+                                ->numeric()
+                                ->default(0)
+                                ->prefix('VND')
+                                ->label('Đơn hàng tối thiểu'),
+
+                            Forms\Components\TextInput::make('max_uses')
+                                ->numeric()
+                                ->default(100)
+                                ->required()
+                                ->label('Lượt sử dụng tối đa *'),
+
+                            Forms\Components\DateTimePicker::make('expires_at')
+                                ->label('Ngày hết hạn áp dụng'),
+                        ]),
+                    ]),
+
+                \Filament\Forms\Components\Section::make('ĐIỀU KIỆN ÁP DỤNG & PHÊ DUYỆT')
+                    ->description('Cấu hình sản phẩm giới hạn, điểm đổi tích lũy và phê duyệt công khai')
+                    ->schema([
+                        \Filament\Forms\Components\Grid::make(3)->schema([
+                            Forms\Components\Select::make('product_id')
+                                ->relationship('product', 'name')
+                                ->searchable()
+                                ->nullable()
+                                ->placeholder('— Toàn bộ đơn hàng —')
+                                ->label('Sản phẩm giới hạn áp dụng'),
+
+                            Forms\Components\TextInput::make('points_cost')
+                                ->numeric()
+                                ->nullable()
+                                ->suffix('Điểm')
+                                ->label('Điểm tích lũy để đổi'),
+
+                            Forms\Components\Select::make('user_id')
+                                ->relationship('user', 'name')
+                                ->searchable()
+                                ->nullable()
+                                ->placeholder('— Công cộng (Dùng chung) —')
+                                ->label('Khách hàng sở hữu riêng'),
+                        ]),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(fn () => auth()->user()?->role === 'admin')
+                            ->disabled(fn () => auth()->user()?->role !== 'admin')
+                            ->dehydrated(true)
+                            ->label('Trạng thái kích hoạt công khai (Admin phê duyệt)'),
+                    ]),
             ]);
     }
 
