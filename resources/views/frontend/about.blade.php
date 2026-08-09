@@ -111,10 +111,12 @@
             <p class="lead max-w-2xl mx-auto text-light opacity-95 fw-medium mb-4" style="max-width: 720px; font-size: 1.12rem; line-height: 1.7;">
                 Đồng hành bền vững cùng bà con nông dân Việt Nam với giải pháp vật tư nông nghiệp chính hãng, chất lượng cao & tư vấn kỹ thuật tận tâm 24/7.
             </p>
-            <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-white bg-opacity-20 text-white text-sm font-bold backdrop-blur-md border border-white border-opacity-30 shadow-lg">
-                <a href="{{ route('home') }}" class="text-white text-decoration-none hover-opacity">Trang chủ</a>
-                <span class="text-amber-300 font-black">&gt;&gt;</span>
-                <span class="text-warning font-black fw-bold">Giới thiệu công ty</span>
+            <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill shadow-md border" style="background-color: rgba(15, 45, 20, 0.85) !important; backdrop-filter: blur(10px); border-color: rgba(255, 255, 255, 0.3) !important;">
+                <a href="{{ route('home') }}" class="fw-bold text-decoration-none" style="color: #ffffff !important; font-size: 13px;">
+                    <i class="fa-solid fa-house me-1" style="color: #f59e0b !important;"></i> Trang chủ
+                </a>
+                <span style="color: #f59e0b !important; font-weight: 900; font-size: 13px;">&gt;&gt;</span>
+                <span class="fw-extrabold" style="color: #fde047 !important; font-weight: 800; font-size: 13px;">Giới thiệu công ty</span>
             </div>
         </div>
     </div>
@@ -126,8 +128,8 @@
                 
                 <!-- Left Column: Story & 4 Scorecard Stats -->
                 <div class="col-lg-6">
-                    <div class="d-inline-flex align-items-center gap-2 px-3.5 py-1.5 rounded-pill bg-success bg-opacity-10 text-success text-xs font-black uppercase tracking-wider mb-3 border border-success border-opacity-20">
-                        <i class="fa-solid fa-leaf text-success"></i> Về EcoFarm Mekong
+                    <div class="d-inline-flex align-items-center gap-2 px-3.5 py-1.5 rounded-pill shadow-sm mb-3" style="background-color: #e8f5e9 !important; color: #1b5e20 !important; font-weight: 800 !important; font-size: 12px; border: 1px solid #2e7d32 !important;">
+                        <i class="fa-solid fa-leaf" style="color: #2e7d32 !important;"></i> Về EcoFarm Mekong
                     </div>
                     <h2 class="display-6 eco-heading-title text-slate-900 mb-3" style="font-size: 2.1rem;">
                         Hệ Thống Phân Phối Vật Tư Nông Nghiệp <span class="eco-text-gradient">Hàng Đầu Miền Tây</span>
