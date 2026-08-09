@@ -70,115 +70,111 @@ public function panel(Panel $panel): Panel
                         scrollbar-width: none !important;
                         -ms-overflow-style: none !important;
                     }
-                    html::-webkit-scrollbar, body::-webkit-scrollbar, div::-webkit-scrollbar, section::-webkit-scrollbar, aside::-webkit-scrollbar, nav::-webkit-scrollbar, table::-webkit-scrollbar, main::-webkit-scrollbar {
-                        display: none !important;
-                        width: 0 !important;
-                        height: 0 !important;
+
+                    /* 🌟 FRESH BRIGHT BODY BACKGROUND */
+                    body, .fi-body, .fi-main {
+                        background-color: #f8fafc !important;
                     }
 
-                    /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE & DROPDOWN FIX */
+                    /* 🌟 TOPBAR SOLID WHITE & BRANDED GREEN BAR */
                     .fi-topbar {
                         background-color: #ffffff !important;
                         backdrop-filter: none !important;
                         contain: none !important;
                         transform: none !important;
-                        border-top: 3px solid #10b981 !important; /* Branded green top indicator line */
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+                        border-top: 4px solid #10b981 !important;
+                        border-bottom: 1px solid #e2e8f0 !important;
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02) !important;
                     }
                     .fi-dropdown-panel {
                         z-index: 99999 !important;
+                        border-radius: 14px !important;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
                     }
 
                     /* 🌟 MODERN SEARCH BAR STYLE */
                     .fi-global-search input,
                     .fi-global-search-input input {
-                        border-radius: 0.5rem !important;
-                        background-color: #f9fafb !important;
-                        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+                        border-radius: 0.75rem !important;
+                        background-color: #f1f5f9 !important;
+                        border: 1px solid #cbd5e1 !important;
                         transition: all 0.2s ease-in-out !important;
                         font-size: 13px !important;
-                        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01) !important;
                     }
                     .fi-global-search input:focus,
                     .fi-global-search-input input:focus {
                         background-color: #ffffff !important;
                         border-color: #10b981 !important;
-                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
+                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
                     }
 
                     /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
                     .fi-sidebar {
                         background-color: #ffffff !important;
-                        border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+                        border-right: 1px solid #e2e8f0 !important;
                     }
                     .fi-sidebar-header {
                         background-color: #ffffff !important;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+                        border-bottom: 1px solid #f1f5f9 !important;
                     }
 
-                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (SOFT GREEN + LEFT BORDER) */
+                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (VIBRANT EMERALD) */
                     .fi-sidebar-item-button.fi-active,
                     .fi-sidebar-item-button[data-active="1"],
                     .fi-active,
                     [data-active="1"],
                     .fi-sidebar-item-active > a,
                     .fi-sidebar-item-active > div {
-                        background-color: rgba(16, 185, 129, 0.08) !important;
+                        background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.02) 100%) !important;
                         color: #047857 !important;
                         border-left: 4px solid #10b981 !important;
-                        border-radius: 0 0.5rem 0.5rem 0 !important;
-                        font-weight: 600 !important;
+                        border-radius: 0 0.75rem 0.75rem 0 !important;
+                        font-weight: 700 !important;
                         box-shadow: none !important;
                     }
 
-                    /* Keep icons green in active items */
                     .fi-sidebar-item-button.fi-active svg,
                     .fi-active svg,
                     .fi-sidebar-item-active svg {
                         color: #10b981 !important;
                     }
 
-                    /* Inactive items hover styling */
                     .fi-sidebar-item-button:not(.fi-active):hover {
-                        background-color: rgba(0, 0, 0, 0.02) !important;
-                        border-radius: 0.5rem !important;
+                        background-color: #f8fafc !important;
+                        border-radius: 0.75rem !important;
                     }
 
-                    /* 🌟 STATS OVERVIEW CARDS */
-                    .fi-wi-stats-overview-stat {
-                        transition: all 0.2s ease-in-out !important;
-                        border: 1px solid rgba(0, 0, 0, 0.04) !important;
-                        border-radius: 0.75rem !important;
-                        background: #ffffff !important;
-                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+                    /* 🌟 QUICK FILTER TAB PILLS (FRESH BRIGHT BADGES) */
+                    .fi-tabs-item-active {
+                        background-color: #10b981 !important;
+                        color: #ffffff !important;
+                        border-radius: 12px !important;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+                        font-weight: 800 !important;
                     }
-                    .fi-wi-stats-overview-stat:hover {
-                        transform: translateY(-2px) !important;
-                        border-color: rgba(16, 185, 129, 0.2) !important;
-                        box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.08) !important;
+
+                    /* 🌟 CARDS & SECTIONS BRIGHT BORDERS */
+                    .fi-section {
+                        border-radius: 20px !important;
+                        border: 1px solid #e2e8f0 !important;
+                        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03) !important;
+                        background: #ffffff !important;
                     }
 
                     /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
                     .fi-ta-ctn {
-                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
-                        border-radius: 0.75rem !important;
+                        border: 1px solid #e2e8f0 !important;
+                        border-radius: 20px !important;
                         overflow: hidden !important;
-                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
+                        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03) !important;
+                        background: #ffffff !important;
                     }
                     .fi-ta-header-cell {
-                        background-color: #fafafa !important;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        background-color: #f8fafc !important;
+                        border-bottom: 1px solid #e2e8f0 !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: #fdfdfd !important;
-                    }
-
-                    /* 🌟 CHARTS CARD STYLING */
-                    .fi-wi-widget > .fi-section {
-                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
-                        border-radius: 0.75rem !important;
-                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
+                        background-color: rgba(16, 185, 129, 0.03) !important;
                     }
                 </style>'
             )
