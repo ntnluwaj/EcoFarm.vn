@@ -27,7 +27,13 @@ class Dashboard extends BaseDashboard
 
         // 2. Doanh thu & Đơn hàng hoàn thành
         $completedOrdersCount = Order::where('status', 'completed')->count();
+        $pendingOrdersCount = Order::where('status', 'pending')->count();
+        $processingOrdersCount = Order::where('status', 'processing')->count();
+        $shippingOrdersCount = Order::where('status', 'shipping')->count();
+        $cancelledOrdersCount = Order::where('status', 'cancelled')->count();
+
         $avgOrderValue = $completedOrdersCount > 0 ? ($totalRevenue / $completedOrdersCount) : 0;
+        $completionRate = $ordersCount > 0 ? round(($completedOrdersCount / $ordersCount) * 100, 1) : 0;
 
         // 3. Biểu đồ xu hướng doanh số 6 tháng gần nhất
         $chartMonths = [];
@@ -63,9 +69,9 @@ class Dashboard extends BaseDashboard
         }
 
         // 4. Thống kê phân tích trạng thái đơn hàng (Doughnut Ring Chart)
-        $completedCount = Order::where('status', 'completed')->count();
-        $processingCount = Order::whereIn('status', ['pending', 'processing', 'shipping'])->count();
-        $cancelledCount = Order::where('status', 'cancelled')->count();
+        $completedCount = $completedOrdersCount;
+        $processingCount = $pendingOrdersCount + $processingOrdersCount + $shippingOrdersCount;
+        $cancelledCount = $cancelledOrdersCount;
         $totalStatusCount = max(1, $completedCount + $processingCount + $cancelledCount);
 
         $completedPercent = round(($completedCount / $totalStatusCount) * 100);
@@ -80,11 +86,12 @@ class Dashboard extends BaseDashboard
             ->selectRaw('categories.name as category_name, sum(order_items.quantity * order_items.unit_price) as total_revenue, sum(order_items.quantity) as total_qty')
             ->groupBy('categories.id', 'categories.name')
             ->orderBy('total_revenue', 'desc')
-            ->take(6)
+            ->take(5)
             ->get();
 
-        // 6. Top 4 Sản phẩm tiêu biểu hệ thống
+        // 6. Top 4 Sản phẩm tiêu biểu & Cảnh báo tồn kho
         $topProducts = Product::with('category')->take(4)->get();
+        $lowStockProducts = Product::where('stock', '<=', 10)->orWhereHas('variants', fn($q) => $q->where('stock', '<=', 10))->take(4)->get();
 
         // 7. Nhật ký hoạt động gần nhất hệ thống
         $activities = [];
@@ -96,7 +103,7 @@ class Dashboard extends BaseDashboard
                 'title' => "Đơn hàng mới #{$ord->id}",
                 'actor' => $ord->customer_name ?? 'Khách hàng',
                 'icon' => 'fa-solid fa-cart-shopping',
-                'bg' => 'bg-lime-100 text-lime-700 dark:bg-lime-950 dark:text-lime-400',
+                'bg' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400',
             ];
         }
 
@@ -131,6 +138,10 @@ class Dashboard extends BaseDashboard
             'totalRevenue' => $totalRevenue,
             'usersCount' => $usersCount,
             'avgOrderValue' => $avgOrderValue,
+            'completionRate' => $completionRate,
+            'pendingOrdersCount' => $pendingOrdersCount,
+            'processingOrdersCount' => $processingOrdersCount,
+            'shippingOrdersCount' => $shippingOrdersCount,
             'chartMonths' => $chartMonths,
             'chartRevenueData' => $chartRevenueData,
             'chartRevenueRaw' => $chartRevenueRaw,
@@ -145,6 +156,7 @@ class Dashboard extends BaseDashboard
             'cancelledPercent' => $cancelledPercent,
             'categorySales' => $categorySales,
             'topProducts' => $topProducts,
+            'lowStockProducts' => $lowStockProducts,
             'activities' => array_slice($activities, 0, 4),
             'latestOrders' => $latestOrders,
         ];
