@@ -8,15 +8,15 @@
     <!-- Header -->
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-3 border-bottom gap-3">
         <div>
-            <span class="badge badge-soft-success mb-2">
+            <span class="badge badge-status-green mb-2">
                 <i class="fa-solid fa-code-branch me-1"></i> DEVELOPER MODE & TESTBED
             </span>
             <h3 class="fw-bold text-dark mb-1">EcoFarm Sandbox Control Panel</h3>
             <p class="text-secondary small mb-0">Cổng kiểm thử giả lập quy trình VietQR SePay, shipper lấy hàng và webhook vận chuyển GHN thời gian thực.</p>
         </div>
         <div>
-            <span class="badge badge-soft-primary">
-                <span class="status-dot status-dot-primary"></span>Tác nghiệp tự động
+            <span class="badge badge-tag-blue">
+                <span class="status-dot-pulse dot-blue"></span>Tác nghiệp tự động
             </span>
         </div>
     </div>
@@ -47,22 +47,22 @@
     <div class="row g-4">
         <!-- Left Column: Test orders table -->
         <div class="col-lg-8">
-            <div class="modern-table-card">
+            <div class="crm-table-card-wrapper">
                 <div class="p-4 border-bottom bg-white d-flex align-items-center justify-content-between">
                     <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-database text-success me-2"></i>Đơn hàng kiểm thử mới nhất</h6>
-                    <span class="badge badge-soft-secondary">Hiện có: {{ $orders->count() }} đơn</span>
+                    <span class="badge badge-tag-gray">Hiện có: {{ $orders->count() }} đơn</span>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table modern-table align-middle mb-0">
+                    <table class="table crm-data-table align-middle mb-0">
                         <thead>
                             <tr>
-                                <th class="ps-4">Mã đơn</th>
-                                <th>Thông tin nhận</th>
-                                <th>Tổng tiền</th>
-                                <th>Thanh toán</th>
-                                <th>Hành trình đơn</th>
-                                <th class="pe-4 text-end" style="width: 190px;">Thao tác nhanh</th>
+                                <th class="ps-4">MÃ ĐƠN</th>
+                                <th>THÔNG TIN KHÁCH</th>
+                                <th>MỨC UUTIÊN</th>
+                                <th>THANH TOÁN</th>
+                                <th>HÀNH TRÌNH</th>
+                                <th class="pe-4 text-end" style="width: 180px;">THAO TÁC SỰ KIỆN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,26 +70,34 @@
                                 <tr>
                                     <!-- ID -->
                                     <td class="ps-4">
-                                        <span class="order-code-badge">#DH{{ $order->id }}</span>
+                                        <span class="crm-cell-title text-success">#DH{{ $order->id }}</span>
                                     </td>
                                     <!-- Info -->
                                     <td>
-                                        <div class="fw-bold text-dark">{{ $order->customer_name }}</div>
-                                        <div class="text-muted text-xs"><i class="fa-solid fa-phone me-1 opacity-75"></i>{{ $order->customer_phone }}</div>
+                                        <span class="crm-cell-title">{{ $order->customer_name }}</span>
+                                        <span class="crm-cell-subtext"><i class="fa-solid fa-phone me-1 opacity-75"></i>{{ $order->customer_phone }}</span>
                                     </td>
-                                    <!-- Amount -->
-                                    <td class="fw-bold text-success">
-                                        {{ number_format($order->total_amount, 0, ',', '.') }}đ
+                                    <!-- Priority Flame Badge -->
+                                    <td>
+                                        @if($order->status === 'shipping')
+                                            <span class="badge-flame-orange"><i class="fa-solid fa-fire"></i>🔥 5 Cháy Rực</span>
+                                        @elseif($order->status === 'processing')
+                                            <span class="badge-flame-yellow"><i class="fa-solid fa-fire"></i>🔥 3 Bén Lửa</span>
+                                        @elseif($order->status === 'pending')
+                                            <span class="badge-flame-red"><i class="fa-solid fa-fire"></i>🔥 Khẩn cấp</span>
+                                        @else
+                                            <span class="badge-tag-gray">🔥 Tắt Ngấm</span>
+                                        @endif
                                     </td>
                                     <!-- Payment Status -->
                                     <td>
                                         @if($order->payment_status === 'paid')
-                                            <span class="badge-soft-success mb-1">
-                                                <span class="status-dot status-dot-success"></span>Đã trả tiền
+                                            <span class="badge-status-green mb-1">
+                                                <span class="status-dot-pulse dot-green"></span>Đã trả tiền
                                             </span>
                                         @else
-                                            <span class="badge-soft-warning mb-1">
-                                                <span class="status-dot status-dot-warning"></span>Chưa trả tiền
+                                            <span class="badge-flame-yellow mb-1">
+                                                <span class="status-dot-pulse dot-yellow"></span>Chưa trả tiền
                                             </span>
                                         @endif
                                         <div class="text-muted text-xs font-monospace">{{ strtoupper($order->payment_method) }}</div>
@@ -106,20 +114,15 @@
                                                 default => $order->status
                                             };
                                             $badgeClass = match($order->status) {
-                                                'pending' => 'badge-soft-warning',
-                                                'processing' => 'badge-soft-primary',
-                                                'shipping' => 'badge-soft-info',
-                                                'completed' => 'badge-soft-success',
-                                                'cancelled' => 'badge-soft-danger',
-                                                default => 'badge-soft-secondary'
+                                                'pending' => 'badge-flame-red',
+                                                'processing' => 'badge-flame-yellow',
+                                                'shipping' => 'badge-flame-orange',
+                                                'completed' => 'badge-status-green',
+                                                'cancelled' => 'badge-tag-gray',
+                                                default => 'badge-tag-gray'
                                             };
                                         @endphp
                                         <span class="{{ $badgeClass }}">{{ $statusLabel }}</span>
-                                        @if($order->payment_transaction_id)
-                                            <div class="text-muted text-xs font-monospace mt-1" style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                Vận đơn: {{ $order->payment_transaction_id }}
-                                            </div>
-                                        @endif
                                     </td>
                                     <!-- Actions -->
                                     <td class="pe-4 text-end">
@@ -128,7 +131,7 @@
                                                 <form action="{{ route('sandbox.paySimulate') }}" method="POST" class="m-0">
                                                     @csrf
                                                     <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-bold text-xs py-1 px-3" style="width: 175px;">
+                                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-bold text-xs py-1 px-3" style="width: 170px;">
                                                         <i class="fa-solid fa-wallet me-1"></i> Báo có VietQR (SePay)
                                                     </button>
                                                 </form>
@@ -139,7 +142,7 @@
                                                     @csrf
                                                     <input type="hidden" name="order_id" value="{{ $order->id }}">
                                                     <input type="hidden" name="status" value="shipping">
-                                                    <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill fw-bold text-xs py-1 px-3" style="width: 175px;">
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill fw-bold text-xs py-1 px-3" style="width: 170px;">
                                                         <i class="fa-solid fa-truck-fast me-1"></i> Shipper lấy hàng
                                                     </button>
                                                 </form>
@@ -150,7 +153,7 @@
                                                     @csrf
                                                     <input type="hidden" name="order_id" value="{{ $order->id }}">
                                                     <input type="hidden" name="status" value="completed">
-                                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-bold text-xs py-1 px-3" style="width: 175px;">
+                                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-bold text-xs py-1 px-3" style="width: 170px;">
                                                         <i class="fa-solid fa-box-open me-1"></i> Giao thành công
                                                     </button>
                                                 </form>
@@ -180,17 +183,17 @@
 
         <!-- Right Column: Controls -->
         <div class="col-lg-4">
-            <div class="modern-table-card p-4 mb-4">
+            <div class="crm-table-card-wrapper p-4 mb-4">
                 <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-terminal text-success me-2"></i>Giả lập VietQR thủ công (SePay)</h6>
                 <form action="{{ route('sandbox.payCustomSimulate') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label text-xs fw-bold text-dark">Nội dung chuyển khoản</label>
-                        <input type="text" name="content" class="form-control rounded-3 font-monospace text-xs" placeholder="Ví dụ: ECF000001" required>
+                        <input type="text" name="content" class="crm-table-search-input font-monospace" placeholder="Ví dụ: ECF000001" required style="padding-left: 14px;">
                     </div>
                     <div class="mb-4">
                         <label class="form-label text-xs fw-bold text-dark">Số tiền nhận được (VND)</label>
-                        <input type="number" name="amount" class="form-control rounded-3 font-monospace text-xs" placeholder="Ví dụ: 150000" required>
+                        <input type="number" name="amount" class="crm-table-search-input font-monospace" placeholder="Ví dụ: 150000" required style="padding-left: 14px;">
                     </div>
                     <button type="submit" class="btn btn-success w-100 fw-bold py-2 rounded-pill text-xs shadow-xs" style="background-color: #2e7d32; border: none;">
                         <i class="fa-solid fa-paper-plane me-1"></i> Bắn Webhook chuyển khoản
@@ -198,7 +201,7 @@
                 </form>
             </div>
 
-            <div class="modern-table-card p-4">
+            <div class="crm-table-card-wrapper p-4">
                 <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-circle-info text-info me-2"></i>Thông tin Endpoint Webhook</h6>
                 <ul class="list-unstyled text-xs text-muted mb-0 lh-lg">
                     <li><i class="fa-solid fa-caret-right me-1 text-success"></i> <strong>SePay Webhook:</strong> <code class="font-monospace text-dark">/api/payment/sepay-webhook</code></li>

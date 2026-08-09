@@ -1,39 +1,114 @@
 /* ==========================================================================
-   🌟 ULTRA-MODERN PROFESSIONAL DATA TABLE STYLING SYSTEM
+   🌟 ULTRA-PROFESSIONAL CRM DATA TABLE STYLING SYSTEM (EXACT MATCH TO SCREENSHOTS)
    ========================================================================== */
 
-/* Main Table Container Card */
-.modern-table-card,
-.card-table-wrap {
+/* Main Card Table Wrapper */
+.crm-table-card-wrapper {
     background: #ffffff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
     overflow: hidden;
     margin-bottom: 24px;
 }
 
-/* Custom Table Styling */
-.table.modern-table,
-.table-hover.align-middle {
+/* Filter Control Bar above Table */
+.crm-table-filter-bar {
+    padding: 16px 20px;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.crm-table-search-input {
+    width: 100%;
+    border-radius: 9999px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px 14px 8px 36px;
+    font-size: 13px;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.crm-table-search-input:focus {
+    background-color: #ffffff;
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.crm-search-icon-inside {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Quick Filter Pills Bar */
+.crm-filter-pill-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.crm-filter-pill {
+    border-radius: 9999px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.crm-filter-pill:hover,
+.crm-filter-pill.active {
+    background: #111827;
+    color: #ffffff;
+    border-color: #111827;
+    box-shadow: 0 2px 8px rgba(17, 24, 39, 0.2);
+}
+
+.crm-filter-pill .pill-count {
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 9999px;
+    padding: 1px 7px;
+}
+
+.crm-filter-pill.active .pill-count {
+    background: #374151;
+    color: #ffffff;
+}
+
+/* Table Design */
+.table.crm-data-table {
     width: 100%;
     margin-bottom: 0 !important;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: 13.5px;
+    font-size: 13px;
 }
 
-/* Header Cells */
-.table.modern-table thead th,
-.table-hover.align-middle thead th,
-.modern-table-header {
+.table.crm-data-table thead th {
     background-color: #f8fafc !important;
-    color: #475569 !important;
-    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-size: 11px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.6px !important;
-    padding: 14px 18px !important;
+    letter-spacing: 0.5px !important;
+    padding: 12px 18px !important;
     border-top: none !important;
     border-bottom: 1px solid #e2e8f0 !important;
     border-left: none !important;
@@ -41,26 +116,21 @@
     vertical-align: middle !important;
 }
 
-/* Body Rows & Cells */
-.table.modern-table tbody tr,
-.table-hover.align-middle tbody tr {
+.table.crm-data-table tbody tr {
     transition: background-color 0.15s ease-in-out;
     border-bottom: 1px solid #f1f5f9;
 }
 
-.table.modern-table tbody tr:last-child,
-.table-hover.align-middle tbody tr:last-child {
+.table.crm-data-table tbody tr:last-child {
     border-bottom: none;
 }
 
-.table.modern-table tbody tr:hover,
-.table-hover.align-middle tbody tr:hover {
+.table.crm-data-table tbody tr:hover {
     background-color: #f8fafc !important;
 }
 
-.table.modern-table tbody td,
-.table-hover.align-middle tbody td {
-    padding: 16px 18px !important;
+.table.crm-data-table tbody td {
+    padding: 14px 18px !important;
     vertical-align: middle !important;
     color: #1e293b !important;
     border-top: none !important;
@@ -69,91 +139,111 @@
     border-right: none !important;
 }
 
-/* Status Indicator Dots */
-.status-dot {
+/* FLAME BADGES MATCHING SCREENSHOTS EXACTLY */
+.badge-flame-red {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    box-shadow: 0 1px 4px rgba(220, 38, 38, 0.3) !important;
+}
+
+.badge-flame-yellow {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+    border-radius: 9999px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.badge-flame-orange {
+    background-color: #ffedd5 !important;
+    color: #c2410c !important;
+    border: 1px solid #fed7aa !important;
+    border-radius: 9999px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.badge-tag-gray {
+    background-color: #f3f4f6 !important;
+    color: #4b5563 !important;
+    border-radius: 9999px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+}
+
+/* Pulsing Dots & Soft Status Badges */
+.status-dot-pulse {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     margin-right: 6px;
     vertical-align: middle;
 }
 
-.status-dot-success { background-color: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
-.status-dot-warning { background-color: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
-.status-dot-info { background-color: #06b6d4; box-shadow: 0 0 6px rgba(6, 182, 212, 0.6); }
-.status-dot-primary { background-color: #3b82f6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.6); }
-.status-dot-danger { background-color: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+.status-dot-pulse.dot-green { background-color: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+.status-dot-pulse.dot-yellow { background-color: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
+.status-dot-pulse.dot-red { background-color: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+.status-dot-pulse.dot-blue { background-color: #3b82f6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.6); }
 
-/* Premium Soft Status Badges */
-.badge-soft-success {
+.badge-status-green {
     background-color: #ecfdf5 !important;
     color: #047857 !important;
     border: 1px solid #a7f3d0 !important;
     border-radius: 9999px !important;
-    padding: 4px 12px !important;
+    padding: 3px 10px !important;
     font-weight: 600 !important;
-    font-size: 11.5px !important;
+    font-size: 11px !important;
 }
 
-.badge-soft-warning {
-    background-color: #fffbeb !important;
-    color: #b45309 !important;
-    border: 1px solid #fde68a !important;
-    border-radius: 9999px !important;
-    padding: 4px 12px !important;
-    font-weight: 600 !important;
-    font-size: 11.5px !important;
-}
-
-.badge-soft-info {
-    background-color: #ecfeff !important;
-    color: #0e7490 !important;
-    border: 1px solid #a5f3fc !important;
-    border-radius: 9999px !important;
-    padding: 4px 12px !important;
-    font-weight: 600 !important;
-    font-size: 11.5px !important;
-}
-
-.badge-soft-primary {
+.badge-tag-blue {
     background-color: #eff6ff !important;
     color: #1d4ed8 !important;
     border: 1px solid #bfdbfe !important;
     border-radius: 9999px !important;
-    padding: 4px 12px !important;
-    font-weight: 600 !important;
-    font-size: 11.5px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
 }
 
-.badge-soft-danger {
-    background-color: #fff1f2 !important;
-    color: #be123c !important;
-    border: 1px solid #fecdd3 !important;
+.badge-tag-purple {
+    background-color: #f3e8ff !important;
+    color: #7e22ce !important;
+    border: 1px solid #e9d5ff !important;
     border-radius: 9999px !important;
-    padding: 4px 12px !important;
-    font-weight: 600 !important;
-    font-size: 11.5px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
 }
 
-.badge-soft-secondary {
-    background-color: #f8fafc !important;
-    color: #475569 !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 9999px !important;
-    padding: 4px 12px !important;
-    font-weight: 600 !important;
-    font-size: 11.5px !important;
-}
-
-/* Order Code Tag */
-.order-code-badge {
-    background-color: #f1f5f9;
-    color: #0f172a;
+/* Customer / Item Primary Title & Subtext */
+.crm-cell-title {
+    font-size: 13.5px;
     font-weight: 700;
-    font-family: monospace;
-    font-size: 12px;
-    padding: 3px 8px;
-    border-radius: 6px;
-    border: 1px solid #e2e8f0;
+    color: #111827;
+    display: block;
+}
+
+.crm-cell-subtext {
+    font-size: 11.5px;
+    color: #6b7280;
+    display: block;
+    margin-top: 1px;
 }

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Báo Cáo Doanh Thu Bãi Kho EcoFarm')
+@section('title', 'Báo Cáo Doanh Thu & Bảng Quản Lý Bãi Kho EcoFarm')
 
 @section('content')
 <div class="container py-4">
@@ -13,8 +13,8 @@
             <p class="text-secondary small mb-0">Theo dõi dòng tiền bán lẻ B2C, hiệu suất giao nhận và cơ cấu phân bổ vận đơn EcoFarm</p>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <span class="badge badge-soft-success">
-                <span class="status-dot status-dot-success"></span>Cơ sở Cần Thơ & ĐBSCL
+            <span class="badge badge-status-green">
+                <span class="status-dot-pulse dot-green"></span>Cơ sở Cần Thơ & ĐBSCL
             </span>
             <a href="/admin" class="btn btn-outline-success btn-sm fw-bold px-3 py-2 rounded-pill">
                 <i class="fa-solid fa-gauge me-1"></i>Vào Filament Admin
@@ -23,7 +23,7 @@
     </div>
 
     <!-- Date Filter Card -->
-    <form method="GET" action="{{ route('admin.reports') }}" class="modern-table-card p-4 mb-4">
+    <form method="GET" action="{{ route('admin.reports') }}" class="crm-table-card-wrapper p-4 mb-4">
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label class="form-label fw-bold text-secondary text-xs"><i class="fa-regular fa-calendar me-1 text-success"></i>Từ ngày</label>
@@ -41,10 +41,10 @@
         </div>
     </form>
 
-    <!-- Stat Cards -->
+    <!-- Top Metric Cards -->
     <div class="row g-4 mb-4">
         <div class="col-md-3">
-            <div class="modern-table-card p-4 mb-0 h-100 position-relative overflow-hidden">
+            <div class="crm-table-card-wrapper p-4 mb-0 h-100 position-relative overflow-hidden">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="text-secondary fw-bold text-xs text-uppercase">Doanh thu thực tế</span>
                     <div class="p-2 bg-success-subtle text-success rounded-circle"><i class="fa-solid fa-sack-dollar fs-5"></i></div>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="modern-table-card p-4 mb-0 h-100 position-relative overflow-hidden">
+            <div class="crm-table-card-wrapper p-4 mb-0 h-100 position-relative overflow-hidden">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="text-secondary fw-bold text-xs text-uppercase">Tổng số đơn hàng</span>
                     <div class="p-2 bg-primary-subtle text-primary rounded-circle"><i class="fa-solid fa-boxes-stacked fs-5"></i></div>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="modern-table-card p-4 mb-0 h-100 position-relative overflow-hidden">
+            <div class="crm-table-card-wrapper p-4 mb-0 h-100 position-relative overflow-hidden">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="text-secondary fw-bold text-xs text-uppercase">Giá trị TB đơn</span>
                     <div class="p-2 bg-info-subtle text-info rounded-circle"><i class="fa-solid fa-scale-balanced fs-5"></i></div>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="modern-table-card p-4 mb-0 h-100 position-relative overflow-hidden">
+            <div class="crm-table-card-wrapper p-4 mb-0 h-100 position-relative overflow-hidden">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="text-secondary fw-bold text-xs text-uppercase">Tỷ lệ hủy đơn</span>
                     <div class="p-2 bg-danger-subtle text-danger rounded-circle"><i class="fa-solid fa-ban fs-5"></i></div>
@@ -91,7 +91,7 @@
     <div class="row g-4 mb-4">
         <div class="col-lg-8">
             <!-- Payment Methods Card -->
-            <div class="modern-table-card p-4 mb-4">
+            <div class="crm-table-card-wrapper p-4 mb-4">
                 <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-wallet text-success me-2"></i>Phương thức thanh toán & Dòng tiền</h6>
                 <div class="d-flex flex-column gap-2">
                     @forelse($paymentMethodStats as $stat)
@@ -120,19 +120,19 @@
             </div>
 
             <!-- Top Selling Products Table -->
-            <div class="modern-table-card">
+            <div class="crm-table-card-wrapper">
                 <div class="p-4 border-bottom bg-white d-flex align-items-center justify-content-between">
                     <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-star text-warning me-2"></i>Top 5 vật tư bán chạy nhất vụ này</h6>
-                    <span class="badge badge-soft-success">Doanh số cao</span>
+                    <span class="badge badge-status-green">Doanh số cao</span>
                 </div>
                 <div class="table-responsive">
-                    <table class="table modern-table align-middle mb-0">
+                    <table class="table crm-data-table align-middle mb-0">
                         <thead>
                             <tr>
-                                <th class="ps-4">Tên mặt hàng vật tư</th>
-                                <th>Quy cách đóng gói</th>
-                                <th class="text-center">Số lượng bán</th>
-                                <th class="pe-4 text-end">Doanh thu thu về</th>
+                                <th class="ps-4">MẶT HÀNG VẬT TƯ</th>
+                                <th>QUY CÁCH</th>
+                                <th class="text-center">SỐ LƯỢNG BÁN</th>
+                                <th class="pe-4 text-end">DOANH THU THU VỀ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,12 +143,14 @@
                                             <span class="badge rounded-circle me-2.5 bg-dark text-white fw-bold" style="width: 22px; height: 22px; line-height: 16px; font-size: 11px;">
                                                 {{ $index + 1 }}
                                             </span>
-                                            <span class="fw-bold text-dark">{{ $prod->name }}</span>
+                                            <div>
+                                                <span class="crm-cell-title">{{ $prod->name }}</span>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td class="text-secondary">{{ $prod->packaging }} ({{ $prod->unit }})</td>
+                                    <td class="text-secondary text-xs">{{ $prod->packaging }} ({{ $prod->unit }})</td>
                                     <td class="text-center">
-                                        <span class="badge badge-soft-secondary">
+                                        <span class="badge badge-tag-blue">
                                             {{ number_format($prod->total_qty) }} {{ $prod->unit }}
                                         </span>
                                     </td>
@@ -167,7 +169,7 @@
 
         <!-- Right Column: Timeline -->
         <div class="col-lg-4">
-            <div class="modern-table-card p-4 h-100">
+            <div class="crm-table-card-wrapper p-4 h-100">
                 <h6 class="fw-bold text-dark mb-4"><i class="fa-solid fa-truck-ramp-box text-success me-2"></i>Trạng thái kho bãi (Timeline)</h6>
                 <div class="d-flex flex-column gap-3">
                     <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border-start border-4 border-warning bg-warning-subtle text-warning-emphasis">
@@ -214,52 +216,63 @@
         </div>
     </div>
 
-    <!-- Recent Orders Table -->
-    <div class="modern-table-card">
+    <!-- 🌟 RECENT ORDERS CRM DATA TABLE (Tài sản bảng chính nội bộ EcoFarm) -->
+    <div class="crm-table-card-wrapper">
         <div class="p-4 border-bottom bg-white d-flex align-items-center justify-content-between">
             <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-clock-rotate-left text-secondary me-2"></i>Lịch sử 10 đơn hàng phát sinh gần nhất</h6>
-            <span class="badge badge-soft-secondary">Thời gian thực</span>
+            <span class="badge badge-tag-blue">Thời gian thực</span>
         </div>
         <div class="table-responsive">
-            <table class="table modern-table align-middle mb-0">
+            <table class="table crm-data-table align-middle mb-0">
                 <thead>
                     <tr>
-                        <th class="ps-4">Mã đơn</th>
-                        <th>Họ tên người nhận</th>
-                        <th>Số điện thoại</th>
-                        <th>Địa chỉ giao hàng</th>
-                        <th>Đối tượng</th>
-                        <th>Trạng thái</th>
-                        <th class="pe-4 text-end">Tổng thanh toán</th>
+                        <th class="ps-4">MÃ ĐƠN & KHÁCH HÀNG</th>
+                        <th>SỐ ĐIỆN THOẠI</th>
+                        <th>ĐỊA CHỈ GIAO HÀNG</th>
+                        <th>ĐỐI TƯỢNG</th>
+                        <th>MỨC ƯU TIÊN</th>
+                        <th>TRẠNG THÁI</th>
+                        <th class="pe-4 text-end">TỔNG THANH TOÁN</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($recentOrders as $order)
                         <tr>
                             <td class="ps-4">
-                                <span class="order-code-badge">#{{ $order->id }}</span>
+                                <span class="crm-cell-title text-dark">#ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</span>
+                                <span class="crm-cell-subtext">{{ $order->customer_name }}</span>
                             </td>
-                            <td class="fw-bold text-dark">{{ $order->customer_name }}</td>
                             <td class="text-secondary"><i class="fa-solid fa-phone me-1 opacity-75"></i>{{ $order->customer_phone }}</td>
-                            <td><span class="text-truncate d-inline-block text-secondary" style="max-width: 220px;">{{ $order->shipping_address }}</span></td>
+                            <td><span class="text-truncate d-inline-block text-secondary" style="max-width: 200px;">{{ $order->shipping_address }}</span></td>
                             <td>
                                 @if($order->user && $order->user->role === 'agency')
-                                    <span class="badge-soft-primary"><i class="fa-solid fa-building me-1"></i>Đại lý B2B</span>
+                                    <span class="badge-tag-blue"><i class="fa-solid fa-building me-1"></i>Đại lý B2B</span>
                                 @else
-                                    <span class="badge-soft-secondary"><i class="fa-solid fa-leaf me-1 text-success"></i>Nhà vườn</span>
+                                    <span class="badge-tag-gray"><i class="fa-solid fa-leaf me-1 text-success"></i>Nhà vườn</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($order->status === 'shipping')
+                                    <span class="badge-flame-orange"><i class="fa-solid fa-fire"></i>🔥 5 Cháy Rực</span>
+                                @elseif($order->status === 'processing')
+                                    <span class="badge-flame-yellow"><i class="fa-solid fa-fire"></i>🔥 3 Bén Lửa</span>
+                                @elseif($order->status === 'pending')
+                                    <span class="badge-flame-red"><i class="fa-solid fa-fire"></i>🔥 Khẩn cấp</span>
+                                @else
+                                    <span class="badge-tag-gray">🔥 Tắt Ngấm</span>
                                 @endif
                             </td>
                             <td>
                                 @if($order->status === 'pending')
-                                    <span class="badge-soft-warning"><span class="status-dot status-dot-warning"></span>Chờ duyệt</span>
+                                    <span class="badge-flame-red"><span class="status-dot-pulse dot-red"></span>Chờ duyệt</span>
                                 @elseif($order->status === 'processing')
-                                    <span class="badge-soft-primary"><span class="status-dot status-dot-primary"></span>Đóng gói</span>
+                                    <span class="badge-flame-yellow"><span class="status-dot-pulse dot-yellow"></span>Đóng gói</span>
                                 @elseif($order->status === 'shipping')
-                                    <span class="badge-soft-info"><span class="status-dot status-dot-info"></span>Đang giao</span>
+                                    <span class="badge-flame-orange"><span class="status-dot-pulse dot-blue"></span>Đang giao</span>
                                 @elseif($order->status === 'completed')
-                                    <span class="badge-soft-success"><span class="status-dot status-dot-success"></span>Hoàn thành</span>
+                                    <span class="badge-status-green"><span class="status-dot-pulse dot-green"></span>Hoàn thành</span>
                                 @else
-                                    <span class="badge-soft-danger"><span class="status-dot status-dot-danger"></span>Đã hủy</span>
+                                    <span class="badge-tag-gray"><span class="status-dot-pulse dot-red"></span>Đã hủy</span>
                                 @endif
                             </td>
                             <td class="pe-4 text-end fw-bold text-danger fs-6">{{ number_format($order->total_amount, 0, ',', '.') }}đ</td>
