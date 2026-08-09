@@ -235,11 +235,8 @@
                 </div>
             </div>
 
-            <!-- 🌟 SHOPEE-STYLE ACTION BUTTONS -->
+            <!-- 🌟 ACTION BUTTONS -->
             <div class="d-flex flex-wrap gap-3 justify-content-center">
-                <button type="button" onclick="window.print()" class="btn btn-outline-secondary btn-lg fw-bold px-4 py-2.5 rounded-pill d-inline-flex align-items-center gap-2 text-sm">
-                    <i class="fa-solid fa-print"></i> In Hóa Đơn
-                </button>
                 <a href="{{ route('orders.track') }}" class="btn btn-outline-success btn-lg fw-bold px-4 py-2.5 rounded-pill d-inline-flex align-items-center gap-2 text-sm">
                     <i class="fa-solid fa-magnifying-glass-location"></i> Tra Cứu Vận Đơn
                 </a>
