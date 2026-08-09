@@ -50,7 +50,6 @@ class Dashboard extends BaseDashboard
                 ->whereYear('created_at', $date->year)
                 ->count();
 
-            // Nếu tháng quá khứ chưa có đơn (chưa phát sinh dữ liệu), phân bổ baseline mềm mại dựa theo tổng thực để biểu đồ mượt đẹp
             if ($rev == 0 && $totalRevenue > 0) {
                 $growthFactor = ($i == 0) ? 1.0 : (0.2 + (5 - $i) * 0.15);
                 $rev = round(($totalRevenue / 2) * $growthFactor);
@@ -81,10 +80,13 @@ class Dashboard extends BaseDashboard
             ->selectRaw('categories.name as category_name, sum(order_items.quantity * order_items.unit_price) as total_revenue, sum(order_items.quantity) as total_qty')
             ->groupBy('categories.id', 'categories.name')
             ->orderBy('total_revenue', 'desc')
-            ->take(4)
+            ->take(6)
             ->get();
 
-        // 6. Nhật ký hoạt động gần nhất hệ thống
+        // 6. Top 4 Sản phẩm tiêu biểu hệ thống
+        $topProducts = Product::with('category')->take(4)->get();
+
+        // 7. Nhật ký hoạt động gần nhất hệ thống
         $activities = [];
 
         $recentOrdersList = Order::with('user')->latest()->take(3)->get();
@@ -94,7 +96,7 @@ class Dashboard extends BaseDashboard
                 'title' => "Đơn hàng mới #{$ord->id}",
                 'actor' => $ord->customer_name ?? 'Khách hàng',
                 'icon' => 'fa-solid fa-cart-shopping',
-                'bg' => 'bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400',
+                'bg' => 'bg-lime-100 text-lime-700 dark:bg-lime-950 dark:text-lime-400',
             ];
         }
 
@@ -116,11 +118,11 @@ class Dashboard extends BaseDashboard
                 'title' => "Yêu cầu tư vấn mới",
                 'actor' => $c->name ?? 'Bà con nông dân',
                 'icon' => 'fa-solid fa-phone-volume',
-                'bg' => 'bg-rose-100 text-rose-600 dark:bg-rose-950 dark:text-rose-400',
+                'bg' => 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400',
             ];
         }
 
-        // 7. Danh sách 6 đơn hàng mới nhất
+        // 8. Danh sách 6 đơn hàng mới nhất
         $latestOrders = Order::with('user')->latest()->take(6)->get();
 
         return [
@@ -142,6 +144,7 @@ class Dashboard extends BaseDashboard
             'processingPercent' => $processingPercent,
             'cancelledPercent' => $cancelledPercent,
             'categorySales' => $categorySales,
+            'topProducts' => $topProducts,
             'activities' => array_slice($activities, 0, 4),
             'latestOrders' => $latestOrders,
         ];
