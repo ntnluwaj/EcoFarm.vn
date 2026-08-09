@@ -143,6 +143,32 @@ class CartController extends Controller
      */
     public function storeOrder(Request $request)
     {
+        // Tự động phân tách và bổ sung Tỉnh/Huyện/Xã nếu gửi từ thẻ địa chỉ mặc định
+        if ($request->filled('address_street') && (!$request->filled('address_province') || !$request->filled('address_district') || !$request->filled('address_ward'))) {
+            $parts = array_filter(array_map('trim', explode(',', $request->input('address_street'))));
+            if (count($parts) >= 4) {
+                $request->merge([
+                    'address_street'   => implode(', ', array_slice($parts, 0, count($parts) - 3)),
+                    'address_ward'     => $request->input('address_ward') ?: $parts[count($parts) - 3],
+                    'address_district' => $request->input('address_district') ?: $parts[count($parts) - 2],
+                    'address_province' => $request->input('address_province') ?: $parts[count($parts) - 1],
+                ]);
+            } elseif (count($parts) === 3) {
+                $request->merge([
+                    'address_street'   => $parts[0],
+                    'address_ward'     => $request->input('address_ward') ?: $parts[0],
+                    'address_district' => $request->input('address_district') ?: $parts[1],
+                    'address_province' => $request->input('address_province') ?: $parts[2],
+                ]);
+            } else {
+                $request->merge([
+                    'address_ward'     => $request->input('address_ward') ?: 'Giao tận vườn',
+                    'address_district' => $request->input('address_district') ?: 'Địa phương',
+                    'address_province' => $request->input('address_province') ?: 'Đồng bằng sông Cửu Long',
+                ]);
+            }
+        }
+
         // 1. Kiểm tra tính hợp lệ của dữ liệu (Validation) khớp 100% với các thuộc tính 'name' ở giao diện HTML
         $rules = [
             'name'             => 'required|string|max:100',

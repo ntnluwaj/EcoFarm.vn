@@ -60,75 +60,98 @@
                 <form action="{{ route('cart.storeOrder') }}" method="POST">
                     @csrf
                     
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-dark small fw-bold"><i class="fa-regular fa-user me-1 text-success"></i>Họ và tên người nhận *</label>
-                            <input type="text" name="name" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: Nguyễn Văn A" value="{{ auth()->check() ? auth()->user()->name : old('name') }}" required style="font-size: 13.5px;">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-phone me-1 text-success"></i>Số điện thoại nhận hàng *</label>
-                            <input type="text" name="phone" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: 0907xxxxxx" value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}" required style="font-size: 13.5px;">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-envelope me-1 text-success"></i>Địa chỉ Email nhận tiến độ & hóa đơn *</label>
-                        <input type="email" name="email" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: hotro@ecofarm.vn" value="{{ auth()->check() ? auth()->user()->email : old('email') }}" required style="font-size: 13.5px;">
-                    </div>
-
-                    <div class="mb-4 position-relative">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-map-location-dot me-1 text-success"></i>Tự điền hoặc tìm kiếm địa chỉ nhanh *</label>
-                            @if(auth()->check() && auth()->user()->address)
+                    @if(auth()->check() && auth()->user()->address)
+                        <!-- 🌟 SHOPEE-STYLE DEFAULT ADDRESS CARD (CHO KHÁCH HÀNG ĐÃ ĐĂNG NHẬP) -->
+                        <div class="card border-0 shadow-xs rounded-4 p-3.5 mb-4 bg-white border-start border-4 border-success position-relative overflow-hidden" id="shopee-address-card" style="background: linear-gradient(135deg, #ffffff 0%, #f4fbf7 100%);">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill text-xs fw-semibold">
-                                        <i class="fa-solid fa-circle-check text-success me-1"></i>Địa chỉ mặc định tài khoản
+                                    <span class="badge text-white fw-bold px-2.5 py-1 rounded-pill text-xs shadow-2xs" style="background: #2e7d32;">
+                                        <i class="fa-solid fa-house-user me-1"></i>Địa chỉ giao mặc định
                                     </span>
-                                    <button type="button" class="btn btn-outline-success btn-xs py-0.5 px-2.5 rounded-pill fw-semibold border-success" style="font-size: 11.5px; background: transparent;" onclick="useSavedAddress()">
-                                        <i class="fa-solid fa-rotate-left me-1"></i>Điền lại
-                                    </button>
+                                    <span class="text-success text-xs fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Tự động thiết lập</span>
                                 </div>
-                            @endif
-                        </div>
-                        
-                        <!-- Ô tìm kiếm nhanh tự động phân tách địa chỉ -->
-                        <div class="input-group mb-2 shadow-xs">
-                            <span class="input-group-text bg-light border-light-subtle text-muted" style="font-size: 12.5px;"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
-                            <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Nhập địa chỉ nhà vườn (ví dụ: Ấp 1, xã Phong Điền, Cần Thơ)..." style="font-size: 13px;" autocomplete="off" value="{{ old('address_search', auth()->check() ? auth()->user()->address : '') }}">
-                        </div>
-                        
-                        <!-- Dropdown gợi ý địa chỉ -->
-                        <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 75px; left: 0;"></div>
+                                <button type="button" class="btn btn-outline-success btn-xs rounded-pill px-3 py-1 fw-bold text-xs shadow-2xs" onclick="toggleAddressEditForm()">
+                                    <i class="fa-solid fa-pen-to-square me-1"></i>Thay đổi địa chỉ
+                                </button>
+                            </div>
 
-                        <!-- 4 trường địa chỉ bắt buộc và phân tách rõ ràng -->
-                        <div class="row g-2 mb-2 p-3 bg-light rounded-3 border border-light-subtle">
-                            <div class="col-md-4">
-                                <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Tỉnh / Thành phố *</label>
-                                <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
-                                    <option value="">Chọn Tỉnh / Thành</option>
-                                </select>
+                            <div class="p-3 rounded-3 bg-white border border-success-subtle shadow-2xs">
+                                <div class="d-flex align-items-center gap-3 mb-1.5 flex-wrap">
+                                    <strong class="text-dark fs-6" style="font-weight: 800;">{{ auth()->user()->name }}</strong>
+                                    <span class="text-muted opacity-50">|</span>
+                                    <span class="fw-bold text-success text-sm"><i class="fa-solid fa-phone me-1"></i>{{ auth()->user()->phone ?? 'Chưa cập nhật SĐT' }}</span>
+                                    <span class="badge bg-light text-secondary border text-xs ms-auto"><i class="fa-solid fa-envelope me-1"></i>{{ auth()->user()->email }}</span>
+                                </div>
+                                <p class="text-dark mb-0 font-medium text-sm d-flex align-items-start gap-2" style="line-height: 1.5;">
+                                    <i class="fa-solid fa-location-dot text-danger mt-1 fs-5"></i>
+                                    <span id="shopee-card-address-text" class="fw-semibold" style="color: #1b5e20;">{{ auth()->user()->address }}</span>
+                                </p>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Quận / Huyện *</label>
-                                <select name="address_district" id="address_district" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
-                                    <option value="">Chọn Quận / Huyện</option>
-                                </select>
+                        </div>
+                    @endif
+
+                    <!-- 🌟 KHUNG ĐIỀN THÔNG TIN & ĐỊA CHỈ CHI TIẾT (TỰ ĐỘNG ẨN/HIỆN THÔNG MINH) -->
+                    <div id="address-edit-wrapper" style="display: {{ (auth()->check() && auth()->user()->address) ? 'none' : 'block' }};">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark small fw-bold"><i class="fa-regular fa-user me-1 text-success"></i>Họ và tên người nhận *</label>
+                                <input type="text" name="name" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: Nguyễn Văn A" value="{{ auth()->check() ? auth()->user()->name : old('name') }}" required style="font-size: 13.5px;">
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Xã / Phường / Thị trấn *</label>
-                                <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" required style="font-size: 13px;">
-                                    <option value="">Chọn Xã / Phường</option>
-                                </select>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
-                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám, Ấp Bãi Xáng" required style="font-size: 13px;" value="{{ old('address_street', auth()->check() ? auth()->user()->address : '') }}">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-phone me-1 text-success"></i>Số điện thoại nhận hàng *</label>
+                                <input type="text" name="phone" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: 0907xxxxxx" value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}" required style="font-size: 13.5px;">
                             </div>
                         </div>
 
-                        <!-- Khung chứa bản đồ mini Leaflet -->
-                        <div id="map-container" class="mt-2 rounded-3 overflow-hidden border border-light-subtle" style="height: 200px; display: none;">
-                            <div id="map" class="w-100 h-100"></div>
+                        <div class="mb-3">
+                            <label class="form-label text-dark small fw-bold"><i class="fa-solid fa-envelope me-1 text-success"></i>Địa chỉ Email nhận tiến độ & hóa đơn *</label>
+                            <input type="email" name="email" class="form-control rounded-3 border-light-subtle text-sm p-2.5" placeholder="Ví dụ: hotro@ecofarm.vn" value="{{ auth()->check() ? auth()->user()->email : old('email') }}" required style="font-size: 13.5px;">
+                        </div>
+
+                        <div class="mb-4 position-relative">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-map-location-dot me-1 text-success"></i>Tự điền hoặc tìm kiếm địa chỉ nhanh *</label>
+                            </div>
+                            
+                            <!-- Ô tìm kiếm nhanh tự động phân tách địa chỉ -->
+                            <div class="input-group mb-2 shadow-xs">
+                                <span class="input-group-text bg-light border-light-subtle text-muted" style="font-size: 12.5px;"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
+                                <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Nhập địa chỉ nhà vườn (ví dụ: Ấp 1, xã Phong Điền, Cần Thơ)..." style="font-size: 13px;" autocomplete="off" value="{{ old('address_search', auth()->check() ? auth()->user()->address : '') }}">
+                            </div>
+                            
+                            <!-- Dropdown gợi ý địa chỉ -->
+                            <div id="address-suggestions" class="dropdown-menu shadow w-100 p-0 overflow-hidden" style="display: none; max-height: 220px; z-index: 1050; position: absolute; top: 75px; left: 0;"></div>
+
+                            <!-- 4 trường địa chỉ bắt buộc và phân tách rõ ràng -->
+                            <div class="row g-2 mb-2 p-3 bg-light rounded-3 border border-light-subtle">
+                                <div class="col-md-4">
+                                    <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Tỉnh / Thành phố *</label>
+                                    <select name="address_province" id="address_province" class="form-select rounded-3 border-light-subtle text-sm p-2" style="font-size: 13px;">
+                                        <option value="">Chọn Tỉnh / Thành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Quận / Huyện *</label>
+                                    <select name="address_district" id="address_district" class="form-select rounded-3 border-light-subtle text-sm p-2" style="font-size: 13px;">
+                                        <option value="">Chọn Quận / Huyện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Xã / Phường / Thị trấn *</label>
+                                    <select name="address_ward" id="address_ward" class="form-select rounded-3 border-light-subtle text-sm p-2" style="font-size: 13px;">
+                                        <option value="">Chọn Xã / Phường</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
+                                    <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám, Ấp Bãi Xáng" required style="font-size: 13px;" value="{{ old('address_street', auth()->check() ? auth()->user()->address : '') }}">
+                                </div>
+                            </div>
+
+                            <!-- Khung chứa bản đồ mini Leaflet -->
+                            <div id="map-container" class="mt-2 rounded-3 overflow-hidden border border-light-subtle" style="height: 200px; display: none;">
+                                <div id="map" class="w-100 h-100"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -917,6 +940,18 @@
             const searchInput = document.getElementById('address-search');
             if (searchInput) {
                 searchInput.value = savedAddress;
+            }
+        }
+    };
+
+    window.toggleAddressEditForm = function() {
+        const wrapper = document.getElementById('address-edit-wrapper');
+        if (wrapper) {
+            if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+                wrapper.style.display = 'block';
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                wrapper.style.display = 'none';
             }
         }
     };
