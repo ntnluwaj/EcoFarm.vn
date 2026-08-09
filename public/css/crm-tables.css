@@ -1,236 +1,159 @@
 /* ==========================================================================
-   🌟 CRM-STYLE PROFESSIONAL TABLE DESIGN SYSTEM (MATCHING DASHBOARD UI)
+   🌟 ULTRA-MODERN PROFESSIONAL DATA TABLE STYLING SYSTEM
    ========================================================================== */
 
-.crm-table-container {
-    background: #f8fafc;
-    border-radius: 20px;
-    padding: 24px;
-}
-
-/* Card-Row Container */
-.crm-card-row {
+/* Main Table Container Card */
+.modern-table-card,
+.card-table-wrap {
     background: #ffffff;
     border-radius: 16px;
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.crm-card-row:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-    border-color: rgba(16, 185, 129, 0.4);
-}
-
-/* Pulsing Status Dot Indicator */
-.status-dot-pulse {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    position: relative;
-}
-
-.status-dot-pulse.dot-green {
-    background-color: #10b981;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
-}
-
-.status-dot-pulse.dot-orange {
-    background-color: #f59e0b;
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.7);
-}
-
-.status-dot-pulse.dot-red {
-    background-color: #ef4444;
-    box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
-}
-
-.status-dot-pulse.dot-blue {
-    background-color: #3b82f6;
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
-}
-
-/* Vibrant CRM Status Pill Badges */
-.crm-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    font-size: 11.5px;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: 0.2px;
-}
-
-/* Flame Badges (Hot / High Priority / Express) */
-.badge-flame-red {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: #ffffff;
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
-}
-
-.badge-flame-orange {
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-    color: #ffffff;
-    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
-}
-
-.badge-flame-yellow {
-    background: #fef3c7;
-    color: #b45309;
-    border: 1px solid #fde68a;
-}
-
-.badge-pill-green {
-    background: #dcfce7;
-    color: #15803d;
-    border: 1px solid #bbf7d0;
-}
-
-.badge-pill-blue {
-    background: #dbeafe;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-}
-
-.badge-tag-outline {
-    background: #f8fafc;
-    color: #475569;
-    border: 1px solid #cbd5e1;
-    border-radius: 9999px;
-    padding: 3px 10px;
-    font-size: 11px;
-    font-weight: 500;
-}
-
-/* CRM Left Filter Sidebar Card */
-.crm-filter-panel {
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid rgba(226, 232, 240, 0.9);
+    border: 1px solid #e5e7eb;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    padding: 24px;
-}
-
-.crm-search-wrapper {
-    position: relative;
-}
-
-.crm-search-wrapper .search-icon {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    font-size: 14px;
-}
-
-.crm-search-input {
-    border-radius: 12px;
-    background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
-    padding: 10px 14px 10px 38px;
-    font-size: 13px;
-    width: 100%;
-    transition: all 0.2s ease;
-}
-
-.crm-search-input:focus {
-    background-color: #ffffff;
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    outline: none;
-}
-
-/* Filter Tag Pill Buttons */
-.btn-filter-pill {
-    border-radius: 9999px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid #e2e8f0;
-    background: #ffffff;
-    color: #475569;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-filter-pill.active,
-.btn-filter-pill:hover {
-    background: #10b981;
-    color: #ffffff;
-    border-color: #10b981;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-}
-
-/* Mini Progress Breakdown Bar */
-.crm-progress-bar-bg {
-    height: 8px;
-    border-radius: 9999px;
-    background: #f1f5f9;
     overflow: hidden;
+    margin-bottom: 24px;
 }
 
-.crm-progress-bar-fill {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 0.4s ease;
-}
-
-/* Modern Data Table Styling */
-.crm-table {
+/* Custom Table Styling */
+.table.modern-table,
+.table-hover.align-middle {
     width: 100%;
+    margin-bottom: 0 !important;
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0;
+    font-size: 13.5px;
 }
 
-.crm-table thead th {
-    background: transparent;
-    color: #64748b;
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 10px 16px;
-    border: none;
+/* Header Cells */
+.table.modern-table thead th,
+.table-hover.align-middle thead th,
+.modern-table-header {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+    padding: 14px 18px !important;
+    border-top: none !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    vertical-align: middle !important;
 }
 
-.crm-table tbody tr {
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    border-radius: 14px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+/* Body Rows & Cells */
+.table.modern-table tbody tr,
+.table-hover.align-middle tbody tr {
+    transition: background-color 0.15s ease-in-out;
+    border-bottom: 1px solid #f1f5f9;
 }
 
-.crm-table tbody tr:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+.table.modern-table tbody tr:last-child,
+.table-hover.align-middle tbody tr:last-child {
+    border-bottom: none;
 }
 
-.crm-table tbody td {
-    padding: 16px 18px;
-    border-top: 1px solid rgba(241, 245, 249, 0.9);
-    border-bottom: 1px solid rgba(241, 245, 249, 0.9);
+.table.modern-table tbody tr:hover,
+.table-hover.align-middle tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+
+.table.modern-table tbody td,
+.table-hover.align-middle tbody td {
+    padding: 16px 18px !important;
+    vertical-align: middle !important;
+    color: #1e293b !important;
+    border-top: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+/* Status Indicator Dots */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
     vertical-align: middle;
 }
 
-.crm-table tbody td:first-child {
-    border-top-left-radius: 14px;
-    border-bottom-left-radius: 14px;
-    border-left: 1px solid rgba(241, 245, 249, 0.9);
+.status-dot-success { background-color: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+.status-dot-warning { background-color: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
+.status-dot-info { background-color: #06b6d4; box-shadow: 0 0 6px rgba(6, 182, 212, 0.6); }
+.status-dot-primary { background-color: #3b82f6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.6); }
+.status-dot-danger { background-color: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+
+/* Premium Soft Status Badges */
+.badge-soft-success {
+    background-color: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
 }
 
-.crm-table tbody td:last-child {
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-    border-right: 1px solid rgba(241, 245, 249, 0.9);
+.badge-soft-warning {
+    background-color: #fffbeb !important;
+    color: #b45309 !important;
+    border: 1px solid #fde68a !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+}
+
+.badge-soft-info {
+    background-color: #ecfeff !important;
+    color: #0e7490 !important;
+    border: 1px solid #a5f3fc !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+}
+
+.badge-soft-primary {
+    background-color: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border: 1px solid #bfdbfe !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+}
+
+.badge-soft-danger {
+    background-color: #fff1f2 !important;
+    color: #be123c !important;
+    border: 1px solid #fecdd3 !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+}
+
+.badge-soft-secondary {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 9999px !important;
+    padding: 4px 12px !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+}
+
+/* Order Code Tag */
+.order-code-badge {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
 }

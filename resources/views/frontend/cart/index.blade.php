@@ -22,16 +22,16 @@
         <div class="row g-4">
             <!-- Cart Items List -->
             <div class="col-lg-8">
-                <div class="crm-filter-panel overflow-hidden">
+                <div class="modern-table-card">
                     <div class="table-responsive">
-                        <table class="crm-table">
+                        <table class="table modern-table align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th class="ps-3">Vật tư nông nghiệp</th>
+                                    <th class="ps-4">Vật tư nông nghiệp</th>
                                     <th>Đơn giá</th>
                                     <th class="text-center">Số lượng</th>
                                     <th class="text-end">Thành tiền</th>
-                                    <th class="pe-3 text-center">Xóa</th>
+                                    <th class="pe-4 text-center">Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>

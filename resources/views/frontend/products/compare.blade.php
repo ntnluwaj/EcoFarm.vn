@@ -20,7 +20,7 @@
     </div>
 
     @if(count($products) > 0)
-        <div class="crm-filter-panel mb-4 overflow-hidden">
+        <div class="modern-table-card mb-4">
             <div class="table-responsive no-scrollbar">
                 <table class="table table-bordered align-middle mb-0 text-center" style="min-width: 750px; table-layout: fixed;">
                     <thead>

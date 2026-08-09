@@ -268,11 +268,6 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold text-danger {{ request()->routeIs('crm.interactions') ? 'active' : '' }}" href="{{ route('crm.interactions') }}">
-                            <i class="fa-solid fa-fire-flame-curved me-1 text-danger"></i>Nhật ký CRM
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle-custom fw-semibold {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#" id="techDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Quy trình kỹ thuật <i class="fa-solid fa-chevron-down ms-1 text-success opacity-75" style="font-size: 10px; vertical-align: middle; margin-top: -2px;"></i>
