@@ -11,6 +11,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
@@ -60,103 +62,133 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(150)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
-                    ->label('Tên thương mại sản phẩm'),
-
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(150)
-                    ->unique(ignoreRecord: true)
-                    ->label('Đường dẫn Slug (SEO)'),
-
-                Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->label('Danh mục phân loại'),
-
-                Select::make('brand_id')
-                    ->relationship('brand', 'name')
-                    ->nullable()
-                    ->searchable()
-                    ->preload()
-                    ->label('Thương hiệu / Nhà sản xuất'),
-
-                FileUpload::make('images')
-                    ->multiple() 
-                    ->image() 
-                    ->reorderable() 
-                    ->panelLayout('grid')
-                    ->imagePreviewHeight('150px')
-                    ->directory('products') 
-                    ->disk('public')
-                    ->columnSpanFull() 
-                    ->label('Bộ sưu tập hình ảnh vật tư (Nhiều ảnh Slide)'),
-
-                TextInput::make('price')
-                    ->numeric()
-                    ->required()
-                    ->prefix('VND')
-                    ->label('Giá bán niêm yết'),
-
-                TextInput::make('unit')
-                    ->required()
-                    ->maxLength(20)
-                    ->placeholder('Ví dụ: Chai, Gói, Bao, Can')
-                    ->label('Đơn vị tính cơ sở'),
-
-                TextInput::make('packaging')
-                    ->required()
-                    ->maxLength(50)
-                    ->placeholder('Ví dụ: Thùng 24 chai, Bao 50kg')
-                    ->label('Quy cách đóng gói'),
-
-                TextInput::make('stock')
-                    ->numeric()
-                    ->default(0)
-                    ->required()
-                    ->label('Số lượng hàng tồn kho thực tế'),
-
-                Toggle::make('status')
-                    ->default(true)
-                    ->label('Trạng thái mở bán công khai'),
-
-                RichEditor::make('description')
-                    ->nullable()
-                    ->columnSpanFull()
-                    ->label('Bài viết mô tả chi tiết thành phần, công dụng'),
-
-                RichEditor::make('usage_guide')
-                    ->nullable()
-                    ->columnSpanFull()
-                    ->label('Hướng dẫn kỹ thuật bón tưới, liều lượng an toàn'),
-
-                Forms\Components\Repeater::make('variants')
-                    ->relationship('variants')
+                Section::make('THÔNG TIN CƠ BẢN VẬT TƯ')
+                    ->description('Nhập thông tin tên thương mại, phân loại danh mục và nhà sản xuất vật tư')
                     ->schema([
-                        Forms\Components\TextInput::make('capacity')
-                            ->label('Dung tích / Trọng lượng')
-                            ->placeholder('Ví dụ: 100ml, 500ml, 1kg')
-                            ->required(),
-                        Forms\Components\TextInput::make('price')
-                            ->label('Giá bán lẻ')
-                            ->numeric()
+                        Grid::make(3)->schema([
+                            TextInput::make('name')
+                                ->required()
+                                ->maxLength(150)
+                                ->placeholder('Ví dụ: Thuốc trừ bệnh Anvil 5SC Syngenta')
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn (string $operation, $state, $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                                ->label('Tên thương mại sản phẩm *'),
+
+                            Select::make('category_id')
+                                ->relationship('category', 'name')
+                                ->required()
+                                ->searchable()
+                                ->preload()
+                                ->placeholder('— Chọn danh mục phân loại —')
+                                ->label('Danh mục phân loại *'),
+
+                            Select::make('brand_id')
+                                ->relationship('brand', 'name')
+                                ->nullable()
+                                ->searchable()
+                                ->preload()
+                                ->placeholder('— Chọn thương hiệu NSX —')
+                                ->label('Thương hiệu / Nhà sản xuất'),
+                        ]),
+
+                        TextInput::make('slug')
                             ->required()
-                            ->prefix('VND'),
-                        Forms\Components\TextInput::make('stock')
-                            ->label('Số lượng tồn kho')
-                            ->numeric()
-                            ->required()
-                            ->default(0),
-                    ])
-                    ->columns(3)
-                    ->columnSpanFull()
-                    ->label('Danh sách phiên bản dung tích (Nếu có nhiều loại khác nhau)'),
+                            ->maxLength(150)
+                            ->unique(ignoreRecord: true)
+                            ->label('Đường dẫn Slug (SEO tự động)'),
+                    ]),
+
+                Section::make('THÔNG TIN ĐÓNG GÓI & GIÁ BÁN')
+                    ->description('Cấu hình đơn giá bán niêm yết, đơn vị tính và quy cách bao bì đóng gói')
+                    ->schema([
+                        Grid::make(3)->schema([
+                            TextInput::make('price')
+                                ->numeric()
+                                ->required()
+                                ->prefix('VND')
+                                ->placeholder('Ví dụ: 210000')
+                                ->label('Giá bán niêm yết *'),
+
+                            TextInput::make('unit')
+                                ->required()
+                                ->maxLength(20)
+                                ->placeholder('Ví dụ: Chai, Gói, Bao, Can')
+                                ->label('Đơn vị tính cơ sở *'),
+
+                            TextInput::make('packaging')
+                                ->required()
+                                ->maxLength(50)
+                                ->placeholder('Ví dụ: Thùng 24 chai 1 Lít, Bao 50kg')
+                                ->label('Quy cách đóng gói *'),
+                        ]),
+                    ]),
+
+                Section::make('QUẢN LÝ KHO BÃI & TRẠNG THÁI MỞ BÁN')
+                    ->description('Cập nhật số lượng tồn kho bến bãi thực tế và quyền hiển thị mở bán công khai')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('stock')
+                                ->numeric()
+                                ->default(0)
+                                ->required()
+                                ->suffix('Đơn vị')
+                                ->label('Số lượng tồn kho bến bãi thực tế *'),
+
+                            Toggle::make('status')
+                                ->default(true)
+                                ->label('Trạng thái mở bán công khai trên hệ thống'),
+                        ]),
+                    ]),
+
+                Section::make('BỘ SƯU TẬP HÌNH ẢNH & THÔNG TIN KỸ THUẬT')
+                    ->description('Tải lên bộ sưu tập hình ảnh vật tư và bài viết hướng dẫn bón tưới kỹ thuật')
+                    ->schema([
+                        FileUpload::make('images')
+                            ->multiple() 
+                            ->image() 
+                            ->reorderable() 
+                            ->panelLayout('grid')
+                            ->imagePreviewHeight('150px')
+                            ->directory('products') 
+                            ->disk('public')
+                            ->columnSpanFull() 
+                            ->label('Bộ sưu tập hình ảnh vật tư (Nhiều ảnh Slide)'),
+
+                        RichEditor::make('description')
+                            ->nullable()
+                            ->columnSpanFull()
+                            ->label('Bài viết mô tả chi tiết thành phần, công dụng'),
+
+                        RichEditor::make('usage_guide')
+                            ->nullable()
+                            ->columnSpanFull()
+                            ->label('Hướng dẫn kỹ thuật bón tưới, liều lượng an toàn'),
+                    ]),
+
+                Section::make('DANH SÁCH PHIÊN BẢN DUNG TÍCH (NẾU CÓ)')
+                    ->schema([
+                        Forms\Components\Repeater::make('variants')
+                            ->relationship('variants')
+                            ->schema([
+                                Forms\Components\TextInput::make('capacity')
+                                    ->label('Dung tích / Trọng lượng')
+                                    ->placeholder('Ví dụ: 100ml, 500ml, 1kg')
+                                    ->required(),
+                                Forms\Components\TextInput::make('price')
+                                    ->label('Giá bán lẻ')
+                                    ->numeric()
+                                    ->required()
+                                    ->prefix('VND'),
+                                Forms\Components\TextInput::make('stock')
+                                    ->label('Số lượng tồn kho')
+                                    ->numeric()
+                                    ->required()
+                                    ->default(0),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull()
+                            ->label('Danh sách các loại dung tích / bao bì khác nhau'),
+                    ])->collapsible(),
             ]);
     }
 
