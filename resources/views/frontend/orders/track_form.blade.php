@@ -58,7 +58,13 @@
                                 <div class="text-muted mt-1" style="font-size: 11.5px;">
                                     <i class="fa-solid fa-calendar-days me-1"></i>{{ $o->created_at->format('H:i d/m/Y') }}
                                     <span class="mx-1">|</span>
-                                    <strong>{{ number_format($o->total_amount, 0, ',', '.') }}đ</strong>
+                                    <strong class="text-danger">{{ number_format($o->total_amount, 0, ',', '.') }}đ</strong>
+                                    @if($o->items && $o->items->count() > 0)
+                                        <div class="mt-1 text-dark fw-medium text-truncate" style="font-size: 11.5px; max-width: 320px;">
+                                            <i class="fa-solid fa-box text-success me-1"></i>Vật tư: 
+                                            {{ $o->items->map(fn($i) => $i->product ? $i->product->name : 'Sản phẩm vật tư')->implode(', ') }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <span class="badge rounded-2 text-uppercase px-2 py-1.5 text-2xs

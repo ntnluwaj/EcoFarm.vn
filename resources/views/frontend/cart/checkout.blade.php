@@ -221,9 +221,7 @@
                     <button type="submit" class="btn btn-success btn-lg w-100 fw-extrabold rounded-pill d-flex align-items-center justify-content-center gap-2 shadow-lg mt-4 text-uppercase tracking-wider" style="background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); border: none; height: 54px; font-size: 16px; font-weight: 800;">
                         <i class="fa-solid fa-lock text-warning fs-5"></i> Xác Nhận Đặt Hàng EcoFarm
                     </button>
-                    <div class="text-center mt-2 text-muted text-xs">
-                        <i class="fa-solid fa-shield-halved text-success me-1"></i> Giao dịch bảo mật 256-bit | Cam kết 100% hàng chính hãng
-                    </div>
+
                 </form>
             </div>
         </div>

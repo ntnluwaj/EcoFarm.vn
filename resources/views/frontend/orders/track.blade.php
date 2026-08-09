@@ -64,6 +64,92 @@
         </div>
     </div>
 
+    <!-- 🌟 BẢNG DANH MỤC SẢN PHẨM VẬT TƯ ĐẶT MUA CHI TIẾT -->
+    <div class="card border-0 shadow-sm p-4 bg-white rounded-4 mb-4">
+        <h5 class="fw-bold text-dark mb-3 d-flex align-items-center justify-content-between">
+            <span><i class="fa-solid fa-boxes-packing text-success me-2"></i>Danh mục vật tư trong đơn hàng</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill text-xs fw-bold">
+                {{ $order->items ? $order->items->count() : 0 }} loại sản phẩm
+            </span>
+        </h5>
+
+        @if($order->items && $order->items->count() > 0)
+            <div class="table-responsive">
+                <table class="table align-middle mb-0" style="font-size: 13.5px;">
+                    <thead class="table-light text-muted fw-semibold">
+                        <tr>
+                            <th class="ps-3 py-2.5">Sản phẩm vật tư</th>
+                            <th class="py-2.5 text-center">Đơn giá</th>
+                            <th class="py-2.5 text-center">Số lượng</th>
+                            <th class="pe-3 py-2.5 text-end">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($order->items as $item)
+                            @php
+                                $product = $item->product;
+                                $variant = $item->productVariant;
+                                $imgUrl = $product ? $product->primary_image_url : null;
+                                $unitPrice = $item->unit_price ?? 0;
+                                $qty = $item->quantity ?? 1;
+                                $subtotal = $unitPrice * $qty;
+                            @endphp
+                            <tr>
+                                <td class="ps-3 py-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="p-1 bg-light rounded-3 border text-center shrink-0 d-flex align-items-center justify-content-center" style="width: 54px; height: 54px;">
+                                            @if($imgUrl)
+                                                <img src="{{ $imgUrl }}" alt="{{ $product->name ?? 'Vật tư' }}" class="img-fluid" style="max-height: 44px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <div style="display: none;">
+                                                    <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-4"></i>
+                                                </div>
+                                            @else
+                                                <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-4"></i>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold text-dark mb-1 text-sm">{{ $product->name ?? 'Sản phẩm vật tư' }}</h6>
+                                            <span class="text-muted text-xs">
+                                                <i class="fa-solid fa-box text-success me-1"></i>Quy cách: {{ $variant->capacity ?? ($product->packaging ?? 'Tiêu chuẩn') }} ({{ $product->unit ?? 'Đơn vị' }})
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 text-center fw-bold text-dark">
+                                    {{ number_format($unitPrice, 0, ',', '.') }}đ
+                                </td>
+                                <td class="py-3 text-center fw-extrabold text-success">
+                                    x{{ $qty }}
+                                </td>
+                                <td class="pe-3 py-3 text-end fw-extrabold text-danger">
+                                    {{ number_format($subtotal, 0, ',', '.') }}đ
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Thống kê tổng tiền hóa đơn -->
+            <div class="p-3 bg-light rounded-3 mt-3 border border-light-subtle d-flex justify-content-between align-items-center flex-wrap gap-2 text-xs">
+                <div class="d-flex align-items-center gap-3 text-secondary">
+                    @if($order->discount_amount > 0)
+                        <span><i class="fa-solid fa-ticket text-warning me-1"></i>Giảm giá Voucher: <strong class="text-success">-{{ number_format($order->discount_amount, 0, ',', '.') }}đ</strong></span>
+                    @endif
+                    <span><i class="fa-solid fa-truck-fast text-success me-1"></i>Vận chuyển: <strong class="text-success">Miễn phí giao bãi kho</strong></span>
+                </div>
+                <div>
+                    <span class="text-muted me-2">TỔNG TỀN HÓA ĐƠN:</span>
+                    <strong class="text-danger fs-5 fw-extrabold">{{ number_format($order->total_amount, 0, ',', '.') }}đ</strong>
+                </div>
+            </div>
+        @else
+            <div class="alert alert-light border text-center text-muted small py-3 mb-0">
+                <i class="fa-solid fa-box-open d-block fs-3 mb-1 opacity-50"></i> Đơn hàng chưa có thông tin chi tiết sản phẩm.
+            </div>
+        @endif
+    </div>
+
     <div class="row g-3">
         <div class="col-md-6">
             <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 block-hover">

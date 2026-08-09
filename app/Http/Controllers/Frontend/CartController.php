@@ -401,7 +401,8 @@ class CartController extends Controller
 
         // Trường hợp 2: Chỉ nhập số điện thoại (Khi quên mã đơn)
         if ($phone && !$orderId) {
-            $orders = Order::where('customer_phone', $phone)
+            $orders = Order::with(['items.product', 'items.productVariant'])
+                ->where('customer_phone', $phone)
                 ->orderBy('id', 'desc')
                 ->get();
 
@@ -419,7 +420,8 @@ class CartController extends Controller
         }
 
         // Trường hợp 3: Có nhập đầy đủ mã đơn và số điện thoại
-        $order = Order::where('id', $orderId)
+        $order = Order::with(['items.product', 'items.productVariant'])
+            ->where('id', $orderId)
             ->where('customer_phone', $phone)
             ->first();
 
