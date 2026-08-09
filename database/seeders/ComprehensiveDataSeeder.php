@@ -71,7 +71,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 350,
                 'description' => '<p><strong>Tilt Super 300EC</strong> là thuốc trừ bệnh nội hấp cực mạnh, thấm sâu nhanh và lưu dẫn 2 chiều bảo vệ cây trồng.</p><p>Đặc trị hiệu quả cao các bệnh lem lép hạt, vàng lá chín sớm, đốm vằn trên lúa và rỉ sắt trên cà phê, cây ăn trái.</p>',
                 'usage_guide' => '<ul><li><strong>Lúa:</strong> Pha 10-15ml cho bình 25 Lít nước. Phun lót giai đoạn lúa trổ xẹt và trổ đều.</li><li><strong>Cà phê & Cây ăn trái:</strong> Pha 200ml cho phuy 200 Lít nước, phun đẫm tán lá khi bệnh mới xuất hiện.</li><li><strong>PHI:</strong> Ngưng phun trước thu hoạch 14 ngày.</li></ul>',
-                'images' => ['products/regent_front.png'],
+                'images' => ['products/tilt_super.jpg'],
                 'variants' => [
                     ['capacity' => 'Chai 100ml', 'price' => 105000, 'stock' => 150],
                     ['capacity' => 'Chai 250ml', 'price' => 240000, 'stock' => 200],
@@ -87,7 +87,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 280,
                 'description' => '<p><strong>Voliam Targo 063SC</strong> kết hợp 2 hoạt chất tiên tiến Chlorantraniliprole và Abamectin giúp diệt sạch cả sâu đục thân, sâu cuốn lá và nhện đỏ di chuyển.</p>',
                 'usage_guide' => '<ul><li><strong>Đối tượng phòng trừ:</strong> Sâu cuốn lá lúa, nhện đỏ hại cam sành, sâu vẽ bùa hại bưởi.</li><li><strong>Liều lượng:</strong> Pha 15ml cho bình 25 Lít nước. Phun ướt đều 2 mặt lá.</li></ul>',
-                'images' => ['products/regent_spraying.png'],
+                'images' => ['products/voliam_targo.jpg'],
                 'variants' => [
                     ['capacity' => 'Chai 100ml', 'price' => 185000, 'stock' => 280],
                 ]
@@ -102,7 +102,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 600,
                 'description' => '<p><strong>Phân bón NPK Đầu Trâu 16-16-8+TE</strong> cung cấp đạm, lân, kali cân đối bổ sung vi lượng TE giúp cây đẻ nhánh mạnh, ra rễ khỏe, tăng sức đề kháng mùa ngập mặn.</p>',
                 'usage_guide' => '<ul><li><strong>Bón thúc đợt 1 & 2:</strong> Liều lượng từ 120 - 180kg/ha cho lúa và hoa màu.</li><li><strong>Bảo quản:</strong> Để nơi khô ráo, thoáng mát, đậy kín miệng bao sau khi dùng.</li></ul>',
-                'images' => ['products/ure_phumy_front.png'],
+                'images' => ['products/npk_dautrau_16168.jpg'],
                 'variants' => [
                     ['capacity' => 'Bao 25kg', 'price' => 410000, 'stock' => 200],
                     ['capacity' => 'Bao 50kg', 'price' => 790000, 'stock' => 400],
@@ -118,7 +118,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 450,
                 'description' => '<p><strong>Humic Mỹ Kích Rễ</strong> chứa Axit Humic 80% hòa tan hoàn toàn, giúp giải độc hạ phèn, tái tạo bộ rễ lúa và cây ăn trái suy kiệt sau thu hoạch.</p>',
                 'usage_guide' => '<ul><li><strong>Pha tưới gốc:</strong> Pha 1kg Humic cho 800 - 1000 Lít nước tưới quanh gốc cây ăn trái.</li><li><strong>Trộn phân bón:</strong> Trộn 1kg Humic với 50kg NPK rải đều mặt ruộng.</li></ul>',
-                'images' => ['products/ure_phumy_granules.png'],
+                'images' => ['products/humic_my.jpg'],
                 'variants' => [
                     ['capacity' => 'Gói 1kg', 'price' => 165000, 'stock' => 450],
                 ]
@@ -133,7 +133,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 800,
                 'description' => '<p><strong>Atonik 1.8SL</strong> là chất kích thích sinh trưởng cây trồng hàng đầu Nhật Bản, gia tăng khả năng nảy mầm, Kích rễ và giải độc hữu cơ cho cây.</p>',
                 'usage_guide' => '<ul><li><strong>Ngâm hạt giống:</strong> Pha 10ml Atonik cho 20 Lít nước ngâm hạt giống trước khi gieo sạ.</li><li><strong>Phun lá:</strong> Pha 10ml cho bình 25 Lít nước phun định kỳ 10-15 ngày/lần.</li></ul>',
-                'images' => ['products/atonik_front.jpg', 'products/atonik_pack.jpg'],
+                'images' => ['products/atonik_18sl.jpg'],
                 'variants' => [
                     ['capacity' => 'Hộp 10 gói', 'price' => 110000, 'stock' => 800],
                 ]
@@ -148,7 +148,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 300,
                 'description' => '<p><strong>Nominee 10SC</strong> là thuốc trừ cỏ hậu nảy mầm chọn lọc cực kỳ an toàn cho lúa. Đặc trị cỏ lồng vực, cỏ đuôi phụng và các loại cỏ chác lồng.</p>',
                 'usage_guide' => '<ul><li><strong>Thời điểm phun:</strong> Phun từ 8 - 14 ngày sau khi sạ lúa (khi cỏ có từ 2-4 lá).</li><li><strong>Liều lượng:</strong> Pha 30-40ml cho bình 25 Lít nước. Giữ nước trong ruộng sau khi phun 1-2 ngày.</li></ul>',
-                'images' => ['products/regent_front.png'],
+                'images' => ['products/nominee_10sc.jpg'],
                 'variants' => [
                     ['capacity' => 'Chai 100ml', 'price' => 135000, 'stock' => 300],
                 ]
@@ -163,7 +163,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 500,
                 'description' => '<p><strong>Japan Bio Organic</strong> bổ sung các bào tử nấm đối kháng Trichoderma và vi sinh vật giải độc đất. Giúp đất tơi xốp, phòng rễ thối.</p>',
                 'usage_guide' => '<ul><li><strong>Bón lót:</strong> Bón 300-500kg/ha trước khi gieo trồng hoặc bón quanh gốc cây ăn trái 2-5kg/gốc.</li></ul>',
-                'images' => ['products/ure_phumy_field.png'],
+                'images' => ['products/japan_bio.jpg'],
                 'variants' => [
                     ['capacity' => 'Bao 25kg', 'price' => 320000, 'stock' => 500],
                 ]
@@ -178,7 +178,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 600,
                 'description' => '<p><strong>Chess 50WG</strong> có cơ chế chích hút làm chán ăn lập tức. Đặc trị các thế hệ rầy nâu, rầy chổng cánh kháng thuốc hại lúa và cây ăn trái.</p>',
                 'usage_guide' => '<ul><li><strong>Liều lượng:</strong> Pha 15g cho bình 25 Lít nước. Phun rẽ lối rải đều chân rậm lúa khi rầy cám xuất hiện rộ.</li></ul>',
-                'images' => ['products/regent_spraying.png'],
+                'images' => ['products/chess_50wg.jpg'],
                 'variants' => [
                     ['capacity' => 'Gói 15g', 'price' => 140000, 'stock' => 600],
                 ]
@@ -193,7 +193,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 400,
                 'description' => '<p><strong>Hạt giống Lúa ST25 Nguyên Chủng</strong> đạt tỷ lệ nảy mầm >95%. Gạo hạt dài, thơm ngon đặc sản top 1 thế giới, khả năng chống chịu sâu bệnh khá tốt.</p>',
                 'usage_guide' => '<ul><li><strong>Ngâm ủ:</strong> Ngâm nước sạch 24-36 giờ, đãi chua rồi đem ủ ấm 24-30 giờ cho nảy mầm đều trước khi gieo sạ.</li></ul>',
-                'images' => ['products/ure_phumy_granules.png'],
+                'images' => ['products/st25_seed.jpg'],
                 'variants' => [
                     ['capacity' => 'Bao 10kg', 'price' => 280000, 'stock' => 400],
                 ]
@@ -208,7 +208,7 @@ class ComprehensiveDataSeeder extends Seeder
                 'stock' => 320,
                 'description' => '<p><strong>Nativo 750WG Bayer</strong> là thuốc phòng trừ nấm bệnh thế hệ mới với hiệu ứng xanh lá, đặc trị thán thư xoài, sầu riêng, đốm lá và lem lép hạt lúa.</p>',
                 'usage_guide' => '<ul><li><strong>Liều lượng:</strong> Pha 1 gói 6g cho bình 25 Lít nước. Phun phòng trước hoặc khi bệnh vừa chớm xuất hiện.</li></ul>',
-                'images' => ['products/regent_front.png'],
+                'images' => ['products/nativo_750wg.jpg'],
                 'variants' => [
                     ['capacity' => 'Hộp 10 gói', 'price' => 215000, 'stock' => 320],
                 ]
