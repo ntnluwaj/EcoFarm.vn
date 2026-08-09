@@ -41,11 +41,13 @@ class Dashboard extends BaseDashboard
         // 4. Biểu đồ doanh thu 6 tháng gần nhất (Line Area Chart)
         $chartMonths = [];
         $chartRevenueData = [];
+        $chartRevenueRaw = [];
+        $chartRevenueFormatted = [];
         $chartSalesData = [];
 
         for ($i = 5; $i >= 0; $i--) {
             $date = Carbon::now()->subMonths($i);
-            $chartMonths[] = 'Thg ' . $date->format('m');
+            $chartMonths[] = 'Thg ' . $date->format('m/Y');
 
             $rev = Order::where('status', 'completed')
                 ->whereMonth('created_at', $date->month)
@@ -57,7 +59,9 @@ class Dashboard extends BaseDashboard
                 ->whereYear('created_at', $date->year)
                 ->count();
 
-            $chartRevenueData[] = round($rev / 1000000, 1); // Đơn vị Triệu đồng
+            $chartRevenueRaw[] = (float) $rev;
+            $chartRevenueFormatted[] = number_format($rev, 0, ',', '.') . 'đ';
+            $chartRevenueData[] = round($rev / 1000000, 2); // Đơn vị Triệu đồng
             $chartSalesData[] = $cnt;
         }
 
@@ -68,6 +72,8 @@ class Dashboard extends BaseDashboard
         $totalStatusCount = max(1, $completedCount + $processingCount + $cancelledCount);
 
         $completedPercent = round(($completedCount / $totalStatusCount) * 100);
+        $processingPercent = round(($processingCount / $totalStatusCount) * 100);
+        $cancelledPercent = round(($cancelledCount / $totalStatusCount) * 100);
 
         // 6. Nhật ký hoạt động gần nhất hệ thống
         $activities = [];
@@ -118,11 +124,16 @@ class Dashboard extends BaseDashboard
             'avgOrderValue' => $avgOrderValue,
             'chartMonths' => $chartMonths,
             'chartRevenueData' => $chartRevenueData,
+            'chartRevenueRaw' => $chartRevenueRaw,
+            'chartRevenueFormatted' => $chartRevenueFormatted,
             'chartSalesData' => $chartSalesData,
             'completedCount' => $completedCount,
             'processingCount' => $processingCount,
             'cancelledCount' => $cancelledCount,
+            'totalStatusCount' => $totalStatusCount,
             'completedPercent' => $completedPercent,
+            'processingPercent' => $processingPercent,
+            'cancelledPercent' => $cancelledPercent,
             'activities' => array_slice($activities, 0, 4),
             'latestOrders' => $latestOrders,
         ];
