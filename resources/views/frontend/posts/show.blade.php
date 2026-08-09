@@ -29,9 +29,18 @@
                 </div>
 
                 <!-- Cover Photo / Banner -->
-                @if(!empty($post->thumbnail) && file_exists(public_path('storage/' . $post->thumbnail)))
+                @php
+                    $postThumbUrl = \App\Models\Product::formatImageUrl($post->thumbnail ?? null);
+                @endphp
+                @if($postThumbUrl)
                     <div class="mb-4 rounded-4 overflow-hidden shadow-sm" style="height: 300px;">
-                        <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}" class="w-100 h-100" style="object-fit: cover;">
+                        <img src="{{ $postThumbUrl }}" alt="{{ $post->title }}" class="w-100 h-100" style="object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-100 h-100 bg-success-subtle rounded-3 text-center p-5 text-success position-relative overflow-hidden" style="display: none; height: 300px; align-items: center; justify-content: center; opacity: 0.85; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                            <div>
+                                <i class="fa-solid fa-graduation-cap mb-3" style="font-size: 60px;"></i>
+                                <h4 class="fw-bold mb-0">HƯỚNG DẪN KỸ THUẬT CANH TÁC</h4>
+                            </div>
+                        </div>
                     </div>
                 @else
                     <div class="mb-4 bg-success-subtle rounded-3 text-center p-5 text-success position-relative overflow-hidden" style="min-height: 200px; display: flex; align-items: center; justify-content: center; opacity: 0.85; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
@@ -88,9 +97,15 @@
                     <div class="d-flex flex-column gap-3">
                         @foreach($recommendedProducts as $prod)
                             <div class="p-2.5 bg-light rounded-3 border border-light-subtle d-flex align-items-center gap-3">
+                                @php
+                                    $prodImgUrl = $prod->primary_image_url;
+                                @endphp
                                 <div class="bg-white rounded-2 p-1 border text-center d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; min-width: 50px;">
-                                    @if(is_array($prod->images) && count($prod->images) > 0)
-                                        <img src="{{ asset('storage/' . $prod->images[0]) }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 40px; object-fit: contain;">
+                                    @if($prodImgUrl)
+                                        <img src="{{ $prodImgUrl }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 40px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                        <div style="display: none;">
+                                            <i class="fa-solid fa-prescription-bottle-medical text-success fs-5"></i>
+                                        </div>
                                     @else
                                         <i class="fa-solid fa-prescription-bottle-medical text-success fs-5"></i>
                                     @endif

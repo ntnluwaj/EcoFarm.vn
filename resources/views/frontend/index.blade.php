@@ -19,7 +19,7 @@
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                     <div class="carousel-item-container">
                         <!-- Ken Burns Background Image -->
-                        <div class="carousel-item-bg" style="background-image: url('{{ asset('storage/' . $banner->image_path) }}');"></div>
+                        <div class="carousel-item-bg" style="background-image: url('{{ \App\Models\Product::formatImageUrl($banner->image_path) }}');"></div>
                         
                         <!-- Lớp phủ màu mượt từ trái qua phải -->
                         <div class="carousel-overlay"></div>
@@ -124,6 +124,7 @@
                             @php
                                 $imgArray = is_array($prod->images) ? $prod->images : [];
                                 $firstImg = count($imgArray) > 0 ? $imgArray[0] : null;
+                                $imgUrl = \App\Models\Product::formatImageUrl($firstImg);
                             @endphp
                             
                             @if($loop->iteration <= 2)
@@ -132,8 +133,11 @@
                                 </span>
                             @endif
                             
-                            @if($firstImg)
-                                <img src="{{ asset('storage/' . $firstImg) }}" alt="{{ $prod->name }}" class="img-fluid product-img" style="max-height: 160px; object-fit: contain;">
+                            @if($imgUrl)
+                                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" class="img-fluid product-img" style="max-height: 160px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div style="display: none;">
+                                    <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 60px;"></i>
+                                </div>
                             @else
                                 <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 60px;"></i>
                             @endif

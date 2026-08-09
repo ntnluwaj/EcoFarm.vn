@@ -41,8 +41,14 @@
                                         <td class="ps-4 py-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="bg-light rounded-3 p-1 border text-center me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    @if(!empty($item['image']))
-                                                        <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" class="img-fluid" style="max-height: 50px; object-fit: contain;">
+                                                    @php
+                                                        $cartImgUrl = \App\Models\Product::formatImageUrl($item['image'] ?? null);
+                                                    @endphp
+                                                    @if($cartImgUrl)
+                                                        <img src="{{ $cartImgUrl }}" alt="{{ $item['name'] }}" class="img-fluid" style="max-height: 50px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                        <div style="display: none;">
+                                                            <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-4"></i>
+                                                        </div>
                                                     @else
                                                         <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-4"></i>
                                                     @endif

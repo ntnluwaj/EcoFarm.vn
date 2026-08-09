@@ -359,83 +359,279 @@ graph LR
 ##### B. Sơ đồ Class Diagram
 Cấu trúc các lớp dữ liệu và mối quan hệ liên kết dữ liệu trong mã nguồn Laravel được biểu diễn dưới dạng sơ đồ lớp sau:
 
-```mermaid
-classDiagram
-    class User {
-        +int id
-        +string name
-        +string email
-        +string role
-        +string phone
-        +string address
-        +orders() HasMany
-    }
-    class Product {
-        +int id
-        +string name
-        +string slug
-        +decimal price
-        +decimal agency_price
-        +reviews() HasMany
-        +questions() HasMany
-    }
-    class ProductVariant {
-        +int id
-        +int product_id
-        +string capacity
-        +decimal price
-    }
-    class Order {
-        +int id
-        +int user_id
-        +string customer_name
-        +string customer_phone
-        +string status
-        +string shipping_address
-        +decimal total_amount
-        +items() HasMany
-        +orderLogs() HasMany
-    }
-    class OrderItem {
-        +int id
-        +int order_id
-        +int product_id
-        +int product_variant_id
-        +int quantity
-        +decimal unit_price
-    }
-    class OrderLog {
-        +int id
-        +int order_id
-        +string status
-        +datetime log_time
-    }
-    class ProductQuestion {
-        +int id
-        +int product_id
-        +int user_id
-        +string question
-        +string answer
-        +datetime replied_at
-    }
-    class Contact {
-        +int id
-        +int user_id
-        +string subject
-        +string message
-        +string reply_content
-        +string status
-    }
+![Sơ đồ lớp UML Orthogonal 18 Lớp - Hệ thống EcoFarm](file:///C:/Users/LENOVO/.gemini/antigravity/brain/7ca11e07-87b6-4808-91df-6231a8db4abb/uml_class_diagram_final_ortho.png)
 
-    User "1" --> "*" Order
-    Product "1" --> "*" ProductVariant
-    Order "1" --> "*" OrderItem
-    Order "1" --> "*" OrderLog
-    Product "1" --> "*" OrderItem
-    Product "1" --> "*" ProductQuestion
-    Product "1" --> "*" ProductReview
-    User "1" --> "*" ProductQuestion
-    User "1" --> "*" Contact
+```text
+@startuml EcoFarm_Class_Diagram_Orthogonal
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam backgroundColor White
+skinparam class {
+    BackgroundColor White
+    BorderColor #2C3E50
+    ArrowColor #2C3E50
+    FontName "Segoe UI", Arial
+    FontSize 12
+}
+
+class User {
+    - id: int <<PK>>
+    - name: varchar(255)
+    - email: varchar(255)
+    - email_verified_at: timestamp
+    - password: varchar(255)
+    - role: varchar(30)
+    - phone: varchar(15)
+    - avatar: varchar(255)
+    - address: varchar(255)
+    - reward_points: int
+    - remember_token: varchar(100)
+    - created_at: timestamp
+    - updated_at: timestamp
+    + register()
+    + login()
+    + updateProfile()
+    + getOrders()
+}
+
+class Session {
+    - id: varchar(255) <<PK>>
+    - user_id: int <<FK>>
+    - ip_address: varchar(45)
+    - user_agent: text
+    - payload: text
+    - last_activity: int
+}
+
+class PasswordResetToken {
+    - email: varchar(255) <<PK>>
+    - token: varchar(255)
+    - created_at: timestamp
+}
+
+class Category {
+    - id: int <<PK>>
+    - name: varchar(255)
+    - parent_id: int <<FK>>
+    - slug: varchar(255)
+    - image_url: varchar(255)
+}
+
+class Brand {
+    - id: int <<PK>>
+    - name: varchar(255)
+    - slug: varchar(255)
+    - logo: varchar(255)
+    - description: text
+}
+
+class Product {
+    - id: int <<PK>>
+    - name: varchar(150)
+    - slug: varchar(150)
+    - category_id: int <<FK>>
+    - brand_id: int <<FK>>
+    - price: decimal(15,2)
+    - unit: varchar(20)
+    - packaging: varchar(50)
+    - stock: int
+    - description: text
+    - usage_guide: text
+    - status: tinyint
+    - images: json
+    - created_at: timestamp
+    + addProduct()
+    + updateProduct()
+    + searchProduct()
+}
+
+class ProductVariant {
+    - id: int <<PK>>
+    - product_id: int <<FK>>
+    - capacity: varchar(50)
+    - price: decimal(15,2)
+    - stock: int
+    - created_at: timestamp
+    - updated_at: timestamp
+    + updateStock()
+    + checkStock()
+}
+
+class Order {
+    - id: int <<PK>>
+    - user_id: int <<FK>>
+    - customer_name: varchar(100)
+    - customer_phone: varchar(15)
+    - customer_email: varchar(255)
+    - status: varchar(30)
+    - cancel_reason: text
+    - total_amount: decimal(15,2)
+    - payment_method: varchar(50)
+    - payment_status: varchar(30)
+    - payment_transaction_id: varchar(100)
+    - shipping_address: text
+    - coupon_code: varchar(50)
+    - discount_amount: decimal(15,2)
+    - cod_reconciled: tinyint
+    - created_at: timestamp
+    + createOrder()
+    + updateStatus()
+    + updatePayment()
+}
+
+class OrderItem {
+    - id: int <<PK>>
+    - order_id: int <<FK>>
+    - product_id: int <<FK>>
+    - product_variant_id: int <<FK>>
+    - quantity: int
+    - unit_price: decimal(15,2)
+    - price_type: varchar(50)
+    + getForOrder()
+    + calculateSubtotal()
+}
+
+class OrderLog {
+    - id: int <<PK>>
+    - order_id: int <<FK>>
+    - status: varchar(30)
+    - changed_by: int <<FK>>
+    - log_time: timestamp
+}
+
+class ProductQuestion {
+    - id: int <<PK>>
+    - product_id: int <<FK>>
+    - user_id: int <<FK>>
+    - asker_name: varchar(100)
+    - question: text
+    - answer: text
+    - replied_by: int <<FK>>
+    - replied_at: timestamp
+    - created_at: timestamp
+    - updated_at: timestamp
+    + askQuestion()
+    + replyQuestion()
+}
+
+class ProductReview {
+    - id: int <<PK>>
+    - product_id: int <<FK>>
+    - user_id: int <<FK>>
+    - reviewer_name: varchar(100)
+    - rating: tinyint
+    - comment: text
+    - created_at: timestamp
+    - updated_at: timestamp
+    + addReview()
+    + deleteReview()
+}
+
+class Contact {
+    - id: int <<PK>>
+    - user_id: int <<FK>>
+    - name: varchar(255)
+    - phone: varchar(15)
+    - email: varchar(255)
+    - subject: varchar(255)
+    - message: text
+    - status: varchar(30)
+    - reply_content: text
+    - replied_by: int <<FK>>
+    - replied_at: timestamp
+    - created_at: timestamp
+}
+
+class PointTransaction {
+    - id: int <<PK>>
+    - user_id: int <<FK>>
+    - points: int
+    - transaction_type: varchar(30)
+    - description: text
+    - created_at: timestamp
+    - updated_at: timestamp
+}
+
+class Voucher {
+    - id: int <<PK>>
+    - code: varchar(50)
+    - type: varchar(30)
+    - value: decimal(15,2)
+    - min_order_amount: decimal(15,2)
+    - max_uses: int
+    - uses: int
+    - expires_at: timestamp
+    - is_active: tinyint
+    - product_id: int <<FK>>
+    - points_cost: int
+    - user_id: int <<FK>>
+    - created_at: timestamp
+    - updated_at: timestamp
+    + isValidForCart()
+    + calculateDiscount()
+}
+
+class Post {
+    - id: int <<PK>>
+    - title: varchar(255)
+    - slug: varchar(255)
+    - content: text
+    - category: varchar(255)
+    - thumbnail: varchar(255)
+    - published_at: timestamp
+    - created_at: timestamp
+    - updated_at: timestamp
+    + addPost()
+    + updatePost()
+    + deletePost()
+}
+
+class Banner {
+    - id: int <<PK>>
+    - title: varchar(255)
+    - subtitle: varchar(255)
+    - image_path: varchar(255)
+    - link_url: varchar(255)
+    - sort_order: int
+    - is_active: tinyint
+    - created_at: timestamp
+    - updated_at: timestamp
+}
+
+class Notification {
+    - id: varchar(255) <<PK>>
+    - type: varchar(255)
+    - notifiable_type: varchar(255)
+    - notifiable_id: int <<FK>>
+    - data: json
+    - read_at: timestamp
+    - created_at: timestamp
+    - updated_at: timestamp
+}
+
+User "1" -- "0..n" Order
+User "1" -- "0..n" PointTransaction
+User "1" -- "0..n" Voucher
+User "1" -- "0..n" ProductQuestion
+User "1" -- "0..n" ProductReview
+User "1" -- "0..n" Contact
+User "1" -- "0..n" Session
+User "1" -- "0..n" Notification
+
+Product "1" *-- "1..n" ProductVariant
+Product "1" -- "0..n" ProductReview
+Product "1" -- "0..n" ProductQuestion
+Product "1" -- "0..n" Voucher
+Category "1" o-- "0..n" Product
+Category "1" -- "0..n" Category
+Brand "1" o-- "0..n" Product
+
+Order "1" *-- "1..n" OrderItem
+Order "1" -- "0..n" OrderLog
+Product "1" -- "0..n" OrderItem
+ProductVariant "1" -- "0..n" OrderItem
+User "1" -- "0..n" OrderLog
+User "1" -- "0..n" Contact
 ```
 *Hình 2.3: Sơ đồ Class Diagram cấu trúc dữ liệu ứng dụng*
 

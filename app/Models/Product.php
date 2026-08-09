@@ -63,4 +63,38 @@ class Product extends Model
         // Phân bón và các vật tư nông nghiệp khác đa số không chịu thuế (0% / Không chịu thuế)
         return 0;
     }
+
+    /**
+     * Chuẩn hóa đường dẫn hình ảnh (hỗ trợ cả URL đầy đủ, relative path, storage path)
+     */
+    public static function formatImageUrl(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        $cleanPath = ltrim($path, '/');
+        if (str_starts_with($cleanPath, 'storage/')) {
+            $cleanPath = substr($cleanPath, 8);
+        }
+
+        return asset('storage/' . $cleanPath);
+    }
+
+    /**
+     * Lấy URL hình ảnh đại diện đầu tiên của sản phẩm
+     */
+    public function getPrimaryImageUrlAttribute(): ?string
+    {
+        $images = is_array($this->images) ? $this->images : [];
+        if (count($images) === 0) {
+            return null;
+        }
+
+        return static::formatImageUrl($images[0]);
+    }
 }

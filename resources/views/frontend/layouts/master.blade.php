@@ -424,7 +424,8 @@
                         <div class="dropdown d-inline-block">
                             <button class="header-icon-btn d-inline-flex align-items-center justify-content-center" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%; padding: 0; width: 38px; height: 38px; overflow: hidden;" aria-label="Menu người dùng đăng nhập">
                                 @if(auth()->user()->avatar)
-                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ \App\Models\Product::formatImageUrl(auth()->user()->avatar) }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa-solid fa-circle-user fs-5" style="display:none;"></i>
                                 @else
                                     <i class="fa-solid fa-circle-user fs-5"></i>
                                 @endif
@@ -1038,7 +1039,7 @@
               compareList.forEach(item => {
                   const thumbHTML = `
                       <div class="position-relative border rounded-3 p-1 bg-white text-center" style="width: 48px; height: 48px;">
-                          ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 18px; line-height: 38px;"></i>`}
+                          ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 18px; line-height: 38px; display:none;"></i>` : `<i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 18px; line-height: 38px;"></i>`}
                           <button type="button" class="position-absolute top-0 end-0 bg-danger text-white rounded-circle border-0 d-flex align-items-center justify-content-center btn-remove-compare" data-id="${item.id}" style="width: 14px; height: 14px; transform: translate(30%, -30%); font-size: 8px; line-height: 1;">
                               <i class="fa-solid fa-xmark"></i>
                           </button>

@@ -175,8 +175,14 @@
                             <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light border border-light-subtle">
                                 <div class="d-flex align-items-center overflow-hidden">
                                     <div class="bg-white rounded-2 p-1 text-center me-3 d-flex align-items-center justify-content-center border" style="width: 50px; height: 50px; min-width: 50px;">
-                                        @if(!empty($item['image']))
-                                            <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" class="img-fluid" style="max-height: 40px; object-fit: contain;">
+                                        @php
+                                            $checkoutImgUrl = \App\Models\Product::formatImageUrl($item['image'] ?? null);
+                                        @endphp
+                                        @if($checkoutImgUrl)
+                                            <img src="{{ $checkoutImgUrl }}" alt="{{ $item['name'] }}" class="img-fluid" style="max-height: 40px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                            <div style="display: none;">
+                                                <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-5"></i>
+                                            </div>
                                         @else
                                             <i class="fa-solid fa-prescription-bottle-medical text-success-subtle fs-5"></i>
                                         @endif

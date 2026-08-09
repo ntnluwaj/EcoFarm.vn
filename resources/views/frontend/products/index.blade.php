@@ -73,10 +73,11 @@
                                     @php
                                         $imgArray = is_array($prod->images) ? $prod->images : [];
                                         $firstImg = count($imgArray) > 0 ? $imgArray[0] : null;
+                                        $imgUrl = \App\Models\Product::formatImageUrl($firstImg);
                                     @endphp
                                     
-                                    @if($firstImg)
-                                        <img src="{{ asset('storage/' . $firstImg) }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 150px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    @if($imgUrl)
+                                        <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 150px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                         <div style="display: none;">
                                             <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 55px;"></i>
                                         </div>
@@ -90,7 +91,7 @@
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <span class="text-muted text-xs" style="font-size: 11px;">{{ $prod->category->name ?? 'Vật tư EcoFarm' }}</span>
                                             <label class="form-check-label text-xs text-muted hover-success cursor-pointer select-none" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 0;">
-                                                <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $prod->id }}" data-name="{{ $prod->name }}" data-image="{{ $firstImg ? asset('storage/' . $firstImg) : '' }}" style="width: 12px; height: 12px; margin: 0; cursor: pointer;"> So sánh
+                                                <input type="checkbox" class="form-check-input btn-compare-toggle" data-id="{{ $prod->id }}" data-name="{{ $prod->name }}" data-image="{{ $imgUrl ?? '' }}" style="width: 12px; height: 12px; margin: 0; cursor: pointer;"> So sánh
                                             </label>
                                         </div>
                                         <h6 class="fw-bold text-dark mb-2 text-truncate-2" style="min-height: 40px; line-height: 1.4; font-size: 14px;">{{ $prod->name }}</h6>

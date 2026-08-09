@@ -47,9 +47,13 @@
                                         @php
                                             $imgArray = is_array($prod->images) ? $prod->images : [];
                                             $firstImg = count($imgArray) > 0 ? $imgArray[0] : null;
+                                            $imgUrl = \App\Models\Product::formatImageUrl($firstImg);
                                         @endphp
-                                        @if($firstImg)
-                                            <img src="{{ asset('storage/' . $firstImg) }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 100px; object-fit: contain;">
+                                        @if($imgUrl)
+                                            <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" class="img-fluid" style="max-height: 100px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                            <div style="display: none;">
+                                                <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 40px;"></i>
+                                            </div>
                                         @else
                                             <i class="fa-solid fa-prescription-bottle-medical text-success-subtle" style="font-size: 40px;"></i>
                                         @endif

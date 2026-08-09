@@ -3,7 +3,7 @@
 @section('title', $product->name . ' - Vật Tư Nông Nghiệp')
 
 @section('og_title', $product->name . ' - Vật Tư Nông Nghiệp EcoFarm')
-@section('og_image', is_array($product->images) && count($product->images) > 0 ? asset('storage/' . $product->images[0]) : (!empty($product->image) ? asset('storage/' . $product->image) : asset('images/logo.png')))
+@section('og_image', $product->primary_image_url ?? asset('images/logo.png'))
 @section('og_description', strip_tags(str($product->description)->limit(160)))
 @section('meta_description', strip_tags(str($product->description)->limit(160)))
 
@@ -37,7 +37,7 @@
                         <div class="carousel-inner rounded-3">
                             @foreach($gallery as $index => $img)
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }} text-center p-4">
-                                    <img src="{{ asset('storage/' . $img) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img src="{{ \App\Models\Product::formatImageUrl($img) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                     <div style="display: none; padding: 20px;">
                                         <i class="fa-solid fa-prescription-bottle-medical text-success-subtle mb-3" style="font-size: 80px;"></i>
                                         <p class="fw-bold mb-0 text-uppercase small text-secondary">Sản phẩm phân phối chính hãng</p>
