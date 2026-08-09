@@ -64,33 +64,60 @@
             width: 100% !important;
         }
 
-        .eco-stat-card {
-            border-radius: 20px;
-            padding: 20px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.03);
+        /* 🌟 VIBRANT DISTINCT COLOR GRADIENT CARDS */
+        .eco-stat-card-emerald {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            border-radius: 22px;
+            padding: 22px;
+            color: #ffffff;
+            box-shadow: 0 14px 30px -5px rgba(5, 150, 105, 0.38);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .eco-stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 32px -5px rgba(16, 185, 129, 0.15);
+        .eco-stat-card-sky {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            border-radius: 22px;
+            padding: 22px;
+            color: #ffffff;
+            box-shadow: 0 14px 30px -5px rgba(2, 132, 199, 0.38);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .dark .eco-stat-card {
-            background: #1e293b;
-            border-color: rgba(255, 255, 255, 0.05);
+        .eco-stat-card-amber {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            border-radius: 22px;
+            padding: 22px;
+            color: #ffffff;
+            box-shadow: 0 14px 30px -5px rgba(217, 119, 6, 0.38);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .eco-icon-box {
+        .eco-stat-card-indigo {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            border-radius: 22px;
+            padding: 22px;
+            color: #ffffff;
+            box-shadow: 0 14px 30px -5px rgba(79, 70, 229, 0.38);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .eco-stat-card-emerald:hover,
+        .eco-stat-card-sky:hover,
+        .eco-stat-card-amber:hover,
+        .eco-stat-card-indigo:hover {
+            transform: translateY(-4px);
+        }
+
+        .eco-icon-box-glass {
             width: 48px;
             height: 48px;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             flex-shrink: 0;
         }
 
@@ -112,7 +139,7 @@
 
     <div class="eco-dashboard space-y-6">
 
-        <!-- 🌟 1. OFFICIAL DUAL-BRAND SIGNATURE BANNER HEADER (ECO GREEN + HARVEST GOLD) -->
+        <!-- 🌟 1. OFFICIAL DUAL-BRAND SIGNATURE BANNER HEADER -->
         <div class="eco-banner-card flex flex-wrap items-center justify-between gap-4">
             <div class="z-10">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 text-xs font-black mb-2 shadow-sm backdrop-blur-sm border border-white/20">
@@ -120,11 +147,10 @@
                     <span>Hệ Thống Quản Lý & Vận Hành Bãi Kho EcoFarm</span>
                 </div>
                 <h2 class="text-2xl font-black tracking-tight text-white drop-shadow-md">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
-                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp </p>
+                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp Mekong</p>
             </div>
 
             <div class="flex items-center gap-3 z-10">
-                <!-- LOẠI BỎ NÚT TRÙNG LẶP TRONG BANNER: THAY BẰNG HUY HIỆU TRẠNG THÁI HỆ THỐNG LIVE Vận Hành Trực Tuyến -->
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 text-xs font-black text-white shadow-sm backdrop-blur-sm border border-white/20">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-pulse"></span>
                     <span>Vận Hành Trực Tuyến 24/7</span>
@@ -132,76 +158,72 @@
             </div>
         </div>
 
-        <!-- 🌟 2. BRAND SIGNATURE SCORECARD METRIC CARDS WITH VIVID ICONS -->
+        <!-- 🌟 2. 4 VIBRANT COLOR GRADIENT SCORECARD METRIC CARDS -->
         <div class="eco-grid-4">
-            <!-- Card 1: Revenue (Eco Emerald) -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-emerald-50/70 to-white border-l-4 border-l-emerald-500">
+            <!-- Card 1: Revenue (Vibrant Eco Emerald) -->
+            <div class="eco-stat-card-emerald flex flex-col justify-between">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Tổng Doanh Thu</span>
-                    <!-- ICON TỔNG DOANH THU: Nền xanh lá + SVG tiền vàng nổi bật -->
-                    <div class="eco-icon-box bg-emerald-600 text-white shadow-md shadow-emerald-600/30">
+                    <span class="text-xs font-black text-emerald-100 uppercase tracking-wider">Tổng Doanh Thu</span>
+                    <div class="eco-icon-box-glass">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($totalRevenue, 0, ',', '.') }}đ</div>
-                    <div class="mt-2 text-[11px] font-bold text-emerald-700 flex items-center justify-between">
+                    <div class="text-3xl font-black text-white tracking-tight drop-shadow-sm">{{ number_format($totalRevenue, 0, ',', '.') }}đ</div>
+                    <div class="mt-3 text-xs font-bold text-emerald-50 flex items-center justify-between">
                         <span>AOV: {{ number_format($avgOrderValue, 0, ',', '.') }}đ</span>
-                        <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">&uarr; 100% Tốt</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-white/25 text-white font-black backdrop-blur-sm border border-white/20">&uarr; 100% Tốt</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 2: Orders (Sky Logistics) -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-sky-50/70 to-white border-l-4 border-l-sky-500">
+            <!-- Card 2: Orders (Vibrant Ocean Blue) -->
+            <div class="eco-stat-card-sky flex flex-col justify-between">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-sky-900 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
-                    <!-- ICON ĐƠN HÀNG: Nền xanh dương + SVG giỏ hàng nổi bật -->
-                    <div class="eco-icon-box bg-sky-500 text-white shadow-md shadow-sky-500/30">
+                    <span class="text-xs font-black text-sky-100 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
+                    <div class="eco-icon-box-glass">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($ordersCount) }} đơn hàng</div>
-                    <div class="mt-2 text-[11px] font-bold text-sky-700 flex items-center justify-between">
+                    <div class="text-3xl font-black text-white tracking-tight drop-shadow-sm">{{ number_format($ordersCount) }} đơn hàng</div>
+                    <div class="mt-3 text-xs font-bold text-sky-50 flex items-center justify-between">
                         <span>{{ $completedCount }} hoàn thành · {{ $processingCount }} đang giao</span>
-                        <span class="px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 font-extrabold">{{ $completionRate }}% chốt</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-white/25 text-white font-black backdrop-blur-sm border border-white/20">{{ $completionRate }}% chốt</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 3: Inventory Products (Harvest Amber Gold) -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-amber-50/70 to-white border-l-4 border-l-amber-500">
+            <!-- Card 3: Inventory Products (Vibrant Harvest Amber Gold) -->
+            <div class="eco-stat-card-amber flex flex-col justify-between">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-amber-900 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
-                    <!-- ICON KHO BÃI: Nền vàng rơm + SVG thùng hàng nổi bật -->
-                    <div class="eco-icon-box bg-amber-500 text-white shadow-md shadow-amber-500/30">
+                    <span class="text-xs font-black text-amber-100 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
+                    <div class="eco-icon-box-glass">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($productsCount) }} mặt hàng</div>
-                    <div class="mt-2 text-[11px] font-bold text-amber-700 flex items-center justify-between">
+                    <div class="text-3xl font-black text-white tracking-tight drop-shadow-sm">{{ number_format($productsCount) }} mặt hàng</div>
+                    <div class="mt-3 text-xs font-bold text-amber-50 flex items-center justify-between">
                         <span>Tồn kho an toàn</span>
-                        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">{{ count($lowStockProducts) }} sắp hết</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-white/25 text-white font-black backdrop-blur-sm border border-white/20">{{ count($lowStockProducts) }} sắp hết</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 4: Farmers Base (Mekong Farmers Indigo) -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-indigo-50/70 to-white border-l-4 border-l-indigo-500">
+            <!-- Card 4: Farmers Base (Vibrant Royal Mekong Indigo) -->
+            <div class="eco-stat-card-indigo flex flex-col justify-between">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-indigo-900 uppercase tracking-wider">Bà Con Nông Dân</span>
-                    <!-- ICON NÔNG DÂN: Nền tím chàm + SVG người dùng nổi bật -->
-                    <div class="eco-icon-box bg-indigo-500 text-white shadow-md shadow-indigo-500/30">
+                    <span class="text-xs font-black text-indigo-100 uppercase tracking-wider">Bà Con Nông Dân</span>
+                    <div class="eco-icon-box-glass">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($usersCount) }} nhà vườn</div>
-                    <div class="mt-2 text-[11px] font-bold text-indigo-700 flex items-center justify-between">
+                    <div class="text-3xl font-black text-white tracking-tight drop-shadow-sm">{{ number_format($usersCount) }} nhà vườn</div>
+                    <div class="mt-3 text-xs font-bold text-indigo-50 flex items-center justify-between">
                         <span>Đồng bằng sông Cửu Long</span>
-                        <span class="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-extrabold">&uarr; Tương tác cao</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-white/25 text-white font-black backdrop-blur-sm border border-white/20">&uarr; Tương tác cao</span>
                     </div>
                 </div>
             </div>
