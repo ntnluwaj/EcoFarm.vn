@@ -4,16 +4,16 @@
 
     <style>
         .eco-dashboard {
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #1b1b18;
         }
 
         .eco-card {
             background: #ffffff;
             border-radius: 20px;
             padding: 22px;
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(16, 185, 129, 0.03);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(46, 125, 50, 0.03);
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
@@ -27,12 +27,13 @@
             box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
         }
 
+        /* 🌟 BANNER ĐỒNG BỘ MÀU KHÁCH HÀNG ECOFARM (#1b5e20 -> #2e7d32 -> #f59e0b) */
         .eco-banner-card {
-            background: linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 70%, #f59e0b 100%);
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 45%, #4caf50 75%, #f59e0b 100%);
             border-radius: 24px;
             padding: 26px 32px;
             color: #ffffff;
-            box-shadow: 0 18px 40px -8px rgba(4, 120, 87, 0.4);
+            box-shadow: 0 18px 40px -8px rgba(46, 125, 50, 0.38);
             position: relative;
             overflow: hidden;
         }
@@ -64,13 +65,13 @@
             width: 100% !important;
         }
 
-        /* 🌟 VIBRANT DISTINCT COLOR GRADIENT CARDS */
+        /* 🌟 4 THẺ CHỈ SỐ MÀU NỔI BẬT ĐỒNG BỘ BRAND KHÁCH HÀNG */
         .eco-stat-card-emerald {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
             border-radius: 22px;
             padding: 22px;
             color: #ffffff;
-            box-shadow: 0 14px 30px -5px rgba(5, 150, 105, 0.38);
+            box-shadow: 0 14px 30px -5px rgba(46, 125, 50, 0.38);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
@@ -139,7 +140,7 @@
 
     <div class="eco-dashboard space-y-6">
 
-        <!-- 🌟 1. OFFICIAL DUAL-BRAND SIGNATURE BANNER HEADER -->
+        <!-- 🌟 1. BANNER ĐỒNG BỘ VỚI WEBSITE KHÁCH HÀNG -->
         <div class="eco-banner-card flex flex-wrap items-center justify-between gap-4">
             <div class="z-10">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 text-xs font-black mb-2 shadow-sm backdrop-blur-sm border border-white/20">
@@ -152,15 +153,15 @@
 
             <div class="flex items-center gap-3 z-10">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 text-xs font-black text-white shadow-sm backdrop-blur-sm border border-white/20">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-300 animate-pulse"></span>
                     <span>Vận Hành Trực Tuyến 24/7</span>
                 </div>
             </div>
         </div>
 
-        <!-- 🌟 2. 4 VIBRANT COLOR GRADIENT SCORECARD METRIC CARDS -->
+        <!-- 🌟 2. 4 THẺ THỐNG KÊ SCORECARD SẮC NÉT (MÀU KHÁCH HÀNG ECOFARM) -->
         <div class="eco-grid-4">
-            <!-- Card 1: Revenue (Vibrant Eco Emerald) -->
+            <!-- Card 1: Revenue (EcoFarm Customer Forest Green #2e7d32) -->
             <div class="eco-stat-card-emerald flex flex-col justify-between">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-black text-emerald-100 uppercase tracking-wider">Tổng Doanh Thu</span>
@@ -194,7 +195,7 @@
                 </div>
             </div>
 
-            <!-- Card 3: Inventory Products (Vibrant Harvest Amber Gold) -->
+            <!-- Card 3: Inventory Products (Harvest Amber Gold) -->
             <div class="eco-stat-card-amber flex flex-col justify-between">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-black text-amber-100 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
@@ -211,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- Card 4: Farmers Base (Vibrant Royal Mekong Indigo) -->
+            <!-- Card 4: Farmers Base (Royal Mekong Indigo) -->
             <div class="eco-stat-card-indigo flex flex-col justify-between">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-black text-indigo-100 uppercase tracking-wider">Bà Con Nông Dân</span>
@@ -238,8 +239,8 @@
                         <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
                             Biểu đồ doanh thu hoàn tất (6 tháng qua)
                         </h3>
-                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-extrabold border border-emerald-200/80 shrink-0 shadow-sm flex items-center gap-1">
-                            <i class="fa-solid fa-calendar-days text-emerald-600"></i>
+                        <span class="px-3 py-1 rounded-full bg-[#e8f5e9] text-[#1b5e20] text-xs font-extrabold border border-[#2e7d32]/20 shrink-0 shadow-sm flex items-center gap-1">
+                            <i class="fa-solid fa-calendar-days text-[#2e7d32]"></i>
                             <span>6 tháng gần nhất</span>
                         </span>
                     </div>
@@ -283,8 +284,8 @@
                             <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #6366f1; display: inline-block;"></span>
                             Đang giao
                         </span>
-                        <span style="background-color: #d1fae5 !important; color: #047857 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #a7f3d0 !important;">
-                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
+                        <span style="background-color: #e8f5e9 !important; color: #1b5e20 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #2e7d32 !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #2e7d32; display: inline-block;"></span>
                             Hoàn tất
                         </span>
                         <span style="background-color: #ffe4e6 !important; color: #be123c !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #fecdd3 !important;">
@@ -305,7 +306,7 @@
                         <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
                             Đơn hàng mới nhận gần đây
                         </h3>
-                        <a href="/admin/orders" class="text-xs font-extrabold text-emerald-600 hover:text-emerald-700 hover:underline shrink-0">Quản lý tất cả &rarr;</a>
+                        <a href="/admin/orders" class="text-xs font-extrabold text-[#2e7d32] hover:text-[#1b5e20] hover:underline shrink-0">Quản lý tất cả &rarr;</a>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -322,13 +323,13 @@
                             </thead>
                             <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                                 @forelse($latestOrders as $ord)
-                                    <tr class="hover:bg-emerald-50/40 dark:hover:bg-slate-800/40 transition-all">
+                                    <tr class="hover:bg-[#e8f5e9]/40 dark:hover:bg-slate-800/40 transition-all">
                                         <td class="py-2.5 px-3 font-black text-slate-900 dark:text-slate-100">#ECF{{ str_pad($ord->id, 5, '0', STR_PAD_LEFT) }}</td>
                                         <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200">{{ $ord->customer_name }}</td>
-                                        <td class="py-2.5 px-3 font-black text-emerald-600 dark:text-emerald-400">{{ number_format($ord->total_amount, 0, ',', '.') }} VND</td>
+                                        <td class="py-2.5 px-3 font-black text-[#2e7d32] dark:text-emerald-400">{{ number_format($ord->total_amount, 0, ',', '.') }} VND</td>
                                         <td class="py-2.5 px-3 text-center">
                                             @if($ord->status === 'completed')
-                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200/50">Hoàn tất</span>
+                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#e8f5e9] text-[#1b5e20] border border-[#2e7d32]/30">Hoàn tất</span>
                                             @elseif($ord->status === 'shipping')
                                                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-100 text-sky-800 border border-sky-200/50">Đang giao</span>
                                             @elseif($ord->status === 'processing')
@@ -343,7 +344,7 @@
                                             {{ $ord->created_at ? $ord->created_at->format('H:i d/m/Y') : '12:29 09/08/2026' }}
                                         </td>
                                         <td class="py-2.5 px-3 text-center">
-                                            <a href="/admin/orders/{{ $ord->id }}" class="text-emerald-600 font-extrabold hover:text-emerald-700 hover:underline inline-flex items-center gap-1 text-[11px]">
+                                            <a href="/admin/orders/{{ $ord->id }}" class="text-[#2e7d32] font-extrabold hover:text-[#1b5e20] hover:underline inline-flex items-center gap-1 text-[11px]">
                                                 <i class="fa-solid fa-eye"></i> Chi tiết
                                             </a>
                                         </td>
@@ -380,8 +381,8 @@
 
                     <!-- CHÚ THÍCH MÀU SẮC SIÊU RÕ RÀNG VỚI NỀN PASTEL VÀ CHỮ SẮC NÉT -->
                     <div class="flex flex-wrap items-center justify-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span style="background-color: #d1fae5 !important; color: #047857 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #a7f3d0 !important;">
-                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
+                        <span style="background-color: #e8f5e9 !important; color: #1b5e20 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #2e7d32 !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #2e7d32; display: inline-block;"></span>
                             Thuốc Trừ Sâu & Bệnh
                         </span>
                         <span style="background-color: #e0e7ff !important; color: #4338ca !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #c7d2fe !important;">
@@ -404,11 +405,11 @@
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof Chart === 'undefined') return;
 
-            // 1. Biểu đồ doanh thu hoàn tất (6 tháng qua) - Line Area Chart
+            // 1. Biểu đồ doanh thu hoàn tất (6 tháng qua) - Line Area Chart (Màu #2e7d32 & #1b5e20)
             const ctxRev = document.getElementById('ecoRevenueLineChart').getContext('2d');
             const gradientRev = ctxRev.createLinearGradient(0, 0, 0, 220);
-            gradientRev.addColorStop(0, 'rgba(16, 185, 129, 0.42)');
-            gradientRev.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
+            gradientRev.addColorStop(0, 'rgba(46, 125, 50, 0.42)');
+            gradientRev.addColorStop(1, 'rgba(46, 125, 50, 0.01)');
 
             new Chart(ctxRev, {
                 type: 'line',
@@ -417,12 +418,12 @@
                     datasets: [{
                         label: 'Doanh thu (VND)',
                         data: @json($chartRevenueRaw),
-                        borderColor: '#059669',
+                        borderColor: '#2e7d32',
                         borderWidth: 4,
                         backgroundColor: gradientRev,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#047857',
+                        pointBackgroundColor: '#1b5e20',
                         pointBorderColor: '#FFFFFF',
                         pointBorderWidth: 3,
                         pointRadius: 6,
@@ -439,7 +440,7 @@
                         legend: {
                             display: true,
                             position: 'bottom',
-                            labels: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '700' }, color: '#334155' }
+                            labels: { font: { family: 'Segoe UI, sans-serif', size: 11, weight: '700' }, color: '#1b5e20' }
                         },
                         tooltip: {
                             callbacks: {
@@ -450,12 +451,12 @@
                         }
                     },
                     scales: {
-                        x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' }, color: '#64748B' } },
+                        x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { family: 'Segoe UI, sans-serif', size: 10, weight: '600' }, color: '#64748B' } },
                         y: {
                             grace: '15%',
                             grid: { color: 'rgba(0,0,0,0.04)' },
                             ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' },
+                                font: { family: 'Segoe UI, sans-serif', size: 10, weight: '600' },
                                 color: '#64748B',
                                 callback: function(val) { return new Intl.NumberFormat('vi-VN').format(val); }
                             }
@@ -478,7 +479,7 @@
                             {{ max(1, $completedCount) }},
                             {{ max(1, $cancelledCount) }}
                         ],
-                        backgroundColor: ['#f59e0b', '#38bdf8', '#6366f1', '#10b981', '#ef4444'],
+                        backgroundColor: ['#f59e0b', '#38bdf8', '#6366f1', '#2e7d32', '#ef4444'],
                         borderWidth: 3,
                         borderColor: '#ffffff'
                     }]
@@ -504,7 +505,7 @@
                     datasets: [{
                         data: @json($categorySales->pluck('total_revenue')),
                         backgroundColor: [
-                            'rgba(16, 185, 129, 0.85)',
+                            'rgba(46, 125, 50, 0.85)',
                             'rgba(99, 102, 241, 0.85)',
                             'rgba(245, 158, 11, 0.85)',
                             'rgba(56, 189, 248, 0.85)',

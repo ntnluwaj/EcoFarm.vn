@@ -20,7 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
-public function panel(Panel $panel): Panel
+    public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
@@ -48,7 +48,7 @@ public function panel(Panel $panel): Panel
                 'Truyền thông & Marketing',
             ])
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::hex('#2e7d32'), // 🌟 ĐỒNG BỘ MÀU THƯƠNG HIỆU ECOFARM KHÁCH HÀNG (#2e7d32)
             ])
             ->assets([
                 \Filament\Support\Assets\Css::make('admin-custom', asset('css/admin-custom.css?v=' . time())),
@@ -67,19 +67,19 @@ public function panel(Panel $panel): Panel
                         height: 0 !important;
                     }
 
-                    /* 🌟 ECOFARM BRAND BODY & CONTAINER */
+                    /* 🌟 ECOFARM BRAND BODY & CONTAINER (ĐỒNG BỘ GIAO DIỆN KHÁCH HÀNG) */
                     body, .fi-body, .fi-main {
-                        background-color: #f8fafc !important;
+                        background-color: #f8f9fa !important;
                     }
 
-                    /* 🌟 DUAL-BRAND TOPBAR INDICATOR (ECO GREEN + HARVEST GOLD) */
+                    /* 🌟 DUAL-BRAND TOPBAR INDICATOR (FOREST GREEN #1b5e20 + ECO GREEN #2e7d32 + HARVEST GOLD #f59e0b) */
                     .fi-topbar {
                         background-color: #ffffff !important;
                         backdrop-filter: none !important;
                         contain: none !important;
                         transform: none !important;
                         border-top: 4px solid !important;
-                        border-image: linear-gradient(90deg, #047857 0%, #10b981 60%, #f59e0b 100%) 1 !important;
+                        border-image: linear-gradient(90deg, #1b5e20 0%, #2e7d32 60%, #f59e0b 100%) 1 !important;
                         border-bottom: 1px solid #e2e8f0 !important;
                         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
                     }
@@ -102,8 +102,8 @@ public function panel(Panel $panel): Panel
                     .fi-global-search input:focus,
                     .fi-global-search-input input:focus {
                         background-color: #ffffff !important;
-                        border-color: #10b981 !important;
-                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18) !important;
+                        border-color: #2e7d32 !important;
+                        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.18) !important;
                     }
 
                     /* 🌟 SIDEBAR BRANDED LOGO & HEADER STYLING */
@@ -118,16 +118,16 @@ public function panel(Panel $panel): Panel
                         padding-bottom: 0.5rem !important;
                     }
 
-                    /* 🌟 DUAL-ACCENT ACTIVE SIDEBAR MENU ITEM */
+                    /* 🌟 DUAL-ACCENT ACTIVE SIDEBAR MENU ITEM (CHUẨN GREEN ECOFARM KHÁCH HÀNG) */
                     .fi-sidebar-item-button.fi-active,
                     .fi-sidebar-item-button[data-active="1"],
                     .fi-active,
                     [data-active="1"],
                     .fi-sidebar-item-active > a,
                     .fi-sidebar-item-active > div {
-                        background: linear-gradient(90deg, rgba(16, 185, 129, 0.14) 0%, rgba(245, 158, 11, 0.04) 100%) !important;
-                        color: #047857 !important;
-                        border-left: 4px solid #10b981 !important;
+                        background: linear-gradient(90deg, rgba(46, 125, 50, 0.12) 0%, rgba(245, 158, 11, 0.04) 100%) !important;
+                        color: #1b5e20 !important;
+                        border-left: 4px solid #2e7d32 !important;
                         border-radius: 0 0.75rem 0.75rem 0 !important;
                         font-weight: 800 !important;
                         box-shadow: none !important;
@@ -136,21 +136,22 @@ public function panel(Panel $panel): Panel
                     .fi-sidebar-item-button.fi-active svg,
                     .fi-active svg,
                     .fi-sidebar-item-active svg {
-                        color: #10b981 !important;
+                        color: #2e7d32 !important;
                     }
 
                     .fi-sidebar-item-button:not(.fi-active):hover {
-                        background-color: #f8fafc !important;
+                        background-color: #e8f5e9 !important;
+                        color: #2e7d32 !important;
                         border-radius: 0.75rem !important;
                     }
 
-                    /* 🌟 DUAL-BRAND QUICK FILTER TABS (CRYSTAL CLEAR HIGH-CONTRAST READABILITY) */
+                    /* 🌟 DUAL-BRAND QUICK FILTER TABS (ECOFARM BRAND GREEN #2e7d32) */
                     .fi-tabs-item[aria-selected="true"],
                     .fi-tabs-item-active,
                     [aria-selected="true"] {
-                        background: #047857 !important;
+                        background: #2e7d32 !important;
                         border-radius: 9999px !important;
-                        box-shadow: 0 4px 14px rgba(4, 120, 87, 0.3) !important;
+                        box-shadow: 0 4px 14px rgba(46, 125, 50, 0.3) !important;
                     }
 
                     /* Force ALL text, spans, icons, buttons inside active tabs to be 100% Crisp Pure White */
@@ -181,7 +182,8 @@ public function panel(Panel $panel): Panel
                         font-weight: 700 !important;
                     }
                     .fi-tabs-item:not([aria-selected="true"]):not(.fi-tabs-item-active):hover {
-                        background-color: #f1f5f9 !important;
+                        background-color: #e8f5e9 !important;
+                        color: #2e7d32 !important;
                         border-radius: 9999px !important;
                     }
 
@@ -202,11 +204,11 @@ public function panel(Panel $panel): Panel
                         background: #ffffff !important;
                     }
                     .fi-ta-header-cell {
-                        background-color: #f8fafc !important;
+                        background-color: #f8f9fa !important;
                         border-bottom: 1px solid #e2e8f0 !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: rgba(16, 185, 129, 0.04) !important;
+                        background-color: #e8f5e9 !important;
                     }
                 </style>'
             )
@@ -227,13 +229,13 @@ public function panel(Panel $panel): Panel
                         </span>
 
                         <!-- User Role Badge -->
-                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50 shadow-sm">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                        <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-[#e8f5e9] text-[#1b5e20] border border-[#2e7d32]/20 shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#2e7d32] mr-1.5 animate-pulse"></span>
                             ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
                         </span>
 
                         <!-- View Frontend Website Button -->
-                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
+                        <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-[#e8f5e9] text-[#1b5e20] border border-[#2e7d32]/30 hover:bg-[#2e7d32] hover:text-white transition-all text-xs font-bold shadow-sm">
                             <i class="fa-solid fa-house"></i>
                             <span>Xem trang chủ</span>
                         </a>
