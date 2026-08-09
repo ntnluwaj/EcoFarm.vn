@@ -10,7 +10,7 @@
     <div class="row g-4 justify-content-center">
         <!-- Contact Information Cards -->
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
+            <div class="ecofarm-card p-4 h-100">
                 <h5 class="fw-bold text-dark mb-4">Thông tin liên hệ</h5>
                 
                 <div class="d-flex gap-3 mb-4">
@@ -38,7 +38,7 @@
                         <i class="fa-solid fa-location-dot fs-5"></i>
                     </div>
                     <div>
-                        <strong class="d-block text-dark" style="font-size: 14px;">Địa chỉ</strong>
+                        <strong class="d-block text-dark" style="font-size: 14px;">Địa chỉ trụ sở</strong>
                         <span class="text-muted" style="font-size: 13.5px;">Phường Cái Khế, TP. Cần Thơ</span>
                     </div>
                 </div>
@@ -47,18 +47,18 @@
 
         <!-- Contact Form -->
         <div class="col-lg-7">
-            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
+            <div class="ecofarm-card p-4 h-100">
                 <h5 class="fw-bold text-dark mb-4">Gửi tin nhắn tư vấn</h5>
 
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 shadow-sm mb-4" role="alert" style="font-size: 13.5px;">
+                    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4" role="alert" style="font-size: 13.5px; background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
                         <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
                 @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show border-0 rounded-3 shadow-sm mb-4" role="alert" style="font-size: 13.5px;">
+                    <div class="alert alert-danger alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4" role="alert" style="font-size: 13.5px; background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3;">
                         <i class="fa-solid fa-triangle-exclamation me-2"></i>Có lỗi xảy ra:
                         <ul class="mb-0 ps-3 mt-1">
                             @foreach($errors->all() as $error)
@@ -75,37 +75,37 @@
                     <div class="row g-3">
                         <!-- Họ tên -->
                         <div class="col-md-6">
-                            <label for="name" class="form-label fw-semibold text-dark" style="font-size: 13px;">Họ tên của quý khách <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label fw-bold text-dark" style="font-size: 13px;">Họ tên của quý khách <span class="text-danger">*</span></label>
                             <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="Ví dụ: Trần Văn B" value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}" required>
                         </div>
 
                         <!-- Số điện thoại -->
                         <div class="col-md-6">
-                            <label for="phone" class="form-label fw-semibold text-dark" style="font-size: 13px;">Số điện thoại <span class="text-danger">*</span></label>
+                            <label for="phone" class="form-label fw-bold text-dark" style="font-size: 13px;">Số điện thoại <span class="text-danger">*</span></label>
                             <input type="text" class="form-control rounded-3" id="phone" name="phone" placeholder="Để kỹ sư gọi lại tư vấn" value="{{ old('phone', auth()->check() ? auth()->user()->phone : '') }}" required>
                         </div>
 
                         <!-- Email -->
                         <div class="col-md-12">
-                            <label for="email" class="form-label fw-semibold text-dark" style="font-size: 13px;">Địa chỉ Email (Nếu có)</label>
+                            <label for="email" class="form-label fw-bold text-dark" style="font-size: 13px;">Địa chỉ Email (Nếu có)</label>
                             <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="email@gmail.com" value="{{ old('email', auth()->check() ? auth()->user()->email : '') }}">
                         </div>
 
                         <!-- Tiêu đề -->
                         <div class="col-md-12">
-                            <label for="subject" class="form-label fw-semibold text-dark" style="font-size: 13px;">Vấn đề cần tư vấn / liên hệ <span class="text-danger">*</span></label>
+                            <label for="subject" class="form-label fw-bold text-dark" style="font-size: 13px;">Vấn đề cần tư vấn / liên hệ <span class="text-danger">*</span></label>
                             <input type="text" class="form-control rounded-3" id="subject" name="subject" placeholder="Ví dụ: Tư vấn liều lượng bón NPK Đầu Trâu cho xoài" value="{{ old('subject') }}" required>
                         </div>
 
                         <!-- Nội dung tin nhắn -->
                         <div class="col-md-12">
-                            <label for="message" class="form-label fw-semibold text-dark" style="font-size: 13px;">Nội dung tin nhắn chi tiết <span class="text-danger">*</span></label>
+                            <label for="message" class="form-label fw-bold text-dark" style="font-size: 13px;">Nội dung tin nhắn chi tiết <span class="text-danger">*</span></label>
                             <textarea class="form-control rounded-3" id="message" name="message" rows="4" placeholder="Ghi rõ tình trạng vườn tược, câu hỏi kỹ thuật hoặc yêu cầu cung ứng vật tư..." required>{{ old('message') }}</textarea>
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-2 border-top border-light-subtle d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success fw-semibold rounded-3 px-4 py-2" style="background-color: #2e7d32; border: none;">
+                    <div class="mt-4 pt-2 border-top d-flex justify-content-end">
+                        <button type="submit" class="btn btn-ecofarm-primary py-2 px-4">
                             <i class="fa-solid fa-paper-plane me-2"></i>Gửi liên hệ tư vấn
                         </button>
                     </div>
