@@ -165,30 +165,67 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 \Filament\Tables\Columns\ImageColumn::make('images')
-                    ->label('Hình ảnh')
-                    ->stacked()
+                    ->label('HÌNH ẢNH')
                     ->square()
-                    ->size(50)
-                    ->limit(3),
+                    ->size(54)
+                    ->circular(false)
+                    ->extraImgAttributes(['class' => 'rounded-3 shadow-xs border']),
+
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->label('Tên vật tư'),
+                    ->weight('bold')
+                    ->description(fn (Product $record): string => 'Quy cách: ' . ($record->packaging ?? 'Tiêu chuẩn') . ' | ĐVT: ' . $record->unit)
+                    ->label('TÊN VẬT TƯ & QUY CÁCH'),
+
+                TextColumn::make('priority_flame')
+                    ->label('MỨC ƯU TIÊN')
+                    ->html()
+                    ->state(function (Product $record): string {
+                        if ($record->stock > 100) {
+                            return '<span class="badge-flame-red"><i class="fa-solid fa-fire"></i>🔥 5 Cháy Rực</span>';
+                        } elseif ($record->stock > 20) {
+                            return '<span class="badge-flame-yellow"><i class="fa-solid fa-fire"></i>🔥 3 Bén Lửa</span>';
+                        } else {
+                            return '<span class="badge-tag-gray"><i class="fa-solid fa-fire text-muted"></i>🔥 1 Tắt Ngấm</span>';
+                        }
+                    }),
+
                 TextColumn::make('category.name')
-                    ->label('Danh mục'),
+                    ->label('DANH MỤC')
+                    ->badge()
+                    ->color('success')
+                    ->sortable(),
+
+                TextColumn::make('stock_status')
+                    ->label('TRẠNG THÁI KHO')
+                    ->html()
+                    ->state(function (Product $record): string {
+                        if ($record->stock > 50) {
+                            return '<span class="badge-status-green"><span class="status-dot-pulse dot-green"></span>Tồn kho dồi dào (' . number_format($record->stock) . ')</span>';
+                        } elseif ($record->stock > 0) {
+                            return '<span class="badge-flame-yellow"><span class="status-dot-pulse dot-yellow"></span>Sắp hết hàng (' . number_format($record->stock) . ')</span>';
+                        } else {
+                            return '<span class="badge-flame-red"><span class="status-dot-pulse dot-red"></span>Hết hàng (0)</span>';
+                        }
+                    }),
+
                 TextColumn::make('price')
                     ->money('VND')
                     ->sortable()
-                    ->label('Giá bán lẻ'),
+                    ->weight('extrabold')
+                    ->color('success')
+                    ->alignEnd()
+                    ->label('GIÁ BÁN LẺ'),
 
-                TextColumn::make('stock')
-                    ->sortable()
-                    ->label('Tồn kho'),
                 TextColumn::make('unit')
-                    ->label('ĐVT'),
+                    ->label('ĐVT')
+                    ->badge()
+                    ->color('gray'),
+
                 \Filament\Tables\Columns\ToggleColumn::make('status')
-                    ->label('Đang bán'),
+                    ->label('ĐANG BÁN'),
             ])
             ->filters([
                 \Filament\Tables\Filters\SelectFilter::make('category_id')

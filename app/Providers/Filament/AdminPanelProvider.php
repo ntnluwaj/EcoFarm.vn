@@ -213,8 +213,36 @@ public function panel(Panel $panel): Panel
                     .fi-ta-row:hover {
                         background-color: #f8fafc !important;
                     }
-                    .fi-badge, .fi-badge * {
+                    /* 🌟 QUICK FILTER PILLS TABS STYLING (MATCHING SCREENSHOT 2 EXACTLY) */
+                    .fi-tabs {
+                        border-bottom: none !important;
+                        margin-bottom: 1rem !important;
+                        gap: 0.5rem !important;
+                    }
+                    .fi-tabs-item {
                         border-radius: 9999px !important;
+                        padding: 6px 16px !important;
+                        font-size: 12.5px !important;
+                        font-weight: 600 !important;
+                        border: 1px solid #e2e8f0 !important;
+                        background-color: #ffffff !important;
+                        color: #475569 !important;
+                        transition: all 0.15s ease-in-out !important;
+                    }
+                    .fi-tabs-item:hover {
+                        background-color: #f8fafc !important;
+                    }
+                    .fi-tabs-item[aria-selected="true"],
+                    .fi-tabs-item.fi-active,
+                    .fi-tabs-item[data-active="1"] {
+                        background-color: #111827 !important;
+                        color: #ffffff !important;
+                        border-color: #111827 !important;
+                        box-shadow: 0 2px 8px rgba(17, 24, 39, 0.2) !important;
+                    }
+                    .fi-tabs-item-badge {
+                        border-radius: 9999px !important;
+                        font-size: 11px !important;
                         font-weight: 700 !important;
                     }
 
