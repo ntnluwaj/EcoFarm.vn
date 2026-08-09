@@ -120,15 +120,15 @@
                     <span>Hệ Thống Quản Lý & Vận Hành Bãi Kho EcoFarm</span>
                 </div>
                 <h2 class="text-2xl font-black tracking-tight text-white drop-shadow-md">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
-                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp Mekong</p>
+                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp </p>
             </div>
 
             <div class="flex items-center gap-3 z-10">
-                <!-- NÚT XEM TRANG CHỦ ĐÃ ĐƯỢC CHỈNH MÀU ĐEN ĐẬM / NỀN TRẮNG RÕ RÀNG 100% -->
-                <a href="/" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs shadow-2xl transition-all flex items-center gap-2 border border-slate-700">
-                    <i class="fa-solid fa-house text-emerald-400"></i>
-                    <span style="color: #ffffff !important;" class="font-extrabold">Xem trang chủ EcoFarm.vn &rarr;</span>
-                </a>
+                <!-- LOẠI BỎ NÚT TRÙNG LẶP TRONG BANNER: THAY BẰNG HUY HIỆU TRẠNG THÁI HỆ THỐNG LIVE Vận Hành Trực Tuyến -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 text-xs font-black text-white shadow-sm backdrop-blur-sm border border-white/20">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                    <span>Vận Hành Trực Tuyến 24/7</span>
+                </div>
             </div>
         </div>
 
