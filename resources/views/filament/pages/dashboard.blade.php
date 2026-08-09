@@ -85,7 +85,7 @@
 
     <!-- 1. TOP 4 VIBRANT GRADIENT STAT CARDS -->
     <div class="eco-grid-4 mb-6">
-        <!-- Card 1: Purple Gradient (Products) -->
+        <!-- Card 1: Purple Gradient -->
         <div class="eco-stat-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);">
             <div class="eco-icon-circle">
                 <i class="fa-solid fa-heart text-white"></i>
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Vibrant Blue Gradient (Stock Orders) -->
+        <!-- Card 2: Vibrant Blue Gradient -->
         <div class="eco-stat-card" style="background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);">
             <div class="eco-icon-circle">
                 <i class="fa-solid fa-box-archive text-white"></i>
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Coral Red/Pink Gradient (Revenue) -->
+        <!-- Card 3: Coral Red/Pink Gradient -->
         <div class="eco-stat-card" style="background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%);">
             <div class="eco-icon-circle">
                 <i class="fa-solid fa-bag-shopping text-white"></i>
@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <!-- Card 4: Warm Gold Gradient (Customers) -->
+        <!-- Card 4: Warm Gold Gradient -->
         <div class="eco-stat-card" style="background: linear-gradient(135deg, #F97316 0%, #FBBF24 100%);">
             <div class="eco-icon-circle">
                 <i class="fa-solid fa-users text-white"></i>
@@ -142,24 +142,23 @@
         </div>
     </div>
 
-    <!-- 2. MIDDLE SECTION (Sales Overview & Analytics Ring Chart) -->
+    <!-- 2. MIDDLE SECTION (Combo Bar + Line Chart & Analytics Ring) -->
     <div class="eco-grid-2-1 mb-6">
-        <!-- Left Sales Overview Card -->
+        <!-- Left Combo Bar + Line Chart Card -->
         <div class="eco-card p-6 flex flex-col justify-between">
             <div>
                 <!-- Header Controls -->
                 <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                     <div>
                         <h3 class="text-lg font-black text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                            <i class="fa-solid fa-chart-area text-purple-600"></i>
-                            Tổng quan doanh số 6 tháng
+                            <i class="fa-solid fa-chart-column text-purple-600"></i>
+                            Tăng trưởng doanh số & Sản lượng đơn
                         </h3>
-                        <p class="text-xs text-gray-500">Biểu đồ doanh thu thực tế & số đơn hàng hoàn thành</p>
+                        <p class="text-xs text-gray-500">Mô hình biểu đồ kết hợp (Cột Doanh Thu + Đường Xu Hướng Đơn)</p>
                     </div>
                     <div class="flex items-center gap-4 text-xs font-bold text-gray-500">
-                        <span class="text-purple-600 border-b-2 border-purple-600 pb-1">HÀNG THÁNG</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span> Doanh thu (Triệu VNĐ)</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Số đơn chốt</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-purple-600"></span> Cột Doanh Thu (Triệu VNĐ)</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Đường Sản Lượng Đơn</span>
                     </div>
                 </div>
 
@@ -181,14 +180,14 @@
                         </div>
 
                         <a href="/admin/stock-report-page" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md transition-all">
-                            <span>Tóm tắt vụ mùa</span>
+                            <span>Chi tiết báo cáo kho</span>
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </div>
 
-                    <!-- Area Line Chart Container -->
+                    <!-- Combo Chart Canvas -->
                     <div class="md:col-span-2 relative h-64 w-full">
-                        <canvas id="revenueAreaChart"></canvas>
+                        <canvas id="revenueComboChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -237,52 +236,66 @@
             </div>
         </div>
 
-        <!-- Right Analytics Donut Ring Card -->
+        <!-- Right Analytics Donut & Category Sales Visualizer -->
         <div class="eco-card p-6 flex flex-col justify-between">
             <div>
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-black text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-black text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <i class="fa-solid fa-chart-pie text-purple-600"></i>
-                        Phân tích đơn hàng
+                        Phân tích đơn hàng & Danh mục
                     </h3>
                     <span class="text-xs font-bold text-gray-400">Tổng: {{ $totalStatusCount }} đơn</span>
                 </div>
 
                 <!-- Centered Ring Chart -->
-                <div class="relative flex items-center justify-center my-4 h-56">
+                <div class="relative flex items-center justify-center my-3 h-44">
                     <canvas id="orderStatusDoughnutChart"></canvas>
                     <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <span class="text-4xl font-black text-purple-600 dark:text-purple-400 tracking-tight">{{ $completedPercent }}%</span>
-                        <span class="text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mt-1">Đơn hoàn thành</span>
-                        <span class="text-xs font-semibold text-gray-400">({{ $completedCount }}/{{ $totalStatusCount }} đơn)</span>
+                        <span class="text-3xl font-black text-purple-600 dark:text-purple-400 tracking-tight">{{ $completedPercent }}%</span>
+                        <span class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Hoàn thành</span>
+                    </div>
+                </div>
+
+                <!-- Category Sales Distribution Bars -->
+                <div class="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+                    <div class="text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center justify-between">
+                        <span>Top danh mục bán chạy</span>
+                        <i class="fa-solid fa-fire text-amber-500 text-xs"></i>
+                    </div>
+                    <div class="space-y-2.5">
+                        @forelse($categorySales as $cat)
+                            @php
+                                $catPct = $totalRevenue > 0 ? round(($cat->total_revenue / $totalRevenue) * 100) : 0;
+                            @endphp
+                            <div>
+                                <div class="flex justify-between text-[11px] font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                                    <span class="truncate max-w-[140px]">{{ $cat->category_name }}</span>
+                                    <span class="font-bold text-gray-900 dark:text-gray-100">{{ number_format($cat->total_revenue, 0, ',', '.') }}đ</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                                    <div class="h-full rounded-full bg-gradient-to-r from-purple-500 to-indigo-600" style="width: {{ max(10, min(100, $catPct)) }}%;"></div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center text-[11px] text-gray-400 py-2">Đang thống kê dữ liệu danh mục...</div>
+                        @endforelse
                     </div>
                 </div>
             </div>
 
-            <!-- Detailed Legend Badges -->
-            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-gray-100 dark:border-gray-800 text-center">
-                <div class="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/40">
-                    <div class="flex items-center justify-center gap-1 text-[11px] font-bold text-purple-700 dark:text-purple-300">
-                        <span class="w-2 h-2 rounded-full bg-purple-600"></span> Bán ra
-                    </div>
-                    <div class="text-xs font-black text-gray-900 dark:text-gray-100 mt-0.5">{{ $completedCount }} đơn</div>
-                    <div class="text-[10px] font-semibold text-purple-600 dark:text-purple-400">({{ $completedPercent }}%)</div>
+            <!-- Status Legends -->
+            <div class="grid grid-cols-3 gap-1.5 pt-3 border-t border-gray-100 dark:border-gray-800 text-center">
+                <div class="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-[10px]">
+                    <span class="font-bold text-purple-700 dark:text-purple-300">Hoàn thành</span>
+                    <div class="font-black text-gray-900 dark:text-gray-100">{{ $completedCount }} đơn ({{ $completedPercent }}%)</div>
                 </div>
-
-                <div class="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-900/40">
-                    <div class="flex items-center justify-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-300">
-                        <span class="w-2 h-2 rounded-full bg-amber-500"></span> Đang giao
-                    </div>
-                    <div class="text-xs font-black text-gray-900 dark:text-gray-100 mt-0.5">{{ $processingCount }} đơn</div>
-                    <div class="text-[10px] font-semibold text-amber-600 dark:text-amber-400">({{ $processingPercent }}%)</div>
+                <div class="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-[10px]">
+                    <span class="font-bold text-amber-700 dark:text-amber-300">Đang giao</span>
+                    <div class="font-black text-gray-900 dark:text-gray-100">{{ $processingCount }} đơn ({{ $processingPercent }}%)</div>
                 </div>
-
-                <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40">
-                    <div class="flex items-center justify-center gap-1 text-[11px] font-bold text-rose-700 dark:text-rose-300">
-                        <span class="w-2 h-2 rounded-full bg-rose-500"></span> Đã hủy
-                    </div>
-                    <div class="text-xs font-black text-gray-900 dark:text-gray-100 mt-0.5">{{ $cancelledCount }} đơn</div>
-                    <div class="text-[10px] font-semibold text-rose-600 dark:text-rose-400">({{ $cancelledPercent }}%)</div>
+                <div class="p-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-[10px]">
+                    <span class="font-bold text-rose-700 dark:text-rose-300">Đã hủy</span>
+                    <div class="font-black text-gray-900 dark:text-gray-100">{{ $cancelledCount }} đơn ({{ $cancelledPercent }}%)</div>
                 </div>
             </div>
         </div>
@@ -392,12 +405,11 @@
         </div>
     </div>
 
-    <!-- Chart.js Scripts Initialization with DataLabels & Tooltip Customizations -->
+    <!-- Chart.js Scripts Initialization -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof Chart === 'undefined') return;
 
-            // Register DataLabels plugin if available
             if (typeof ChartDataLabels !== 'undefined') {
                 Chart.register(ChartDataLabels);
             }
@@ -405,66 +417,55 @@
             const chartRevenueRaw = @json($chartRevenueRaw);
             const chartRevenueFormatted = @json($chartRevenueFormatted);
 
-            // 1. Revenue Area Chart (Left Main Chart)
-            const ctxArea = document.getElementById('revenueAreaChart').getContext('2d');
+            // 1. Combo Bar + Line Chart (Left Main Chart)
+            const ctxCombo = document.getElementById('revenueComboChart').getContext('2d');
             
-            const gradientPurple = ctxArea.createLinearGradient(0, 0, 0, 240);
-            gradientPurple.addColorStop(0, 'rgba(139, 92, 246, 0.45)');
-            gradientPurple.addColorStop(1, 'rgba(139, 92, 246, 0.01)');
+            const gradientBar = ctxCombo.createLinearGradient(0, 0, 0, 240);
+            gradientBar.addColorStop(0, '#8B5CF6');
+            gradientBar.addColorStop(1, '#C4B5FD');
 
-            const gradientOrange = ctxArea.createLinearGradient(0, 0, 0, 240);
-            gradientOrange.addColorStop(0, 'rgba(245, 158, 11, 0.35)');
-            gradientOrange.addColorStop(1, 'rgba(245, 158, 11, 0.01)');
-
-            new Chart(ctxArea, {
-                type: 'line',
+            new Chart(ctxCombo, {
+                type: 'bar',
                 data: {
                     labels: @json($chartMonths),
                     datasets: [
                         {
-                            label: 'Doanh thu',
+                            type: 'bar',
+                            label: 'Doanh thu (Triệu VNĐ)',
                             data: @json($chartRevenueData),
-                            borderColor: '#8B5CF6',
-                            borderWidth: 3.5,
-                            backgroundColor: gradientPurple,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#FFFFFF',
-                            pointBorderColor: '#8B5CF6',
-                            pointBorderWidth: 3,
-                            pointRadius: 6,
-                            pointHoverRadius: 8,
+                            backgroundColor: gradientBar,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                            barThickness: 26,
+                            yAxisID: 'y',
                             datalabels: {
-                                align: 'top',
+                                align: 'end',
                                 anchor: 'end',
                                 color: '#7C3AED',
-                                font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 11 },
-                                formatter: function(value, context) {
-                                    return value > 0 ? value + ' Tr' : '';
-                                }
+                                font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 10 },
+                                formatter: function(val) { return val > 0 ? val + ' Tr' : ''; }
                             }
                         },
                         {
-                            label: 'Số đơn hàng',
+                            type: 'line',
+                            label: 'Số đơn chốt',
                             data: @json($chartSalesData),
                             borderColor: '#F59E0B',
-                            borderWidth: 2.5,
-                            backgroundColor: gradientOrange,
-                            fill: true,
+                            borderWidth: 3,
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: false,
                             tension: 0.4,
                             pointBackgroundColor: '#FFFFFF',
                             pointBorderColor: '#F59E0B',
-                            pointBorderWidth: 2,
+                            pointBorderWidth: 2.5,
                             pointRadius: 5,
-                            pointHoverRadius: 7,
+                            yAxisID: 'y1',
                             datalabels: {
-                                align: 'bottom',
+                                align: 'top',
                                 anchor: 'start',
                                 color: '#D97706',
                                 font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 10 },
-                                formatter: function(value) {
-                                    return value > 0 ? value + ' đơn' : '';
-                                }
+                                formatter: function(val) { return val > 0 ? val + ' đơn' : ''; }
                             }
                         }
                     ]
@@ -472,10 +473,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -484,14 +482,13 @@
                             bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
                             padding: 12,
                             cornerRadius: 10,
-                            displayColors: true,
                             callbacks: {
                                 label: function(context) {
                                     const index = context.dataIndex;
                                     if (context.datasetIndex === 0) {
-                                        return ' Doanh thu: ' + chartRevenueFormatted[index] + ' (' + context.raw + ' Triệu VNĐ)';
+                                        return ' Doanh thu cột: ' + chartRevenueFormatted[index] + ' (' + context.raw + ' Triệu)';
                                     } else {
-                                        return ' Đơn hàng: ' + context.raw + ' đơn hoàn thành';
+                                        return ' Đường xu hướng: ' + context.raw + ' đơn hoàn thành';
                                     }
                                 }
                             }
@@ -503,11 +500,25 @@
                             ticks: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }, color: '#64748B' }
                         },
                         y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
                             grid: { color: 'rgba(0,0,0,0.04)' },
                             ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 11 },
+                                font: { family: 'Plus Jakarta Sans', size: 10 },
                                 color: '#64748B',
                                 callback: function(val) { return val + ' Tr'; }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: {
+                                font: { family: 'Plus Jakarta Sans', size: 10 },
+                                color: '#D97706',
+                                callback: function(val) { return val + ' đơn'; }
                             }
                         }
                     }

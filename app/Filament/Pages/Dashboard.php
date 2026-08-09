@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Contact;
+use App\Models\OrderItem;
 use Illuminate\Support\Carbon;
 
 class Dashboard extends BaseDashboard
@@ -38,7 +39,7 @@ class Dashboard extends BaseDashboard
         // 3. Giá trị trung bình đơn hàng
         $avgOrderValue = Order::where('status', 'completed')->avg('total_amount') ?? 0;
 
-        // 4. Biểu đồ doanh thu 6 tháng gần nhất (Line Area Chart)
+        // 4. Biểu đồ doanh thu 6 tháng gần nhất (Combo Bar + Line Chart)
         $chartMonths = [];
         $chartRevenueData = [];
         $chartRevenueRaw = [];
@@ -75,7 +76,18 @@ class Dashboard extends BaseDashboard
         $processingPercent = round(($processingCount / $totalStatusCount) * 100);
         $cancelledPercent = round(($cancelledCount / $totalStatusCount) * 100);
 
-        // 6. Nhật ký hoạt động gần nhất hệ thống
+        // 6. Phân bổ doanh số theo danh mục vật tư nông nghiệp
+        $categorySales = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->where('orders.status', 'completed')
+            ->selectRaw('categories.name as category_name, sum(order_items.quantity * order_items.unit_price) as total_revenue, sum(order_items.quantity) as total_qty')
+            ->groupBy('categories.id', 'categories.name')
+            ->orderBy('total_revenue', 'desc')
+            ->take(4)
+            ->get();
+
+        // 7. Nhật ký hoạt động gần nhất hệ thống
         $activities = [];
 
         $recentOrdersList = Order::with('user')->latest()->take(3)->get();
@@ -111,7 +123,7 @@ class Dashboard extends BaseDashboard
             ];
         }
 
-        // 7. Danh sách 6 đơn hàng mới nhất cho bảng quản lý bên phải
+        // 8. Danh sách 6 đơn hàng mới nhất cho bảng quản lý bên phải
         $latestOrders = Order::with('user')->latest()->take(6)->get();
 
         return [
@@ -134,6 +146,7 @@ class Dashboard extends BaseDashboard
             'completedPercent' => $completedPercent,
             'processingPercent' => $processingPercent,
             'cancelledPercent' => $cancelledPercent,
+            'categorySales' => $categorySales,
             'activities' => array_slice($activities, 0, 4),
             'latestOrders' => $latestOrders,
         ];
