@@ -27,11 +27,25 @@
         }
 
         .eco-banner-card {
-            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+            background: linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 70%, #f59e0b 100%);
             border-radius: 24px;
-            padding: 24px 30px;
+            padding: 26px 32px;
             color: #ffffff;
-            box-shadow: 0 16px 36px -6px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 18px 40px -8px rgba(4, 120, 87, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eco-banner-card::after {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .eco-grid-4 {
@@ -55,12 +69,12 @@
             background: #ffffff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.03);
-            transition: transform 0.25 ease, box-shadow 0.25s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .eco-stat-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 14px 30px -5px rgba(16, 185, 129, 0.12);
+            box-shadow: 0 14px 32px -5px rgba(16, 185, 129, 0.15);
         }
 
         .dark .eco-stat-card {
@@ -69,8 +83,8 @@
         }
 
         .eco-icon-box {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -96,29 +110,29 @@
 
     <div class="eco-dashboard space-y-6">
 
-        <!-- 🌟 1. VIBRANT TROPICAL EMERALD BANNER HEADER -->
+        <!-- 🌟 1. OFFICIAL DUAL-BRAND SIGNATURE BANNER HEADER (ECO GREEN + HARVEST GOLD) -->
         <div class="eco-banner-card flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 text-xs font-black mb-2 shadow-sm backdrop-blur-sm">
+            <div class="z-10">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 text-xs font-black mb-2 shadow-sm backdrop-blur-sm border border-white/20">
                     <i class="fa-solid fa-wheat-awn text-amber-300"></i>
                     <span>Hệ Thống Quản Lý & Vận Hành Bãi Kho EcoFarm</span>
                 </div>
-                <h2 class="text-2xl font-black tracking-tight text-white drop-shadow-sm">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
+                <h2 class="text-2xl font-black tracking-tight text-white drop-shadow-md">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
                 <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp Mekong</p>
             </div>
 
-            <div class="flex items-center gap-3">
-                <a href="/" class="px-4 py-2.5 rounded-xl bg-white text-emerald-800 hover:bg-emerald-50 font-black text-xs shadow-lg shadow-emerald-950/10 transition-all flex items-center gap-2">
+            <div class="flex items-center gap-3 z-10">
+                <a href="/" class="px-4 py-2.5 rounded-xl bg-white text-emerald-900 hover:bg-amber-50 font-black text-xs shadow-xl transition-all flex items-center gap-2 border border-amber-200/50">
                     <i class="fa-solid fa-house text-emerald-600"></i>
-                    <span>Xem trang chủ EcoFarm</span>
+                    <span>Xem trang chủ EcoFarm.vn</span>
                 </a>
             </div>
         </div>
 
-        <!-- 🌟 2. BRIGHT & FRESH SCORECARD METRIC CARDS -->
+        <!-- 🌟 2. BRAND SIGNATURE SCORECARD METRIC CARDS -->
         <div class="eco-grid-4">
-            <!-- Card 1: Revenue -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-emerald-50/60 to-white">
+            <!-- Card 1: Revenue (Eco Emerald) -->
+            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-emerald-50/70 to-white border-l-4 border-l-emerald-500">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider">Tổng Doanh Thu</span>
                     <div class="eco-icon-box bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
@@ -134,8 +148,8 @@
                 </div>
             </div>
 
-            <!-- Card 2: Orders -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-sky-50/60 to-white">
+            <!-- Card 2: Orders (Sky Logistics) -->
+            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-sky-50/70 to-white border-l-4 border-l-sky-500">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-extrabold text-sky-800 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
                     <div class="eco-icon-box bg-sky-500 text-white shadow-lg shadow-sky-500/30">
@@ -151,8 +165,8 @@
                 </div>
             </div>
 
-            <!-- Card 3: Inventory Products -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-amber-50/60 to-white">
+            <!-- Card 3: Inventory Products (Harvest Amber Gold) -->
+            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-amber-50/70 to-white border-l-4 border-l-amber-500">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-extrabold text-amber-800 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
                     <div class="eco-icon-box bg-amber-500 text-white shadow-lg shadow-amber-500/30">
@@ -168,8 +182,8 @@
                 </div>
             </div>
 
-            <!-- Card 4: Farmers Base -->
-            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-indigo-50/60 to-white">
+            <!-- Card 4: Farmers Base (Mekong Farmers Indigo) -->
+            <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-indigo-50/70 to-white border-l-4 border-l-indigo-500">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-extrabold text-indigo-800 uppercase tracking-wider">Bà Con Nông Dân</span>
                     <div class="eco-icon-box bg-indigo-500 text-white shadow-lg shadow-indigo-500/30">
@@ -195,7 +209,7 @@
                         <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
                             Biểu đồ doanh thu hoàn tất (6 tháng qua)
                         </h3>
-                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/60 shrink-0">
+                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-extrabold border border-emerald-200/80 shrink-0 shadow-sm">
                             6 tháng qua v
                         </span>
                     </div>
@@ -335,7 +349,7 @@
             // 1. Biểu đồ doanh thu hoàn tất (6 tháng qua) - Line Area Chart
             const ctxRev = document.getElementById('ecoRevenueLineChart').getContext('2d');
             const gradientRev = ctxRev.createLinearGradient(0, 0, 0, 220);
-            gradientRev.addColorStop(0, 'rgba(16, 185, 129, 0.38)');
+            gradientRev.addColorStop(0, 'rgba(16, 185, 129, 0.42)');
             gradientRev.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
 
             new Chart(ctxRev, {
@@ -345,12 +359,12 @@
                     datasets: [{
                         label: 'Doanh thu (VND)',
                         data: @json($chartRevenueRaw),
-                        borderColor: '#10b981',
+                        borderColor: '#059669',
                         borderWidth: 4,
                         backgroundColor: gradientRev,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#059669',
+                        pointBackgroundColor: '#047857',
                         pointBorderColor: '#FFFFFF',
                         pointBorderWidth: 3,
                         pointRadius: 6,

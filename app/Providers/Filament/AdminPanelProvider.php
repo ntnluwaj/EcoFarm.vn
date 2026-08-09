@@ -66,33 +66,31 @@ public function panel(Panel $panel): Panel
                         width: 0 !important;
                         height: 0 !important;
                     }
-                    html, body, div, section, aside, nav, table, main {
-                        scrollbar-width: none !important;
-                        -ms-overflow-style: none !important;
-                    }
 
-                    /* 🌟 FRESH BRIGHT BODY BACKGROUND */
+                    /* 🌟 ECOFARM BRAND BODY & CONTAINER */
                     body, .fi-body, .fi-main {
                         background-color: #f8fafc !important;
                     }
 
-                    /* 🌟 TOPBAR SOLID WHITE & BRANDED GREEN BAR */
+                    /* 🌟 DUAL-BRAND TOPBAR INDICATOR (ECO GREEN + HARVEST GOLD) */
                     .fi-topbar {
                         background-color: #ffffff !important;
                         backdrop-filter: none !important;
                         contain: none !important;
                         transform: none !important;
-                        border-top: 4px solid #10b981 !important;
+                        border-top: 4px solid !important;
+                        border-image: linear-gradient(90deg, #047857 0%, #10b981 60%, #f59e0b 100%) 1 !important;
                         border-bottom: 1px solid #e2e8f0 !important;
-                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02) !important;
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
                     }
                     .fi-dropdown-panel {
                         z-index: 99999 !important;
-                        border-radius: 14px !important;
-                        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+                        border-radius: 16px !important;
+                        box-shadow: 0 12px 35px rgba(0,0,0,0.12) !important;
+                        border: 1px solid #e2e8f0 !important;
                     }
 
-                    /* 🌟 MODERN SEARCH BAR STYLE */
+                    /* 🌟 ECOFARM BRAND SEARCH BAR */
                     .fi-global-search input,
                     .fi-global-search-input input {
                         border-radius: 0.75rem !important;
@@ -105,10 +103,10 @@ public function panel(Panel $panel): Panel
                     .fi-global-search-input input:focus {
                         background-color: #ffffff !important;
                         border-color: #10b981 !important;
-                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+                        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18) !important;
                     }
 
-                    /* 🌟 SIDEBAR CLEAN PURE WHITE STYLE */
+                    /* 🌟 SIDEBAR BRANDED LOGO & HEADER STYLING */
                     .fi-sidebar {
                         background-color: #ffffff !important;
                         border-right: 1px solid #e2e8f0 !important;
@@ -116,20 +114,22 @@ public function panel(Panel $panel): Panel
                     .fi-sidebar-header {
                         background-color: #ffffff !important;
                         border-bottom: 1px solid #f1f5f9 !important;
+                        padding-top: 0.5rem !important;
+                        padding-bottom: 0.5rem !important;
                     }
 
-                    /* 🌟 MODERN ACTIVE SIDEBAR MENU ITEM STYLE (VIBRANT EMERALD) */
+                    /* 🌟 DUAL-ACCENT ACTIVE SIDEBAR MENU ITEM */
                     .fi-sidebar-item-button.fi-active,
                     .fi-sidebar-item-button[data-active="1"],
                     .fi-active,
                     [data-active="1"],
                     .fi-sidebar-item-active > a,
                     .fi-sidebar-item-active > div {
-                        background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.02) 100%) !important;
+                        background: linear-gradient(90deg, rgba(16, 185, 129, 0.14) 0%, rgba(245, 158, 11, 0.04) 100%) !important;
                         color: #047857 !important;
                         border-left: 4px solid #10b981 !important;
                         border-radius: 0 0.75rem 0.75rem 0 !important;
-                        font-weight: 700 !important;
+                        font-weight: 800 !important;
                         box-shadow: none !important;
                     }
 
@@ -144,16 +144,16 @@ public function panel(Panel $panel): Panel
                         border-radius: 0.75rem !important;
                     }
 
-                    /* 🌟 QUICK FILTER TAB PILLS (FRESH BRIGHT BADGES) */
+                    /* 🌟 DUAL-BRAND QUICK FILTER TABS (ECO GREEN GRADIENT + GOLD SHADOW) */
                     .fi-tabs-item-active {
-                        background-color: #10b981 !important;
+                        background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
                         color: #ffffff !important;
                         border-radius: 12px !important;
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+                        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3), 0 2px 4px rgba(245, 158, 11, 0.2) !important;
                         font-weight: 800 !important;
                     }
 
-                    /* 🌟 CARDS & SECTIONS BRIGHT BORDERS */
+                    /* 🌟 CARDS & SECTIONS BRAND BORDERS */
                     .fi-section {
                         border-radius: 20px !important;
                         border: 1px solid #e2e8f0 !important;
@@ -161,7 +161,7 @@ public function panel(Panel $panel): Panel
                         background: #ffffff !important;
                     }
 
-                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
+                    /* 🌟 TABLE HOVER & ACCENT BORDERS */
                     .fi-ta-ctn {
                         border: 1px solid #e2e8f0 !important;
                         border-radius: 20px !important;
@@ -174,7 +174,7 @@ public function panel(Panel $panel): Panel
                         border-bottom: 1px solid #e2e8f0 !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: rgba(16, 185, 129, 0.03) !important;
+                        background-color: rgba(16, 185, 129, 0.04) !important;
                     }
                 </style>'
             )
