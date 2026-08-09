@@ -12,17 +12,25 @@ body, html {
                 #f8fafc !important;
 }
 
-/* Header Navbar & Sidebar premium glassmorphism styling */
+/* Header Navbar & Sidebar premium styling (No backdrop-filter to prevent dropdown containment bugs) */
 .fi-topbar {
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(12px) !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
     border-bottom: 1px solid rgba(46, 125, 50, 0.08) !important;
+    contain: none !important;
+    transform: none !important;
 }
 
 .fi-sidebar {
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px) !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
     border-right: 1px solid rgba(46, 125, 50, 0.08) !important;
+}
+
+/* Ensure Filament dropdown menus appear properly with correct z-index */
+.fi-dropdown-panel {
+    z-index: 99999 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* Active sidebar item styling matching EcoFarm green theme */
@@ -63,14 +71,6 @@ body, html {
     font-weight: 700 !important;
 }
 
-/* Elegant green accents for primary action buttons */
-.fi-btn-color-primary,
-.fi-ac-btn-action,
-.fi-input-wrapper-focus,
-button[type="submit"] {
-    border-radius: 10px !important;
-}
-
 /* Form controls styling */
 .fi-fo-text-input,
 .fi-fo-select,
@@ -85,13 +85,13 @@ button[type="submit"] {
     font-weight: 600 !important;
 }
 
-/* Ẩn triệt để tất cả các thanh cuộn dọc/ngang (trượt lên/xuống/trái/phải) trên mọi trình duyệt */
+/* Ẩn triệt để tất cả các thanh cuộn dọc/ngang trên trình duyệt */
 * {
-    scrollbar-width: none !important; /* Firefox */
-    -ms-overflow-style: none !important; /* IE/Edge */
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 *::-webkit-scrollbar {
-    display: none !important; /* Safari, Chrome, Opera */
+    display: none !important;
     width: 0 !important;
     height: 0 !important;
 }

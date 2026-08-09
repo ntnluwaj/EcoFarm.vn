@@ -76,12 +76,18 @@ public function panel(Panel $panel): Panel
                         height: 0 !important;
                     }
 
-                    /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE */
+                    /* 🌟 TOPBAR SOLID WHITE MINIMALIST STYLE & DROPDOWN FIX */
                     .fi-topbar {
                         background-color: #ffffff !important;
+                        backdrop-filter: none !important;
+                        contain: none !important;
+                        transform: none !important;
                         border-top: 3px solid #10b981 !important; /* Branded green top indicator line */
                         border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
                         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+                    }
+                    .fi-dropdown-panel {
+                        z-index: 99999 !important;
                     }
 
                     /* 🌟 MODERN SEARCH BAR STYLE */
