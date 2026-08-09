@@ -142,41 +142,29 @@ class OrderResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => 'ECF' . str_pad($state, 6, '0', STR_PAD_LEFT))
+                    ->formatStateUsing(fn ($state) => '#ECF' . str_pad($state, 5, '0', STR_PAD_LEFT))
+                    ->weight('black')
                     ->label('Mã đơn'),
-                TextColumn::make('customer_name')->searchable()->wrap()->label('Người nhận'),
-                TextColumn::make('customer_phone')->searchable()->label('Số điện thoại'),
-                
+
+                TextColumn::make('customer_name')
+                    ->label('Khách hàng & SĐT')
+                    ->searchable(['customer_name', 'customer_phone'])
+                    ->sortable()
+                    ->weight('bold')
+                    ->description(fn (Order $record): string => $record->customer_phone ?? 'Chưa có SĐT')
+                    ->wrap(),
+
                 TextColumn::make('total_amount')
+                    ->label('Tổng tiền & Thanh toán')
                     ->formatStateUsing(fn ($state) => number_format($state, 0, ',', '.') . ' VND')
                     ->sortable()
-                    ->label('Tổng tiền'),
-                TextColumn::make('coupon_code')
-                    ->label('Mã KM')
-                    ->placeholder('-')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('discount_amount')
-                    ->money('VND')
-                    ->label('Chiết khấu')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('payment_method')
-                    ->label('Hình thức')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('payment_status')
-                    ->badge()
-                    ->colors([
-                        'danger' => 'unpaid',
-                        'success' => 'paid',
-                        'warning' => 'refunded',
-                    ])
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'unpaid' => 'Chưa trả',
-                        'paid' => 'Đã trả',
-                        'refunded' => 'Hoàn tiền',
-                        default => $state,
-                    })
-                    ->label('Thanh toán'),
+                    ->weight('black')
+                    ->color('success')
+                    ->description(fn (Order $record): string => match ($record->payment_status) {
+                        'paid' => '✔ Đã trả (' . strtoupper($record->payment_method ?? 'COD') . ')',
+                        'refunded' => '↺ Hoàn tiền',
+                        default => '⏳ Chưa trả (' . strtoupper($record->payment_method ?? 'COD') . ')',
+                    }),
 
                 TextColumn::make('status')
                     ->badge()
@@ -197,7 +185,11 @@ class OrderResource extends Resource
                     })
                     ->label('Trạng thái vận đơn'),
 
-                TextColumn::make('created_at')->dateTime('H:i d/m/Y')->sortable()->label('Thời gian chốt đơn'),
+                TextColumn::make('created_at')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->label('Thời gian đặt'),
+
                 TextColumn::make('cod_reconciled')
                     ->badge()
                     ->state(fn (Order $record): string => $record->payment_method !== 'COD' ? 'N/A' : ($record->cod_reconciled ? 'reconciled' : 'pending'))
@@ -212,6 +204,7 @@ class OrderResource extends Resource
                         'N/A' => 'Không có (VietQR)',
                         default => $state,
                     })
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Đối soát COD'),
             ])
             ->filters([
