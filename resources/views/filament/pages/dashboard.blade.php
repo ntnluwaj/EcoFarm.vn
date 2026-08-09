@@ -1,4 +1,5 @@
 <x-filament-panels::page>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -83,13 +84,14 @@
         }
 
         .eco-icon-box {
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            flex-shrink: 0;
         }
 
         @media (max-width: 1280px) {
@@ -122,21 +124,23 @@
             </div>
 
             <div class="flex items-center gap-3 z-10">
-                <a href="/" class="px-4 py-2.5 rounded-xl bg-white text-emerald-900 hover:bg-amber-50 font-black text-xs shadow-xl transition-all flex items-center gap-2 border border-amber-200/50">
-                    <i class="fa-solid fa-house text-emerald-600"></i>
-                    <span>Xem trang chủ EcoFarm.vn</span>
+                <!-- NÚT XEM TRANG CHỦ ĐÃ ĐƯỢC CHỈNH MÀU ĐEN ĐẬM / NỀN TRẮNG RÕ RÀNG 100% -->
+                <a href="/" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs shadow-2xl transition-all flex items-center gap-2 border border-slate-700">
+                    <i class="fa-solid fa-house text-emerald-400"></i>
+                    <span style="color: #ffffff !important;" class="font-extrabold">Xem trang chủ EcoFarm.vn &rarr;</span>
                 </a>
             </div>
         </div>
 
-        <!-- 🌟 2. BRAND SIGNATURE SCORECARD METRIC CARDS -->
+        <!-- 🌟 2. BRAND SIGNATURE SCORECARD METRIC CARDS WITH VIVID ICONS -->
         <div class="eco-grid-4">
             <!-- Card 1: Revenue (Eco Emerald) -->
             <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-emerald-50/70 to-white border-l-4 border-l-emerald-500">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider">Tổng Doanh Thu</span>
-                    <div class="eco-icon-box bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
-                        <i class="fa-solid fa-sack-dollar"></i>
+                    <span class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Tổng Doanh Thu</span>
+                    <!-- ICON TỔNG DOANH THU: Nền xanh lá + SVG tiền vàng nổi bật -->
+                    <div class="eco-icon-box bg-emerald-600 text-white shadow-md shadow-emerald-600/30">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -151,9 +155,10 @@
             <!-- Card 2: Orders (Sky Logistics) -->
             <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-sky-50/70 to-white border-l-4 border-l-sky-500">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-sky-800 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
-                    <div class="eco-icon-box bg-sky-500 text-white shadow-lg shadow-sky-500/30">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="text-xs font-extrabold text-sky-900 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
+                    <!-- ICON ĐƠN HÀNG: Nền xanh dương + SVG giỏ hàng nổi bật -->
+                    <div class="eco-icon-box bg-sky-500 text-white shadow-md shadow-sky-500/30">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -168,9 +173,10 @@
             <!-- Card 3: Inventory Products (Harvest Amber Gold) -->
             <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-amber-50/70 to-white border-l-4 border-l-amber-500">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-amber-800 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
-                    <div class="eco-icon-box bg-amber-500 text-white shadow-lg shadow-amber-500/30">
-                        <i class="fa-solid fa-boxes-stacked"></i>
+                    <span class="text-xs font-extrabold text-amber-900 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
+                    <!-- ICON KHO BÃI: Nền vàng rơm + SVG thùng hàng nổi bật -->
+                    <div class="eco-icon-box bg-amber-500 text-white shadow-md shadow-amber-500/30">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -185,9 +191,10 @@
             <!-- Card 4: Farmers Base (Mekong Farmers Indigo) -->
             <div class="eco-stat-card flex flex-col justify-between bg-gradient-to-br from-indigo-50/70 to-white border-l-4 border-l-indigo-500">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-extrabold text-indigo-800 uppercase tracking-wider">Bà Con Nông Dân</span>
-                    <div class="eco-icon-box bg-indigo-500 text-white shadow-lg shadow-indigo-500/30">
-                        <i class="fa-solid fa-users"></i>
+                    <span class="text-xs font-extrabold text-indigo-900 uppercase tracking-wider">Bà Con Nông Dân</span>
+                    <!-- ICON NÔNG DÂN: Nền tím chàm + SVG người dùng nổi bật -->
+                    <div class="eco-icon-box bg-indigo-500 text-white shadow-md shadow-indigo-500/30">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
                 </div>
                 <div class="mt-4">
