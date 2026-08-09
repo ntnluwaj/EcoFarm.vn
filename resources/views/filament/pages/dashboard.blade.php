@@ -238,8 +238,9 @@
                         <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
                             Biểu đồ doanh thu hoàn tất (6 tháng qua)
                         </h3>
-                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-extrabold border border-emerald-200/80 shrink-0 shadow-sm">
-                            6 tháng qua v
+                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-extrabold border border-emerald-200/80 shrink-0 shadow-sm flex items-center gap-1">
+                            <i class="fa-solid fa-calendar-days text-emerald-600"></i>
+                            <span>6 tháng gần nhất</span>
                         </span>
                     </div>
 
@@ -255,25 +256,36 @@
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-2">
                             <h3 class="text-sm font-black text-slate-900 dark:text-slate-100">
-                                Tỷ lệ trạng thái đơn hàng (Tất cả thời gian)
+                                Tỷ lệ trạng thái đơn hàng
                             </h3>
-                            <span class="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 text-[11px] font-extrabold border border-slate-200/60 shrink-0">
-                                Tất cả thời gian v
+                            <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 text-[11px] font-extrabold border border-slate-200/60 shrink-0 flex items-center gap-1">
+                                <i class="fa-solid fa-clock text-slate-500"></i>
+                                <span>Toàn thời gian</span>
                             </span>
                         </div>
 
-                        <div style="height: 200px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="height: 190px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                             <canvas id="ecoStatusDoughnutChart"></canvas>
                         </div>
                     </div>
 
-                    <!-- Status Legend matching exact bright colors -->
-                    <div class="flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-sm"></span> Chờ duyệt</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-sm"></span> Đóng gói</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm"></span> Đang giao</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span> Hoàn tất</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span> Đã hủy</span>
+                    <!-- CHÚ THÍCH MÀU SẮC TRẠNG THÁI ĐƠN HÀNG (BADGES MÀU RÕ RÀNG 100%) -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Chờ duyệt
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Đóng gói
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Đang giao
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Hoàn tất
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 text-rose-800 border border-rose-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Đã hủy
+                        </span>
                     </div>
                 </div>
             </div>
@@ -295,7 +307,7 @@
                         <table class="w-full text-left text-xs text-slate-600 dark:text-slate-400">
                             <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-black uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 text-[10px]">
                                 <tr>
-                                    <th class="py-2.5 px-3">MÃ ĐƠN v</th>
+                                    <th class="py-2.5 px-3">MÃ ĐƠN</th>
                                     <th class="py-2.5 px-3">KHÁCH HÀNG</th>
                                     <th class="py-2.5 px-3">TỔNG TIỀN</th>
                                     <th class="py-2.5 px-3 text-center">TRẠNG THÁI</th>
@@ -350,19 +362,28 @@
                             <h3 class="text-sm font-black text-slate-900 dark:text-slate-100 truncate">
                                 Tỷ lệ doanh số theo Ngành hàng
                             </h3>
-                            <i class="fa-solid fa-ellipsis text-slate-300"></i>
+                            <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 text-[11px] font-extrabold border border-slate-200/60 shrink-0 flex items-center gap-1">
+                                <i class="fa-solid fa-chart-pie text-slate-500"></i>
+                                <span>Phân bổ</span>
+                            </span>
                         </div>
 
-                        <div style="height: 200px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="height: 190px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                             <canvas id="ecoCategoryPolarChart"></canvas>
                         </div>
                     </div>
 
-                    <!-- Category Color Legend -->
-                    <div class="flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span> Thuốc Trừ Sâu & Bệnh</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm"></span> Hạt Giống</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-sm"></span> Phân Bón Hữu Cơ & NPK</span>
+                    <!-- CHÚ THÍCH MÀU SẮC NGÀNH HÀNG (BADGES MÀU RÕ RÀNG 100%) -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Hạt Giống
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Phân Bón Hữu Cơ & NPK
+                        </span>
                     </div>
                 </div>
             </div>
