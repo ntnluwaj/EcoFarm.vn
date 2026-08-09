@@ -181,18 +181,30 @@ public function panel(Panel $panel): Panel
                         box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15) !important;
                     }
 
-                    /* 🌟 STATS OVERVIEW CARDS */
+                    /* 🌟 STATS OVERVIEW CARDS (MODERN DASHBOARD CRM STYLE) */
                     .fi-wi-stats-overview-stat {
-                        transition: all 0.2s ease-in-out !important;
-                        border: 1px solid #e5e7eb !important;
-                        border-radius: 0.85rem !important;
+                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                        border: 1px solid #e2e8f0 !important;
+                        border-radius: 1rem !important;
                         background: #ffffff !important;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
+                        padding: 18px 20px !important;
                     }
                     .fi-wi-stats-overview-stat:hover {
-                        transform: translateY(-2px) !important;
-                        border-color: rgba(249, 115, 22, 0.3) !important;
-                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+                        transform: translateY(-3px) !important;
+                        border-color: #10b981 !important;
+                        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1) !important;
+                    }
+                    .fi-wi-widget {
+                        border-radius: 1rem !important;
+                    }
+                    .fi-wi-widget > div,
+                    .fi-wi-widget > section {
+                        border-radius: 1rem !important;
+                        border: 1px solid #e2e8f0 !important;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
+                        background-color: #ffffff !important;
+                        overflow: hidden !important;
                     }
 
                     /* 🌟 TABLE HOVER EFFECTS & COMPACT RESPONSIVE CELL PADDING FOR PERFECT FIT */
