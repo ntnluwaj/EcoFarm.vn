@@ -226,7 +226,7 @@ Công ty Cổ phần Dego Holding được thành lập với sứ mệnh mang c
 ### 1.2. Vị trí và nhiệm vụ của sinh viên tại đơn vị
 Trong thời gian thực tập từ ngày 15/05/2026 đến ngày 10/07/2026, em được phân công làm việc tại nhóm phát triển Web thuộc **Phòng Kỹ thuật Phần mềm** dưới sự hướng dẫn của Kỹ sư Nguyễn Văn Khang.
 *   **Nhiệm vụ được giao:**
-      *   Nghiên cứu tài liệu nghiệp vụ giao nhận vận chuyển và cẩm nang nông nghiệp vùng sông nước Mekong.
+      *   Nghiên cứu tài liệu nghiệp vụ giao nhận vận chuyển và cẩm nang nông nghiệp vùng sông nước .
       *   Thiết kế CSDL quản lý sản phẩm, đơn hàng, hóa đơn VAT và hỏi đáp kỹ thuật.
       *   Lập trình giao diện khách hàng Frontend, tích hợp bản đồ Leaflet OSM và API VietQR động.
       *   Lập trình trang quản trị Filament Admin Panel đồng nhất mỹ thuật và hệ thống cảnh báo Telegram.

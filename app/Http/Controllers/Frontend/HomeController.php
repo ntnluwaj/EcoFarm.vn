@@ -16,8 +16,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Cấu hình Cache 5 phút (300 giây) tối ưu hóa hiệu năng chịu tải thực tế
-        $categories = cache()->remember('home_categories', 300, fn() => Category::whereNull('parent_id')->get());
+        // Cấu hình Cache 5 phút (300 giây) - Chỉ lấy tối đa 4 danh mục nổi bật hàng đầu để hiển thị trang chủ
+        $categories = cache()->remember('home_categories', 300, function() {
+            return Category::whereNull('parent_id')
+                ->withCount('products')
+                ->orderByDesc('products_count')
+                ->take(4)
+                ->get();
+        });
 
         $featuredProducts = cache()->remember('home_featured_products', 300, fn() => Product::where('status', 1)
             ->latest()

@@ -75,26 +75,61 @@
 @endif
 
 <div class="container mb-5" id="danh-muc-vattu">
-    <div class="d-flex align-items-center mb-4">
-        <div class="p-2 bg-success-subtle text-success rounded-3 me-3"><i class="fa-solid fa-layer-group fs-5"></i></div>
-        <h4 class="fw-bold text-dark mb-0">Danh mục vật tư ngành hàng</h4>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center">
+            <div class="p-2 bg-success-subtle text-success rounded-3 me-3"><i class="fa-solid fa-layer-group fs-5"></i></div>
+            <div>
+                <h4 class="fw-extrabold text-dark mb-0" style="font-weight: 800;">Danh Mục Vật Tư Nổi Bật</h4>
+                <p class="text-muted text-xs mb-0" style="font-size: 12px;">Các nhóm vật tư nông nghiệp chủ lực được chọn lọc hàng đầu</p>
+            </div>
+        </div>
+        <a href="{{ route('products.index') }}" class="btn btn-outline-success btn-sm fw-bold px-3 py-2 rounded-3 text-xs">
+            Xem tất cả ngành hàng <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
     </div>
+
     <div class="row g-3">
         @foreach($categories as $cat)
+            @php
+                $catIcon = 'fa-boxes-packing';
+                $iconBg = '#e8f5e9';
+                $iconColor = '#2e7d32';
+
+                if (str_contains(mb_strtolower($cat->name), 'thuốc') || str_contains(mb_strtolower($cat->name), 'bệnh')) {
+                    $catIcon = 'fa-flask-vial';
+                    $iconBg = '#e0f2fe';
+                    $iconColor = '#0369a1';
+                } elseif (str_contains(mb_strtolower($cat->name), 'phân') || str_contains(mb_strtolower($cat->name), 'npk')) {
+                    $catIcon = 'fa-mound';
+                    $iconBg = '#fef3c7';
+                    $iconColor = '#b45309';
+                } elseif (str_contains(mb_strtolower($cat->name), 'giống') || str_contains(mb_strtolower($cat->name), 'hạt')) {
+                    $catIcon = 'fa-wheat-awn';
+                    $iconBg = '#e0e7ff';
+                    $iconColor = '#4338ca';
+                } elseif (str_contains(mb_strtolower($cat->name), 'kích thích') || str_contains(mb_strtolower($cat->name), 'sinh trưởng')) {
+                    $catIcon = 'fa-bolt';
+                    $iconBg = '#ffe4e6';
+                    $iconColor = '#be123c';
+                }
+            @endphp
             <div class="col-md-6">
                 <a href="{{ route('products.index', ['category_id' => $cat->id]) }}" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 transition-all border-start border-4 border-success hover-shadow">
+                    <div class="card border-0 shadow-sm p-3.5 rounded-4 bg-white h-100 transition-all border-start border-4 border-success hover-shadow position-relative overflow-hidden">
                         <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-light p-3 rounded-3 text-success me-3">
-                                    <i class="fa-solid @if($cat->id == 1) fa-flask-vial @else fa-mound @endif fs-4"></i>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-3 rounded-3 shrink-0" style="background-color: {{ $iconBg }} !important; color: {{ $iconColor }} !important; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-solid {{ $catIcon }} fs-4"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-bold text-dark mb-1">{{ $cat->name }}</h5>
-                                    <p class="text-muted small mb-0">Cung ứng sản phẩm đạt chuẩn quy trình GlobalGAP</p>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <h5 class="fw-extrabold text-dark mb-0" style="font-size: 1.05rem; font-weight: 800;">{{ $cat->name }}</h5>
+                                        <span class="badge bg-success-subtle text-success text-xs px-2 py-0.5 rounded-pill">Nổi bật</span>
+                                    </div>
+                                    <p class="text-muted small mb-0 mt-1" style="font-size: 12px;">Cung ứng chính hãng {{ $cat->products_count ?? 0 }} sản phẩm đạt chuẩn VietGAP</p>
                                 </div>
                             </div>
-                            <i class="fa-solid fa-chevron-right text-muted opacity-50"></i>
+                            <i class="fa-solid fa-chevron-right text-muted opacity-50 me-2"></i>
                         </div>
                     </div>
                 </a>

@@ -148,7 +148,7 @@
                     <span>Hệ Thống Quản Lý & Vận Hành Bãi Kho EcoFarm</span>
                 </div>
                 <h2 class="text-2xl font-black tracking-tight text-white drop-shadow-md">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
-                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp Mekong</p>
+                <p class="text-xs font-semibold text-emerald-50 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp </p>
             </div>
 
             <div class="flex items-center gap-3 z-10">
@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- Card 4: Farmers Base (Royal Mekong Indigo) -->
+            <!-- Card 4: Farmers Base (Royal  Indigo) -->
             <div class="eco-stat-card-indigo flex flex-col justify-between">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-black text-indigo-100 uppercase tracking-wider">Bà Con Nông Dân</span>

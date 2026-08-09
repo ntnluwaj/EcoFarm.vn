@@ -43,7 +43,7 @@
                     <span class="d-flex align-items-center gap-2">
                         <i class="fa-solid fa-location-dot text-danger fs-5"></i> Địa Chỉ Nhận Hàng Vật Tư
                     </span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 rounded-pill text-xs fw-bold">Giao hỏa tốc Mekong</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 rounded-pill text-xs fw-bold">Giao hỏa tốc </span>
                 </h4>
 
                 @if ($errors->any())

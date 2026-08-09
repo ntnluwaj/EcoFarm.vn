@@ -38,16 +38,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::updateOrCreate(
-            ['email' => 'dailymekong@gmail.com'],
-            [
-                'name' => 'Đại lý Vật tư Mekong',
-                'password' => bcrypt('12345678'),
-                'role' => 'agency',
-                'phone' => '0909123456',
-                'address' => '456 Đường 30/4, Quận Ninh Kiều, Cần Thơ',
-            ]
-        );
+
 
         // 2. Tạo các Thương hiệu/Nhà sản xuất vật tư mẫu
         $brandSyngenta = Brand::firstOrCreate(

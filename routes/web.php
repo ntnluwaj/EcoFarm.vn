@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Hệ Thống Định Tuyến Đồ Án Vật Tư Nông Nghiệp Mekong B2B
+| Web Routes - Hệ Thống Định Tuyến Đồ Án Vật Tư Nông Nghiệp 
 |--------------------------------------------------------------------------
 */
 
