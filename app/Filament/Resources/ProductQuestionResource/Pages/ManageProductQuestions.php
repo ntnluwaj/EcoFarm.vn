@@ -14,12 +14,7 @@ class ManageProductQuestions extends ManageRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make()
-                ->label('+ Thêm câu hỏi giải đáp mới')
-                ->color('success')
-                ->icon('heroicon-m-question-mark-circle'),
-        ];
+        return [];
     }
 
     public function getTabs(): array

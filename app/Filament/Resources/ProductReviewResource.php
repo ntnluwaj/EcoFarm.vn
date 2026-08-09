@@ -32,12 +32,22 @@ class ProductReviewResource extends Resource
         return auth()->user()?->role === 'admin';
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 \Filament\Forms\Components\Section::make('THÔNG TIN ĐÁNH GIÁ VẬT TƯ TỪ NHÀ VƯỜN')
-                    ->description('Kiểm duyệt và chỉnh sửa đánh giá phản hồi chất lượng vật tư từ khách hàng')
+                    ->description('Chi tiết đánh giá phản hồi chất lượng vật tư từ khách hàng thực tế')
                     ->schema([
                         \Filament\Forms\Components\Grid::make(3)->schema([
                             Forms\Components\Select::make('product_id')
@@ -57,14 +67,14 @@ class ProductReviewResource extends Resource
                                     4 => '⭐⭐⭐⭐ 4 sao (Hài lòng)',
                                     5 => '⭐⭐⭐⭐⭐ 5 sao (Xuất sắc)',
                                 ])
-                                ->label('Số sao xếp hạng *')
-                                ->required(),
+                                ->label('Số sao xếp hạng')
+                                ->disabled(),
                         ]),
 
                         Forms\Components\Textarea::make('comment')
-                            ->label('Nội dung bình luận nhận xét *')
+                            ->label('Nội dung bình luận nhận xét')
                             ->rows(4)
-                            ->required()
+                            ->disabled()
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -98,8 +108,8 @@ class ProductReviewResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Xóa đánh giá spam'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

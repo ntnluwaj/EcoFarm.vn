@@ -32,12 +32,22 @@ class ProductQuestionResource extends Resource
         return in_array(auth()->user()?->role, ['admin', 'engineer']);
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 \Filament\Forms\Components\Section::make('THÔNG TIN HỎI ĐÁP SẢN PHẨM VẬT TƯ')
-                    ->description('Xem chi tiết thắc mắc từ nhà vườn và nhập câu trả lời hướng dẫn kỹ thuật từ Kỹ sư')
+                    ->description('Xem chi tiết thắc mắc từ nhà vườn và trả lời tư vấn kỹ thuật từ Kỹ sư')
                     ->schema([
                         \Filament\Forms\Components\Grid::make(2)->schema([
                             Forms\Components\Select::make('product_id')
@@ -100,8 +110,28 @@ class ProductQuestionResource extends Resource
                     ->query(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->whereNull('answer')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Trả lời'),
+                Tables\Actions\Action::make('answer')
+                    ->label('Trả lời kỹ thuật')
+                    ->icon('heroicon-m-chat-bubble-bottom-center-text')
+                    ->color('success')
+                    ->form([
+                        Forms\Components\Textarea::make('answer')
+                            ->label('Nội dung phản hồi giải đáp của Kỹ sư Nông học *')
+                            ->placeholder('Nhập chi tiết liều lượng bón tưới, lưu ý an toàn...')
+                            ->required()
+                            ->rows(4),
+                    ])
+                    ->action(function (ProductQuestion $record, array $data): void {
+                        $record->update(['answer' => $data['answer']]);
+                        \Filament\Notifications\Notification::make()
+                            ->title('Đã gửi câu trả lời kỹ thuật thành công!')
+                            ->success()
+                            ->send();
+                    })
+                    ->fillForm(fn (ProductQuestion $record): array => [
+                        'answer' => $record->answer,
+                    ]),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

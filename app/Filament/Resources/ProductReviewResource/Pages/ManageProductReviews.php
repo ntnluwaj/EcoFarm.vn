@@ -14,12 +14,7 @@ class ManageProductReviews extends ManageRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make()
-                ->label('+ Tạo đánh giá mẫu mới')
-                ->color('success')
-                ->icon('heroicon-m-star'),
-        ];
+        return [];
     }
 
     public function getTabs(): array
