@@ -153,19 +153,32 @@ public function panel(Panel $panel): Panel
                         box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.08) !important;
                     }
 
-                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING */
+                    /* 🌟 TABLE HOVER EFFECTS & CARD STYLING (CRM MODERN STYLE) */
                     .fi-ta-ctn {
-                        border: 1px solid rgba(0, 0, 0, 0.05) !important;
-                        border-radius: 0.75rem !important;
+                        border: 1px solid rgba(226, 232, 240, 0.9) !important;
+                        border-radius: 1rem !important;
                         overflow: hidden !important;
-                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+                        background-color: #ffffff !important;
                     }
                     .fi-ta-header-cell {
-                        background-color: #fafafa !important;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+                        background-color: #f8fafc !important;
+                        border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+                        font-size: 11.5px !important;
+                        font-weight: 700 !important;
+                        text-transform: uppercase !important;
+                        letter-spacing: 0.5px !important;
+                        color: #64748b !important;
+                    }
+                    .fi-ta-row {
+                        transition: all 0.2s ease-in-out !important;
                     }
                     .fi-ta-row:hover {
-                        background-color: #fdfdfd !important;
+                        background-color: #f8fafc !important;
+                    }
+                    .fi-badge, .fi-badge * {
+                        border-radius: 9999px !important;
+                        font-weight: 700 !important;
                     }
 
                     /* 🌟 CHARTS CARD STYLING */
