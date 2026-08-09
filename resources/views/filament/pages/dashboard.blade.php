@@ -269,21 +269,26 @@
                         </div>
                     </div>
 
-                    <!-- CHÚ THÍCH MÀU SẮC NỀN RÕ RÀNG TRÙNG VỚI KHỐI MÀU BIỂU ĐỒ -->
-                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-extrabold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm shadow-amber-500/30">
+                    <!-- CHÚ THÍCH MÀU SẮC SIÊU RÕ RÀNG VỚI NỀN PASTEL VÀ CHỮ SẮC NÉT -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span style="background-color: #fef3c7 !important; color: #b45309 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #fde68a !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>
                             Chờ duyệt
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-sky-400 text-white shadow-sm shadow-sky-400/30">
+                        <span style="background-color: #e0f2fe !important; color: #0369a1 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #bae6fd !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #38bdf8; display: inline-block;"></span>
                             Đóng gói
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-indigo-500 text-white shadow-sm shadow-indigo-500/30">
+                        <span style="background-color: #e0e7ff !important; color: #4338ca !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #c7d2fe !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #6366f1; display: inline-block;"></span>
                             Đang giao
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white shadow-sm shadow-emerald-500/30">
+                        <span style="background-color: #d1fae5 !important; color: #047857 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #a7f3d0 !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
                             Hoàn tất
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-rose-500 text-white shadow-sm shadow-rose-500/30">
+                        <span style="background-color: #ffe4e6 !important; color: #be123c !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #fecdd3 !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>
                             Đã hủy
                         </span>
                     </div>
@@ -373,15 +378,18 @@
                         </div>
                     </div>
 
-                    <!-- CHÚ THÍCH MÀU SẮC NỀN RÕ RÀNG TRÙNG VỚI KHỐI MÀU BIỂU ĐỒ -->
-                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-extrabold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white shadow-sm shadow-emerald-500/30">
+                    <!-- CHÚ THÍCH MÀU SẮC SIÊU RÕ RÀNG VỚI NỀN PASTEL VÀ CHỮ SẮC NÉT -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span style="background-color: #d1fae5 !important; color: #047857 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #a7f3d0 !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
                             Thuốc Trừ Sâu & Bệnh
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-indigo-500 text-white shadow-sm shadow-indigo-500/30">
+                        <span style="background-color: #e0e7ff !important; color: #4338ca !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #c7d2fe !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #6366f1; display: inline-block;"></span>
                             Hạt Giống
                         </span>
-                        <span class="px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm shadow-amber-500/30">
+                        <span style="background-color: #fef3c7 !important; color: #b45309 !important; font-weight: 800 !important; padding: 5px 12px; border-radius: 9999px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #fde68a !important;">
+                            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>
                             Phân Bón Hữu Cơ & NPK
                         </span>
                     </div>
