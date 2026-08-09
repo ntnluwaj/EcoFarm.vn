@@ -165,7 +165,7 @@
         <p class="lead max-w-2xl mx-auto text-light opacity-90 mb-4" style="max-width: 720px; font-size: 1.15rem;">
             Liên kết trực tiếp chuỗi cung ứng vật tư nông nghiệp chính hãng, bảo vệ mùa màng hiệu quả và đem lại hiệu quả kinh tế vượt trội cho bà con.
         </p>
-        <a href="{{ route('contact') }}" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-extrabold text-success shadow-lg hover-lift" style="color: #1b5e20 !important; font-weight: 800;">
+        <a href="{{ route('contact.index') }}" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-extrabold text-success shadow-lg hover-lift" style="color: #1b5e20 !important; font-weight: 800;">
             <i class="fa-solid fa-phone me-2"></i> Liên hệ tư vấn ngay
         </a>
     </div>
