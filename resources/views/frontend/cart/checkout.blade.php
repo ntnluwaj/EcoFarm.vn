@@ -80,16 +80,21 @@
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <label class="form-label text-dark small fw-bold mb-0"><i class="fa-solid fa-map-location-dot me-1 text-success"></i>Tự điền hoặc tìm kiếm địa chỉ nhanh *</label>
                             @if(auth()->check() && auth()->user()->address)
-                                <button type="button" class="btn btn-outline-success btn-xs py-0.5 px-2.5 rounded-pill fw-semibold border-success" style="font-size: 11.5px; background: transparent;" onclick="useSavedAddress()">
-                                    <i class="fa-house-user fa-solid me-1"></i>Dùng địa chỉ đã lưu
-                                </button>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill text-xs fw-semibold">
+                                        <i class="fa-solid fa-circle-check text-success me-1"></i>Địa chỉ mặc định tài khoản
+                                    </span>
+                                    <button type="button" class="btn btn-outline-success btn-xs py-0.5 px-2.5 rounded-pill fw-semibold border-success" style="font-size: 11.5px; background: transparent;" onclick="useSavedAddress()">
+                                        <i class="fa-solid fa-rotate-left me-1"></i>Điền lại
+                                    </button>
+                                </div>
                             @endif
                         </div>
                         
                         <!-- Ô tìm kiếm nhanh tự động phân tách địa chỉ -->
                         <div class="input-group mb-2 shadow-xs">
                             <span class="input-group-text bg-light border-light-subtle text-muted" style="font-size: 12.5px;"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
-                            <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Nhập địa chỉ nhà vườn (ví dụ: Ấp 1, xã Phong Điền, Cần Thơ)..." style="font-size: 13px;" autocomplete="off">
+                            <input type="text" id="address-search" class="form-control rounded-end-3 border-light-subtle text-sm p-2" placeholder="Nhập địa chỉ nhà vườn (ví dụ: Ấp 1, xã Phong Điền, Cần Thơ)..." style="font-size: 13px;" autocomplete="off" value="{{ old('address_search', auth()->check() ? auth()->user()->address : '') }}">
                         </div>
                         
                         <!-- Dropdown gợi ý địa chỉ -->
@@ -117,7 +122,7 @@
                             </div>
                             <div class="col-12 mt-2">
                                 <label class="form-label text-dark mb-1 fw-semibold" style="font-size: 11.5px;">Số nhà, tên đường, ấp/thôn/tổ *</label>
-                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám, Ấp Bãi Xáng" required style="font-size: 13px;" value="{{ old('address_street') }}">
+                                <input type="text" name="address_street" id="address_street" class="form-control rounded-3 border-light-subtle text-sm p-2" placeholder="Ví dụ: 123 Đường Cách Mạng Tháng Tám, Ấp Bãi Xáng" required style="font-size: 13px;" value="{{ old('address_street', auth()->check() ? auth()->user()->address : '') }}">
                             </div>
                         </div>
 
@@ -422,11 +427,18 @@
                         provinceSelect.appendChild(opt);
                     });
                     
-                    // Khôi phục giá trị cũ (old state) nếu có
+                    // Khôi phục giá trị cũ (old state) hoặc tự động kích hoạt địa chỉ mặc định của tài khoản
                     const oldProvince = "{{ old('address_province') }}";
+                    const savedAddr = @json(auth()->check() ? auth()->user()->address : '');
                     if (oldProvince) {
                         provinceSelect.value = oldProvince;
                         provinceSelect.dispatchEvent(new Event('change'));
+                    } else if (savedAddr) {
+                        setTimeout(() => {
+                            if (typeof window.useSavedAddress === 'function') {
+                                window.useSavedAddress();
+                            }
+                        }, 250);
                     }
                 });
 
