@@ -1,324 +1,342 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Bảng Điều Khiển Giả Lập Tự Động Hóa Sandbox')
+@section('title', 'Cổng Giả Lập Webhook & Testbed Tự Động Hóa EcoFarm')
 
 @section('content')
-<!-- Custom style directly injected to give a stunning developer console feel -->
 <style>
-    .sandbox-container {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background-color: #f8fafc;
+    .sandbox-page {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
         min-height: 100vh;
     }
-    .console-card {
-        border: none;
+    .sandbox-card {
+        background: rgba(30, 41, 59, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-        transition: all 0.3s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
-    .console-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+    .sandbox-card:hover {
+        border-color: rgba(74, 222, 128, 0.3);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
     }
-    .console-header-success {
-        background: linear-gradient(135deg, #1b5e20, #2e7d32);
-        color: #ffffff;
+    .terminal-box {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+        font-size: 12.5px;
+        color: #38bdf8;
     }
-    .console-header-primary {
-        background: linear-gradient(135deg, #0d47a1, #1565c0);
-        color: #ffffff;
+    .glow-badge-green {
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.3);
     }
-    .console-header-dark {
-        background: linear-gradient(135deg, #212121, #424242);
-        color: #ffffff;
+    .glow-badge-blue {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
     }
-    .btn-action {
-        border-radius: 8px;
+    .glow-badge-orange {
+        background: rgba(251, 146, 60, 0.15);
+        color: #fb923c;
+        border: 1px solid rgba(251, 146, 60, 0.3);
+    }
+    .btn-simulator {
+        border-radius: 10px;
         font-weight: 700;
-        transition: all 0.2s ease;
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        transition: all 0.25s ease;
+        padding: 8px 14px;
+    }
+    .btn-simulator:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .table-dark-custom {
+        --bs-table-bg: transparent;
+        --bs-table-color: #cbd5e1;
+        --bs-table-border-color: rgba(255, 255, 255, 0.08);
+    }
+    .table-dark-custom th {
+        color: #94a3b8;
+        font-weight: 600;
+        font-size: 12px;
         text-transform: uppercase;
-        font-size: 11px;
         letter-spacing: 0.5px;
     }
-    .btn-action:hover {
-        transform: scale(1.03);
-    }
-    .flow-step {
-        position: relative;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 16px;
-        transition: all 0.3s ease;
-    }
-    .flow-step:hover {
-        border-color: #2e7d32;
-        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.08);
-    }
-    .flow-icon {
-        width: 48px;
-        height: 48px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background-color: rgba(46, 125, 50, 0.1);
-        color: #2e7d32;
-        font-size: 1.25rem;
-        margin-bottom: 12px;
-    }
-    /* Stepper flow for table rows */
-    .mini-stepper {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-    .step-dot {
+    .stepper-dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: #cbd5e1;
+        background-color: #334155;
     }
-    .step-dot.active {
-        background-color: #2e7d32;
-        box-shadow: 0 0 8px #2e7d32;
+    .stepper-dot.active {
+        background-color: #4ade80;
+        box-shadow: 0 0 10px #4ade80;
     }
-    .step-dot.processing {
-        background-color: #0284c7;
-        box-shadow: 0 0 8px #0284c7;
-    }
-    .step-dot.shipping {
-        background-color: #0ea5e9;
-        box-shadow: 0 0 8px #0ea5e9;
-    }
-    .step-line {
-        flex-grow: 1;
+    .stepper-line {
         height: 2px;
-        background-color: #e2e8f0;
-        min-width: 15px;
+        background-color: #334155;
+        flex-grow: 1;
     }
-    .step-line.active {
-        background-color: #2e7d32;
+    .stepper-line.active {
+        background-color: #4ade80;
     }
 </style>
 
-<div class="sandbox-container py-5">
-    <div class="container">
+<div class="sandbox-page py-5">
+    <div class="container-fluid px-md-5">
         
-        <!-- Header -->
-        <div class="text-center mb-5">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm" style="font-size: 12px;">
-                <i class="fa-solid fa-code-branch me-1"></i> DEVELOPER MODE & TESTBED
-            </span>
-            <h1 class="fw-extrabold text-dark display-6 mb-2">EcoFarm Sandbox Control Panel</h1>
-            <p class="text-muted mx-auto" style="max-width: 650px; font-size: 15px;">
-                Cổng kiểm thử giả lập quy trình tích hợp ngân hàng và đơn vị vận chuyển. Hỗ trợ kích hoạt các cuộc gọi webhook nội bộ thời gian thực để đối soát hệ thống.
-            </p>
+        <!-- 🌟 DEVELOPER DASHBOARD HEADER -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5 p-4 rounded-4" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid rgba(255,255,255,0.1);">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge glow-badge-green px-3 py-1.5 rounded-pill text-xs font-monospace">
+                        <i class="fa-solid fa-server me-1"></i>ECOFARM DEV ENVIRONMENT
+                    </span>
+                    <span class="badge glow-badge-blue px-3 py-1.5 rounded-pill text-xs font-monospace">
+                        <i class="fa-solid fa-circle-dot me-1 text-success"></i>WEBHOOK ENDPOINTS READY
+                    </span>
+                </div>
+                <h2 class="fw-extrabold text-white mb-1 d-flex align-items-center gap-2" style="font-weight: 800;">
+                    <i class="fa-solid fa-microchip text-success"></i> Bảng Điều Khiển Giả Lập Webhook & Testbed API
+                </h2>
+                <p class="text-slate-400 small mb-0" style="color: #94a3b8;">
+                    Mô phỏng các cuộc gọi tín hiệu Webhook tự động thời gian thực từ Cổng Thanh Toán VietQR (SePay) và Đơn Vị Vận Chuyển (GHN Express).
+                </p>
+            </div>
+
+            <!-- Fast Status Monitor Cards -->
+            <div class="d-flex gap-3">
+                <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); min-width: 150px;">
+                    <span class="d-block text-xs text-slate-400 mb-1" style="color: #94a3b8;">SePay Webhook</span>
+                    <span class="badge bg-success text-white fw-bold text-xs"><i class="fa-solid fa-check me-1"></i>200 OK Active</span>
+                </div>
+                <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); min-width: 150px;">
+                    <span class="d-block text-xs text-slate-400 mb-1" style="color: #94a3b8;">GHN Webhook</span>
+                    <span class="badge bg-info text-dark fw-bold text-xs"><i class="fa-solid fa-truck-fast me-1"></i>Listening</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Integration flow diagrams -->
-        <div class="console-card p-4 mb-5 border-0 bg-white">
-            <h5 class="fw-bold text-dark mb-4 d-flex align-items-center">
-                <i class="fa-solid fa-square-poll-vertical text-success me-2"></i> TIẾN TRÌNH TỰ ĐỘNG HÓA HỆ THỐNG
+        <!-- 🌟 SYSTEM INTEGRATION ARCHITECTURE FLOW -->
+        <div class="sandbox-card p-4 mb-5">
+            <h5 class="fw-bold text-white mb-4 d-flex align-items-center gap-2" style="font-size: 16px;">
+                <i class="fa-solid fa-diagram-project text-success"></i> QUY TRÌNH KÍCH HOẠT SỰ KIỆN WEBHOOK NỘI BỘ (EVENT-DRIVEN ARCHITECTURE)
             </h5>
+            
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="flow-step">
-                        <div class="flow-icon"><i class="fa-solid fa-qrcode"></i></div>
-                        <h6 class="fw-bold text-dark mb-2">Bước 1: VietQR & COD khởi tạo</h6>
-                        <p class="mb-0 text-muted small">
-                            Đơn hàng được tạo ở trạng thái Chờ duyệt. Nếu chọn VietQR, mã thanh toán được nhúng kèm nội dung: <code>ECF[Mã_DH]</code>.
+                    <div class="p-3.5 rounded-3 h-100" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="p-2.5 rounded-3 bg-success bg-opacity-20 text-success fs-4">
+                                <i class="fa-solid fa-qrcode"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-white mb-0">1. Tạo Đơn VietQR/COD</h6>
+                                <span class="text-xs text-slate-400" style="color: #94a3b8;">Khởi tạo mã đơn ECF...</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 small mb-0" style="font-size: 12.5px; color: #cbd5e1;">
+                            Đơn hàng được ghi nhận vào CSDL MySQL ở trạng thái <code>pending</code>. Hệ thống cấp mã quét QR động chứa cú pháp <code>ECF[Order_ID]</code>.
                         </p>
                     </div>
                 </div>
+
                 <div class="col-md-4">
-                    <div class="flow-step">
-                        <div class="flow-icon"><i class="fa-solid fa-building-columns"></i></div>
-                        <h6 class="fw-bold text-dark mb-2">Bước 2: Báo có tự động (SePay)</h6>
-                        <p class="mb-0 text-muted small">
-                            Khách chuyển khoản. SePay bắt được giao dịch, bắn Webhook <code>POST /api/payment/sepay-webhook</code> để xác thực và tự duyệt đơn.
+                    <div class="flow-card p-3.5 rounded-3 h-100" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="p-2.5 rounded-3 bg-info bg-opacity-20 text-info fs-4">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-white mb-0">2. Báo Có Ngân Hàng SePay</h6>
+                                <span class="text-xs text-slate-400" style="color: #94a3b8;">POST /api/payment/sepay-webhook</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 small mb-0" style="font-size: 12.5px; color: #cbd5e1;">
+                            Tín hiệu Webhook tự động quét cú pháp <code>ECF...</code>, xác minh số tiền khớp và cập nhật <code>payment_status = paid</code> mà không cần làm mới trang.
                         </p>
                     </div>
                 </div>
+
                 <div class="col-md-4">
-                    <div class="flow-step">
-                        <div class="flow-icon"><i class="fa-solid fa-shipping-fast"></i></div>
-                        <h6 class="fw-bold text-dark mb-2">Bước 3: Vận chuyển (GHN Webhook)</h6>
-                        <p class="mb-0 text-muted small">
-                            Hệ thống gửi đơn sang GHN. Shipper cập nhật lộ trình bắn Webhook <code>POST /api/shipping/ghn-webhook</code> để cập nhật trạng thái đơn.
+                    <div class="p-3.5 rounded-3 h-100" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="p-2.5 rounded-3 bg-warning bg-opacity-20 text-warning fs-4">
+                                <i class="fa-solid fa-truck-ramp-box"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-white mb-0">3. Vận Chuyển GHN Webhook</h6>
+                                <span class="text-xs text-slate-400" style="color: #94a3b8;">POST /api/shipping/ghn-webhook</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 small mb-0" style="font-size: 12.5px; color: #cbd5e1;">
+                            Shipper cập nhật trạng thái lấy hàng hoặc giao hàng thành công. Webhook đẩy dữ liệu trực tiếp cập nhật <code>status = shipping / completed</code>.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Alert messages -->
+        <!-- 🌟 NOTIFICATION TOAST MESSAGES -->
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4 p-3 d-flex align-items-center" role="alert" style="background-color: #e8f5e9; color: #1b5e20;">
-                <i class="fa-solid fa-circle-check fs-4 me-3"></i>
+            <div class="alert alert-success border-0 rounded-4 shadow-lg mb-4 p-3.5 d-flex align-items-center text-white" role="alert" style="background: linear-gradient(135deg, #15803d 0%, #166534 100%); border-left: 5px solid #4ade80 !important;">
+                <i class="fa-solid fa-circle-check fs-3 me-3 text-warning"></i>
                 <div>
-                    <strong class="d-block">Thành công!</strong>
+                    <strong class="d-block fs-6">KÍCH HOẠT WEBHOOK THÀNH CÔNG!</strong>
                     <span class="small">{{ session('success') }}</span>
                 </div>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4 p-3 d-flex align-items-center" role="alert" style="background-color: #ffebee; color: #b71c1c;">
-                <i class="fa-solid fa-circle-xmark fs-4 me-3"></i>
+            <div class="alert alert-danger border-0 rounded-4 shadow-lg mb-4 p-3.5 d-flex align-items-center text-white" role="alert" style="background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%); border-left: 5px solid #f87171 !important;">
+                <i class="fa-solid fa-triangle-exclamation fs-3 me-3"></i>
                 <div>
-                    <strong class="d-block">Lỗi thao tác!</strong>
+                    <strong class="d-block fs-6">KÍCH HOẠT WEBHOOK THẤT BẠI!</strong>
                     <span class="small">{{ session('error') }}</span>
                 </div>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
         <div class="row g-4">
-            <!-- Left Column: Test orders list -->
+            <!-- 🌟 LEFT COLUMN: ORDER TESTBED CONTROL TABLE -->
             <div class="col-lg-8">
-                <div class="console-card overflow-hidden">
-                    <div class="console-header-dark py-3 px-4 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-bold mb-0"><i class="fa-solid fa-database me-2"></i>Đơn hàng kiểm thử mới nhất</h5>
-                        <span class="badge bg-white text-dark fw-bold">Hiện có: {{ $orders->count() }} đơn</span>
+                <div class="sandbox-card overflow-hidden">
+                    <div class="p-4 border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center flex-wrap gap-2" style="background: rgba(15, 23, 42, 0.6);">
+                        <h5 class="fw-extrabold text-white mb-0 d-flex align-items-center gap-2" style="font-weight: 800; font-size: 16px;">
+                            <i class="fa-solid fa-list-check text-success"></i> Danh Sách Đơn Hàng Kiểm Thử Thực Tế
+                        </h5>
+                        <span class="badge glow-badge-green px-3 py-1 rounded-pill text-xs fw-bold">
+                            Tải 15 đơn hàng gần nhất
+                        </span>
                     </div>
+
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
-                            <thead class="table-light text-secondary fw-semibold">
+                        <table class="table table-dark-custom align-middle mb-0">
+                            <thead>
                                 <tr>
-                                    <th class="ps-4 py-3">Mã đơn</th>
-                                    <th class="py-3">Thông tin nhận</th>
-                                    <th class="py-3">Tổng tiền</th>
+                                    <th class="ps-4 py-3">Mã đơn & Người nhận</th>
+                                    <th class="py-3">Giá trị đơn</th>
                                     <th class="py-3">Thanh toán</th>
-                                    <th class="py-3">Hành trình đơn</th>
-                                    <th class="pe-4 py-3 text-end" style="width: 200px;">Thao tác nhanh</th>
+                                    <th class="py-3">Tiến độ vận đơn</th>
+                                    <th class="pe-4 py-3 text-end" style="width: 220px;">Giả lập Webhook</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
                                     <tr>
-                                        <!-- ID -->
-                                        <td class="ps-4 py-3">
-                                            <span class="fw-bold text-dark">#DH{{ $order->id }}</span>
-                                            <div class="text-muted small" style="font-size: 10px;">ID: {{ $order->id }}</div>
+                                        <!-- Order ID & Customer -->
+                                        <td class="ps-4 py-3.5">
+                                            <div class="d-flex align-items-center gap-2.5">
+                                                <span class="badge bg-slate-800 text-white border border-secondary border-opacity-25 px-2.5 py-1 font-monospace text-xs" style="background-color: #1e293b;">
+                                                    #ECF{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
+                                                </span>
+                                            </div>
+                                            <div class="fw-bold text-white mt-1 text-sm">{{ $order->customer_name }}</div>
+                                            <div class="text-slate-400 text-xs" style="color: #94a3b8;"><i class="fa-solid fa-phone me-1"></i>{{ $order->customer_phone }}</div>
                                         </td>
-                                        <!-- Info -->
-                                        <td class="py-3">
-                                            <div class="fw-semibold text-dark">{{ $order->customer_name }}</div>
-                                            <div class="text-muted" style="font-size: 11px;"><i class="fa-solid fa-phone me-1"></i>{{ $order->customer_phone }}</div>
-                                        </td>
+
                                         <!-- Amount -->
-                                        <td class="py-3 fw-bold text-dark">
-                                            {{ number_format($order->total_amount, 0, ',', '.') }}đ
+                                        <td class="py-3.5">
+                                            <div class="fw-bold text-white fs-6">{{ number_format($order->total_amount, 0, ',', '.') }}đ</div>
+                                            <span class="text-slate-400 text-xs" style="color: #94a3b8;">{{ $order->items ? $order->items->count() : 0 }} món vật tư</span>
                                         </td>
+
                                         <!-- Payment Status -->
-                                        <td class="py-3">
+                                        <td class="py-3.5">
                                             @if($order->payment_status === 'paid')
-                                                <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-3 fw-bold mb-1" style="font-size: 10.5px;">
-                                                    <i class="fa-solid fa-circle-check me-1"></i>Đã trả tiền
+                                                <span class="badge glow-badge-green px-2.5 py-1 rounded-pill text-xs fw-bold d-inline-flex align-items-center gap-1 mb-1">
+                                                    <i class="fa-solid fa-circle-check"></i> Đã thanh toán
                                                 </span>
                                             @else
-                                                <span class="badge bg-warning-subtle text-warning px-2.5 py-1.5 rounded-3 fw-bold mb-1" style="font-size: 10.5px;">
-                                                    <i class="fa-regular fa-clock me-1"></i>Chưa trả tiền
+                                                <span class="badge glow-badge-orange px-2.5 py-1 rounded-pill text-xs fw-bold d-inline-flex align-items-center gap-1 mb-1">
+                                                    <i class="fa-solid fa-clock"></i> Chưa trả tiền
                                                 </span>
                                             @endif
-                                            <div class="text-muted font-monospace" style="font-size: 10px;">{{ strtoupper($order->payment_method) }}</div>
+                                            <div class="text-slate-400 font-monospace text-xs text-uppercase" style="color: #94a3b8;">{{ $order->payment_method }}</div>
                                         </td>
-                                        <!-- Progress Stepper -->
-                                        <td class="py-3">
-                                            <div class="mb-2">
+
+                                        <!-- Order Status Pipeline -->
+                                        <td class="py-3.5">
+                                            <div class="mb-1.5">
                                                 @php
-                                                    $statusLabel = match($order->status) {
-                                                        'pending' => 'Chờ duyệt',
-                                                        'processing' => 'Đang đóng gói',
-                                                        'shipping' => 'Đang giao hàng',
-                                                        'completed' => 'Hoàn tất',
-                                                        'cancelled' => 'Đã hủy',
+                                                    $statusBadge = match($order->status) {
+                                                        'pending' => '<span class="badge glow-badge-orange text-xs">⏳ Chờ duyệt</span>',
+                                                        'processing' => '<span class="badge glow-badge-blue text-xs">📦 Đang đóng gói</span>',
+                                                        'shipping' => '<span class="badge glow-badge-blue text-xs">🚚 Đang vận chuyển</span>',
+                                                        'completed' => '<span class="badge glow-badge-green text-xs">🎉 Hoàn tất</span>',
+                                                        'cancelled' => '<span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-25 text-xs">❌ Đã hủy</span>',
                                                         default => $order->status
                                                     };
-                                                    $statusColor = match($order->status) {
-                                                        'pending' => 'text-secondary',
-                                                        'processing' => 'text-primary fw-bold',
-                                                        'shipping' => 'text-info fw-bold',
-                                                        'completed' => 'text-success fw-bold',
-                                                        'cancelled' => 'text-danger',
-                                                        default => 'text-dark'
-                                                    };
                                                 @endphp
-                                                <span class="{{ $statusColor }}" style="font-size: 12px;">{{ $statusLabel }}</span>
+                                                {!! $statusBadge !!}
                                             </div>
-                                            <!-- Mini Stepper Flow -->
-                                            <div class="mini-stepper">
-                                                <!-- Created -->
-                                                <div class="step-dot active" title="Đã đặt đơn"></div>
-                                                <div class="step-line {{ $order->payment_status === 'paid' || $order->status !== 'pending' ? 'active' : '' }}"></div>
-                                                
-                                                <!-- Paid -->
-                                                <div class="step-dot {{ $order->payment_status === 'paid' ? 'active' : '' }}" title="Đã thanh toán"></div>
-                                                <div class="step-line {{ in_array($order->status, ['processing', 'shipping', 'completed']) ? 'active' : '' }}"></div>
-                                                
-                                                <!-- Processing -->
-                                                <div class="step-dot {{ in_array($order->status, ['processing', 'shipping', 'completed']) ? 'active' : '' }}" title="Đang chuẩn bị"></div>
-                                                <div class="step-line {{ in_array($order->status, ['shipping', 'completed']) ? 'active' : '' }}"></div>
-                                                
-                                                <!-- Shipping -->
-                                                <div class="step-dot {{ in_array($order->status, ['shipping', 'completed']) ? 'active' : '' }}" title="Đang giao"></div>
-                                                <div class="step-line {{ $order->status === 'completed' ? 'active' : '' }}"></div>
-                                                
-                                                <!-- Completed -->
-                                                <div class="step-dot {{ $order->status === 'completed' ? 'active' : '' }}" title="Đã hoàn thành"></div>
+
+                                            <!-- Stepper Visualizer -->
+                                            <div class="d-flex align-items-center gap-1" style="width: 110px;">
+                                                <div class="stepper-dot active" title="Tạo đơn"></div>
+                                                <div class="stepper-line {{ $order->payment_status === 'paid' || $order->status !== 'pending' ? 'active' : '' }}"></div>
+                                                <div class="stepper-dot {{ $order->payment_status === 'paid' || $order->status !== 'pending' ? 'active' : '' }}" title="Thanh toán"></div>
+                                                <div class="stepper-line {{ in_array($order->status, ['shipping', 'completed']) ? 'active' : '' }}"></div>
+                                                <div class="stepper-dot {{ in_array($order->status, ['shipping', 'completed']) ? 'active' : '' }}" title="Vận chuyển"></div>
+                                                <div class="stepper-line {{ $order->status === 'completed' ? 'active' : '' }}"></div>
+                                                <div class="stepper-dot {{ $order->status === 'completed' ? 'active' : '' }}" title="Giao thành công"></div>
                                             </div>
-                                            @if($order->payment_transaction_id)
-                                                <div class="text-muted mt-2 font-monospace" style="font-size: 10px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                    Vận đơn: {{ $order->payment_transaction_id }}
-                                                </div>
-                                            @endif
                                         </td>
-                                        <!-- Actions -->
-                                        <td class="pe-4 py-3 text-end">
+
+                                        <!-- Webhook Trigger Buttons -->
+                                        <td class="pe-4 py-3.5 text-end">
                                             <div class="d-flex flex-column gap-2 align-items-end">
                                                 
-                                                <!-- SePay Bank Transfer Simulation -->
+                                                <!-- SePay Webhook Trigger -->
                                                 @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
-                                                    <form action="{{ route('sandbox.paySimulate') }}" method="POST" class="m-0">
+                                                    <form action="{{ route('sandbox.paySimulate') }}" method="POST" class="m-0 w-100">
                                                         @csrf
                                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                                        <button type="submit" class="btn btn-sm btn-outline-success btn-action py-1.5 px-3 btn-action" style="width: 180px;">
-                                                            <i class="fa-solid fa-wallet me-1"></i> Báo có VietQR (SePay)
+                                                        <button type="submit" class="btn btn-success btn-simulator w-100 text-nowrap" style="background-color: #166534; border: 1px solid #22c55e;">
+                                                            <i class="fa-solid fa-qrcode me-1"></i> Bắn Webhook VietQR (SePay)
                                                         </button>
                                                     </form>
                                                 @endif
 
-                                                <!-- GHN Shipping Simulation -->
+                                                <!-- GHN Webhook Trigger: Pick Items -->
                                                 @if(in_array($order->status, ['pending', 'processing']))
-                                                    <form action="{{ route('sandbox.shipSimulate') }}" method="POST" class="m-0">
+                                                    <form action="{{ route('sandbox.shipSimulate') }}" method="POST" class="m-0 w-100">
                                                         @csrf
                                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                                         <input type="hidden" name="status" value="shipping">
-                                                        <button type="submit" class="btn btn-sm btn-outline-primary btn-action py-1.5 px-3 btn-action" style="width: 180px;">
-                                                            <i class="fa-solid fa-truck-fast me-1"></i> Shipper lấy hàng
+                                                        <button type="submit" class="btn btn-primary btn-simulator w-100 text-nowrap" style="background-color: #1e40af; border: 1px solid #3b82f6;">
+                                                            <i class="fa-solid fa-truck-fast me-1"></i> Bắn Webhook Shipper Lấy Hàng
                                                         </button>
                                                     </form>
                                                 @endif
 
+                                                <!-- GHN Webhook Trigger: Delivered -->
                                                 @if($order->status === 'shipping')
-                                                    <form action="{{ route('sandbox.shipSimulate') }}" method="POST" class="m-0">
+                                                    <form action="{{ route('sandbox.shipSimulate') }}" method="POST" class="m-0 w-100">
                                                         @csrf
                                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                                         <input type="hidden" name="status" value="completed">
-                                                        <button type="submit" class="btn btn-sm btn-outline-success btn-action py-1.5 px-3 btn-action" style="width: 180px;">
-                                                            <i class="fa-solid fa-box-open me-1"></i> Giao thành công
+                                                        <button type="submit" class="btn btn-success btn-simulator w-100 text-nowrap" style="background-color: #15803d; border: 1px solid #4ade80;">
+                                                            <i class="fa-solid fa-box-check me-1"></i> Bắn Webhook Giao Thành Công
                                                         </button>
                                                     </form>
                                                 @endif
 
                                                 @if($order->status === 'cancelled')
-                                                    <span class="text-danger small" style="font-size: 11px;"><i class="fa-solid fa-ban me-1"></i>Đơn hàng đã bị hủy</span>
+                                                    <span class="text-danger text-xs"><i class="fa-solid fa-ban me-1"></i>Đơn hàng bị hủy</span>
                                                 @elseif($order->status === 'completed' && $order->payment_status === 'paid')
-                                                    <span class="text-success small" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Đã đối soát xong</span>
+                                                    <span class="text-success text-xs fw-bold"><i class="fa-solid fa-circle-check me-1"></i>Đã xong trọn vẹn</span>
                                                 @endif
 
                                             </div>
@@ -326,9 +344,9 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center py-5 text-muted">
-                                            <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
-                                            Chưa có đơn hàng nào được tạo trên hệ thống để kiểm thử!
+                                        <td colspan="5" class="text-center py-5 text-slate-400" style="color: #94a3b8;">
+                                            <i class="fa-solid fa-folder-open fs-2 d-block mb-2 opacity-50"></i>
+                                            Chưa có đơn hàng nào trong CSDL để thử nghiệm Webhook.
                                         </td>
                                     </tr>
                                 @endforelse
@@ -338,58 +356,67 @@
                 </div>
             </div>
 
-            <!-- Right Column: Custom Webhook Console & Testing form -->
+            <!-- 🌟 RIGHT COLUMN: CUSTOM WEBHOOK PAYLOAD INJECTOR & TERMINAL LOGS -->
             <div class="col-lg-4">
-                <!-- Custom VietQR Payment Form -->
-                <div class="console-card overflow-hidden border-0 mb-4">
-                    <div class="console-header-success py-3 px-4">
-                        <h5 class="fw-bold mb-0"><i class="fa-solid fa-terminal me-2"></i>Giả lập VietQR thủ công</h5>
+                
+                <!-- CUSTOM PAYLOAD INJECTOR FORM -->
+                <div class="sandbox-card overflow-hidden mb-4">
+                    <div class="p-3.5 border-bottom border-secondary border-opacity-25" style="background: rgba(15, 23, 42, 0.6);">
+                        <h5 class="fw-bold text-white mb-0 text-sm d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-terminal text-success"></i> Giả Lập Tùy Chỉnh Cú Pháp VietQR
+                        </h5>
                     </div>
-                    <div class="p-4 bg-white">
-                        <p class="text-muted small">
-                            Nhập tùy chọn mã cú pháp và số tiền để mô phỏng một khách hàng chuyển khoản sai cú pháp hoặc sai số tiền, kiểm thử độ ổn định của Webhook SePay.
+                    
+                    <div class="p-4">
+                        <p class="text-slate-400 small mb-3" style="font-size: 12px; color: #94a3b8;">
+                            Nhập tùy chọn Mã ghi chú giao dịch và Số tiền để kiểm thử các trường hợp ngoại lệ (chuyển thiếu tiền, thừa tiền, hoặc ghi sai mã đơn).
                         </p>
-                        
+
                         <form action="{{ route('sandbox.payCustomSimulate') }}" method="POST">
                             @csrf
-                            <!-- Custom Content -->
                             <div class="mb-3">
-                                <label class="form-label small fw-bold text-dark">Nội dung chuyển khoản</label>
-                                <input type="text" name="content" class="form-control form-control-sm rounded-3 font-monospace" placeholder="Ví dụ: ECF000014" required>
-                                <div class="form-text text-muted" style="font-size: 11px;">
-                                    Ghi đúng cú pháp để khớp đơn hàng (ví dụ: <code>ECF000001</code>). Ghi sai để test phát hiện lỗi.
+                                <label class="form-label text-slate-300 text-xs fw-bold" style="color: #cbd5e1;">Cú Pháp Ghi Chú Chuyển Khoản</label>
+                                <input type="text" name="content" class="form-control form-control-sm rounded-3 font-monospace bg-slate-900 border-secondary border-opacity-50 text-success p-2.5" placeholder="Ví dụ: ECF000067 thanh toan" required style="background: #020617; color: #4ade80 !important; font-size: 13px;">
+                                <div class="form-text text-slate-400 text-xs mt-1" style="color: #94a3b8; font-size: 11px;">
+                                    Gõ đúng cú pháp <code>ECF[Order_ID]</code> để khớp tự động.
                                 </div>
                             </div>
-                            
-                            <!-- Custom Amount -->
+
                             <div class="mb-4">
-                                <label class="form-label small fw-bold text-dark">Số tiền nhận được (VND)</label>
-                                <input type="number" name="amount" class="form-control form-control-sm rounded-3 font-monospace" placeholder="Ví dụ: 150000" required>
-                                <div class="form-text text-muted" style="font-size: 11px;">
-                                    Chuyển sai số tiền đơn hàng sẽ kích hoạt phản hồi cảnh báo số tiền chênh lệch.
-                                </div>
+                                <label class="form-label text-slate-300 text-xs fw-bold" style="color: #cbd5e1;">Số Tiền Ngân Hàng Báo Có (VND)</label>
+                                <input type="number" name="amount" class="form-control form-control-sm rounded-3 font-monospace bg-slate-900 border-secondary border-opacity-50 text-warning p-2.5" placeholder="Ví dụ: 350000" required style="background: #020617; color: #facc15 !important; font-size: 13px;">
                             </div>
-                            
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-success w-100 fw-bold py-2.5 rounded-3 d-inline-flex justify-content-center align-items-center gap-2" style="font-size: 13px;">
-                                <i class="fa-solid fa-paper-plane"></i> Bắn Webhook chuyển khoản
+
+                            <button type="submit" class="btn btn-success w-100 fw-bold py-2.5 rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm text-sm" style="background-color: #166534; border: 1px solid #22c55e;">
+                                <i class="fa-solid fa-paper-plane"></i> Gửi Tín Hiệu Webhook Ngân Hàng
                             </button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Webhook information helper -->
-                <div class="console-card p-4 bg-white border-0">
-                    <h6 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                        <i class="fa-solid fa-circle-info text-info me-2"></i> THÔNG TIN ĐỐI SOÁT CỔNG
+                <!-- ENDPOINT LOG INSPECTOR -->
+                <div class="sandbox-card p-4">
+                    <h6 class="fw-bold text-white mb-3 d-flex align-items-center gap-2" style="font-size: 14px;">
+                        <i class="fa-solid fa-network-wired text-info"></i> THÔNG TIN ENDPOINT CHÍNH THỨC
                     </h6>
-                    <ul class="list-unstyled small text-muted mb-0 lh-lg" style="font-size: 12px;">
-                        <li><i class="fa-solid fa-caret-right me-1 text-success"></i> <strong>SePay Webhook URL:</strong> <code class="font-monospace text-dark">/api/payment/sepay-webhook</code></li>
-                        <li><i class="fa-solid fa-caret-right me-1 text-success"></i> <strong>GHN Webhook URL:</strong> <code class="font-monospace text-dark">/api/shipping/ghn-webhook</code></li>
-                        <li><i class="fa-solid fa-caret-right me-1 text-success"></i> <strong>Phương thức gửi:</strong> <code class="text-danger font-monospace">POST (JSON)</code></li>
-                        <li><i class="fa-solid fa-caret-right me-1 text-success"></i> <strong>Cơ chế bảo vệ:</strong> Tự động bọc trong khối giao dịch và xử lý ngoại lệ an toàn, ghi nhận log đầy đủ.</li>
-                    </ul>
+
+                    <div class="terminal-box p-3 mb-3">
+                        <div class="text-slate-400 mb-1 text-xs" style="color: #94a3b8;">POST /api/payment/sepay-webhook</div>
+                        <div class="text-success font-monospace" style="font-size: 11px;">
+                            Header: Authorization / Content-Type: application/json<br>
+                            Status: <span class="text-warning">200 OK Response</span>
+                        </div>
+                    </div>
+
+                    <div class="terminal-box p-3">
+                        <div class="text-slate-400 mb-1 text-xs" style="color: #94a3b8;">POST /api/shipping/ghn-webhook</div>
+                        <div class="text-info font-monospace" style="font-size: 11px;">
+                            Header: Content-Type: application/json<br>
+                            Payload: { "order_id": 67, "status": "shipping" }
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
