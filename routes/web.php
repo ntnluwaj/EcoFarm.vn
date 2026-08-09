@@ -47,6 +47,11 @@ Route::get('/tra-cuu-don-hang', [CartController::class, 'trackOrder'])->name('or
 // ĐỒNG BỘ: Đổi tên thành cart.history để khớp 100% với file success.blade.php bên ngoài
 Route::get('/lich-su-don-hang', [CartController::class, 'orderHistory'])->name('cart.history');
 
+// 🌟 PHÂN HỆ CRM NHẬT KÝ TƯƠNG TÁC CHUẨN THEO THIẾT KẾ MẪU
+Route::get('/nhat-ky-tuong-tac', function () {
+    return view('frontend.crm.interactions');
+})->name('crm.interactions');
+
 
 
 // 🌟 5. LIÊN HỆ & TƯ VẤN KỸ THUẬT (BI-DIRECTIONAL CONTACT)
