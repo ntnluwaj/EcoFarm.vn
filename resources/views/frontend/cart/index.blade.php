@@ -54,19 +54,20 @@
                                                     @endif
                                                 </div>
                                                 <div>
-                                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $item['name'] }}</h6>
-                                                    <span class="text-muted text-xs"><i class="fa-solid fa-box me-1"></i>Quy cách: {{ $item['packaging'] }} ({{ $item['unit'] }})</span>
+                                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $item['name'] ?? 'Sản phẩm vật tư' }}</h6>
+                                                    <span class="text-muted text-xs"><i class="fa-solid fa-box me-1"></i>Quy cách: {{ $item['packaging'] ?? 'Tiêu chuẩn' }} ({{ $item['unit'] ?? 'Sản phẩm' }})</span>
                                                 </div>
                                             </div>
                                         </td>
                                         <!-- Unit Price -->
                                         <td class="py-3 fw-bold text-dark">
-                                            {{ number_format($item['price'], 0, ',', '.') }}đ
+                                            {{ number_format($item['price'] ?? 0, 0, ',', '.') }}đ
                                         </td>
                                         <!-- Quantity -->
                                         <td class="py-3 text-center">
                                             @php
-                                                $prodModel = \App\Models\Product::find($id);
+                                                $prodId = $item['product_id'] ?? (is_numeric($id) ? $id : (explode('-', $id)[0] ?? null));
+                                                $prodModel = $prodId ? \App\Models\Product::find($prodId) : null;
                                                 $maxStock = $prodModel ? $prodModel->stock : 999;
                                             @endphp
                                             <form action="{{ route('cart.update') }}" method="POST" class="d-inline-flex flex-column align-items-center">
@@ -74,7 +75,7 @@
                                                 <input type="hidden" name="id" value="{{ $id }}">
                                                 <div class="input-group input-group-sm border rounded-3 overflow-hidden bg-light" style="max-width: 110px;">
                                                     <button type="button" class="btn btn-light border-0 px-2" onclick="decreaseQty(this)">-</button>
-                                                    <input type="number" name="quantity" class="form-control border-0 text-center fw-bold bg-transparent" value="{{ $item['quantity'] }}" min="1" max="{{ $maxStock }}" onchange="this.form.submit()" style="width: 40px; font-size: 13px; padding: 4px 0;">
+                                                    <input type="number" name="quantity" class="form-control border-0 text-center fw-bold bg-transparent" value="{{ $item['quantity'] ?? 1 }}" min="1" max="{{ $maxStock }}" onchange="this.form.submit()" style="width: 40px; font-size: 13px; padding: 4px 0;">
                                                     <button type="button" class="btn btn-light border-0 px-2" onclick="increaseQty(this)">+</button>
                                                 </div>
                                                 <span class="text-success mt-1 text-nowrap" style="font-size: 10px; font-weight: 600;">
@@ -84,7 +85,7 @@
                                         </td>
                                         <!-- Subtotal -->
                                         <td class="py-3 text-end fw-bold text-danger">
-                                            {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}đ
+                                            {{ number_format(($item['price'] ?? 0) * ($item['quantity'] ?? 1), 0, ',', '.') }}đ
                                         </td>
                                         <!-- Delete -->
                                         <td class="pe-4 py-3 text-center">

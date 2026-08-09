@@ -15,17 +15,37 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartItems = session()->get('cart', []);
+        $rawCart = session()->get('cart', []);
+        $cartItems = [];
         $totalAmount = 0;
         $totalVat = 0;
-        foreach ($cartItems as $item) {
-            $itemTotal = $item['price'] * $item['quantity'];
-            $totalAmount += $itemTotal;
-            
-            $product = Product::find($item['product_id']);
-            $vatRate = $product ? $product->getVatRate() : 0;
-            if ($vatRate > 0) {
-                $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+
+        if (is_array($rawCart)) {
+            foreach ($rawCart as $key => $item) {
+                if (!is_array($item)) continue;
+
+                $price = floatval($item['price'] ?? 0);
+                $quantity = max(1, intval($item['quantity'] ?? 1));
+                $productId = $item['product_id'] ?? (is_numeric($key) ? $key : (explode('-', $key)[0] ?? null));
+
+                $itemTotal = $price * $quantity;
+                $totalAmount += $itemTotal;
+
+                $product = $productId ? Product::find($productId) : null;
+                $vatRate = $product ? $product->getVatRate() : 0;
+                if ($vatRate > 0) {
+                    $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+                }
+
+                $cartItems[$key] = array_merge($item, [
+                    'product_id' => $productId,
+                    'price'      => $price,
+                    'quantity'   => $quantity,
+                    'name'       => $item['name'] ?? ($product->name ?? 'Sản phẩm vật tư'),
+                    'packaging'  => $item['packaging'] ?? ($product->packaging ?? 'Tiêu chuẩn'),
+                    'unit'       => $item['unit'] ?? ($product->unit ?? 'Sản phẩm'),
+                    'image'      => $item['image'] ?? ($product ? (is_array($product->images) && count($product->images) > 0 ? $product->images[0] : null) : null)
+                ]);
             }
         }
 
@@ -38,25 +58,43 @@ class CartController extends Controller
     public function checkout()
     {
         // 1. Lấy dữ liệu giỏ hàng thực tế từ PHP Session
-        $cartItems = session()->get('cart', []);
+        $rawCart = session()->get('cart', []);
+        $cartItems = [];
+        $totalAmount = 0;
+        $totalVat = 0;
+
+        if (is_array($rawCart)) {
+            foreach ($rawCart as $key => $item) {
+                if (!is_array($item)) continue;
+
+                $price = floatval($item['price'] ?? 0);
+                $quantity = max(1, intval($item['quantity'] ?? 1));
+                $productId = $item['product_id'] ?? (is_numeric($key) ? $key : (explode('-', $key)[0] ?? null));
+
+                $itemTotal = $price * $quantity;
+                $totalAmount += $itemTotal;
+
+                $product = $productId ? Product::find($productId) : null;
+                $vatRate = $product ? $product->getVatRate() : 0;
+                if ($vatRate > 0) {
+                    $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
+                }
+
+                $cartItems[$key] = array_merge($item, [
+                    'product_id' => $productId,
+                    'price'      => $price,
+                    'quantity'   => $quantity,
+                    'name'       => $item['name'] ?? ($product->name ?? 'Sản phẩm vật tư'),
+                    'packaging'  => $item['packaging'] ?? ($product->packaging ?? 'Tiêu chuẩn'),
+                    'unit'       => $item['unit'] ?? ($product->unit ?? 'Sản phẩm'),
+                    'image'      => $item['image'] ?? ($product ? (is_array($product->images) && count($product->images) > 0 ? $product->images[0] : null) : null)
+                ]);
+            }
+        }
 
         // 2. Nếu giỏ hàng trống, chặn điều hướng và đẩy ngược về danh sách sản phẩm vật tư
         if (empty($cartItems)) {
             return redirect()->route('products.index')->with('error', 'Giỏ hàng của bạn đang trống. Vui lòng chọn vật tư trước khi tiến hành thanh toán!');
-        }
-
-        // 3. Tính toán động tổng số tiền thực tế của toàn bộ các mặt hàng trong giỏ Session
-        $totalAmount = 0;
-        $totalVat = 0;
-        foreach ($cartItems as $item) {
-            $itemTotal = $item['price'] * $item['quantity'];
-            $totalAmount += $itemTotal;
-            
-            $product = Product::find($item['product_id']);
-            $vatRate = $product ? $product->getVatRate() : 0;
-            if ($vatRate > 0) {
-                $totalVat += $itemTotal * $vatRate / (100 + $vatRate);
-            }
         }
 
         $user = Auth::user();
