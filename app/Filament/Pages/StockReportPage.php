@@ -16,9 +16,7 @@ class StockReportPage extends Page
 
     protected static ?string $title = 'Báo cáo doanh thu & bãi kho nội bộ';
 
-    protected static ?string $navigationGroup = 'Vận hành & Kho bãi';
-
-    protected static ?int $navigationSort = 3;
+    protected static bool $shouldRegisterNavigation = false; // Bỏ hiển thị khỏi Sidebar theo yêu cầu
 
     protected static string $view = 'filament.pages.stock-report';
 

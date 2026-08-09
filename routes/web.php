@@ -57,7 +57,7 @@ Route::post('/lien-he/gui', [\App\Http\Controllers\Frontend\ContactController::c
 Route::middleware(['admin.role'])->group(function () {
     // Trang xem báo cáo tổng hợp nội bộ bãi kho của Admin (Chuyển tích hợp trực tiếp vào Filament Admin)
     Route::get('/admin/bao-cao-doanh-thu', function() {
-        return redirect('/admin/stock-report-page');
+        return redirect('/admin');
     })->name('admin.reports');
     Route::get('/admin/orders/{id}/print', [\App\Http\Controllers\Frontend\CartController::class, 'printOrder'])->name('admin.orders.print');
     Route::get('/admin/orders/report/print', [\App\Http\Controllers\Frontend\CartController::class, 'printRevenueReport'])->name('admin.reports.print');

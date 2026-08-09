@@ -440,9 +440,9 @@
                                     </li>
                                     @if(auth()->user()->role === 'admin')
                                     <li>
-                                        <a class="dropdown-item py-2 text-dark fw-semibold" href="/admin/stock-report-page">
-                                            <i class="fa-solid fa-chart-line me-2 text-success"></i>Báo cáo bãi kho
-                                        </a>
+                                         <a class="dropdown-item py-2 text-dark fw-semibold" href="/admin">
+                                             <i class="fa-solid fa-chart-line me-2 text-success"></i>Báo cáo & Tổng quan
+                                         </a>
                                     </li>
                                     @endif
                                     <li><hr class="dropdown-divider"></li>
