@@ -124,7 +124,14 @@ class ContactResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label('Phản hồi'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()->label('Phản hồi kỹ thuật')->color('primary'),
+                    Tables\Actions\DeleteAction::make()->color('danger'),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-horizontal')
+                ->color('gray')
+                ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

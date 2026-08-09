@@ -235,8 +235,8 @@ class OrderResource extends Resource
                     EditAction::make(),
                 ])
                 ->label('Thao tác')
-                ->icon('heroicon-m-ellipsis-vertical')
-                ->color('success')
+                ->icon('heroicon-m-ellipsis-horizontal')
+                ->color('gray')
                 ->button(),
             ])
             ->headerActions([

@@ -123,8 +123,14 @@ class BannerResource extends Resource
                     ->label('Trạng thái hiển thị'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()->color('primary'),
+                    Tables\Actions\DeleteAction::make()->color('danger'),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-horizontal')
+                ->color('gray')
+                ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

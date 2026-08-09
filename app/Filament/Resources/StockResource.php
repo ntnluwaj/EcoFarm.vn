@@ -85,85 +85,91 @@ class StockResource extends Resource
                     })),
             ])
             ->actions([
-                Action::make('adjust')
-                    ->label('Điều chỉnh kho')
-                    ->icon('heroicon-m-adjustments-horizontal')
-                    ->color('success')
-                    ->form(function (Product $record) {
-                        $fields = [];
-                        
-                        if ($record->variants()->count() > 0) {
-                            $fields[] = Select::make('product_variant_id')
-                                ->label('Chọn dung tích / biến thể')
-                                ->options($record->variants->pluck('capacity', 'id'))
+                Tables\Actions\ActionGroup::make([
+                    Action::make('adjust')
+                        ->label('Điều chỉnh kho bãi')
+                        ->icon('heroicon-m-adjustments-horizontal')
+                        ->color('success')
+                        ->form(function (Product $record) {
+                            $fields = [];
+                            
+                            if ($record->variants()->count() > 0) {
+                                $fields[] = Select::make('product_variant_id')
+                                    ->label('Chọn dung tích / biến thể')
+                                    ->options($record->variants->pluck('capacity', 'id'))
+                                    ->required();
+                            }
+                            
+                            $fields[] = Select::make('type')
+                                ->label('Loại điều chỉnh')
+                                ->options([
+                                    'add' => 'Nhập thêm hàng (+)',
+                                    'subtract' => 'Xuất hao hụt/hỏng (-)',
+                                    'set' => 'Cập nhật số tồn thực tế (Set)',
+                                ])
                                 ->required();
-                        }
-                        
-                        $fields[] = Select::make('type')
-                            ->label('Loại điều chỉnh')
-                            ->options([
-                                'add' => 'Nhập thêm hàng (+)',
-                                'subtract' => 'Xuất hao hụt/hỏng (-)',
-                                'set' => 'Cập nhật số tồn thực tế (Set)',
-                            ])
-                            ->required();
+                                
+                            $fields[] = TextInput::make('quantity')
+                                ->label('Số lượng')
+                                ->numeric()
+                                ->required()
+                                ->minValue(0);
+                                
+                            $fields[] = TextInput::make('reason')
+                                ->label('Lý do / Ghi chú')
+                                ->placeholder('Ví dụ: Nhập lô hàng mới, Hàng hỏng do ẩm...');
+                                
+                            return $fields;
+                        })
+                        ->action(function (Product $record, array $data): void {
+                            $qty = (int)$data['quantity'];
+                            $type = $data['type'];
+                            $variantId = $data['product_variant_id'] ?? null;
                             
-                        $fields[] = TextInput::make('quantity')
-                            ->label('Số lượng')
-                            ->numeric()
-                            ->required()
-                            ->minValue(0);
-                            
-                        $fields[] = TextInput::make('reason')
-                            ->label('Lý do / Ghi chú')
-                            ->placeholder('Ví dụ: Nhập lô hàng mới, Hàng hỏng do ẩm...');
-                            
-                        return $fields;
-                    })
-                    ->action(function (Product $record, array $data): void {
-                        $qty = (int)$data['quantity'];
-                        $type = $data['type'];
-                        $variantId = $data['product_variant_id'] ?? null;
-                        
-                        if ($variantId) {
-                            $variant = \App\Models\ProductVariant::find($variantId);
-                            if ($variant) {
-                                if ($type === 'add') {
-                                    $variant->increment('stock', $qty);
-                                    $msg = "Đã nhập thêm {$qty} sản phẩm (loại {$variant->capacity}) vào kho.";
-                                } elseif ($type === 'subtract') {
-                                    $oldStock = $variant->stock;
-                                    $subtractQty = min($oldStock, $qty);
-                                    $variant->decrement('stock', $subtractQty);
-                                    $msg = "Đã xuất giảm {$subtractQty} sản phẩm (loại {$variant->capacity}) khỏi kho.";
+                            if ($variantId) {
+                                $variant = \App\Models\ProductVariant::find($variantId);
+                                if ($variant) {
+                                    if ($type === 'add') {
+                                        $variant->increment('stock', $qty);
+                                        $msg = "Đã nhập thêm {$qty} sản phẩm (loại {$variant->capacity}) vào kho.";
+                                    } elseif ($type === 'subtract') {
+                                        $oldStock = $variant->stock;
+                                        $subtractQty = min($oldStock, $qty);
+                                        $variant->decrement('stock', $subtractQty);
+                                        $msg = "Đã xuất giảm {$subtractQty} sản phẩm (loại {$variant->capacity}) khỏi kho.";
+                                    } else {
+                                        $variant->update(['stock' => $qty]);
+                                        $msg = "Đã cập nhật tồn kho mới cho loại {$variant->capacity} là {$qty}.";
+                                    }
                                 } else {
-                                    $variant->update(['stock' => $qty]);
-                                    $msg = "Đã cập nhật tồn kho mới cho loại {$variant->capacity} là {$qty}.";
+                                    $msg = "Không tìm thấy biến thể.";
                                 }
                             } else {
-                                $msg = "Không tìm thấy biến thể.";
+                                if ($type === 'add') {
+                                    $record->increment('stock', $qty);
+                                    $msg = "Đã nhập thêm {$qty} {$record->unit} vào kho.";
+                                } elseif ($type === 'subtract') {
+                                    $oldStock = $record->stock;
+                                    $subtractQty = min($oldStock, $qty);
+                                    $record->decrement('stock', $subtractQty);
+                                    $msg = "Đã xuất giảm {$subtractQty} {$record->unit} khỏi kho.";
+                                } else {
+                                    $record->update(['stock' => $qty]);
+                                    $msg = "Đã cập nhật tồn kho mới là {$qty} {$record->unit}.";
+                                }
                             }
-                        } else {
-                            if ($type === 'add') {
-                                $record->increment('stock', $qty);
-                                $msg = "Đã nhập thêm {$qty} {$record->unit} vào kho.";
-                            } elseif ($type === 'subtract') {
-                                $oldStock = $record->stock;
-                                $subtractQty = min($oldStock, $qty);
-                                $record->decrement('stock', $subtractQty);
-                                $msg = "Đã xuất giảm {$subtractQty} {$record->unit} khỏi kho.";
-                            } else {
-                                $record->update(['stock' => $qty]);
-                                $msg = "Đã cập nhật tồn kho mới là {$qty} {$record->unit}.";
-                            }
-                        }
 
-                        Notification::make()
-                            ->title('Điều chỉnh kho thành công')
-                            ->body($msg)
-                            ->success()
-                            ->send();
-                    }),
+                            Notification::make()
+                                ->title('Điều chỉnh kho thành công')
+                                ->body($msg)
+                                ->success()
+                                ->send();
+                        }),
+                ])
+                ->label('Thao tác')
+                ->icon('heroicon-m-ellipsis-horizontal')
+                ->color('gray')
+                ->button(),
             ])
             ->bulkActions([]);
     }
