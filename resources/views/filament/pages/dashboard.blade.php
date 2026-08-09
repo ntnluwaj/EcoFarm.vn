@@ -2,7 +2,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        .eco-custom-dashboard {
+        .eco-dashboard {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: #f8fafc;
             color: #0f172a;
@@ -10,7 +10,7 @@
 
         .eco-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 20px;
             box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
             border: 1px solid #e2e8f0;
@@ -19,6 +19,15 @@
         .dark .eco-card {
             background: #0f172a;
             border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        .eco-banner-card {
+            background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+            border-radius: 24px;
+            padding: 24px 30px;
+            color: #ffffff;
+            box-shadow: 0 14px 35px -6px rgba(4, 120, 87, 0.35);
         }
 
         .eco-grid-4 {
@@ -28,21 +37,19 @@
             width: 100% !important;
         }
 
-        .eco-grid-2-main {
+        .eco-grid-65-35 {
             display: grid !important;
-            grid-template-columns: 1.8fr 1fr !important;
+            grid-template-columns: 2fr 1.1fr !important;
             gap: 20px !important;
             width: 100% !important;
         }
 
         .eco-stat-card {
-            border-radius: 14px;
-            padding: 16px 20px;
+            border-radius: 18px;
+            padding: 18px 20px;
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            transition: transform 0.2s ease;
         }
 
         .dark .eco-stat-card {
@@ -50,22 +57,21 @@
             border-color: rgba(255, 255, 255, 0.05);
         }
 
-        .eco-select-dropdown {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 4px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
-            cursor: pointer;
+        .eco-icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
         }
 
         @media (max-width: 1280px) {
             .eco-grid-4 {
                 grid-template-columns: repeat(2, 1fr) !important;
             }
-            .eco-grid-2-main {
+            .eco-grid-65-35 {
                 grid-template-columns: 1fr !important;
             }
         }
@@ -77,154 +83,195 @@
         }
     </style>
 
-    <div class="eco-custom-dashboard space-y-6">
+    <div class="eco-dashboard space-y-6">
 
-        <!-- 🌟 1. TOP SUMMARY METRIC CARDS (4 EQUAL CARDS) -->
+        <!-- 🌟 1. EXECUTIVE COMMAND BANNER HEADER -->
+        <div class="eco-banner-card flex flex-wrap items-center justify-between gap-6">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-extrabold mb-2">
+                    <i class="fa-solid fa-wheat-awn text-amber-300"></i>
+                    <span>Hệ Thống Quản Lý & Vận Hành Bãi Kho EcoFarm</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Trung Tâm Báo Cáo Doanh Số & Kho Bãi</h2>
+                <p class="text-xs sm:text-sm font-medium text-emerald-100 mt-1">Giám sát thời gian thực chuỗi vật tư, bến bãi & giao dịch nông nghiệp Mekong</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="/" class="px-4 py-2.5 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 font-extrabold text-xs shadow-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-house text-emerald-600"></i>
+                    <span>Xem trang chủ EcoFarm</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 🌟 2. TOP 4 SCORECARD METRIC CARDS -->
         <div class="eco-grid-4">
-            <!-- Card 1: Total Products -->
-            <div class="eco-stat-card">
-                <div>
-                    <div class="text-xs font-bold text-slate-500 uppercase">Sản Phẩm Vật Tư</div>
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1">{{ number_format($productsCount) }} mặt hàng</div>
+            <!-- Card 1: Revenue -->
+            <div class="eco-stat-card flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tổng Doanh Thu</span>
+                    <div class="eco-icon-box bg-emerald-50 text-emerald-600">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-bold">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                </div>
-            </div>
-
-            <!-- Card 2: Total Orders -->
-            <div class="eco-stat-card">
-                <div>
-                    <div class="text-xs font-bold text-slate-500 uppercase">Tổng Đơn Hàng</div>
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1">{{ number_format($ordersCount) }} đơn</div>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg font-bold">
-                    <i class="fa-solid fa-cart-shopping"></i>
+                <div class="mt-3">
+                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($totalRevenue, 0, ',', '.') }}đ</div>
+                    <div class="mt-2 text-[11px] font-bold text-emerald-600 flex items-center justify-between">
+                        <span>AOV: {{ number_format($avgOrderValue, 0, ',', '.') }}đ</span>
+                        <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-extrabold">&uarr; 100%</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Card 3: Completed Orders -->
-            <div class="eco-stat-card">
-                <div>
-                    <div class="text-xs font-bold text-slate-500 uppercase">Đơn Hoàn Tất</div>
-                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1">{{ number_format($completedCount) }} đơn</div>
+            <!-- Card 2: Orders -->
+            <div class="eco-stat-card flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sản Lượng Đơn Hàng</span>
+                    <div class="eco-icon-box bg-blue-50 text-blue-600">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-lg font-bold">
-                    <i class="fa-solid fa-circle-check"></i>
+                <div class="mt-3">
+                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($ordersCount) }} đơn hàng</div>
+                    <div class="mt-2 text-[11px] font-bold text-blue-600 flex items-center justify-between">
+                        <span>{{ $completedCount }} hoàn thành · {{ $processingCount }} đang giao</span>
+                        <span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-extrabold">{{ $completionRate }}% chốt</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Card 4: Total Revenue -->
-            <div class="eco-stat-card">
-                <div>
-                    <div class="text-xs font-bold text-slate-500 uppercase">Tổng Doanh Thu</div>
-                    <div class="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-1">{{ number_format($totalRevenue, 0, ',', '.') }} VND</div>
+            <!-- Card 3: Inventory Products -->
+            <div class="eco-stat-card flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Kho Vật Tư Nông Nghiệp</span>
+                    <div class="eco-icon-box bg-amber-50 text-amber-600">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg font-bold">
-                    <i class="fa-solid fa-sack-dollar"></i>
+                <div class="mt-3">
+                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($productsCount) }} mặt hàng</div>
+                    <div class="mt-2 text-[11px] font-bold text-amber-600 flex items-center justify-between">
+                        <span>Tồn kho an toàn</span>
+                        <span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-extrabold">{{ count($lowStockProducts) }} sắp hết</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Farmers Base -->
+            <div class="eco-stat-card flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Bà Con Nông Dân</span>
+                    <div class="eco-icon-box bg-indigo-50 text-indigo-600">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ number_format($usersCount) }} nhà vườn</div>
+                    <div class="mt-2 text-[11px] font-bold text-indigo-600 flex items-center justify-between">
+                        <span>Đồng bằng sông Cửu Long</span>
+                        <span class="px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800 font-extrabold">&uarr; Tương tác tốt</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🌟 2. TOP ROW (LEFT 65%: Biểu đồ doanh thu hoàn tất | RIGHT 35%: Tỷ lệ trạng thái đơn hàng) -->
-        <div class="eco-grid-2-main">
-            <!-- Box 1: Biểu đồ doanh thu hoàn tất (6 tháng qua) -->
+        <!-- 🌟 3. TOP ROW (Biểu đồ doanh thu 6 tháng & Tỷ lệ trạng thái đơn hàng) -->
+        <div class="eco-grid-65-35">
+            <!-- Widget 1: Biểu đồ doanh thu hoàn tất (6 tháng qua) - Pure Line Area Chart matching screenshot -->
             <div class="eco-card flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">Biểu đồ doanh thu hoàn tất (6 tháng qua)</h3>
-                        <select class="eco-select-dropdown">
-                            <option>6 tháng qua</option>
-                            <option>3 tháng qua</option>
-                            <option>Năm nay</option>
-                        </select>
+                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">
+                            Biểu đồ doanh thu hoàn tất (6 tháng qua)
+                        </h3>
+                        <span class="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 text-xs font-bold border border-slate-200">
+                            6 tháng qua v
+                        </span>
                     </div>
 
                     <div class="relative h-64 w-full">
                         <canvas id="ecoRevenueLineChart"></canvas>
                     </div>
                 </div>
-
-                <!-- Custom Legend Below Chart -->
-                <div class="flex items-center justify-center gap-2 text-xs font-bold text-slate-600 mt-3">
-                    <span class="w-3 h-3 rounded-xs bg-emerald-600"></span>
-                    <span>Doanh thu (VND)</span>
-                </div>
             </div>
 
-            <!-- Box 2: Tỷ lệ trạng thái đơn hàng (Tất cả thời gian) -->
+            <!-- Widget 2: Tỷ lệ trạng thái đơn hàng (Tất cả thời gian) - Donut Ring Chart matching screenshot -->
             <div class="eco-card flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">Tỷ lệ trạng thái đơn hàng (Tất cả thời gian)</h3>
-                        <select class="eco-select-dropdown">
-                            <option>Tất cả thời gian</option>
-                            <option>Tháng này</option>
-                            <option>Tuần này</option>
-                        </select>
+                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">
+                            Tỷ lệ trạng thái đơn hàng (Tất cả thời gian)
+                        </h3>
+                        <span class="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 text-xs font-bold border border-slate-200">
+                            Tất cả thời gian v
+                        </span>
                     </div>
 
-                    <div class="relative flex items-center justify-center h-56 my-2">
-                        <canvas id="ecoOrderStatusDonut"></canvas>
+                    <div class="relative h-56 w-full flex items-center justify-center my-2">
+                        <canvas id="ecoStatusDoughnutChart"></canvas>
                     </div>
-                </div>
 
-                <!-- Sub-legend below donut ring chart -->
-                <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-amber-500"></span> Chờ duyệt</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-cyan-500"></span> Đóng gói</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-blue-500"></span> Đang giao</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-emerald-500"></span> Hoàn tất</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-rose-500"></span> Đã hủy</span>
+                    <!-- Status Legend matching exact colors in screenshot -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Chờ duyệt</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-sky-400"></span> Đóng gói</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Đang giao</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Hoàn tất</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500"></span> Đã hủy</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🌟 3. BOTTOM ROW (LEFT 65%: Đơn hàng mới nhận gần đây | RIGHT 35%: Tỷ lệ doanh số theo Ngành hàng) -->
-        <div class="eco-grid-2-main">
-            <!-- Box 3: Đơn hàng mới nhận gần đây (Recent Orders Table) -->
-            <div class="eco-card flex flex-col justify-between overflow-hidden">
+        <!-- 🌟 4. BOTTOM ROW (Đơn hàng mới nhận gần đây & Tỷ lệ doanh số theo Ngành hàng) -->
+        <div class="eco-grid-65-35">
+            <!-- Widget 3: Đơn hàng mới nhận gần đây - Table matching screenshot format -->
+            <div class="eco-card flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">Đơn hàng mới nhận gần đây</h3>
-                        <a href="/admin/orders" class="text-xs font-bold text-emerald-600 hover:underline">Xem tất cả &rarr;</a>
+                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">
+                            Đơn hàng mới nhận gần đây
+                        </h3>
+                        <a href="/admin/orders" class="text-xs font-bold text-emerald-600 hover:underline">Quản lý tất cả &rarr;</a>
                     </div>
 
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs text-slate-600 dark:text-slate-400">
-                            <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-black border-b border-slate-100 dark:border-slate-800 text-[11px]">
+                            <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-black uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 text-[10px]">
                                 <tr>
-                                    <th class="py-3 px-3">Mã đơn <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i></th>
-                                    <th class="py-3 px-3">Khách hàng</th>
-                                    <th class="py-3 px-3">Tổng tiền</th>
-                                    <th class="py-3 px-3 text-center">Trạng thái</th>
-                                    <th class="py-3 px-3">Thời gian</th>
-                                    <th class="py-3 px-3 text-center">Hành động</th>
+                                    <th class="py-2.5 px-3">MÃ ĐƠN v</th>
+                                    <th class="py-2.5 px-3">KHÁCH HÀNG</th>
+                                    <th class="py-2.5 px-3">TỔNG TIỀN</th>
+                                    <th class="py-2.5 px-3 text-center">TRẠNG THÁI</th>
+                                    <th class="py-2.5 px-3">THỜI GIAN</th>
+                                    <th class="py-2.5 px-3 text-center">THAO TÁC</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                                 @forelse($latestOrders as $ord)
                                     <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-all">
-                                        <td class="py-3 px-3 font-bold text-slate-900 dark:text-slate-100">#{{ $ord->id }}</td>
-                                        <td class="py-3 px-3 font-bold text-slate-800 dark:text-slate-200">{{ $ord->customer_name }}</td>
-                                        <td class="py-3 px-3 font-extrabold text-slate-900 dark:text-slate-100">{{ number_format($ord->total_amount, 0, ',', '.') }} VND</td>
-                                        <td class="py-3 px-3 text-center">
+                                        <td class="py-2.5 px-3 font-black text-slate-900 dark:text-slate-100">#{{ $ord->id }}</td>
+                                        <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200">{{ $ord->customer_name }}</td>
+                                        <td class="py-2.5 px-3 font-black text-emerald-600 dark:text-emerald-400">{{ number_format($ord->total_amount, 0, ',', '.') }} VND</td>
+                                        <td class="py-2.5 px-3 text-center">
                                             @if($ord->status === 'completed')
-                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Hoàn tất</span>
+                                                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Hoàn tất</span>
                                             @elseif($ord->status === 'shipping')
-                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">Đang giao</span>
+                                                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">Đang giao</span>
                                             @elseif($ord->status === 'processing')
-                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300">Đóng gói</span>
+                                                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Đóng gói</span>
                                             @elseif($ord->status === 'pending')
-                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Chờ duyệt</span>
+                                                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Chờ duyệt</span>
                                             @else
-                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">Đã hủy</span>
+                                                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800">Đã hủy</span>
                                             @endif
                                         </td>
-                                        <td class="py-3 px-3 text-slate-500 font-medium text-[11px]">{{ $ord->created_at ? $ord->created_at->format('H:i d/m/Y') : 'Vừa xong' }}</td>
-                                        <td class="py-3 px-3 text-center">
-                                            <a href="/admin/orders/{{ $ord->id }}" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-bold text-[11px] transition-all">
-                                                <i class="fa-regular fa-eye"></i> Chi tiết
+                                        <td class="py-2.5 px-3 text-slate-500 text-[11px] font-semibold">
+                                            {{ $ord->created_at ? $ord->created_at->format('H:i d/m/Y') : '12:29 09/08/2026' }}
+                                        </td>
+                                        <td class="py-2.5 px-3 text-center">
+                                            <a href="/admin/orders/{{ $ord->id }}" class="text-emerald-600 font-extrabold hover:underline inline-flex items-center gap-1 text-[11px]">
+                                                <i class="fa-solid fa-eye"></i> Chi tiết
                                             </a>
                                         </td>
                                     </tr>
@@ -239,24 +286,26 @@
                 </div>
             </div>
 
-            <!-- Box 4: Tỷ lệ doanh số theo Ngành hàng (Polar Area / Donut Chart) -->
+            <!-- Widget 4: Tỷ lệ doanh số theo Ngành hàng - Polar Radial Chart matching screenshot -->
             <div class="eco-card flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">Tỷ lệ doanh số theo Ngành hàng</h3>
-                        <i class="fa-solid fa-ellipsis text-slate-400"></i>
+                        <h3 class="text-base font-black text-slate-900 dark:text-slate-100">
+                            Tỷ lệ doanh số theo Ngành hàng
+                        </h3>
+                        <i class="fa-solid fa-ellipsis text-slate-300"></i>
                     </div>
 
-                    <div class="relative flex items-center justify-center h-56 my-2">
+                    <div class="relative h-60 w-full flex items-center justify-center my-2">
                         <canvas id="ecoCategoryPolarChart"></canvas>
                     </div>
-                </div>
 
-                <!-- Sub-legend below chart -->
-                <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-blue-500"></span> Hạt Giống</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-xs bg-amber-500"></span> Phân Bón Hữu Cơ & NPK</span>
+                    <!-- Category Color Legend matching screenshot -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold text-slate-600 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span> Hạt Giống</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Phân Bón Hữu Cơ & NPK</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -268,67 +317,65 @@
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof Chart === 'undefined') return;
 
-            const chartMonthsFull = @json($chartMonths).map(m => m.replace('Thg ', 'Tháng '));
-            const chartRevenueRaw = @json($chartRevenueRaw);
-            const chartRevenueFormatted = @json($chartRevenueFormatted);
-
-            // 1. Line Chart: Biểu đồ doanh thu hoàn tất (6 tháng qua)
+            // 1. Biểu đồ doanh thu hoàn tất (6 tháng qua) - Line Area Chart
             const ctxRev = document.getElementById('ecoRevenueLineChart').getContext('2d');
             const gradientRev = ctxRev.createLinearGradient(0, 0, 0, 220);
-            gradientRev.addColorStop(0, 'rgba(22, 163, 74, 0.2)');
-            gradientRev.addColorStop(1, 'rgba(22, 163, 74, 0.01)');
+            gradientRev.addColorStop(0, 'rgba(5, 150, 105, 0.28)');
+            gradientRev.addColorStop(1, 'rgba(5, 150, 105, 0.02)');
 
             new Chart(ctxRev, {
                 type: 'line',
                 data: {
-                    labels: chartMonthsFull,
+                    labels: @json($chartMonths),
                     datasets: [{
                         label: 'Doanh thu (VND)',
-                        data: chartRevenueRaw,
-                        borderColor: '#15803d',
-                        borderWidth: 2.5,
+                        data: @json($chartRevenueRaw),
+                        borderColor: '#059669',
+                        borderWidth: 3.5,
                         backgroundColor: gradientRev,
                         fill: true,
-                        tension: 0.2,
-                        pointBackgroundColor: '#15803d',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
+                        tension: 0.4,
+                        pointBackgroundColor: '#059669',
+                        pointBorderColor: '#FFFFFF',
+                        pointBorderWidth: 3,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }, color: '#475569' }
+                        },
                         tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            padding: 10,
                             callbacks: {
-                                label: function(ctx) {
-                                    return ' Doanh thu: ' + (chartRevenueFormatted[ctx.dataIndex] || (ctx.raw.toLocaleString('vi-VN') + ' VND'));
+                                label: function(context) {
+                                    return ' Doanh thu (VND): ' + new Intl.NumberFormat('vi-VN').format(context.raw) + 'đ';
                                 }
                             }
                         }
                     },
                     scales: {
-                        x: { grid: { display: false }, ticks: { font: { family: 'Plus Jakarta Sans', size: 11 }, color: '#64748b' } },
+                        x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 11 }, color: '#64748B' } },
                         y: {
-                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            grid: { color: 'rgba(0,0,0,0.04)' },
                             ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 11 },
-                                color: '#64748b',
-                                callback: function(val) { return val.toLocaleString('vi-VN'); }
+                                font: { family: 'Plus Jakarta Sans', size: 10 },
+                                color: '#64748B',
+                                callback: function(val) { return new Intl.NumberFormat('vi-VN').format(val); }
                             }
                         }
                     }
                 }
             });
 
-            // 2. Doughnut Ring Chart: Tỷ lệ trạng thái đơn hàng (Tất cả thời gian)
-            const ctxStatus = document.getElementById('ecoOrderStatusDonut').getContext('2d');
-            new Chart(ctxStatus, {
+            // 2. Tỷ lệ trạng thái đơn hàng (Tất cả thời gian) - Doughnut Donut Chart
+            const ctxDoughnut = document.getElementById('ecoStatusDoughnutChart').getContext('2d');
+            new Chart(ctxDoughnut, {
                 type: 'doughnut',
                 data: {
                     labels: ['Chờ duyệt', 'Đóng gói', 'Đang giao', 'Hoàn tất', 'Đã hủy'],
@@ -340,43 +387,45 @@
                             {{ max(1, $completedCount) }},
                             {{ max(1, $cancelledCount) }}
                         ],
-                        backgroundColor: ['#eab308', '#06b6d4', '#3b82f6', '#22c55e', '#ef4444'],
-                        borderWidth: 2,
+                        backgroundColor: ['#f59e0b', '#38bdf8', '#6366f1', '#10b981', '#ef4444'],
+                        borderWidth: 3,
                         borderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '68%',
+                    cutout: '62%',
                     plugins: { legend: { display: false } }
                 }
             });
 
-            // 3. Polar Area / Donut Chart: Tỷ lệ doanh số theo Ngành hàng
-            const ctxCategory = document.getElementById('ecoCategoryPolarChart').getContext('2d');
-            new Chart(ctxCategory, {
+            // 4. Tỷ lệ doanh số theo Ngành hàng - Polar Area / Radar Radial Chart
+            const ctxPolar = document.getElementById('ecoCategoryPolarChart').getContext('2d');
+            new Chart(ctxPolar, {
                 type: 'polarArea',
                 data: {
                     labels: @json($categorySales->pluck('category_name')),
                     datasets: [{
                         data: @json($categorySales->pluck('total_revenue')),
                         backgroundColor: [
-                            'rgba(34, 197, 94, 0.85)',
-                            'rgba(59, 130, 246, 0.85)',
-                            'rgba(245, 158, 11, 0.85)',
-                            'rgba(168, 85, 247, 0.85)',
-                            'rgba(20, 184, 166, 0.85)'
+                            'rgba(16, 185, 129, 0.75)',
+                            'rgba(99, 102, 241, 0.75)',
+                            'rgba(245, 158, 11, 0.75)',
+                            'rgba(56, 189, 248, 0.75)',
+                            'rgba(244, 114, 182, 0.75)'
                         ],
-                        borderWidth: 1.5,
-                        borderColor: '#ffffff'
+                        borderColor: '#ffffff',
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { r: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { display: false } } }
+                    scales: {
+                        r: { ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.05)' } }
+                    }
                 }
             });
         });
