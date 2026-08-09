@@ -10,11 +10,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\FileUpload; // 🌟 Thư viện FileUpload
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
 
 class ProductResource extends Resource
 {
@@ -102,8 +101,6 @@ class ProductResource extends Resource
                     ->prefix('VND')
                     ->label('Giá bán lẻ niêm yết (B2C)'),
 
-
-
                 TextInput::make('unit')
                     ->required()
                     ->maxLength(20)
@@ -169,7 +166,7 @@ class ProductResource extends Resource
                     ->square()
                     ->size(54)
                     ->circular(false)
-                    ->extraImgAttributes(['class' => 'rounded-3 shadow-xs border']),
+                    ->extraImgAttributes(['style' => 'border-radius: 8px; border: 1px solid #e2e8f0; object-fit: contain; background-color: #f8fafc; padding: 2px;']),
 
                 TextColumn::make('name')
                     ->searchable()
@@ -178,19 +175,6 @@ class ProductResource extends Resource
                     ->weight('bold')
                     ->description(fn (Product $record): string => 'Quy cách: ' . ($record->packaging ?? 'Tiêu chuẩn') . ' | ĐVT: ' . $record->unit)
                     ->label('TÊN VẬT TƯ & QUY CÁCH'),
-
-                TextColumn::make('priority_flame')
-                    ->label('MỨC ƯU TIÊN')
-                    ->html()
-                    ->state(function (Product $record): string {
-                        if ($record->stock > 100) {
-                            return '<span class="badge-flame-red"><i class="fa-solid fa-fire"></i>🔥 5 Cháy Rực</span>';
-                        } elseif ($record->stock > 20) {
-                            return '<span class="badge-flame-yellow"><i class="fa-solid fa-fire"></i>🔥 3 Bén Lửa</span>';
-                        } else {
-                            return '<span class="badge-tag-gray"><i class="fa-solid fa-fire text-muted"></i>🔥 1 Tắt Ngấm</span>';
-                        }
-                    }),
 
                 TextColumn::make('category.name')
                     ->label('DANH MỤC')
@@ -203,11 +187,11 @@ class ProductResource extends Resource
                     ->html()
                     ->state(function (Product $record): string {
                         if ($record->stock > 50) {
-                            return '<span class="badge-status-green"><span class="status-dot-pulse dot-green"></span>Tồn kho dồi dào (' . number_format($record->stock) . ')</span>';
+                            return '<span style="background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>Tồn kho dồi dào (' . number_format($record->stock) . ' ' . $record->unit . ')</span>';
                         } elseif ($record->stock > 0) {
-                            return '<span class="badge-flame-yellow"><span class="status-dot-pulse dot-yellow"></span>Sắp hết hàng (' . number_format($record->stock) . ')</span>';
+                            return '<span style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b; display: inline-block;"></span>Sắp hết hàng (' . number_format($record->stock) . ' ' . $record->unit . ')</span>';
                         } else {
-                            return '<span class="badge-flame-red"><span class="status-dot-pulse dot-red"></span>Hết hàng (0)</span>';
+                            return '<span style="background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; border-radius: 9999px; padding: 4px 12px; font-weight: 600; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444; display: inline-block;"></span>Hết hàng (0)</span>';
                         }
                     }),
 
@@ -256,11 +240,9 @@ class ProductResource extends Resource
         ];
     }
 
-
     public static function getPages(): array
     {
         return [
-            // Cấu hình các trang điều phối của Filament
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),

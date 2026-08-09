@@ -110,6 +110,13 @@ public function panel(Panel $panel): Panel
                         background-color: #111827 !important;
                         border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
                     }
+                    .fi-sidebar-group,
+                    .fi-sidebar-nav-group {
+                        border: none !important;
+                        box-shadow: none !important;
+                        outline: none !important;
+                        background: transparent !important;
+                    }
                     .fi-sidebar-nav-group-label,
                     .fi-sidebar-group-label,
                     .fi-sidebar-header * {
@@ -125,6 +132,7 @@ public function panel(Panel $panel): Panel
                     .fi-sidebar-item-button {
                         color: #9ca3af !important;
                         border-radius: 0.5rem !important;
+                        border: 1px solid transparent !important;
                         transition: all 0.15s ease-in-out !important;
                     }
                     .fi-sidebar-item-button:hover {
@@ -132,13 +140,10 @@ public function panel(Panel $panel): Panel
                         background-color: rgba(255, 255, 255, 0.05) !important;
                     }
 
-                    /* 🌟 ACTIVE NAVIGATION ITEM WITH ORANGE NEON BOX BORDER (EXACT SCREENSHOT STYLE) */
-                    .fi-sidebar-item-button.fi-active,
-                    .fi-sidebar-item-button[data-active="1"],
-                    .fi-active,
-                    [data-active="1"],
-                    .fi-sidebar-item-active > a,
-                    .fi-sidebar-item-active > div {
+                    /* 🌟 ACTIVE NAVIGATION BUTTON (STRICTLY APPLIED TO INNER ITEM BUTTON ONLY) */
+                    a.fi-sidebar-item-button.fi-active,
+                    a.fi-sidebar-item-button[aria-current="page"],
+                    li.fi-sidebar-item-active > a.fi-sidebar-item-button {
                         background-color: #1f2937 !important;
                         color: #ffffff !important;
                         border: 1.5px solid #f97316 !important;
@@ -147,9 +152,9 @@ public function panel(Panel $panel): Panel
                         border-radius: 0.5rem !important;
                     }
 
-                    .fi-sidebar-item-button.fi-active svg,
-                    .fi-active svg,
-                    .fi-sidebar-item-active svg {
+                    a.fi-sidebar-item-button.fi-active svg,
+                    a.fi-sidebar-item-button[aria-current="page"] svg,
+                    li.fi-sidebar-item-active > a.fi-sidebar-item-button svg {
                         color: #f97316 !important;
                     }
 
