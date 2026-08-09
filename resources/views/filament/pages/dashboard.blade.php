@@ -269,22 +269,22 @@
                         </div>
                     </div>
 
-                    <!-- CHÚ THÍCH MÀU SẮC TRẠNG THÁI ĐƠN HÀNG (BADGES MÀU RÕ RÀNG 100%) -->
-                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Chờ duyệt
+                    <!-- CHÚ THÍCH MÀU SẮC NỀN RÕ RÀNG TRÙNG VỚI KHỐI MÀU BIỂU ĐỒ -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-extrabold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span class="px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm shadow-amber-500/30">
+                            Chờ duyệt
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Đóng gói
+                        <span class="px-3 py-1 rounded-full bg-sky-400 text-white shadow-sm shadow-sky-400/30">
+                            Đóng gói
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Đang giao
+                        <span class="px-3 py-1 rounded-full bg-indigo-500 text-white shadow-sm shadow-indigo-500/30">
+                            Đang giao
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Hoàn tất
+                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white shadow-sm shadow-emerald-500/30">
+                            Hoàn tất
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 text-rose-800 border border-rose-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Đã hủy
+                        <span class="px-3 py-1 rounded-full bg-rose-500 text-white shadow-sm shadow-rose-500/30">
+                            Đã hủy
                         </span>
                     </div>
                 </div>
@@ -373,16 +373,16 @@
                         </div>
                     </div>
 
-                    <!-- CHÚ THÍCH MÀU SẮC NGÀNH HÀNG (BADGES MÀU RÕ RÀNG 100%) -->
-                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Thuốc Trừ Sâu & Bệnh
+                    <!-- CHÚ THÍCH MÀU SẮC NỀN RÕ RÀNG TRÙNG VỚI KHỐI MÀU BIỂU ĐỒ -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-extrabold pt-3 border-t border-slate-100 dark:border-slate-800 mt-2">
+                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white shadow-sm shadow-emerald-500/30">
+                            Thuốc Trừ Sâu & Bệnh
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Hạt Giống
+                        <span class="px-3 py-1 rounded-full bg-indigo-500 text-white shadow-sm shadow-indigo-500/30">
+                            Hạt Giống
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Phân Bón Hữu Cơ & NPK
+                        <span class="px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm shadow-amber-500/30">
+                            Phân Bón Hữu Cơ & NPK
                         </span>
                     </div>
                 </div>
