@@ -211,6 +211,12 @@ public function panel(Panel $panel): Panel
                             ' . (auth()->user()?->role === 'admin' ? 'Quản trị viên' : (auth()->user()?->role === 'engineer' ? 'Kỹ sư Nông nghiệp' : 'Nhân viên')) . '
                         </span>
 
+                        <!-- Open CRM Management System Button -->
+                        <a href="/admin/crm/tong-quan" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200/60 hover:bg-orange-100 transition-all text-xs font-bold shadow-sm">
+                            <i class="fa-solid fa-fire-flame-curved text-orange-600"></i>
+                            <span>CRM Ngọn Lửa</span>
+                        </a>
+
                         <!-- View Frontend Website Button -->
                         <a href="/" class="inline-flex items-center gap-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm">
                             <i class="fa-solid fa-house"></i>
