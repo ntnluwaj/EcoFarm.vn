@@ -144,13 +144,45 @@ public function panel(Panel $panel): Panel
                         border-radius: 0.75rem !important;
                     }
 
-                    /* 🌟 DUAL-BRAND QUICK FILTER TABS (ECO GREEN GRADIENT + GOLD SHADOW) */
-                    .fi-tabs-item-active {
-                        background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+                    /* 🌟 DUAL-BRAND QUICK FILTER TABS (CRYSTAL CLEAR HIGH-CONTRAST READABILITY) */
+                    .fi-tabs-item[aria-selected="true"],
+                    .fi-tabs-item-active,
+                    [aria-selected="true"] {
+                        background: #047857 !important;
+                        border-radius: 9999px !important;
+                        box-shadow: 0 4px 14px rgba(4, 120, 87, 0.3) !important;
+                    }
+
+                    /* Force ALL text, spans, icons, buttons inside active tabs to be 100% Crisp Pure White */
+                    .fi-tabs-item[aria-selected="true"] *,
+                    .fi-tabs-item-active *,
+                    [aria-selected="true"] *,
+                    .fi-tabs-item-active span,
+                    .fi-tabs-item-active button,
+                    .fi-tabs-item-active a {
                         color: #ffffff !important;
-                        border-radius: 12px !important;
-                        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3), 0 2px 4px rgba(245, 158, 11, 0.2) !important;
+                        fill: #ffffff !important;
                         font-weight: 800 !important;
+                    }
+
+                    /* Active tab badge counter pill (e.g. "26") */
+                    .fi-tabs-item[aria-selected="true"] span[class*="badge"],
+                    .fi-tabs-item-active span[class*="badge"],
+                    .fi-tabs-item[aria-selected="true"] .fi-badge,
+                    .fi-tabs-item-active .fi-badge {
+                        background-color: rgba(255, 255, 255, 0.25) !important;
+                        color: #ffffff !important;
+                        font-weight: 900 !important;
+                    }
+
+                    /* Inactive tabs text styling */
+                    .fi-tabs-item:not([aria-selected="true"]):not(.fi-tabs-item-active) {
+                        color: #475569 !important;
+                        font-weight: 700 !important;
+                    }
+                    .fi-tabs-item:not([aria-selected="true"]):not(.fi-tabs-item-active):hover {
+                        background-color: #f1f5f9 !important;
+                        border-radius: 9999px !important;
                     }
 
                     /* 🌟 CARDS & SECTIONS BRAND BORDERS */
