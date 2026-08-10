@@ -115,8 +115,8 @@ class ContactController extends Controller
                 $recipients = \App\Models\User::whereIn('role', ['admin', 'staff', 'engineer'])->get();
                 foreach ($recipients as $recipient) {
                     $recipient->notify(new \App\Notifications\SystemNotification([
-                        'title' => 'Yêu cầu tư vấn khẩn cấp!',
-                        'body' => "Nông dân {$request->name} yêu cầu gọi lại tư vấn kỹ thuật qua SĐT: {$request->phone}. Nội dung: {$request->message}",
+                        'title' => '⚡ YÊU CẦU KỸ SƯ GỌI ĐIỆN TƯ VẤN KHẨN CẤP!',
+                        'body' => "Khách hàng {$request->name} (SĐT: {$request->phone}) cần kỹ sư gọi tư vấn ngay: '{$request->message}'",
                         'icon' => 'heroicon-o-phone',
                         'color' => 'warning',
                         'url' => '/admin/contacts'
@@ -126,15 +126,16 @@ class ContactController extends Controller
                 \Illuminate\Support\Facades\Log::error("Lỗi thông báo gọi điện Filament: " . $e->getMessage());
             }
 
-            // Gửi cảnh báo Telegram hỏa tốc
+            // Gửi cảnh báo Telegram hỏa tốc cho Đội ngũ Kỹ sư
             try {
-                $telegramMessage = "📞 *YÊU CẦU GỌI ĐIỆN TƯ VẤN KHẨN CẤP*\n";
+                $telegramMessage = "⚡ *YÊU CẦU KỸ SƯ GỌI ĐIỆN TƯ VẤN KHẨN CẤP*\n";
                 $telegramMessage .= "───────────────────────\n";
-                $telegramMessage .= "👤 *Họ tên:* {$request->name}\n";
-                $telegramMessage .= "📞 *Điện thoại:* `{$request->phone}`\n";
+                $telegramMessage .= "👤 *Họ tên nhà vườn:* {$request->name}\n";
+                $telegramMessage .= "📞 *Số điện thoại:* `{$request->phone}`\n";
                 $telegramMessage .= "📝 *Chủ đề:* _{$request->subject}_\n";
-                $telegramMessage .= "💬 *Chi tiết cần tư vấn:* {$request->message}\n";
-                $telegramMessage .= "───────────────────────";
+                $telegramMessage .= "💬 *Nội dung cần tư vấn:* {$request->message}\n";
+                $telegramMessage .= "───────────────────────\n";
+                $telegramMessage .= "👉 *Hành động:* Kỹ sư nông học vui lòng bấm số gọi lại cho nhà vườn ngay!";
 
                 $botToken = env('TELEGRAM_BOT_TOKEN');
                 $chatId = env('TELEGRAM_CHAT_ID');
