@@ -814,42 +814,29 @@
       </div>
   </div>
 
-  <!-- Overlay Giả lập Cuộc gọi Gọi Điện -->
-  <div id="callingOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif;">
-      <div class="text-center text-white p-4 rounded-4" style="max-width: 400px; width: 90%;">
-          <!-- Ringing Icon Animation -->
-          <div class="mb-4 position-relative d-inline-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
-              <div class="position-absolute bg-success rounded-circle border border-success opacity-25" style="width: 100%; height: 100%; animation: pulse-ring 1.5s infinite;"></div>
-              <div class="position-absolute bg-success rounded-circle border border-success opacity-50" style="width: 80%; height: 80%; animation: pulse-ring 1.5s infinite 0.5s;"></div>
-              <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow-lg" style="width: 70px; height: 70px; z-index: 2;">
-                  <i class="fa-solid fa-phone-volume fa-2xl" id="callingIcon"></i>
+  <!-- Modal Thông Báo Gửi Yêu Cầu Tư Vấn Thành Công -->
+  <div class="modal fade" id="adviceSuccessModal" tabindex="-1" aria-labelledby="adviceSuccessModalLabel" aria-hidden="true" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden text-center p-4">
+              <div class="mb-3">
+                  <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle shadow-md" style="width: 66px; height: 66px;">
+                      <i class="fa-solid fa-circle-check fs-1"></i>
+                  </div>
               </div>
+              <h4 class="fw-extrabold text-success mb-2" style="font-weight: 800;">Đã Gửi Yêu Cầu Thành Công!</h4>
+              <p class="text-dark font-medium mb-3" style="font-size: 14px; line-height: 1.6;">
+                  Thông tin của bạn đã được chuyển tới <strong class="text-success">Đội ngũ Kỹ sư Nông nghiệp EcoFarm</strong>. Kỹ sư phụ trách sẽ gọi điện trực tiếp tư vấn cho quý khách qua số điện thoại <strong class="text-danger fs-6" id="successPhoneSpan">...</strong> trong ít phút tới.
+              </p>
+              <div class="p-3 bg-light rounded-3 text-start small text-secondary mb-4 border border-light-subtle" style="font-size: 12.5px;">
+                  <div class="mb-1"><i class="fa-solid fa-clock text-warning me-1.5"></i>Thời gian hỗ trợ: <strong>7:00 - 20:00 (Hàng ngày)</strong></div>
+                  <div><i class="fa-solid fa-shield-halved text-success me-1.5"></i>Tư vấn miễn phí 100% về liều lượng & kỹ thuật canh tác nhà vườn</div>
+              </div>
+              <button type="button" class="btn btn-success fw-bold rounded-pill py-2.5 px-4 w-100" data-bs-dismiss="modal" style="background-color: #2e7d32; border: none; font-size: 14px;">
+                  <i class="fa-solid fa-check me-1.5"></i> Tôi đã hiểu - Đóng cửa sổ
+              </button>
           </div>
-
-          <h4 class="fw-bold mb-2" id="callingStatus">Đang kết nối cuộc gọi...</h4>
-          <p class="text-white-50 small mb-4" id="callingSub">Đang kết nối tổng đài ảo...</p>
-
-          <div class="card bg-dark border-secondary p-3 rounded-3 text-start mb-4">
-              <div class="small text-white-50"><i class="fa-regular fa-user me-2"></i>Người nhận: <strong class="text-white" id="callingNameSpan">Nguyễn Văn A</strong></div>
-              <div class="small text-white-50 mt-1.5"><i class="fa-solid fa-mobile-screen-button me-2"></i>Số điện thoại: <strong class="text-white" id="callingPhoneSpan">0987654321</strong></div>
-          </div>
-
-          <!-- Progress status text list -->
-          <div id="callingProgressLogs" class="text-white-50 small mb-4 text-center font-monospace" style="min-height: 24px; font-size: 12px;"></div>
-
-          <button type="button" class="btn btn-danger btn-lg rounded-pill px-4 fw-semibold text-xs" id="hangupBtn" style="font-size: 13px;">
-              <i class="fa-solid fa-phone-slash me-2"></i>Gác máy (Hủy cuộc gọi)
-          </button>
       </div>
   </div>
-
-  <style>
-      @keyframes pulse-ring {
-          0% { transform: scale(1); opacity: 0.8; }
-          100% { transform: scale(1.6); opacity: 0; }
-      }
-      .mt-1.5 { margin-top: 0.375rem; }
-  </style>
 
   <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -858,7 +845,7 @@
           if (adviceModal) {
               adviceModal.addEventListener('show.bs.modal', function(event) {
                   const button = event.relatedTarget;
-                  const message = button.getAttribute('data-message');
+                  const message = button ? button.getAttribute('data-message') : null;
                   if (message) {
                       const messageInput = document.getElementById('adviceMessage');
                       if (messageInput) {
@@ -868,41 +855,25 @@
               });
           }
 
-          // Xử lý gửi form tư vấn gọi điện qua AJAX
+          // Xử lý gửi form tư vấn cho Kỹ sư qua AJAX
           const adviceForm = document.getElementById('adviceForm');
-          const callingOverlay = document.getElementById('callingOverlay');
-          const callingStatus = document.getElementById('callingStatus');
-          const callingSub = document.getElementById('callingSub');
-          const callingNameSpan = document.getElementById('callingNameSpan');
-          const callingPhoneSpan = document.getElementById('callingPhoneSpan');
-          const callingProgressLogs = document.getElementById('callingProgressLogs');
-          const hangupBtn = document.getElementById('hangupBtn');
-          let callTimer1, callTimer2, callTimer3;
-
           if (adviceForm) {
               adviceForm.addEventListener('submit', function(e) {
                   e.preventDefault();
+
+                  const submitBtn = adviceForm.querySelector('button[type="submit"]');
+                  const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+                  if (submitBtn) {
+                      submitBtn.disabled = true;
+                      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Đang gửi yêu cầu...';
+                  }
 
                   const name = document.getElementById('adviceName').value;
                   const phone = document.getElementById('advicePhone').value;
                   const subject = document.getElementById('adviceSubject').value;
                   const message = document.getElementById('adviceMessage').value;
 
-                  // 1. Đóng modal điền thông tin
-                  const modalInst = bootstrap.Modal.getInstance(adviceModal);
-                  if (modalInst) {
-                      modalInst.hide();
-                  }
-
-                  // 2. Hiển thị màn hình cuộc gọi mô phỏng
-                  callingNameSpan.innerText = name;
-                  callingPhoneSpan.innerText = phone;
-                  callingStatus.innerText = 'Đang quay số...';
-                  callingSub.innerText = 'Kết nối cổng tổng đài ảo VoIP...';
-                  callingProgressLogs.innerText = '[System]: Khởi tạo đường truyền kết nối...';
-                  callingOverlay.classList.remove('d-none');
-
-                  // Gửi dữ liệu qua fetch API để lưu CSDL
+                  // Gửi dữ liệu qua fetch API để lưu CSDL & gửi thông báo Kỹ sư
                   fetch("{{ route('contact.storeCallRequest') }}", {
                       method: 'POST',
                       headers: {
@@ -918,70 +889,38 @@
                   })
                   .then(response => response.json())
                   .then(data => {
+                      if (submitBtn) {
+                          submitBtn.disabled = false;
+                          submitBtn.innerHTML = originalBtnHtml;
+                      }
+
+                      // Đóng modal nhập dữ liệu
+                      const modalInst = bootstrap.Modal.getInstance(adviceModal);
+                      if (modalInst) {
+                          modalInst.hide();
+                      }
+
                       if (data.success) {
-                          // Bắt đầu chuỗi giả lập cuộc gọi VoIP
-                          callTimer1 = setTimeout(function() {
-                              callingStatus.innerText = 'Đang đổ chuông...';
-                              callingSub.innerText = 'Điện thoại của quý khách đang reo...';
-                              callingProgressLogs.innerText = '[Ringing]: Vui lòng sẵn sàng nhấc máy điện thoại.';
-                          }, 2500);
-
-                          callTimer2 = setTimeout(function() {
-                              callingStatus.innerText = 'Đã kết nối!';
-                              callingSub.innerText = 'Cuộc gọi đàm thoại đang diễn ra...';
-                              callingProgressLogs.style.color = '#4caf50';
-                              callingProgressLogs.innerHTML = '<i class="fa-solid fa-circle-nodes"></i> Kỹ sư Nông học đang kết nối trực tiếp với quý khách.';
-                              const icon = document.getElementById('callingIcon');
-                              if (icon) {
-                                  icon.classList.remove('fa-phone-volume');
-                                  icon.classList.add('fa-phone');
-                              }
-                          }, 5500);
-
-                          callTimer3 = setTimeout(function() {
-                              // Tự động hoàn tất sau 11.5 giây đàm thoại mẫu
-                              finishCall();
-                          }, 11500);
-
+                          // Hiển thị modal thông báo gửi thành công
+                          const phoneSpan = document.getElementById('successPhoneSpan');
+                          if (phoneSpan) {
+                              phoneSpan.innerText = phone;
+                          }
+                          const successModal = new bootstrap.Modal(document.getElementById('adviceSuccessModal'));
+                          successModal.show();
                       } else {
-                          callingStatus.innerText = 'Lỗi kết nối!';
-                          callingSub.innerText = 'Yêu cầu không được ghi nhận.';
-                          callingProgressLogs.innerText = '[Error]: ' + data.message;
+                          alert('Có lỗi xảy ra: ' + (data.message || 'Không thể gửi yêu cầu!'));
                       }
                   })
                   .catch(err => {
-                      callingStatus.innerText = 'Lỗi đường truyền!';
-                      callingSub.innerText = 'Không thể kết nối máy chủ.';
-                      callingProgressLogs.innerText = '[System Error]: ' + err.message;
+                      if (submitBtn) {
+                          submitBtn.disabled = false;
+                          submitBtn.innerHTML = originalBtnHtml;
+                      }
+                      console.error(err);
+                      alert('Có lỗi kết nối máy chủ, vui lòng thử lại!');
                   });
               });
-          }
-
-          if (hangupBtn) {
-              hangupBtn.addEventListener('click', function() {
-                  finishCall();
-              });
-          }
-
-          function finishCall() {
-              // Xóa các bộ hẹn giờ
-              clearTimeout(callTimer1);
-              clearTimeout(callTimer2);
-              clearTimeout(callTimer3);
-
-              // Ẩn màn hình gọi điện
-              callingOverlay.classList.add('d-none');
-              
-              // Reset icon
-              const icon = document.getElementById('callingIcon');
-              if (icon) {
-                  icon.classList.remove('fa-phone');
-                  icon.classList.add('fa-phone-volume');
-              }
-              callingProgressLogs.style.color = '';
-              callingProgressLogs.innerText = '';
-              
-              alert('Cuộc gọi tư vấn đã kết thúc thành công. Thông tin của quý khách đã được lưu trữ để kỹ sư tiếp tục theo dõi!');
           }
       });
   </script>
